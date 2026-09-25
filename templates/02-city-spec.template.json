@@ -1,0 +1,70 @@
+{
+  "city_metadata": {
+    "title": "METROPOLIS TITLE",
+    "subtitle": "Subtitle describing scope and context",
+    "theme": "quantum_crystal",
+    "scale_axis_label": "Primary Corridor Name",
+    "scale_axis_description": "Description of the progression along the city axis"
+  },
+  "districts": [
+    {
+      "id": "@dist-example-1",
+      "name": "FIRST DISTRICT NAME",
+      "scale_label": "Stage 1 Tag",
+      "order": 1,
+      "color": "#00f0ff",
+      "glow": "rgba(0, 240, 255, 0.4)",
+      "description": "Core activities, models, and paradigms inside this district.",
+      "eu_infrastructures": ["Flagship 1", "Facility 2"]
+    }
+  ],
+  "spires": [
+    {
+      "id": "@spire-example-1",
+      "district_ref": "@dist-example-1",
+      "title": "Spire or Model Name",
+      "code": "SP-01",
+      "scale_level": 0.90,
+      "metrics": {
+        "scale": "Domain Scale",
+        "acceleration": "Key Metric (e.g. 10^5x speedup or citations)",
+        "infrastructure": "Hosting Facility / Platform",
+        "maturity": "Maturity Level"
+      },
+      "abstract": "Detailed summary of the breakthrough, model architecture, or platform."
+    }
+  ],
+  "bottlenecks": [
+    {
+      "id": "@bneck-example-1",
+      "title": "Bottleneck Name",
+      "code": "BOT-01",
+      "district_ref": "@dist-example-1",
+      "nature": "Physical, Epistemic, or Computational Rate-Limiter",
+      "impact": "Detailed description of how this limits scientific progress.",
+      "remedy": "Proposed technical or organizational solution."
+    }
+  ],
+  "challenges": [
+    {
+      "id": "@chal-example-1",
+      "title": "Strategic Priority Name",
+      "code": "PRIO-01",
+      "district_ref": "@dist-example-1",
+      "type": "Policy Mandate or Frontier Question",
+      "target": "Specific quantitative or qualitative objective to achieve."
+    }
+  ],
+  "conduits": [
+    {
+      "id": "@conduit-example-1",
+      "name": "Superhighway Name",
+      "code": "HW-01",
+      "from": "@spire-example-1",
+      "to": "@spire-example-1",
+      "type": "Data Stream or Material Transfer",
+      "bandwidth": "Bandwidth or Flow Capacity",
+      "description": "How information or materials flow between these spires."
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+# METROPOLIS-KIT: DOMAIN PROFILE TEMPLATE
+# Step 1 of the Metropolis Synthesis Pipeline
+# Fill this out via user interview or AI-assisted ingestion of raw sources (PDF, papers, grant proposals).
+
+domain:
+  id: "my-domain-id"
+  title: "MY DOMAIN KNOWLEDGE METROPOLIS"
+  source_document: "Title and author/organization of source document or repo"
+  project: "Project or Consortium Name"
+  url: "https://example.com"
+
+metaphor:
+  spatial_topology: "Scale Ascension Corridor / River of Time / Bipartite Matrix"
+  direction: "South to North"
+  visual_theme: "quantum_crystal" # Options: quantum_crystal, cyber_physical, deep_blueprint
+  theme_notes: "Visual accents, lighting, and palette choices"
+
+primary_axis:
+  name: "Primary Dimension (e.g. Physical Scale, Evolutionary Era, or Horizon Milestones)"
+  description: "Description of the continuous or staged journey across the city"
+  stages:
+    - id: "stage-1"
+      name: "Stage 1 Name"
+      order_of_magnitude: "Scale or Horizon tag"
+      core_discipline: "Primary discipline or subfield"
+    - id: "stage-2"
+      name: "Stage 2 Name"
+      order_of_magnitude: "Scale or Horizon tag"
+      core_discipline: "Primary discipline or subfield"
+
+scientific_metrics:
+  building_height: "What determines height? (e.g. Acceleration Speedup, TRL, Citations, Benchmark Score)"
+  building_footprint: "What determines footprint? (e.g. Infrastructure Scale, Dataset Mass, Budget)"
+
+key_layers:
+  - id: "layer-districts"
+    name: "Districts / Sectors"
+  - id: "layer-spires"
+    name: "Spires & Accelerators"
+  - id: "layer-superhighways"
+    name: "Data & Material Superhighways"
+  - id: "layer-bottlenecks"
+    name: "Physical & Epistemic Bottlenecks"
+  - id: "layer-priorities"
+    name: "Strategic Priorities & Challenges"

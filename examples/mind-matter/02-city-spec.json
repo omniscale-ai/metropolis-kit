@@ -1,0 +1,197 @@
+{
+  "city_metadata": {
+    "title": "MIND-MATTER METROPOLIS",
+    "subtitle": "Cyber-Physical Cartography of Neuromorphic Materials & Autonomous Agents",
+    "theme": "cyber_physical",
+    "scale_axis_label": "Horizon River: From Fundamental Physics to Neuromorphic Fabric",
+    "scale_axis_description": "Milestone progression from M1 transport disentanglement to D3 integrated wafer fabrication"
+  },
+  "districts": [
+    {
+      "id": "@dist-physics",
+      "name": "QUANTUM TRANSPORT & SOLID-STATE PHYSICS",
+      "scale_label": "M1: Physics Foundations",
+      "order": 1,
+      "color": "#00e676",
+      "glow": "rgba(0, 230, 118, 0.4)",
+      "description": "Resolving transport mechanisms: VRH vs SCLC, contact barrier gating, and statistical null-hypothesis testing in novel semiconductors."
+    },
+    {
+      "id": "@dist-agents",
+      "name": "AUTONOMOUS AI SCIENTIST & ACTIVE EXPERIMENTATION",
+      "scale_label": "M2: Agent Closed Loops",
+      "order": 2,
+      "color": "#00f0ff",
+      "glow": "rgba(0, 240, 255, 0.4)",
+      "description": "Agentic discovery pipelines, Bayesian active learning, automated experiment design, and autonomous tool manipulation."
+    },
+    {
+      "id": "@dist-compute",
+      "name": "IN-MEMORY COMPUTING & ANALOG CROSSBARS",
+      "scale_label": "D1: Analog Acceleration",
+      "order": 3,
+      "color": "#ffb700",
+      "glow": "rgba(255, 183, 0, 0.4)",
+      "description": "Analog vector-matrix multipliers, non-volatile resistive switching, energy-efficient neuromorphic inference cores."
+    },
+    {
+      "id": "@dist-materials",
+      "name": "2D HETEROSTRUCTURES & ATOM-THIN INTERFACES",
+      "scale_label": "D2: 2D Hetero-Stacking",
+      "order": 4,
+      "color": "#c040ff",
+      "glow": "rgba(192, 64, 255, 0.4)",
+      "description": "Graphene/hBN/TMD van der Waals heterostructures, twistronics, and defect engineering for non-volatile synapses."
+    },
+    {
+      "id": "@dist-foundry",
+      "name": "INTEGRATED NEUROMORPHIC FOUNDRY & SCALE-UP",
+      "scale_label": "D3: Wafer Scale-Up",
+      "order": 5,
+      "color": "#3a86ff",
+      "glow": "rgba(58, 134, 255, 0.4)",
+      "description": "Back-end-of-line (BEOL) CMOS integration, 200mm wafer yield optimization, and cyber-physical packaging."
+    }
+  ],
+  "spires": [
+    {
+      "id": "@spire-transport-h0",
+      "district_ref": "@dist-physics",
+      "title": "SCLC Null-Hypothesis Spire",
+      "code": "PHY-01",
+      "scale_level": 0.90,
+      "metrics": {
+        "scale": "Carrier Transport",
+        "acceleration": "Statistically Verified H0",
+        "infrastructure": "Cryogenic Probe Stations",
+        "maturity": "Validated Milestone"
+      },
+      "abstract": "Conclusively settled the mechanism debate, proving Space-Charge-Limited Current (SCLC) exponent m=2.71 and isolating the 20% contact barrier modulation threshold."
+    },
+    {
+      "id": "@spire-agent-orchestrator",
+      "district_ref": "@dist-agents",
+      "title": "Agentic Experiment Designer",
+      "code": "AGT-01",
+      "scale_level": 0.95,
+      "metrics": {
+        "scale": "Autonomous Tool Loop",
+        "acceleration": "10x Iteration Speed",
+        "infrastructure": "Lab Automation Framework",
+        "maturity": "Operational Prototype"
+      },
+      "abstract": "Autonomous agent proposing targeted experimental sweeps, orchestrating physical measurement instruments, and eliminating human confirmation bias."
+    },
+    {
+      "id": "@spire-crossbar-engine",
+      "district_ref": "@dist-compute",
+      "title": "Analog Crossbar Accelerator",
+      "code": "MEM-01",
+      "scale_level": 0.85,
+      "metrics": {
+        "scale": "Array Scale",
+        "acceleration": "100x TOPS/Watt Lift",
+        "infrastructure": "Neuromorphic Testbench",
+        "maturity": "Demo Unit"
+      },
+      "abstract": "In-memory analog matrix acceleration utilizing conductance states of 2D memristive devices, performing single-cycle analog vector dot products."
+    },
+    {
+      "id": "@spire-vdw-stacker",
+      "district_ref": "@dist-materials",
+      "title": "Van der Waals Robotic Stacker",
+      "code": "MAT-01",
+      "scale_level": 0.80,
+      "metrics": {
+        "scale": "Monolayer Hetero",
+        "acceleration": "Deterministic Transfer",
+        "infrastructure": "Inert Atmosphere Glovebox",
+        "maturity": "Lab Prototype"
+      },
+      "abstract": "Robotic pick-and-place assembly of pristine 2D atomic monolayers with controlled twist angle and sub-nanometer interface cleanliness."
+    },
+    {
+      "id": "@spire-wafer-foundry",
+      "district_ref": "@dist-foundry",
+      "title": "CMOS-Compatible Wafer Pilot Line",
+      "code": "FAB-01",
+      "scale_level": 0.90,
+      "metrics": {
+        "scale": "200mm Wafer",
+        "acceleration": "92% Die Yield Target",
+        "infrastructure": "Cleanroom Pilot Line",
+        "maturity": "Pilot Testing"
+      },
+      "abstract": "Integration of 2D memristive selector arrays onto industrial CMOS wafer back-end metallization layers."
+    }
+  ],
+  "bottlenecks": [
+    {
+      "id": "@bneck-physical-world",
+      "title": "The Physical World Rate-Limiter",
+      "code": "BOT-01",
+      "district_ref": "@dist-physics",
+      "nature": "Partner Capacity & Fab Scheduling",
+      "impact": "The agent designed the crucial settling experiment; fabrication was declined on capacity grounds. A loop whose slowest step is human partner scheduling cannot be accelerated with better models.",
+      "remedy": "Decentralized on-demand micro-foundry access and multi-site fabrication agreements."
+    },
+    {
+      "id": "@bneck-sparse-data",
+      "title": "Sparse & Uneven Experimental Data",
+      "code": "BOT-02",
+      "district_ref": "@dist-agents",
+      "nature": "Missing Experimental Axis",
+      "impact": "Temperature was varied at one device size only; temperature and geometry cannot be separated. No amount of AI modelling fixes a missing physical axis.",
+      "remedy": "Enforce orthogonal experimental matrix requirements before active learning initiates."
+    },
+    {
+      "id": "@bneck-metadata-loss",
+      "title": "Irreversible Metadata Loss",
+      "code": "BOT-03",
+      "district_ref": "@dist-materials",
+      "nature": "Dark Measurement History",
+      "impact": "For an entire batch of samples one geometric parameter was never recorded. Those measurements can never be converted into intrinsic material properties by anyone.",
+      "remedy": "Automated cryptographic provenance tracking directly at instrument data capture."
+    }
+  ],
+  "challenges": [
+    {
+      "id": "@chal-agent-eval",
+      "title": "Attribution Challenge: Evaluating the Agent",
+      "code": "PRIO-01",
+      "district_ref": "@dist-agents",
+      "type": "Methodological Challenge",
+      "target": "Develop rigorous double-blind benchmarks to prove the AI agent was the true cause of discovery, rather than a well-equipped human using the same tools."
+    },
+    {
+      "id": "@chal-scalability",
+      "title": "2D Defect Scaling to 200mm Wafers",
+      "code": "PRIO-02",
+      "district_ref": "@dist-foundry",
+      "type": "Industrial Milestone",
+      "target": "Achieve wafer-scale uniformity of 2D film conductance with defect density under 1 defect per square micron."
+    }
+  ],
+  "conduits": [
+    {
+      "id": "@conduit-physics-to-agent",
+      "name": "Physics Transport Prior Conduit",
+      "code": "HW-01",
+      "from": "@spire-transport-h0",
+      "to": "@spire-agent-orchestrator",
+      "type": "Statistical Prior Stream",
+      "bandwidth": "SCLC Verification Priors",
+      "description": "Transfers verified physical transport models into the agent's prior distribution to avoid degenerate parameter sweeps."
+    },
+    {
+      "id": "@conduit-agent-to-crossbar",
+      "name": "Crossbar Synthesis Dispatch",
+      "code": "HW-02",
+      "from": "@spire-agent-orchestrator",
+      "to": "@spire-crossbar-engine",
+      "type": "Analog Calibration Stream",
+      "bandwidth": "Real-Time Conductance States",
+      "description": "Dispatches optimized device biasing and pulse-width modulation sequences into the neuromorphic crossbar."
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+# METROPOLIS-KIT: DOMAIN PROFILE
+# Reference: SCIANCE Deliverable D1.1 (Task 1.1) - AI in Materials Science
+# Generated via Metropolis-Kit Discovery Phase (studio-kit-sdlc inspired)
+
+domain:
+  id: "sciance-d1.1-materials-science"
+  title: "AI IN MATERIALS SCIENCE: THE QUANTUM-TO-INDUSTRY METROPOLIS"
+  source_document: "SCIANCE D1.1 State of the art for scientific research using AI for each pilot scientific area"
+  project: "Horizon Europe SCIANCE (101293570)"
+  url: "https://www.sciance.eu"
+
+metaphor:
+  spatial_topology: "Scale Ascension Corridor (River of Scale)"
+  direction: "South to North (Sub-atomic Angstrom to Industrial Gigafactory)"
+  visual_theme: "quantum_crystal"
+  theme_notes: "Deep sapphire/obsidian crystalline base with prismatic facet edges, glowing cyan/emerald/amber/violet accents, refractive glassmorphism."
+
+primary_axis:
+  name: "Scale Ascension"
+  description: "Progression across physical orders of magnitude and technological realization"
+  stages:
+    - id: "scale-angstrom"
+      name: "Sub-atomic & Atomistic"
+      order_of_magnitude: "10^-10 m (Å)"
+      core_discipline: "Quantum mechanics, DFT, MLIPs"
+    - id: "scale-nano"
+      name: "Meso & Nanocrystal"
+      order_of_magnitude: "10^-9 m (nm)"
+      core_discipline: "Generative crystal design, diffusion, compositional search"
+    - id: "scale-micro"
+      name: "Micro & Characterisation"
+      order_of_magnitude: "10^-6 m (μm)"
+      core_discipline: "Synchrotrons, electron microscopy, XRD phase mapping, Edge AI"
+    - id: "scale-macro"
+      name: "Macro & Autonomous Labs"
+      order_of_magnitude: "10^-2 m (cm)"
+      core_discipline: "Self-driving laboratories, MAPs, robotics, active learning"
+    - id: "scale-fab"
+      name: "System & Industrial Fab"
+      order_of_magnitude: "10^0 - 10^3 m (Fab)"
+      core_discipline: "Additive manufacturing, digital twins, LCA, circular economy"
+
+scientific_metrics:
+  building_height: "Throughput Acceleration Factor vs Conventional Practice (10^2x to 10^7x)"
+  building_footprint: "European Infrastructure Scale & Data Repository Mass"
+  district_hues:
+    quantum: "#00f0ff"    # Quantum Cyan
+    design: "#00e599"     # Crystalline Emerald
+    char: "#ffb700"       # Synchrotron Beamline Amber
+    closedloop: "#b026ff" # Robotic Autonomous Violet
+    fab: "#3a86ff"        # Industrial Cobalt Blue
+
+key_layers:
+  - id: "layer-districts"
+    name: "Scale Zones (Districts)"
+    description: "Spatial domains mapped to the 5 research themes of Section 4.4"
+  - id: "layer-spires"
+    name: "Spires & Accelerators"
+    description: "Foundational AI models, simulation suites, and flagship centers"
+  - id: "layer-superhighways"
+    name: "Data & Material Superhighways"
+    description: "Inter-scale pipelines transferring potentials, candidates, and sensor streams"
+  - id: "layer-bottlenecks"
+    name: "Physical & Epistemic Bottlenecks"
+    description: "Rate-limiting steps, dark data bias, hardware jams, and synthesizability gaps"
+  - id: "layer-priorities"
+    name: "EU Strategic Priorities & Challenges"
+    description: "Critical Raw Materials Act, Net Zero Industry Act, Chips Act, and grand scientific challenges"

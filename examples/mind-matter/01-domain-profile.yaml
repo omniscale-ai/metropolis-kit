@@ -1,0 +1,34 @@
+# METROPOLIS-KIT: DOMAIN PROFILE
+# Reference: MIND-MATTER DeepTech Project Roadmap (ARIA / Horizon Europe)
+
+domain:
+  id: "mind-matter-deeptech-roadmap"
+  title: "MIND-MATTER CYBER-PHYSICAL ROADMAP"
+  source_document: "MIND-MATTER Technical Milestone & Bottleneck Report"
+  project: "MIND-MATTER Consortium"
+
+metaphor:
+  spatial_topology: "Chronological River of Time & Technology Readiness (TRL)"
+  direction: "South to North (Foundational Physics to Cyber-Physical Brain Fabric)"
+  visual_theme: "cyber_physical"
+  theme_notes: "Dark obsidian terrain with electric neon emerald, cyan, and violet traces, hazard red radar beacons, and holographic spires."
+
+primary_axis:
+  name: "Milestone Horizons"
+  description: "Progression from initial physical hypothesis testing (M1) to full closed-loop neuromorphic fabrication (D3)"
+  stages:
+    - id: "horizon-m1"
+      name: "M1: Physics Disentanglement"
+      order_of_magnitude: "TRL 1-2"
+    - id: "horizon-m2"
+      name: "M2: Device Automation & Agents"
+      order_of_magnitude: "TRL 3-4"
+    - id: "horizon-d1"
+      name: "D1: In-Memory Acceleration"
+      order_of_magnitude: "TRL 4-5"
+    - id: "horizon-d2"
+      name: "D2: 2D Heterostructure Integration"
+      order_of_magnitude: "TRL 5-6"
+    - id: "horizon-d3"
+      name: "D3: Neuromorphic Cyber-Fabric"
+      order_of_magnitude: "TRL 6-7"

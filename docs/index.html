@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Materials Intelligence Metropolis | SCIANCE D1.1</title>
+  <!-- MapLibre GL JS -->
+  <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
+  <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-space: #060913;
+      --bg-panel: rgba(10, 16, 32, 0.82);
+      --bg-panel-border: rgba(0, 240, 255, 0.22);
+      --accent-cyan: #00f0ff;
+      --accent-emerald: #00e599;
+      --accent-amber: #ffb700;
+      --accent-violet: #c040ff;
+      --accent-cobalt: #3a86ff;
+      --accent-red: #ff3366;
+      --text-main: #f0f4fc;
+      --text-muted: #8a9bb8;
+      --text-dim: #4d5d78;
+      --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg-space); font-family: var(--font-ui); color: var(--text-main); }
+    #map { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
+
+    /* Vignette & Crystalline Atmosphere */
+    .viewport-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      box-shadow: inset 0 0 120px rgba(4, 8, 20, 0.85);
+      background: radial-gradient(circle at 50% 50%, transparent 60%, rgba(2, 5, 15, 0.5) 100%);
+      z-index: 5;
+    }
+
+    /* TOP HUD BAR */
+    .hud-header {
+      position: absolute;
+      top: 18px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .hud-brand {
+      pointer-events: auto;
+      background: var(--bg-panel);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--bg-panel-border);
+      border-radius: 12px;
+      padding: 10px 18px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 240, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .hud-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hud-logo-gem {
+      width: 12px;
+      height: 12px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-emerald));
+      transform: rotate(45deg);
+      box-shadow: 0 0 10px var(--accent-cyan);
+    }
+
+    .hud-title {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #ffffff, #c7ddff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hud-subtitle {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent-cyan);
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hud-tag {
+      background: rgba(0, 240, 255, 0.12);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 9.5px;
+      color: var(--accent-cyan);
+    }
+
+    /* LAYER TOGGLE CONTROLS (HUD RIGHT) */
+    .hud-layers-panel {
+      pointer-events: auto;
+      background: var(--bg-panel);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 6px 12px;
+      display: flex;
+      gap: 6px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .layer-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .layer-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .layer-btn.active {
+      background: rgba(0, 240, 255, 0.12);
+      border-color: var(--accent-cyan);
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(0, 240, 255, 0.25);
+    }
+
+    .layer-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .layer-btn[data-layer="bottlenecks"].active {
+      border-color: var(--accent-red);
+      background: rgba(255, 51, 102, 0.12);
+      box-shadow: 0 0 14px rgba(255, 51, 102, 0.25);
+    }
+
+    .layer-btn[data-layer="challenges"].active {
+      border-color: var(--accent-amber);
+      background: rgba(255, 183, 0, 0.12);
+      box-shadow: 0 0 14px rgba(255, 183, 0, 0.25);
+    }
+
+    /* LEFT COLLAPSIBLE SPIRE LEGEND */
+    .spire-legend-card {
+      position: absolute;
+      top: 90px;
+      left: 20px;
+      width: 320px;
+      max-height: calc(100vh - 120px);
+      background: var(--bg-panel);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--bg-panel-border);
+      border-radius: 14px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(0, 240, 255, 0.08);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s;
+    }
+
+    .spire-legend-card.collapsed {
+      transform: translateX(-360px);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .legend-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .legend-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .collapse-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      border-radius: 6px;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+
+    .legend-scroll {
+      padding: 12px;
+      overflow-y: auto;
+      max-height: calc(100vh - 190px);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .legend-scroll::-webkit-scrollbar { width: 5px; }
+    .legend-scroll::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+
+    .district-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .district-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 6px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+
+    .district-group-header:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .district-label-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .district-color-bar {
+      width: 4px;
+      height: 18px;
+      border-radius: 2px;
+    }
+
+    .district-group-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+    }
+
+    .district-group-scale {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      color: var(--text-muted);
+    }
+
+    .spire-item {
+      padding: 7px 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .spire-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateX(3px);
+    }
+
+    .spire-item.active {
+      background: rgba(0, 240, 255, 0.1);
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+    }
+
+    .spire-item-name {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    .spire-item-code {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    /* RESTORE LEGEND BUTTON */
+    .restore-legend-btn {
+      position: absolute;
+      top: 90px;
+      left: 20px;
+      background: var(--bg-panel);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--bg-panel-border);
+      color: var(--accent-cyan);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      z-index: 19;
+      transition: all 0.2s;
+    }
+
+    .restore-legend-btn:hover {
+      background: rgba(0, 240, 255, 0.15);
+      box-shadow: 0 0 16px rgba(0, 240, 255, 0.3);
+    }
+
+    .restore-legend-btn.visible {
+      display: flex;
+    }
+
+    /* RIGHT DETAIL DRAWER */
+    .detail-drawer {
+      position: absolute;
+      top: 90px;
+      right: 20px;
+      width: 380px;
+      max-height: calc(100vh - 120px);
+      background: var(--bg-panel);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--bg-panel-border);
+      border-radius: 14px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 240, 255, 0.1);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: translateX(420px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s;
+    }
+
+    .detail-drawer.open {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer-header {
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+
+    .drawer-badge-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .drawer-type-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-spire { background: rgba(0, 240, 255, 0.15); color: var(--accent-cyan); border: 1px solid rgba(0, 240, 255, 0.3); }
+    .badge-bottleneck { background: rgba(255, 51, 102, 0.15); color: var(--accent-red); border: 1px solid rgba(255, 51, 102, 0.3); }
+    .badge-challenge { background: rgba(255, 183, 0, 0.15); color: var(--accent-amber); border: 1px solid rgba(255, 183, 0, 0.3); }
+    .badge-conduit { background: rgba(192, 64, 255, 0.15); color: var(--accent-violet); border: 1px solid rgba(192, 64, 255, 0.3); }
+
+    .drawer-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: color 0.15s;
+    }
+
+    .drawer-close-btn:hover { color: #ffffff; }
+
+    .drawer-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .drawer-subtitle {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* PAGER CONTROLS IN DRAWER */
+    .drawer-pager-bar {
+      padding: 8px 16px;
+      background: rgba(0, 0, 0, 0.25);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .pager-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .pager-btn:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--accent-cyan);
+    }
+
+    .pager-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .pager-chips-container {
+      display: flex;
+      gap: 4px;
+      max-width: 190px;
+      overflow-x: auto;
+      padding: 2px 0;
+    }
+
+    .pager-chips-container::-webkit-scrollbar { display: none; }
+
+    .pager-chip {
+      min-width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .pager-chip:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .pager-chip.active {
+      background: var(--accent-cyan);
+      color: #060913;
+      font-weight: 700;
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+    }
+
+    .drawer-content {
+      padding: 16px 18px;
+      overflow-y: auto;
+      max-height: calc(100vh - 290px);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .drawer-content::-webkit-scrollbar { width: 5px; }
+    .drawer-content::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+
+    /* METRICS TILES */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .metric-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .metric-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .metric-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .drawer-body-text {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #ccd7e8;
+    }
+
+    .drawer-section-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--accent-cyan);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .remedy-box {
+      background: rgba(0, 229, 153, 0.08);
+      border-left: 3px solid var(--accent-emerald);
+      padding: 10px 12px;
+      border-radius: 0 8px 8px 0;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: #bbf7d0;
+    }
+
+    .hazard-box {
+      background: rgba(255, 51, 102, 0.08);
+      border-left: 3px solid var(--accent-red);
+      padding: 10px 12px;
+      border-radius: 0 8px 8px 0;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: #fecdd3;
+    }
+
+    /* BOTTOM CONTROLS & CAMERA ACTIONS */
+    .hud-footer {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .hud-controls-pill {
+      pointer-events: auto;
+      background: var(--bg-panel);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .control-action-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .control-action-btn:hover {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: var(--accent-cyan);
+      color: #ffffff;
+    }
+
+    .control-action-btn.active {
+      background: var(--accent-cyan);
+      color: #060913;
+      font-weight: 700;
+    }
+
+    /* SCALE AXIS RUNWAY BAR */
+    .scale-axis-strip {
+      pointer-events: auto;
+      background: var(--bg-panel);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    .scale-step-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: color 0.15s;
+    }
+
+    .scale-step-item:hover { color: #ffffff; }
+
+    .scale-step-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    /* MAP MARKERS & STENCILS */
+    .district-ground-stencil {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      user-select: none;
+      text-align: center;
+      transition: opacity 0.3s ease;
+    }
+
+    .district-ground-stencil .stencil-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-shadow: 0 0 18px currentColor, 0 0 35px currentColor;
+      opacity: 0.85;
+    }
+
+    .district-ground-stencil .stencil-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.65;
+      margin-top: 4px;
+    }
+
+    .district-beacon-marker {
+      pointer-events: auto;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(10, 16, 32, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--accent-cyan);
+      padding: 4px 10px;
+      border-radius: 20px;
+      box-shadow: 0 0 16px rgba(0, 240, 255, 0.3);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .district-beacon-marker:hover {
+      transform: scale(1.08);
+      background: rgba(15, 24, 48, 0.95);
+      box-shadow: 0 0 24px rgba(0, 240, 255, 0.6);
+    }
+
+    .beacon-pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 8px var(--accent-cyan);
+      animation: beaconPulse 2s infinite;
+    }
+
+    @keyframes beaconPulse {
+      0% { transform: scale(0.9); opacity: 0.7; }
+      50% { transform: scale(1.3); opacity: 1; }
+      100% { transform: scale(0.9); opacity: 0.7; }
+    }
+
+    .district-beacon-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+    }
+
+    /* HAZARD RADAR MARKER */
+    .hazard-radar-marker {
+      pointer-events: auto;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 51, 102, 0.15);
+      border: 1px solid var(--accent-red);
+      padding: 3px 8px;
+      border-radius: 6px;
+      box-shadow: 0 0 14px rgba(255, 51, 102, 0.4);
+      transition: transform 0.2s;
+    }
+
+    .hazard-radar-marker:hover {
+      transform: scale(1.1);
+      background: rgba(255, 51, 102, 0.3);
+    }
+
+    .hazard-pulse-ring {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-red);
+      box-shadow: 0 0 10px var(--accent-red);
+      animation: radarPing 1.8s infinite;
+    }
+
+    @keyframes radarPing {
+      0% { transform: scale(0.8); opacity: 1; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    .hazard-radar-text {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: #ffb3c1;
+    }
+
+    /* STRATEGIC PRIORITY MARKER */
+    .challenge-beacon-marker {
+      pointer-events: auto;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 183, 0, 0.15);
+      border: 1px solid var(--accent-amber);
+      padding: 3px 8px;
+      border-radius: 6px;
+      box-shadow: 0 0 14px rgba(255, 183, 0, 0.4);
+      transition: transform 0.2s;
+    }
+
+    .challenge-beacon-marker:hover {
+      transform: scale(1.1);
+      background: rgba(255, 183, 0, 0.3);
+    }
+
+    .challenge-gem {
+      width: 7px;
+      height: 7px;
+      background: var(--accent-amber);
+      transform: rotate(45deg);
+      box-shadow: 0 0 8px var(--accent-amber);
+    }
+
+    .challenge-text {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: #ffe082;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div class="viewport-overlay"></div>
+
+  <!-- TOP HUD BAR -->
+  <header class="hud-header">
+    <div class="hud-brand">
+      <div class="hud-title-row">
+        <div class="hud-logo-gem"></div>
+        <h1 class="hud-title">Materials Intelligence Metropolis</h1>
+      </div>
+      <div class="hud-subtitle">
+        <span>SCIANCE D1.1</span>
+        <span class="hud-tag">SCALE ASCENSION: Å TO GIGAFACTORY</span>
+        <span class="hud-tag">EU HORIZON 101293570</span>
+      </div>
+    </div>
+
+    <!-- LAYER VISIBILITY TOGGLES -->
+    <div class="hud-layers-panel">
+      <button class="layer-btn active" data-layer="districts" title="Toggle District Scale Zones">
+        <span class="layer-dot" style="color: var(--accent-cyan);"></span>
+        <span>Districts</span>
+      </button>
+      <button class="layer-btn active" data-layer="spires" title="Toggle AI Models & Facilities">
+        <span class="layer-dot" style="color: var(--accent-emerald);"></span>
+        <span>Spires</span>
+      </button>
+      <button class="layer-btn active" data-layer="conduits" title="Toggle Inter-Scale Pipelines">
+        <span class="layer-dot" style="color: var(--accent-violet);"></span>
+        <span>Superhighways</span>
+      </button>
+      <button class="layer-btn active" data-layer="bottlenecks" title="Toggle Rate-Limiters & Biases">
+        <span class="layer-dot" style="color: var(--accent-red);"></span>
+        <span>Bottlenecks</span>
+      </button>
+      <button class="layer-btn active" data-layer="challenges" title="Toggle EU Mandates & Frontiers">
+        <span class="layer-dot" style="color: var(--accent-amber);"></span>
+        <span>Priorities</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- RESTORE LEGEND BUTTON -->
+  <button id="restoreLegendBtn" class="restore-legend-btn" title="Open Legend (Shortcut: L)">
+    <span>🧭 SPIRES & SCALE ZONES ▶</span>
+  </button>
+
+  <!-- LEFT COLLAPSIBLE SPIRE LEGEND -->
+  <aside id="spireLegendCard" class="spire-legend-card">
+    <div class="legend-header">
+      <div class="legend-title">
+        <span>🏛️</span>
+        <span>SCALE ZONES & SPIRES</span>
+      </div>
+      <button id="collapseLegendBtn" class="collapse-btn" title="Collapse Legend (L)">◀</button>
+    </div>
+    <div class="legend-scroll" id="legendDistrictList">
+      <!-- Populated dynamically via JS -->
+    </div>
+  </aside>
+
+  <!-- RIGHT DETAIL DRAWER -->
+  <aside id="detailDrawer" class="detail-drawer">
+    <div class="drawer-header">
+      <div class="drawer-badge-row">
+        <span id="drawerTypeBadge" class="drawer-type-badge badge-spire">FOUNDATION SPIRE</span>
+        <button id="drawerCloseBtn" class="drawer-close-btn" title="Close (Esc)">✕</button>
+      </div>
+      <h2 id="drawerTitle" class="drawer-title">NOMAD CoE & Materials Cloud</h2>
+      <div id="drawerSubtitle" class="drawer-subtitle">QM-01 • ATOMISTIC MODELLING & QUANTUM SURROGATES</div>
+    </div>
+
+    <!-- PAGER CONTROLS -->
+    <div class="drawer-pager-bar">
+      <button id="pagerPrevBtn" class="pager-btn">◀ Prev</button>
+      <div id="pagerChipsContainer" class="pager-chips-container">
+        <!-- Numbered pill chips injected dynamically -->
+      </div>
+      <button id="pagerNextBtn" class="pager-btn">Next ▶</button>
+    </div>
+
+    <div class="drawer-content" id="drawerBody">
+      <!-- Populated dynamically -->
+    </div>
+  </aside>
+
+  <!-- BOTTOM HUD CONTROLS & SCALE RUNWAY -->
+  <footer class="hud-footer">
+    <div class="scale-axis-strip" id="scaleAxisStrip">
+      <span style="color: #ffffff; font-weight: 700; letter-spacing: 0.5px;">SCALE CORRIDOR:</span>
+      <!-- Injected from DISTRICTS -->
+    </div>
+
+    <div class="hud-controls-pill">
+      <button id="orbitBtn" class="control-action-btn">
+        <span>🔄</span>
+        <span>Auto-Orbit</span>
+      </button>
+      <button id="resetCamBtn" class="control-action-btn">
+        <span>🎯</span>
+        <span>Overview</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- LOAD COMPILED DATASET -->
+  <script src="city-data.js"></script>
+
+  <script>
+    // State management
+    let map = null;
+    let isOrbiting = false;
+    let orbitAnimationId = null;
+    let activeSelection = null; // { type: 'spire'|'bottleneck'|'challenge'|'conduit', id: string, index: number }
+    let layerVisibility = {
+      districts: true,
+      spires: true,
+      conduits: true,
+      bottlenecks: true,
+      challenges: true
+    };
+
+    const districtMarkers = [];
+    const bottleneckMarkers = [];
+    const challengeMarkers = [];
+
+    // Initialize MapLibre
+    function initMap() {
+      map = new maplibregl.Map({
+        container: 'map',
+        style: {
+          version: 8,
+          sources: {},
+          layers: [{
+            id: 'background',
+            type: 'background',
+            paint: {
+              'background-color': '#060a14'
+            }
+          }]
+        },
+        center: window.CITY_CONFIG.center,
+        zoom: window.CITY_CONFIG.zoom,
+        pitch: window.CITY_CONFIG.pitch,
+        bearing: window.CITY_CONFIG.bearing,
+        antialias: true
+      });
+
+      map.on('load', () => {
+        setupSourcesAndLayers();
+        renderGroundStencilsAndMarkers();
+        setupInteraction();
+        buildLegendUI();
+        buildScaleRunway();
+      });
+    }
+
+    function setupSourcesAndLayers() {
+      // 1. Districts Runway Base
+      const districtPolygons = {
+        type: 'FeatureCollection',
+        features: window.DISTRICTS.map(d => ({
+          type: 'Feature',
+          properties: {
+            id: d.id,
+            name: d.name,
+            color: d.color,
+            scale_label: d.scale_label
+          },
+          geometry: {
+            type: 'Polygon',
+            coordinates: [d.bounds]
+          }
+        }))
+      };
+
+      map.addSource('districts-geo', {
+        type: 'geojson',
+        data: districtPolygons
+      });
+
+      map.addLayer({
+        id: 'districts-fill',
+        type: 'fill',
+        source: 'districts-geo',
+        paint: {
+          'fill-color': ['get', 'color'],
+          'fill-opacity': 0.05
+        }
+      });
+
+      map.addLayer({
+        id: 'districts-line',
+        type: 'line',
+        source: 'districts-geo',
+        paint: {
+          'line-color': ['get', 'color'],
+          'line-width': 1.5,
+          'line-dasharray': [4, 3],
+          'line-opacity': 0.6
+        }
+      });
+
+      // 2. Superhighways Conduits
+      map.addSource('conduits-geo', {
+        type: 'geojson',
+        data: window.CONDUITS_GEOJSON
+      });
+
+      map.addLayer({
+        id: 'conduits-glow',
+        type: 'line',
+        source: 'conduits-geo',
+        paint: {
+          'line-color': ['get', 'color'],
+          'line-width': 6,
+          'line-blur': 4,
+          'line-opacity': 0.5
+        }
+      });
+
+      map.addLayer({
+        id: 'conduits-core',
+        type: 'line',
+        source: 'conduits-geo',
+        paint: {
+          'line-color': '#ffffff',
+          'line-width': 2,
+          'line-dasharray': [3, 2],
+          'line-opacity': 0.95
+        }
+      });
+
+      // 3. 3D Buildings & Crystals
+      map.addSource('buildings-geo', {
+        type: 'geojson',
+        data: window.BUILDINGS_GEOJSON
+      });
+
+      map.addLayer({
+        id: 'buildings-3d',
+        type: 'fill-extrusion',
+        source: 'buildings-geo',
+        paint: {
+          'fill-extrusion-color': [
+            'case',
+            ['has', 'color'], ['get', 'color'],
+            '#0d1a2d'
+          ],
+          'fill-extrusion-height': ['get', 'height'],
+          'fill-extrusion-base': ['get', 'base_height'],
+          'fill-extrusion-opacity': [
+            'case',
+            ['has', 'opacity'], ['get', 'opacity'],
+            0.92
+          ]
+        }
+      });
+    }
+
+    // Ground Runways & Beacons
+    function renderGroundStencilsAndMarkers() {
+      // Districts
+      window.DISTRICTS.forEach(d => {
+        // Ground Stencil
+        const stencilEl = document.createElement('div');
+        stencilEl.className = 'district-ground-stencil';
+        stencilEl.innerHTML = `
+          <div class="stencil-title" style="color: ${d.color};">${d.name}</div>
+          <div class="stencil-tag" style="color: ${d.color};">${d.scale_label}</div>
+        `;
+
+        const stencilMarker = new maplibregl.Marker({
+          element: stencilEl,
+          pitchAlignment: 'map',
+          rotationAlignment: 'map'
+        }).setLngLat(d.center).addTo(map);
+
+        districtMarkers.push(stencilMarker);
+
+        // Floating Beacon
+        const beaconEl = document.createElement('div');
+        beaconEl.className = 'district-beacon-marker';
+        beaconEl.innerHTML = `
+          <div class="beacon-pulse-dot" style="background: ${d.color}; box-shadow: 0 0 10px ${d.color};"></div>
+          <div class="district-beacon-text">${d.scale_label}</div>
+        `;
+        beaconEl.addEventListener('click', (e) => {
+          e.stopPropagation();
+          flyToDistrict(d.id);
+        });
+
+        const beaconMarker = new maplibregl.Marker({
+          element: beaconEl,
+          pitchAlignment: 'viewport'
+        }).setLngLat(d.center).addTo(map);
+
+        districtMarkers.push(beaconMarker);
+      });
+
+      // Bottleneck Hazard Radars
+      window.BOTTLENECKS.forEach((b, idx) => {
+        const hazardEl = document.createElement('div');
+        hazardEl.className = 'hazard-radar-marker';
+        hazardEl.innerHTML = `
+          <div class="hazard-pulse-ring"></div>
+          <div class="hazard-radar-text">${b.code}</div>
+        `;
+        hazardEl.addEventListener('click', (e) => {
+          e.stopPropagation();
+          selectObject('bottleneck', b.id, idx);
+        });
+
+        const marker = new maplibregl.Marker({
+          element: hazardEl,
+          pitchAlignment: 'viewport'
+        }).setLngLat(b.coordinates).addTo(map);
+
+        bottleneckMarkers.push(marker);
+      });
+
+      // Strategic Priorities & Challenges
+      window.CHALLENGES.forEach((c, idx) => {
+        const chalEl = document.createElement('div');
+        chalEl.className = 'challenge-beacon-marker';
+        chalEl.innerHTML = `
+          <div class="challenge-gem"></div>
+          <div class="challenge-text">${c.code}</div>
+        `;
+        chalEl.addEventListener('click', (e) => {
+          e.stopPropagation();
+          selectObject('challenge', c.id, idx);
+        });
+
+        const marker = new maplibregl.Marker({
+          element: chalEl,
+          pitchAlignment: 'viewport'
+        }).setLngLat(c.coordinates).addTo(map);
+
+        challengeMarkers.push(marker);
+      });
+
+      // LOD Fading for Ground Stencils during deep zoom
+      map.on('zoom', () => {
+        const zoom = map.getZoom();
+        const stencils = document.querySelectorAll('.district-ground-stencil');
+        if (zoom > 16.3) {
+          const opacity = Math.max(0, 1 - (zoom - 16.3) * 1.5);
+          stencils.forEach(s => s.style.opacity = opacity.toFixed(2));
+        } else {
+          stencils.forEach(s => s.style.opacity = '0.85');
+        }
+      });
+    }
+
+    // Interaction Setup
+    function setupInteraction() {
+      // Click on 3D Building
+      map.on('click', 'buildings-3d', (e) => {
+        if (!e.features || !e.features.length) return;
+        const feat = e.features[0];
+        const spireRef = feat.properties.spire_ref;
+        if (spireRef) {
+          const sIdx = window.SPIRES_INDEX.findIndex(s => s.id === spireRef);
+          if (sIdx !== -1) {
+            selectObject('spire', spireRef, sIdx);
+          }
+        }
+      });
+
+      map.on('mouseenter', 'buildings-3d', () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', 'buildings-3d', () => { map.getCanvas().style.cursor = ''; });
+
+      // Click on Conduit Line
+      map.on('click', 'conduits-core', (e) => {
+        if (!e.features || !e.features.length) return;
+        const feat = e.features[0];
+        const condId = feat.properties.id;
+        const cIdx = window.CONDUITS.findIndex(c => c.id === condId);
+        if (cIdx !== -1) {
+          selectObject('conduit', condId, cIdx);
+        }
+      });
+
+      // Layer Toggles
+      document.querySelectorAll('.layer-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const layerKey = btn.dataset.layer;
+          layerVisibility[layerKey] = !layerVisibility[layerKey];
+          btn.classList.toggle('active', layerVisibility[layerKey]);
+          applyLayerVisibility(layerKey);
+        });
+      });
+
+      // Auto-Orbit Button
+      const orbitBtn = document.getElementById('orbitBtn');
+      orbitBtn.addEventListener('click', toggleOrbit);
+
+      // Reset Camera
+      document.getElementById('resetCamBtn').addEventListener('click', () => {
+        stopOrbit();
+        map.flyTo({
+          center: window.CITY_CONFIG.center,
+          zoom: window.CITY_CONFIG.zoom,
+          pitch: window.CITY_CONFIG.pitch,
+          bearing: window.CITY_CONFIG.bearing,
+          duration: 1600
+        });
+      });
+
+      // Legend Collapse / Restore
+      const legendCard = document.getElementById('spireLegendCard');
+      const collapseBtn = document.getElementById('collapseLegendBtn');
+      const restoreBtn = document.getElementById('restoreLegendBtn');
+
+      collapseBtn.addEventListener('click', () => {
+        legendCard.classList.add('collapsed');
+        restoreBtn.classList.add('visible');
+      });
+
+      restoreBtn.addEventListener('click', () => {
+        legendCard.classList.remove('collapsed');
+        restoreBtn.classList.remove('visible');
+      });
+
+      // Drawer Pager Buttons
+      document.getElementById('pagerPrevBtn').addEventListener('click', navigatePrev);
+      document.getElementById('pagerNextBtn').addEventListener('click', navigateNext);
+      document.getElementById('drawerCloseBtn').addEventListener('click', closeDrawer);
+
+      // Keyboard Shortcuts
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeDrawer();
+        if (e.key === 'ArrowLeft') navigatePrev();
+        if (e.key === 'ArrowRight') navigateNext();
+        if (e.key === 'l' || e.key === 'L') {
+          if (legendCard.classList.contains('collapsed')) {
+            legendCard.classList.remove('collapsed');
+            restoreBtn.classList.remove('visible');
+          } else {
+            legendCard.classList.add('collapsed');
+            restoreBtn.classList.add('visible');
+          }
+        }
+      });
+    }
+
+    function applyLayerVisibility(layerKey) {
+      const isVisible = layerVisibility[layerKey];
+      if (layerKey === 'districts') {
+        map.setLayoutProperty('districts-fill', 'visibility', isVisible ? 'visible' : 'none');
+        map.setLayoutProperty('districts-line', 'visibility', isVisible ? 'visible' : 'none');
+        districtMarkers.forEach(m => m.getElement().style.display = isVisible ? 'flex' : 'none');
+      } else if (layerKey === 'spires') {
+        map.setLayoutProperty('buildings-3d', 'visibility', isVisible ? 'visible' : 'none');
+      } else if (layerKey === 'conduits') {
+        map.setLayoutProperty('conduits-glow', 'visibility', isVisible ? 'visible' : 'none');
+        map.setLayoutProperty('conduits-core', 'visibility', isVisible ? 'visible' : 'none');
+      } else if (layerKey === 'bottlenecks') {
+        bottleneckMarkers.forEach(m => m.getElement().style.display = isVisible ? 'flex' : 'none');
+      } else if (layerKey === 'challenges') {
+        challengeMarkers.forEach(m => m.getElement().style.display = isVisible ? 'flex' : 'none');
+      }
+    }
+
+    // Selection & Drawer Rendering
+    function selectObject(type, id, index) {
+      activeSelection = { type, id, index };
+      const drawer = document.getElementById('detailDrawer');
+      const badge = document.getElementById('drawerTypeBadge');
+      const title = document.getElementById('drawerTitle');
+      const subtitle = document.getElementById('drawerSubtitle');
+      const body = document.getElementById('drawerBody');
+
+      // Update Legend Selection
+      document.querySelectorAll('.spire-item').forEach(el => el.classList.remove('active'));
+      const activeLegendItem = document.querySelector(`.spire-item[data-id="${id}"]`);
+      if (activeLegendItem) activeLegendItem.classList.add('active');
+
+      if (type === 'spire') {
+        const item = window.SPIRES_INDEX[index];
+        badge.className = 'drawer-type-badge badge-spire';
+        badge.textContent = `SPIRE • ${item.code}`;
+        title.textContent = item.title;
+        subtitle.textContent = `${item.district_name} (${item.scale_label})`;
+
+        body.innerHTML = `
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-label">Physical Scale</span>
+              <span class="metric-value" style="color: ${item.color};">${item.metrics.scale || 'N/A'}</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Acceleration Factor</span>
+              <span class="metric-value" style="color: var(--accent-emerald);">${item.metrics.acceleration || 'N/A'}</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">European Infrastructure</span>
+              <span class="metric-value">${item.metrics.infrastructure || 'N/A'}</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Maturity Level</span>
+              <span class="metric-value" style="color: var(--accent-amber);">${item.metrics.maturity || 'N/A'}</span>
+            </div>
+          </div>
+          <div>
+            <div class="drawer-section-title"><span>✦</span> Scientific Abstract & Methodology</div>
+            <p class="drawer-body-text">${item.abstract}</p>
+          </div>
+        `;
+
+        updatePager(window.SPIRES_INDEX.length, index);
+        flyToObject(item.coordinates);
+      } else if (type === 'bottleneck') {
+        const item = window.BOTTLENECKS[index];
+        badge.className = 'drawer-type-badge badge-bottleneck';
+        badge.textContent = `RATE-LIMITER • ${item.code}`;
+        title.textContent = item.title;
+        subtitle.textContent = item.nature;
+
+        body.innerHTML = `
+          <div class="hazard-box">
+            <strong>Critical Impact:</strong> ${item.impact}
+          </div>
+          <div>
+            <div class="drawer-section-title" style="color: var(--accent-emerald);"><span>🛡️</span> Strategic European Remedy</div>
+            <div class="remedy-box">${item.remedy}</div>
+          </div>
+        `;
+
+        updatePager(window.BOTTLENECKS.length, index);
+        flyToObject(item.coordinates);
+      } else if (type === 'challenge') {
+        const item = window.CHALLENGES[index];
+        badge.className = 'drawer-type-badge badge-challenge';
+        badge.textContent = `MANDATE • ${item.code}`;
+        title.textContent = item.title;
+        subtitle.textContent = item.type;
+
+        body.innerHTML = `
+          <div class="metric-card" style="border-left: 3px solid var(--accent-amber);">
+            <span class="metric-label">Strategic Policy Target</span>
+            <span class="metric-value" style="font-size: 13.5px; line-height: 1.5; color: #fff;">${item.target}</span>
+          </div>
+        `;
+
+        updatePager(window.CHALLENGES.length, index);
+        flyToObject(item.coordinates);
+      } else if (type === 'conduit') {
+        const item = window.CONDUITS[index];
+        badge.className = 'drawer-type-badge badge-conduit';
+        badge.textContent = `SUPERHIGHWAY • ${item.code}`;
+        title.textContent = item.name;
+        subtitle.textContent = `${item.from} ➔ ${item.to}`;
+
+        body.innerHTML = `
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-label">Pipeline Type</span>
+              <span class="metric-value" style="color: var(--accent-violet);">${item.type}</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Bandwidth / Stream</span>
+              <span class="metric-value">${item.bandwidth}</span>
+            </div>
+          </div>
+          <p class="drawer-body-text">${item.description}</p>
+        `;
+
+        updatePager(window.CONDUITS.length, index);
+      }
+
+      drawer.classList.add('open');
+    }
+
+    function flyToObject(coords) {
+      stopOrbit();
+      // Balanced camera distance: zoom 16.2 with offset pitch
+      map.flyTo({
+        center: [coords[0], coords[1] - 0.0016],
+        zoom: 16.15,
+        pitch: 62,
+        bearing: -22,
+        duration: 1400
+      });
+    }
+
+    function flyToDistrict(districtId) {
+      const d = window.DISTRICTS.find(x => x.id === districtId);
+      if (!d) return;
+      stopOrbit();
+      map.flyTo({
+        center: [d.center[0], d.center[1] - 0.0028],
+        zoom: 15.2,
+        pitch: 56,
+        bearing: -16,
+        duration: 1600
+      });
+    }
+
+    function updatePager(total, current) {
+      const prevBtn = document.getElementById('pagerPrevBtn');
+      const nextBtn = document.getElementById('pagerNextBtn');
+      const chips = document.getElementById('pagerChipsContainer');
+
+      prevBtn.disabled = current <= 0;
+      nextBtn.disabled = current >= total - 1;
+
+      chips.innerHTML = '';
+      for (let i = 0; i < total; i++) {
+        const chip = document.createElement('div');
+        chip.className = `pager-chip ${i === current ? 'active' : ''}`;
+        chip.textContent = (i + 1);
+        chip.addEventListener('click', () => {
+          if (activeSelection) {
+            const list = getActiveList(activeSelection.type);
+            selectObject(activeSelection.type, list[i].id, i);
+          }
+        });
+        chips.appendChild(chip);
+      }
+
+      // Scroll active chip into view
+      const activeChip = chips.children[current];
+      if (activeChip) activeChip.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+    }
+
+    function navigatePrev() {
+      if (!activeSelection || activeSelection.index <= 0) return;
+      const newIdx = activeSelection.index - 1;
+      const list = getActiveList(activeSelection.type);
+      selectObject(activeSelection.type, list[newIdx].id, newIdx);
+    }
+
+    function navigateNext() {
+      if (!activeSelection) return;
+      const list = getActiveList(activeSelection.type);
+      if (activeSelection.index >= list.length - 1) return;
+      const newIdx = activeSelection.index + 1;
+      selectObject(activeSelection.type, list[newIdx].id, newIdx);
+    }
+
+    function getActiveList(type) {
+      if (type === 'spire') return window.SPIRES_INDEX;
+      if (type === 'bottleneck') return window.BOTTLENECKS;
+      if (type === 'challenge') return window.CHALLENGES;
+      if (type === 'conduit') return window.CONDUITS;
+      return [];
+    }
+
+    function closeDrawer() {
+      document.getElementById('detailDrawer').classList.remove('open');
+      document.querySelectorAll('.spire-item').forEach(el => el.classList.remove('active'));
+      activeSelection = null;
+    }
+
+    // Legend Builder
+    function buildLegendUI() {
+      const container = document.getElementById('legendDistrictList');
+      container.innerHTML = '';
+
+      window.DISTRICTS.forEach(d => {
+        const group = document.createElement('div');
+        group.className = 'district-group';
+
+        const header = document.createElement('div');
+        header.className = 'district-group-header';
+        header.innerHTML = `
+          <div class="district-label-box">
+            <div class="district-color-bar" style="background: ${d.color}; box-shadow: 0 0 8px ${d.color};"></div>
+            <div>
+              <div class="district-group-name">${d.name}</div>
+              <div class="district-group-scale">${d.scale_label}</div>
+            </div>
+          </div>
+          <span style="font-size: 10px; color: var(--text-dim);">▶</span>
+        `;
+        header.addEventListener('click', () => flyToDistrict(d.id));
+
+        group.appendChild(header);
+
+        // Spires in this district
+        const districtSpires = window.SPIRES_INDEX.filter(s => s.district_ref === d.id);
+        districtSpires.forEach(s => {
+          const item = document.createElement('div');
+          item.className = 'spire-item';
+          item.dataset.id = s.id;
+          item.innerHTML = `
+            <span class="spire-item-name">${s.title}</span>
+            <span class="spire-item-code">${s.code}</span>
+          `;
+          item.addEventListener('click', () => {
+            const sIdx = window.SPIRES_INDEX.findIndex(x => x.id === s.id);
+            selectObject('spire', s.id, sIdx);
+          });
+          group.appendChild(item);
+        });
+
+        container.appendChild(group);
+      });
+    }
+
+    // Scale Runway Builder
+    function buildScaleRunway() {
+      const strip = document.getElementById('scaleAxisStrip');
+      window.DISTRICTS.forEach(d => {
+        const item = document.createElement('div');
+        item.className = 'scale-step-item';
+        item.innerHTML = `
+          <span class="scale-step-dot" style="background: ${d.color}; box-shadow: 0 0 8px ${d.color};"></span>
+          <span>${d.scale_label}</span>
+        `;
+        item.addEventListener('click', () => flyToDistrict(d.id));
+        strip.appendChild(item);
+      });
+    }
+
+    // Auto-Orbit
+    function toggleOrbit() {
+      if (isOrbiting) {
+        stopOrbit();
+      } else {
+        startOrbit();
+      }
+    }
+
+    function startOrbit() {
+      isOrbiting = true;
+      document.getElementById('orbitBtn').classList.add('active');
+      function rotateCamera() {
+        if (!isOrbiting) return;
+        map.setBearing((map.getBearing() + 0.18) % 360);
+        orbitAnimationId = requestAnimationFrame(rotateCamera);
+      }
+      rotateCamera();
+    }
+
+    function stopOrbit() {
+      if (!isOrbiting) return;
+      isOrbiting = false;
+      document.getElementById('orbitBtn').classList.remove('active');
+      if (orbitAnimationId) cancelAnimationFrame(orbitAnimationId);
+    }
+
+    // Launch Map
+    window.addEventListener('DOMContentLoaded', initMap);
+  </script>
+</body>
+</html>
