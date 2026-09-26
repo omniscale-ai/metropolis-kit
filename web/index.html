@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Materials Intelligence Metropolis | SCIANCE D1.1</title>
+  <title>Metropolis</title>
   <!-- MapLibre GL JS -->
   <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
   <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
@@ -856,13 +856,9 @@
     <div class="hud-brand">
       <div class="hud-title-row">
         <div class="hud-logo-gem"></div>
-        <h1 class="hud-title">Materials Intelligence Metropolis</h1>
+        <h1 class="hud-title" id="hud-title">Metropolis</h1>
       </div>
-      <div class="hud-subtitle">
-        <span>SCIANCE D1.1</span>
-        <span class="hud-tag">SCALE ASCENSION: Å TO GIGAFACTORY</span>
-        <span class="hud-tag">EU HORIZON 101293570</span>
-      </div>
+      <div class="hud-subtitle" id="hud-subtitle"></div>
     </div>
 
     <!-- LAYER VISIBILITY TOGGLES -->
@@ -976,6 +972,20 @@
 
     // Initialize MapLibre
     function initMap() {
+      // The HUD used to carry the showcase's own title and grant number, so a
+      // city compiled from any other document was published under them. The
+      // compiler already emits these fields; read them.
+      (function fillHud() {
+        const c = window.CITY_CONFIG || {};
+        const t = document.getElementById('hud-title');
+        if (t && c.title) { t.textContent = c.title; document.title = c.title; }
+        const sub = document.getElementById('hud-subtitle');
+        if (!sub) return;
+        const bits = [c.subtitle, c.scale_axis_label].filter(Boolean);
+        sub.innerHTML = bits.map((b, k) => k === 0
+          ? '<span>' + b + '</span>'
+          : '<span class="hud-tag">' + b + '</span>').join('');
+      })();
       map = new maplibregl.Map({
         container: 'map',
         style: {
@@ -988,6 +998,7 @@
               'background-color': '#060a14'
             }
           }]
+
         },
         center: window.CITY_CONFIG.center,
         zoom: window.CITY_CONFIG.zoom,
