@@ -323,7 +323,7 @@ def compile_metropolis_data(spec):
                 'geometry': {'type': 'LineString', 'coordinates': poly_t2}
             })
 
-    # 2. 3D Bottleneck Hazard Radars (Real 3D Citadel Towers!)
+    # 2. 3D Bottleneck Hazard Radars (Dynamic height based on severity!)
     compiled_bottlenecks = []
     bneck_offsets = [(-490.0, -180.0), (490.0, 180.0), (-500.0, 160.0), (500.0, -170.0), (0.0, 250.0)]
     for b_idx, bneck in enumerate(spec.get('bottlenecks', [])):
@@ -331,11 +331,20 @@ def compile_metropolis_data(spec):
         off_x, off_y = bneck_offsets[b_idx % len(bneck_offsets)]
         coords = meters_to_geo(off_x, d_center['dy'] + off_y)
         codename = bneck.get('codename', bneck.get('code', f"BOT-0{b_idx+1}"))
+
+        # Dynamic height scaling based on severity (0.4 to 1.0)
+        severity = float(bneck.get('severity', 0.8))
+        bneck_total_h = round(75.0 + severity * 95.0, 1)  # 113m to 170m
+        base_h = round(bneck_total_h * 0.48, 1)
+        core_h = round(bneck_total_h * 0.78, 1)
+        needle_h = bneck_total_h
+
         compiled_bottlenecks.append({
             'id': bneck['id'],
             'code': bneck.get('code', f"BOT-0{b_idx+1}"),
             'codename': codename,
             'title': bneck['title'],
+            'severity': severity,
             'district_ref': bneck['district_ref'],
             'nature': bneck.get('nature', 'Physical Rate-Limiter'),
             'impact': bneck.get('impact', ''),
@@ -354,9 +363,9 @@ def compile_metropolis_data(spec):
                 'name': bneck['title'],
                 'codename': codename,
                 'tier': 'hazard_base',
-                'height': 60.0,
+                'height': base_h,
                 'base_height': 0.0,
-                'color': '#800020', # Deep hazard crimson
+                'color': '#800020',
                 'opacity': 0.95
             },
             'geometry': {'type': 'Polygon', 'coordinates': [poly_bneck_base]}
@@ -372,9 +381,9 @@ def compile_metropolis_data(spec):
                 'name': bneck['title'],
                 'codename': codename,
                 'tier': 'hazard_core',
-                'height': 95.0,
-                'base_height': 60.0,
-                'color': '#ff1744', # Glowing red
+                'height': core_h,
+                'base_height': base_h,
+                'color': '#ff1744',
                 'opacity': 0.98
             },
             'geometry': {'type': 'Polygon', 'coordinates': [poly_bneck_core]}
@@ -390,15 +399,15 @@ def compile_metropolis_data(spec):
                 'name': bneck['title'],
                 'codename': codename,
                 'tier': 'hazard_needle',
-                'height': 125.0,
-                'base_height': 95.0,
+                'height': needle_h,
+                'base_height': core_h,
                 'color': '#ff3366',
                 'opacity': 1.0
             },
             'geometry': {'type': 'Polygon', 'coordinates': [poly_bneck_needle]}
         })
 
-    # 3. 3D Strategic Priorities & Challenges (Real 3D Golden Monoliths!)
+    # 3. 3D Strategic Priorities & Challenges (Dynamic height based on impact_scale!)
     compiled_challenges = []
     chal_offsets = [(470.0, -180.0), (-470.0, 190.0), (480.0, 150.0), (-480.0, -170.0), (0.0, -250.0)]
     for c_idx, chal in enumerate(spec.get('challenges', [])):
@@ -406,11 +415,20 @@ def compile_metropolis_data(spec):
         off_x, off_y = chal_offsets[c_idx % len(chal_offsets)]
         coords = meters_to_geo(off_x, d_center['dy'] + off_y)
         codename = chal.get('codename', chal.get('code', f"PRIO-0{c_idx+1}"))
+
+        # Dynamic height scaling based on impact_scale (0.4 to 1.0)
+        impact = float(chal.get('impact_scale', 0.8))
+        chal_total_h = round(85.0 + impact * 105.0, 1)  # 127m to 190m
+        base_h = round(chal_total_h * 0.48, 1)
+        core_h = round(chal_total_h * 0.78, 1)
+        needle_h = chal_total_h
+
         compiled_challenges.append({
             'id': chal['id'],
             'code': chal.get('code', f"PRIO-0{c_idx+1}"),
             'codename': codename,
             'title': chal['title'],
+            'impact_scale': impact,
             'district_ref': chal['district_ref'],
             'type': chal.get('type', 'Strategic Priority'),
             'target': chal.get('target', ''),
@@ -428,9 +446,9 @@ def compile_metropolis_data(spec):
                 'name': chal['title'],
                 'codename': codename,
                 'tier': 'challenge_base',
-                'height': 68.0,
+                'height': base_h,
                 'base_height': 0.0,
-                'color': '#b38600', # Deep bronze gold
+                'color': '#b38600',
                 'opacity': 0.95
             },
             'geometry': {'type': 'Polygon', 'coordinates': [poly_chal_base]}
@@ -446,9 +464,9 @@ def compile_metropolis_data(spec):
                 'name': chal['title'],
                 'codename': codename,
                 'tier': 'challenge_core',
-                'height': 112.0,
-                'base_height': 68.0,
-                'color': '#ffb700', # Radiant amber
+                'height': core_h,
+                'base_height': base_h,
+                'color': '#ffb700',
                 'opacity': 0.98
             },
             'geometry': {'type': 'Polygon', 'coordinates': [poly_chal_core]}
@@ -464,8 +482,8 @@ def compile_metropolis_data(spec):
                 'name': chal['title'],
                 'codename': codename,
                 'tier': 'challenge_needle',
-                'height': 142.0,
-                'base_height': 112.0,
+                'height': needle_h,
+                'base_height': core_h,
                 'color': '#ffe082',
                 'opacity': 1.0
             },
