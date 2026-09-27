@@ -1,444 +1,562 @@
 {
   "city_metadata": {
     "title": "MATERIALS INTELLIGENCE METROPOLIS",
-    "subtitle": "SCIANCE D1.1: Cartography of AI in European Materials Science",
+    "subtitle": "SCIANCE D1.1 · Materials Science chapter (draft v0.4): AI across the European materials lifecycle",
     "theme": "quantum_crystal",
-    "scale_axis_label": "Scale Ascension: From Quantum to Industry",
-    "scale_axis_description": "South-to-North corridor traversing 13 orders of magnitude from Sub-atomic Ångströms to Industrial Gigafactories"
+    "scale_axis_label": "Scale Ascension: From Atom to Fab",
+    "scale_axis_description": "South-to-North corridor following the chapter's integrated workflow: atomistic modelling and generative design propose candidates, characterisation and autonomous labs synthesise and validate them, production frameworks test manufacturability, safety and compliance. Spire height encodes the maturity the report assigns."
   },
   "districts": [
     {
       "id": "@dist-quantum",
-      "name": "ATOMISTIC MODELLING & QUANTUM SURROGATES",
+      "name": "AI-ENABLED MATERIALS MODELLING",
       "scale_label": "10^-10 m (Ångström)",
       "order": 1,
       "color": "#00f0ff",
       "glow": "rgba(0, 240, 255, 0.4)",
-      "description": "Overcoming the O(N^3) DFT scaling bottleneck using SE(3)/E(3)-equivariant neural potentials, MLIPs, and exascale electronic structure surrogates.",
-      "eu_infrastructures": ["NOMAD CoE", "MaX CoE", "EuroHPC Joint Undertaking", "Materials Cloud"]
+      "description": "Machine-learning interatomic potentials bridge DFT accuracy and classical-force-field speed, reaching device-scale models with hundreds of thousands to millions of atoms. Local (SOAP, ACE), graph and equivariant (NequIP, MACE) architectures, universal foundation potentials, and Bayesian/ensemble UQ. Database screening is routine; custom potentials for defects remain specialist work.",
+      "eu_infrastructures": ["EMMC", "NOMAD CoE", "FAIRmat (NFDI)", "AiiDA", "EuroHPC", "SuperMUC-NG (LRZ)", "DAEMON COST CA22154", "ERC HERO"]
     },
     {
       "id": "@dist-design",
-      "name": "GENERATIVE CRYSTAL & INVERSE DESIGN",
-      "scale_label": "10^-9 m (Nanoscale)",
+      "name": "INTELLIGENT MATERIALS DESIGN",
+      "scale_label": "10^-9 m (Unit Cell → Macromolecule)",
       "order": 2,
       "color": "#00e599",
       "glow": "rgba(0, 229, 153, 0.4)",
-      "description": "Direct inverse discovery replacing trial-and-error: periodic crystal diffusion models, compositional search, and multi-objective Pareto exploration.",
-      "eu_infrastructures": ["DiMAT", "PIONEER", "Alexandria Database"]
+      "description": "Inverse property-to-structure design with diffusion models, VAEs and GANs over crystals, polymers, porous frameworks and membranes; crystal GNNs (ALIGNN, MEGNet, M3GNet); materials LLMs (MatSciBERT, polyBERT, SteelBERT). Computational screening of inorganic crystals is mature; polymers, soft matter and membranes are at the proof-of-concept stage, and prediction-to-synthesis remains open.",
+      "eu_infrastructures": ["BATTERY 2030+", "GenAI4EU (HORIZON-CL4-INDUSTRY-2025-01-DIGITAL-61)", "GT4SD / IBM Research Europe", "ERC CoDe4Bio", "EuroHPC"]
     },
     {
       "id": "@dist-char",
-      "name": "DATA-DRIVEN CHARACTERISATION & SYNCHROTRONS",
-      "scale_label": "10^-6 m (Microscale)",
+      "name": "DATA-DRIVEN MATERIALS CHARACTERISATION",
+      "scale_label": "10^-9 – 10^-6 m (Atom Column → Grain)",
       "order": 3,
       "color": "#ffb700",
       "glow": "rgba(255, 183, 0, 0.4)",
-      "description": "High-throughput X-ray diffraction, TEM atomic defect segmentation, and real-time edge AI processing deployed directly at European synchrotron beamlines.",
-      "eu_infrastructures": ["ESRF", "DESY", "MAX IV", "European XFEL", "EOSC"]
+      "description": "Pixelated detectors in S/TEM and 4D-STEM, atom probe tomography and synchrotron beamlines produce GB/s–TB/s streams. CNNs, GANs and self-supervised denoisers restore low-dose images, map defects and reconstruct tomograms; PCA/NMF unmixing is routine; spectrum–structure–property models and TEM-GPT agents are emerging. Edge nodes at detectors close real-time feedback loops.",
+      "eu_infrastructures": ["ESRF", "DESY", "ALBA (TANGO)", "ILL", "ESS", "ESTEEM3", "e-DREAM", "IMPRESS", "InCAEM", "LEAPS / LENS"]
     },
     {
       "id": "@dist-closedloop",
-      "name": "AUTONOMOUS DISCOVERY & CLOSED-LOOP LABS",
-      "scale_label": "10^-2 m (Bench / Macro)",
+      "name": "CLOSED-LOOP EXPERIMENT ACCELERATION",
+      "scale_label": "10^-3 – 10^-1 m (Droplet → Bench)",
       "order": 4,
       "color": "#c040ff",
       "glow": "rgba(192, 64, 255, 0.4)",
-      "description": "Self-Driving Laboratories (SDLs) and Materials Acceleration Platforms (MAPs) running closed-loop Design-Make-Test-Analyze (DMTA) cycles via Bayesian active learning.",
-      "eu_infrastructures": ["BIG-MAP (Battery 2030+)", "A-Lab", "EMMC"]
+      "description": "Self-Driving Laboratories and Materials Acceleration Platforms run Design-Make-Test-Analyze loops with Bayesian optimisation, GP emulators, RL agents (AlphaFlow) and LLM agents (ChemCrow, Coscientist). Reported gains: 10–100× lower chemical and energy use and 5–20× acceleration. Narrow liquid-phase loops are mature; Level-4 general platforms are still custom research systems, and Level 5 has not been reached.",
+      "eu_infrastructures": ["BIG-MAP (BATTERY 2030+)", "SwissCAT+", "Materials 2030 / IAM4EU", "MaterialDigital (PMD)", "GC-MAC", "DIADEM", "ESFRI", "Clean Sky 2 JU"]
     },
     {
       "id": "@dist-fab",
-      "name": "LAB-TO-FAB & SUSTAINABLE MANUFACTURING",
-      "scale_label": "10^0 - 10^3 m (Gigafactory)",
+      "name": "AI FOR RESPONSIBLE & SCALABLE PRODUCTION",
+      "scale_label": "mg → kg → Fab",
       "order": 5,
       "color": "#3a86ff",
       "glow": "rgba(58, 134, 255, 0.4)",
-      "description": "Bridging laboratory discoveries to manufacturing: additive manufacturing digital twins, critical raw material substitution, process scale-up tolerances, and circular LCA.",
-      "eu_infrastructures": ["Made in Europe Partnership", "Raw Materials KIC", "EIT Manufacturing"]
+      "description": "Closing the lab-to-fab gap: autonomous pilot-scale platforms and Device Acceleration Platforms carry processability, cost and application benchmarks into early discovery; Safe and Sustainable by Design tools screen toxicity and guide PFAS substitution; human-centred Industry 5.0 manufacturing with AI-monitored additive manufacturing. Lab-to-fab and AI-assisted risk governance are at an early stage.",
+      "eu_infrastructures": ["Chemicals Strategy for Sustainability", "Zero-Pollution Action Plan", "Net-Zero Industry Act", "Industry 5.0 / Digital Decade 2030", "GenAI4EU (PFAS substitution)"]
     }
   ],
   "spires": [
     {
       "id": "@spire-nomad",
       "district_ref": "@dist-quantum",
-      "title": "NOMAD CoE & Materials Cloud",
-      "code": "QM-01",
-      "codename": "NOMAD CLOUD",
-      "scale_level": 0.85,
-      "metrics": {
-        "scale": "10^-10 m (Sub-atomic)",
-        "acceleration": "10^4x Data Throughput",
-        "infrastructure": "NOMAD / EuroHPC",
-        "maturity": "Operational Routine"
-      },
-      "abstract": "European flagship repository hosting 100M+ DFT calculations. Serves as the primary training bedrock for universal interatomic potentials and FAIR data sharing across European supercomputers."
-    },
-    {
-      "id": "@spire-chgnet",
-      "district_ref": "@dist-quantum",
-      "title": "CHGNet & Equivariant Potentials",
-      "code": "QM-02",
-      "codename": "CHGNET POTENTIALS",
+      "title": "NOMAD · FAIRmat · AiiDA FAIR Stack",
+      "code": "MOD-01",
+      "codename": "NOMAD STACK",
       "scale_level": 0.95,
       "metrics": {
-        "scale": "10^-10 m (Bond Lengths)",
-        "acceleration": "10^6x vs Ab Initio DFT",
-        "infrastructure": "MaX CoE",
-        "maturity": "Validated Production"
+        "scale": "10^-10 m (DFT calculations & workflows)",
+        "acceleration": "13M+ entries from 50+ atomistic codes",
+        "infrastructure": "NOMAD CoE / FAIRmat (NFDI) / AiiDA",
+        "maturity": "Routine practice"
       },
-      "abstract": "Pretrained crystal graph neural network incorporating explicit atomic charge states and magnetic moments. Enables microsecond-scale molecular dynamics with quantum-mechanical accuracy."
+      "abstract": "Europe's FAIR backbone for computational materials data. NOMAD holds more than 13 million entries from over 50 atomistic codes under a code-independent Metainfo schema, is maintained by FAIRmat, and is reachable through the OPTIMADE API and the cloud-based NOMAD AI Toolkit. AiiDA supplies reproducible workflow execution with enforced provenance across European supercomputing tiers. The report's recommendation on sovereign foundation models names this ecosystem as the source of verified training data."
     },
     {
-      "id": "@spire-aiida",
+      "id": "@spire-alexandria",
       "district_ref": "@dist-quantum",
-      "title": "AiiDA Workflow Orchestrator",
-      "code": "QM-03",
-      "codename": "AIIDA ORCHESTRATOR",
-      "scale_level": 0.75,
+      "title": "Alexandria Database & sAlex25",
+      "code": "MOD-02",
+      "codename": "ALEXANDRIA",
+      "scale_level": 0.9,
       "metrics": {
-        "scale": "10^-10 m (Workflows)",
-        "acceleration": "Automated Exascale Provenance",
-        "infrastructure": "AiiDA / EOSC",
-        "maturity": "Operational Routine"
+        "scale": "10^-10 m (Relaxed & off-equilibrium structures)",
+        "acceleration": "5.8M structures · 175k on hull · 14M sAlex25 configs",
+        "infrastructure": "ICAMS Bochum / SuperMUC-NG / ERC HERO",
+        "maturity": "Routine screening; 37–43% predicted disorder (ICSD 35%)"
       },
-      "abstract": "Automated interactive infrastructure managing computational graphs with complete cryptographic provenance, coordinating exascale materials simulations across heterogeneous HPC clusters."
+      "abstract": "Open DFT database of 5.8 million structures, 175 thousand of them on the convex hull, with the sAlex25 subsample of 14 million out-of-equilibrium configurations carrying forces and stresses for potential training. Multi-stage generative workflows built on it reach up to 99% success within 100 meV/atom of the hull; the report stresses that this is a computational stability metric, not experimental success. Its predicted substitutional-disorder rate (37–43%) is close to the experimental ICSD (35%), compared with 80–84% for GNoME. Known artefacts include PAW convergence problems for Eu, Gd, Yb and Lu and a substitution bias toward oxides and hydrides."
     },
     {
-      "id": "@spire-mattergen",
-      "district_ref": "@dist-design",
-      "title": "MatterGen & Crystal Diffusion Core",
-      "code": "GEN-01",
-      "codename": "MATTERGEN CORE",
-      "scale_level": 0.90,
+      "id": "@spire-umlip",
+      "district_ref": "@dist-quantum",
+      "title": "Universal & Equivariant MLIPs",
+      "code": "MOD-03",
+      "codename": "UNIVERSAL MLIP",
+      "scale_level": 0.82,
       "metrics": {
-        "scale": "10^-9 m (Unit Cell)",
-        "acceleration": "10^5x Search Space Compression",
-        "infrastructure": "DiMAT Consortium",
-        "maturity": "Pilot Validated"
+        "scale": "10^-10 m → device-scale (10^5–10^6 atoms)",
+        "acceleration": "DFT accuracy at classical-force-field cost",
+        "infrastructure": "GPU clusters / EuroHPC",
+        "maturity": "Foundation models emerging; custom fitting is specialist"
       },
-      "abstract": "Generative diffusion model directly producing periodic 3D crystal structures conditioned on arbitrary property prompts (target bandgap, magnetic ordering, density), breaking the empirical trial-and-error cycle."
+      "abstract": "Local MLIPs (SOAP, ACE), message-passing graph MLIPs, and equivariant architectures (NequIP, MACE) favoured for data efficiency, plus universal foundation potentials M3GNet, CHGNet, ORB-v2 and GRACE-2 that give out-of-the-box accuracy across chemistries. The report adds an explicit caveat: equivariance does not guarantee energy conservation, and forces are conservative only when computed as F = −∇E. Open frontiers are long-range electrostatics, magnetism and spin, and fine-tuning on out-of-equilibrium data, which remains specialist work."
     },
     {
       "id": "@spire-gnome",
       "district_ref": "@dist-design",
-      "title": "GNoME Scale Discovery Engine",
-      "code": "GEN-02",
-      "codename": "GNOME ENGINE",
-      "scale_level": 0.95,
+      "title": "GNoME Scale Discovery",
+      "code": "DES-01",
+      "codename": "GNOME",
+      "scale_level": 0.8,
       "metrics": {
-        "scale": "10^-9 m (Lattice Inorganics)",
-        "acceleration": "2.2M New Crystal Predictions",
-        "infrastructure": "Global / EU Academic",
-        "maturity": "High-Impact Benchmark"
+        "scale": "10^-9 m (Inorganic crystals, ≥5 elements)",
+        "acceleration": "2.2M structures · 10× catalogue of stable materials",
+        "infrastructure": "Google DeepMind / Materials Project",
+        "maturity": "Mature computational screening; 80–84% predicted disorder"
       },
-      "abstract": "Graph Network for Materials Exploration scaling candidate generation to millions of thermodynamically viable inorganic crystals, expanding human knowledge of stable compounds by an order of magnitude."
+      "abstract": "Graph networks for materials exploration expanded the catalogue of stable inorganic materials by an order of magnitude, to 2.2 million structures, pushing into multi-element 'unknown unknowns' beyond human intuition. The report reads this as a sign that computational structure prediction is mature and scalable, not as experimental discovery. Many of the multi-element compounds may be disordered versions of known phases rather than new ordered ones, and synthesizability, kinetic accessibility and property validation remain open."
     },
     {
-      "id": "@spire-flowllm",
+      "id": "@spire-mattergen",
       "district_ref": "@dist-design",
-      "title": "FlowLLM & Chemical NLP Suite",
-      "code": "GEN-03",
-      "codename": "FLOWLLM MINING",
-      "scale_level": 0.70,
+      "title": "MatterGen & FlowLLM Diffusion",
+      "code": "DES-02",
+      "codename": "MATTERGEN",
+      "scale_level": 0.66,
       "metrics": {
-        "scale": "10^-9 m (Recipe Mining)",
-        "acceleration": "500k Patents Parsed / Day",
-        "infrastructure": "Open Science NLP",
-        "maturity": "Active Adoption"
+        "scale": "10^-9 m (Periodic unit cell)",
+        "acceleration": "SUN structures 10× closer to local minima",
+        "infrastructure": "GenAI4EU / open diffusion toolkits",
+        "maturity": "Emerging; SUN novelty contested"
       },
-      "abstract": "Domain-adapted large language models extracting structured synthesis recipes, reaction conditions, and phase stability facts directly from millions of scientific papers and patent filings."
+      "abstract": "Diffusion models that reverse a corruption process to generate periodic crystals conditioned on target properties, producing stable, unique and new (SUN) materials about ten times closer to local energy minima than earlier generators. The report now qualifies SUN as database-matching novelty: a re-analysis showed that MatterGen's TaCr2O6 example is a known disordered rutile phase already in the training data (Juelsholt 2026). Generative crystal models also over-produce low-symmetry P1 structures."
     },
     {
-      "id": "@spire-esrf-edge",
+      "id": "@spire-polymer",
+      "district_ref": "@dist-design",
+      "title": "Polymer & Membrane Inverse Design",
+      "code": "DES-03",
+      "codename": "POLYMER GENOME",
+      "scale_level": 0.6,
+      "metrics": {
+        "scale": "10^-9 – 10^-7 m (Macromolecules, networks)",
+        "acceleration": "> 10^30 candidate configurations",
+        "infrastructure": "PolyInfo / PI1M / polyVERSE / Open Membrane Database",
+        "maturity": "Infancy / proof-of-concept"
+      },
+      "abstract": "Frameworks such as polyG2G, Virtual Forward Synthesis and flowsheet autocompletion generate polymer dielectrics and membrane separation processes on demand. polyBERT embeddings and multi-fidelity training compensate for small data, and machine-learned coarse-grained force fields try to bridge nanosecond MD and hour-scale shape-memory recovery. VFS screens out candidates that cannot be synthesized, are toxic, or cannot be recycled before any wet-lab work. The report places polymers, soft matter and membranes at the proof-of-concept stage."
+    },
+    {
+      "id": "@spire-4dstem",
       "district_ref": "@dist-char",
-      "title": "ESRF Synchrotron Edge AI Pipeline",
+      "title": "4D-STEM & Electron Microscopy Vision",
       "code": "CHR-01",
-      "codename": "ESRF BEAMLINE AI",
-      "scale_level": 0.95,
+      "codename": "4D-STEM VISION",
+      "scale_level": 0.8,
       "metrics": {
-        "scale": "10^-6 m (Beamline Focus)",
-        "acceleration": "Real-time Gigabyte/s Streams",
-        "infrastructure": "ESRF / DESY / MAX IV",
-        "maturity": "Validated Deployment"
+        "scale": "10^-12 – 10^-9 m (Sub-picometre defect mapping)",
+        "acceleration": "TB/s detector streams, beyond manual capacity",
+        "infrastructure": "ESTEEM3 / e-DREAM / IMPRESS",
+        "maturity": "Specialist use; PCA/NMF unmixing routine"
       },
-      "abstract": "In-situ deep learning deployed directly on beamline detectors, executing instantaneous 2D-to-3D diffraction unmixing and real-time phase identification during operando heating experiments."
+      "abstract": "Pixelated detectors produce the high-dimensional signals behind 4D-STEM at rates that exceed human analysis. CNNs, GANs, CycleGAN and self-supervised Noise2SR and SHINE restore low-dose images of beam-sensitive materials, locate atom columns, and segment vacancies, dopants and grain boundaries; open libraries such as AtomAI and DScribe make these methods reusable. Automated 3D tomography and 4D-STEM handling are still confined to specialist groups, and TEM-GPT generalist agents are emerging."
     },
     {
-      "id": "@spire-tem-vision",
+      "id": "@spire-apt",
       "district_ref": "@dist-char",
-      "title": "Atomic TEM & APT Defect Vision",
+      "title": "Atom Probe Tomography ML",
       "code": "CHR-02",
-      "codename": "ATOMIC TEM VISION",
-      "scale_level": 0.80,
+      "codename": "ATOM PROBE",
+      "scale_level": 0.7,
       "metrics": {
-        "scale": "10^-9 - 10^-6 m (Sub-nanometer)",
-        "acceleration": "100x vs Manual Annotation",
-        "infrastructure": "European Microscopy Network",
-        "maturity": "Operational PoC"
+        "scale": "10^-9 m (Chemical short-range order at 1 nm)",
+        "acceleration": "Removes operator-dependent mass-peak ranging",
+        "infrastructure": "FAIRmat NeXus APT ontology",
+        "maturity": "Emerging / specialist"
       },
-      "abstract": "Computer vision pipelines performing sub-pixel atom column tracking, dislocation recognition, and atomic probe tomography (APT) reconstruction with quantified uncertainty."
+      "abstract": "ML-ToF assigns mass-spectrum peaks and ML-APX identifies crystallographic poles, replacing the subjective ranging-interval choices that make APT results vary between operators. This resolves elusive chemical short-range order down to about 1 nm and supports reproducibility across laboratories. FAIRmat is implementing NeXus ontologies to standardise APT post-processing, making it one of the few characterisation techniques with a standardisation path toward FAIR AI pipelines."
     },
     {
-      "id": "@spire-cdm",
+      "id": "@spire-beamline-edge",
       "district_ref": "@dist-char",
-      "title": "Common Data Model (CDM) Hub",
+      "title": "Beamline Edge AI & Self-Driving Microscopes",
       "code": "CHR-03",
-      "codename": "CDM STANDARDS",
-      "scale_level": 0.75,
+      "codename": "BEAMLINE EDGE",
+      "scale_level": 0.72,
       "metrics": {
-        "scale": "10^-6 m (Standardization)",
-        "acceleration": "Pan-European Interoperability",
-        "infrastructure": "EOSC / EMMC",
-        "maturity": "Standardization Phase"
+        "scale": "10^-9 – 10^-6 m (Operando probes)",
+        "acceleration": "Real-time preprocessing at GB/s",
+        "infrastructure": "ESRF / DESY / ALBA (TANGO) / ILL / ESS",
+        "maturity": "Emerging / proof-of-concept"
       },
-      "abstract": "Harmonized semantic schema aligning spectroscopic, diffraction, and microscopy metadata across European characterisation facilities, ensuring machine-actionable FAIR repositories."
+      "abstract": "Edge computers attached to detectors handle low-latency preprocessing, automatic region-of-interest selection and autonomous optics alignment, choosing measurement points with Bayesian active learning or reinforcement learning. Europe's synchrotron and neutron sources produce petabyte-scale ground truth for training and validating materials AI. Integration with standard control systems, such as TANGO at ALBA, opens these experiments to non-experts. The limits are distribution shift across detectors and calibrations, and the energy cost of large multimodal models."
     },
     {
       "id": "@spire-alab",
       "district_ref": "@dist-closedloop",
-      "title": "A-Lab Autonomous Synthesis Core",
-      "code": "MAP-01",
-      "codename": "A-LAB SYNTHESIS",
-      "scale_level": 0.95,
+      "title": "A-Lab & Level-4 SDL Platforms",
+      "code": "CLP-01",
+      "codename": "A-LAB",
+      "scale_level": 0.68,
       "metrics": {
-        "scale": "10^-2 m (Bench Scale)",
-        "acceleration": "168 Samples / Week Continuous",
-        "infrastructure": "Autonomous Lab Alliances",
-        "maturity": "Pioneering Operation"
+        "scale": "10^-2 m (Powder synthesis bench)",
+        "acceleration": "24/7 · 168 samples/week",
+        "infrastructure": "A-Lab / SwissCAT+ / AMANDA",
+        "maturity": "Level-4 proof-of-concept; phase ID questioned"
       },
-      "abstract": "Fully automated solid-state synthesis laboratory combining active learning decision-makers, robotic arms for powder weighing, automated furnace heating, and XRD validation without human intervention."
+      "abstract": "Broad Level-4 platforms such as A-Lab, SwissCAT+ and AMANDA combine literature parsing, robotic dosing and calcination, and CNN-based XRD phase identification into closed synthesis loops. They remain custom research systems, not turnkey instruments. The report records that a later analysis found A-Lab's automated phase identification largely unsuccessful (Leeman 2024), and it names the prediction-to-synthesis link as the key open problem."
     },
     {
       "id": "@spire-bigmap",
       "district_ref": "@dist-closedloop",
-      "title": "BIG-MAP / Battery 2030+ Hub",
-      "code": "MAP-02",
-      "codename": "BIG-MAP BATTERIES",
-      "scale_level": 0.90,
+      "title": "BIG-MAP / BATTERY 2030+",
+      "code": "CLP-02",
+      "codename": "BIG-MAP",
+      "scale_level": 0.78,
       "metrics": {
-        "scale": "10^-2 m (Electrode Interface)",
-        "acceleration": "10x Battery Discovery Pace",
-        "infrastructure": "Battery 2030+ Flagship",
-        "maturity": "Strategic European Flagship"
+        "scale": "10^-2 m (Electrode–electrolyte interface)",
+        "acceleration": "5–10× discovery-rate target",
+        "infrastructure": "BATTERY 2030+ / IAM4EU / LEAPS–LENS",
+        "maturity": "European flagship MAP"
       },
-      "abstract": "European initiative creating an accelerated discovery platform for next-generation solid-state batteries, integrating multi-scale simulation, automated synthesis, and operando interface tracking."
+      "abstract": "Europe's flagship Materials Acceleration Platform for batteries. It pairs multiscale modelling with closed-loop robotics through the Battery Interface Genome and the BattINFO ontology under a chemistry-neutral roadmap. Its target is a 5–10× faster discovery rate and a shared European data infrastructure for autonomous research, with high-throughput results checked at LEAPS synchrotron and LENS neutron facilities. The Materials 2030 roadmap extends the model into IAM4EU, a network linking national acceleration platforms."
     },
     {
-      "id": "@spire-microfluidics",
+      "id": "@spire-flow-sdl",
       "district_ref": "@dist-closedloop",
-      "title": "Microfluidic Continuous Flow MAP",
-      "code": "MAP-03",
-      "codename": "MICROFLUIDIC MAP",
-      "scale_level": 0.80,
+      "title": "Microfluidic SDLs & AlphaFlow",
+      "code": "CLP-03",
+      "codename": "FLOW REACTOR",
+      "scale_level": 0.86,
       "metrics": {
-        "scale": "10^-3 m (Droplet Reactor)",
-        "acceleration": "100x Reagent Conservation",
-        "infrastructure": "Advanced Materials Hubs",
-        "maturity": "Validated Lab Scale"
+        "scale": "10^-3 m (Droplet / flow reactor)",
+        "acceleration": "100–1,200 samples/hr · 10–100× less reagent",
+        "infrastructure": "Flow chemistry & nanocrystal SDLs",
+        "maturity": "Specialised, routinely deployed"
       },
-      "abstract": "Continuous flow microfluidic platform optimized via multi-objective Bayesian optimization, discovering semiconductor quantum dots and nanoparticles with tight polydispersity control."
+      "abstract": "Microfluidic process intensification for colloidal quantum dots, metal-halide perovskites and polymer–protein hybrids, steered by GP-based Bayesian optimisation and by reinforcement-learning agents such as AlphaFlow for multi-step synthesis. Custom loops for liquid-phase reactions are among the most mature parts of the closed-loop theme, cutting chemical and energy use 10–100×. Reactor fouling and clogging are the recurring failure modes."
     },
     {
-      "id": "@spire-additive-twin",
+      "id": "@spire-aplab",
+      "district_ref": "@dist-fab",
+      "title": "AP-Lab & Device Acceleration Platforms",
+      "code": "FAB-01",
+      "codename": "AP-LAB",
+      "scale_level": 0.66,
+      "metrics": {
+        "scale": "mg → kg batches",
+        "acceleration": "~50,000 tests per batch",
+        "infrastructure": "Island-structured pilot platforms",
+        "maturity": "Emerging / proof-of-concept"
+      },
+      "abstract": "Autonomous pilot-scale workstations with agent control that combine local industrial datasets, in-line process monitoring and application benchmarks such as PCR Ct values, carrying milligram-scale results to kilogram batches. Device Acceleration Platforms extend self-driving labs into device fabrication and long-term stability testing, so that processability is measured from the start. The report treats this as the leading blueprint for closing the lab-to-fab gap, but still at an early stage."
+    },
+    {
+      "id": "@spire-am-twin",
       "district_ref": "@dist-fab",
       "title": "Additive Manufacturing Digital Twin",
-      "code": "IND-01",
-      "codename": "ADDITIVE TWIN",
-      "scale_level": 0.90,
+      "code": "FAB-02",
+      "codename": "AM TWIN",
+      "scale_level": 0.78,
       "metrics": {
-        "scale": "10^-1 - 10^0 m (Turbine Blade)",
-        "acceleration": "70% Reduction in Scrap",
-        "infrastructure": "Made in Europe Partnership",
-        "maturity": "Industrial Pilot"
+        "scale": "10^-2 – 10^0 m (Printed parts & metamaterials)",
+        "acceleration": "Sub-ms closed-loop defect correction",
+        "infrastructure": "5G / IIoT / FPGA edge · Industry 5.0",
+        "maturity": "Cobots established; physics-informed DTs emerging"
       },
-      "abstract": "Physics-informed neural operator simulating laser powder bed fusion (LPBF), predicting melt pool porosity, residual stresses, and microstructural evolution in aerospace superalloys."
+      "abstract": "Multiphysics digital twins fuse acoustic, thermal and optical sensor streams through PINNs and U-Net segmentation to detect defects in real time, re-plan toolpaths and correct the process during printing. They also drive NSGA-II inverse design of 3D and 4D printed adaptive metamaterials. The Industry 5.0 framing puts human–machine collaboration at the centre: AI cobots are already established in large manufacturers, while edge preprocessing over 5G/6G keeps control latency below what cloud round-trips allow."
     },
     {
-      "id": "@spire-crm-substitute",
+      "id": "@spire-ssbd",
       "district_ref": "@dist-fab",
-      "title": "Critical Raw Material Substitute Core",
-      "code": "IND-02",
-      "codename": "CRM SUBSTITUTION",
-      "scale_level": 0.85,
+      "title": "SSbD & PFAS Substitution Toolkit",
+      "code": "FAB-03",
+      "codename": "SAFE BY DESIGN",
+      "scale_level": 0.62,
       "metrics": {
-        "scale": "10^0 m (Motor Stator)",
-        "acceleration": "Zero Cobalt / Zero Dysprosium",
-        "infrastructure": "Raw Materials KIC",
-        "maturity": "Strategic Deployment"
+        "scale": "Full material lifecycle",
+        "acceleration": "Early risk identification before scale-up",
+        "infrastructure": "Chemicals Strategy for Sustainability / GenAI4EU",
+        "maturity": "Early / developing"
       },
-      "abstract": "AI-accelerated compositional screening for permanent magnets and fuel cell catalysts that eliminate reliance on critical raw materials subject to geopolitical supply bottlenecks."
-    },
-    {
-      "id": "@spire-circular-lca",
-      "district_ref": "@dist-fab",
-      "title": "Circular LCA & Eco-Design Platform",
-      "code": "IND-03",
-      "codename": "CIRCULAR ECO-LCA",
-      "scale_level": 0.75,
-      "metrics": {
-        "scale": "10^3 m (Gigafactory Lifecycle)",
-        "acceleration": "Automated Scope 3 Accounting",
-        "infrastructure": "EIT Manufacturing",
-        "maturity": "Emerging Mandate"
-      },
-      "abstract": "Machine learning system embedding carbon footprint, solvent toxicity, and hydrometallurgical recycling yield directly as objective constraints during generative candidate generation."
+      "abstract": "Machine learning inside Safe and Sustainable by Design frameworks: categorising advanced materials, multi-dimensional similarity assessment, computational exposure models, toxicity-data quality checks, and guided substitution of PFAS and other restricted substances. It is tied to digital material passports and sustainability ontologies that follow a material through its value chain. The report presents it as Europe's main tool against the regulatory pacing problem."
     }
   ],
   "bottlenecks": [
     {
       "id": "@bneck-dark-data",
-      "title": "Dark Data & Negative Reporting Bias",
+      "title": "Dark Data: Negative-Result Reporting Bias",
       "code": "BOT-01",
       "codename": "DARK DATA",
       "district_ref": "@dist-quantum",
-      "nature": "Epistemic Bias & Skewed Priors",
-      "impact": "Literature published over decades records almost exclusively successful syntheses. The omission of negative results systematically warps model priors, producing high false-positive rates during virtual screening.",
-      "remedy": "Standardized deposition of failed synthesis logs and negative XRD spectra in NOMAD and AiiDA."
+      "severity": 0.95,
+      "nature": "Epistemic — systematically skewed training sets",
+      "impact": "Failed experiments and 'dark reactions' are almost never published, so literature-derived datasets are unbalanced in every theme. This distorts parameter spaces, raises false-positive rates in predictive screening, and limits what models trained on the literature can learn. The Conclusion lists it first among the common challenges.",
+      "remedy": "A cultural shift in which clean, well-annotated data, including negative results, counts as much as a publication; FAIR deposition with standard metadata (NOMAD Metainfo, SOPs, machine-readable handbooks); continuous in-situ logging in closed-loop campaigns."
     },
     {
-      "id": "@bneck-synth-gap",
-      "title": "The 'Synthesizability Gap'",
+      "id": "@bneck-ood",
+      "title": "Out-of-Distribution Fragility & PES Data Scarcity",
       "code": "BOT-02",
-      "codename": "SYNTHESIS GAP",
-      "district_ref": "@dist-design",
-      "nature": "Thermodynamics vs Kinetics Mismatch",
-      "impact": "Diffusion and GNN models propose millions of crystals with low energy above the convex hull, but physical labs fail to synthesize them due to insurmountable kinetic barriers or phase separation.",
-      "remedy": "Integrating nucleation kinetics and precursor-matching heuristics directly into generative loss functions."
+      "codename": "OOD FRAGILITY",
+      "district_ref": "@dist-quantum",
+      "severity": 0.85,
+      "nature": "Epistemic — generalisation gap",
+      "impact": "Models become unreliable on atomic environments, elements, out-of-equilibrium states or experimental noise absent from training. High-fidelity meta-GGA, hybrid and CCSD(T) potential-energy data is scarce, with CCSD(T) limited to small cells. Inconsistent convergence settings across codes add further noise, and deep models give no explicit physical guarantees.",
+      "remedy": "Separate aleatoric from epistemic uncertainty with Bayesian and ensemble UQ; use uncertainty-driven active learning to sample new configurations; build physical conservation laws and invariants into architectures; validate externally before any regulatory or safety-critical use."
     },
     {
-      "id": "@bneck-gc-latency",
-      "title": "Analytical Rate-Limiter: 232-min GC Latency",
+      "id": "@bneck-novelty-mirage",
+      "title": "The Novelty Mirage: Disorder & Symmetry Bias",
       "code": "BOT-03",
-      "codename": "232m GC LAG",
-      "district_ref": "@dist-closedloop",
-      "nature": "Physical Speed Asymmetry",
-      "impact": "AI Bayesian agents compute the next optimal experiment in 50 milliseconds, but physical characterisation (such as online gas chromatography) takes up to 232 minutes per batch, stalling autonomous loops.",
-      "remedy": "Surrogate spectroscopic screening (Raman/UV-Vis) to filter candidates before slow GC confirmation."
+      "codename": "NOVELTY MIRAGE",
+      "district_ref": "@dist-design",
+      "severity": 0.75,
+      "nature": "Epistemic — database-matching vs experimental novelty",
+      "impact": "'New' generated crystals are often disordered forms of known phases. GNoME's predicted substitutional-disorder rate is 80–84%, against 35% in the experimental ICSD, and MatterGen's showcase TaCr2O6 turned out to be a known disordered rutile. Diffusion models also over-produce P1 structures. The result is catalogues that look large on paper but contain few genuinely new phases.",
+      "remedy": "Disorder-aware structure matching, independent crystallographic and experimental verification before novelty claims, symmetry-aware generation, and Virtual Forward Synthesis to remove candidates that cannot be synthesized."
     },
     {
-      "id": "@bneck-robot-jams",
-      "title": "Mechatronic Fragility & ~3.9% Robotic Error Rate",
+      "id": "@bneck-vendor-lock",
+      "title": "Proprietary Instrument Formats & Vendor Lock-In",
       "code": "BOT-04",
-      "codename": "ROBOT JAMS",
-      "district_ref": "@dist-closedloop",
-      "nature": "Hardware Exception & Viscosity Fails",
-      "impact": "Non-zero hardware exception rates (~3.9%) during solid powder dispensing, pipette clogging, or microfluidic fouling frequently abort unattended 24/7 autonomous exploration campaigns.",
-      "remedy": "Computer-vision self-healing routines, automated wash cycles, and robotic grip anomaly detection."
+      "codename": "VENDOR LOCK",
+      "district_ref": "@dist-char",
+      "severity": 0.7,
+      "nature": "Structural — closed data formats",
+      "impact": "Instrument-specific formats such as GMS and Velox, together with black-box vendor analysis platforms, drop essential context and block universal AI workflows. Open libraries (AtomAI, RamanSPy) are hard to maintain across hardware generations, and cross-facility analytics stop at the file boundary.",
+      "remedy": "Mandate open NeXus, HDF5 and USID structures with semantic ontologies (for example FAIRmat's NeXus APT work), standard control interfaces such as TANGO, and DOIs for datasets and workflows."
     },
     {
-      "id": "@bneck-ip-silos",
-      "title": "Industrial IP Silos vs Synthetic Academic Data",
+      "id": "@bneck-physical-throttle",
+      "title": "Physical Throttle: 232-min GC & ~3.9% Robot Exceptions",
       "code": "BOT-05",
-      "codename": "IP SILOS",
+      "codename": "232-MIN GC",
+      "district_ref": "@dist-closedloop",
+      "severity": 0.8,
+      "nature": "Physical — analytical & mechanical rate-limiters",
+      "impact": "Closed loops move only as fast as their slowest analytical step: online gas chromatography takes up to 232 minutes per batch. Sample transport latency, microfluidic clogging and fouling, manual powder preparation, and a ~3.9% hardware exception rate during robotic handling interrupt unattended 24/7 campaigns.",
+      "remedy": "Faster in-line characterisation, microfluidic process intensification, robust automated preparation of solid samples (dosing, calcination, XRD/XRF mounting), and exception handling built into orchestration."
+    },
+    {
+      "id": "@bneck-middleware",
+      "title": "Middleware Silos: Missing Open Hardware Standards",
+      "code": "BOT-06",
+      "codename": "MIDDLEWARE SILOS",
+      "district_ref": "@dist-closedloop",
+      "severity": 0.9,
+      "nature": "Structural — the single greatest SDL bottleneck",
+      "impact": "Open standards exist (OPC UA, with its LADS companion specification for laboratory devices), but vendors have adopted them only partly, legacy systems persist, and there is no semantic harmonisation. Every combination of robot arm, reactor and analyser therefore needs custom middleware (ChemOS, Helao, FINALES), producing fragmented stacks that limit full closed-loop control across distributed MAPs. The Conclusion calls this the primary technical hurdle.",
+      "remedy": "Accelerate adoption of OPC-UA/LADS and SiLA2; standard procedure languages (χDL); JSON-LD/RDF experiment metadata; tighter links to higher-level SDL orchestration."
+    },
+    {
+      "id": "@bneck-lab-to-fab",
+      "title": "The Lab-to-Fab Gap & Industrial Data Scarcity",
+      "code": "BOT-07",
+      "codename": "LAB-TO-FAB GAP",
       "district_ref": "@dist-fab",
-      "nature": "Data Access & Secrecy Wall",
-      "impact": "Academic AI is trained on pristine idealized DFT simulations, while real-world factory scrap rates, nozzle fouling, and chemical batch variations remain strictly proprietary trade secrets.",
-      "remedy": "Federated privacy-preserving machine learning and trusted European data spaces (EOSC/EIT)."
+      "severity": 0.85,
+      "nature": "Translational — lab optima vs manufacturable space",
+      "impact": "Models trained on academic DFT metrics ignore solvent toxicity, raw-material scarcity and process tolerances, so they return 'optimal' materials that are impractical or too expensive at scale. Yields become inconsistent during scale-up, and the industrial datasets that map manufacturable regions stay proprietary.",
+      "remedy": "Optimise performance and manufacturability together from the first iteration; use application-oriented benchmarks such as PCR Ct; validate on autonomous pilot-scale platforms and DAPs before mass production."
+    },
+    {
+      "id": "@bneck-synthetic-fraud",
+      "title": "Synthetic Data Fraud & Provenance Erosion",
+      "code": "BOT-08",
+      "codename": "SYNTHETIC FRAUD",
+      "district_ref": "@dist-fab",
+      "severity": 0.65,
+      "nature": "Integrity — undetectable generated evidence",
+      "impact": "AI-generated microscopy images and manipulated code can no longer be told apart from real data by experts, and the report cites analytical error rates of 20–30% in published literature. This contaminates the evidence that industrial adoption and regulation depend on.",
+      "remedy": "Standard raw-instrument data structures (Minimal Arrangement of Instrument Files, MAIF), automated AI fraud detection, and audited raw-to-processed data trails before industrial deployment."
     }
   ],
   "challenges": [
     {
-      "id": "@chal-crm-act",
-      "title": "EU Critical Raw Materials Act (CRMA)",
+      "id": "@chal-mev-polymorphs",
+      "title": "Chemical Accuracy vs Efficiency at the meV Scale",
       "code": "PRIO-01",
-      "codename": "RAW MATERIALS",
-      "district_ref": "@dist-fab",
-      "type": "European Policy Mandate",
-      "target": "Achieve strategic technological sovereignty by substituting 100% of imported heavy rare earths and reducing cobalt in EV batteries by 2030."
-    },
-    {
-      "id": "@chal-chips-act",
-      "title": "European Chips Act & Novel Semiconductors",
-      "code": "PRIO-02",
-      "codename": "CHIPS ACT",
+      "codename": "MEV POLYMORPHS",
       "district_ref": "@dist-quantum",
-      "type": "European Industrial Strategy",
-      "target": "Accelerate discovery of ultra-wide bandgap semiconductors (GaN, SiC, diamond) and 2D dielectric heterostructures for energy-efficient computing."
+      "impact_scale": 0.7,
+      "type": "Frontier Question",
+      "target": "Resolve meV-per-atom energy differences between polymorphs while keeping the speed needed for microsecond simulations; capture rare events and transition states with uncertainty-driven sampling; add long-range electrostatics, magnetism and spin without the full cost of equivariant models."
     },
     {
-      "id": "@chal-multiscale",
-      "title": "Grand Scientific Challenge: Multi-Scale Coupling",
-      "code": "PRIO-03",
-      "codename": "MULTISCALE",
-      "district_ref": "@dist-design",
-      "type": "Fundamental Frontier",
-      "target": "Seamlessly bridge 10 orders of magnitude in space and 15 in time: from quantum wavefunctions (10^-10 m) to mechanical fatigue of aerospace structures (10^0 m)."
+      "id": "@chal-sim-to-real",
+      "title": "Closing the Simulation-to-Real Gap in Characterisation",
+      "code": "PRIO-02",
+      "codename": "SIM-TO-REAL",
+      "district_ref": "@dist-char",
+      "impact_scale": 0.75,
+      "type": "Methodological Challenge",
+      "target": "Make models trained on DFT spectra and kinematic diffraction work on real samples despite noise, drift, beam damage and processing history, using self-supervised denoising, transfer learning and physics-guided explainable AI that experimentalists can trust."
     },
     {
       "id": "@chal-activity-cliffs",
-      "title": "Scientific Frontier: Resolving Activity Cliffs",
-      "code": "PRIO-04",
+      "title": "Resolving Activity Cliffs",
+      "code": "PRIO-03",
       "codename": "ACTIVITY CLIFFS",
-      "district_ref": "@dist-char",
-      "type": "Methodological Challenge",
-      "target": "Detect ultra-sensitive non-linear performance jumps where substituting a single dopant atom in a 100-atom supercell dramatically shifts Tc or dielectric breakdown."
+      "district_ref": "@dist-design",
+      "impact_scale": 0.65,
+      "type": "Frontier Question",
+      "target": "Detect non-linear property jumps, where a small atomic or molecular change shifts yield strength, dielectric breakdown or Tc sharply, instead of statistical models smoothing over narrow peaks; move from correlation to physics-informed causal models of synthesis and stability."
     },
     {
-      "id": "@chal-netzero",
-      "title": "Net-Zero Industry Act & Circular Chemistry",
-      "code": "PRIO-05",
-      "codename": "NET-ZERO",
+      "id": "@chal-pacing-problem",
+      "title": "Regulatory Pacing Problem & SSbD",
+      "code": "PRIO-04",
+      "codename": "PACING PROBLEM",
       "district_ref": "@dist-fab",
-      "type": "Sustainability Mandate",
-      "target": "Enforce cradle-to-gate carbon intensity and zero-toxic solvent penalties into AI discovery loops before materials reach pilot-line testing."
+      "impact_scale": 0.7,
+      "type": "European Policy Mandate",
+      "target": "Use AI horizon scanning and early risk identification so that environmental, health and industrial viability is assessed before materials reach the market, in line with the Chemicals Strategy for Sustainability, the Zero-Pollution Action Plan and GenAI4EU's PFAS-substitution focus."
+    },
+    {
+      "id": "@chal-sovereign-fm",
+      "title": "Sovereign Open Foundation Models for Materials",
+      "code": "PRIO-05",
+      "codename": "SOVEREIGN FM",
+      "district_ref": "@dist-quantum",
+      "impact_scale": 0.9,
+      "type": "Strategic Recommendation",
+      "target": "European open-source foundation models for chemistry and materials, trained on verified high-fidelity data curated through NOMAD, FAIRmat and AiiDA and funded through the GenAI4EU call HORIZON-CL4-INDUSTRY-2025-01-DIGITAL-61, covering PFAS alternatives, high-capacity batteries and photovoltaics."
+    },
+    {
+      "id": "@chal-level5",
+      "title": "From Level-4 Platforms to Level-5 Autonomy",
+      "code": "PRIO-06",
+      "codename": "LEVEL 5",
+      "district_ref": "@dist-closedloop",
+      "impact_scale": 0.6,
+      "type": "Frontier Question",
+      "target": "Replace 'blind' Bayesian optimisation with agents that combine LLM reasoning (ChemCrow, Coscientist) and physics-informed models, moving from narrow Level 2–4 loops toward an autonomous AI researcher capable of self-guided hypothesis generation, a goal the report says has not been reached."
+    },
+    {
+      "id": "@chal-cloud-labs",
+      "title": "Federated European Cloud Laboratories",
+      "code": "PRIO-07",
+      "codename": "CLOUD LABS",
+      "district_ref": "@dist-closedloop",
+      "impact_scale": 0.85,
+      "type": "Strategic Recommendation",
+      "target": "Open up platforms costing over $1M each through shared European user facilities run like HPC centres, with remote cloud-lab access, OPTIMADE/NeXus/USID/HDF5 schemas and interdisciplinary doctoral training, while managing IIoT cybersecurity, dual-use and AI-invention patentability risks."
     }
   ],
   "conduits": [
     {
-      "id": "@conduit-quantum-potentials",
-      "name": "Quantum Potential Superhighway",
+      "id": "@conduit-salex-training",
+      "name": "Off-Equilibrium Training Feed",
       "code": "HW-01",
-      "codename": "QUANTUM FEED",
-      "from": "@spire-nomad",
-      "to": "@spire-mattergen",
-      "type": "Electronic Structure Feed",
-      "bandwidth": "Millions of Relaxed PES Geometries",
-      "description": "High-throughput DFT databases continuously stream energy and force tensors into generative diffusion models to calibrate stable chemical space. Without this continuous quantum calibration, crystal generation rapidly degenerates into unphysical geometries."
+      "codename": "SALEX FEED",
+      "from": "@spire-alexandria",
+      "to": "@spire-umlip",
+      "type": "Training Data Stream",
+      "bandwidth": "14M sAlex25 configurations with forces & stresses",
+      "description": "Relaxation trajectories and out-of-equilibrium configurations from Alexandria train and fine-tune universal potentials (for example GRACE-2). The report singles out this out-of-equilibrium data as the scarce input that determines how well a potential transfers."
+    },
+    {
+      "id": "@conduit-stability-screen",
+      "name": "ML-Accelerated Stability Screening",
+      "code": "HW-02",
+      "codename": "STABILITY SCREEN",
+      "from": "@spire-umlip",
+      "to": "@spire-gnome",
+      "type": "Model-to-Model Evaluation",
+      "bandwidth": "Billions of ML-accelerated structure evaluations",
+      "description": "Universal potentials replace DFT relaxations when filtering generated candidates against the convex hull, which is what made GNoME-scale catalogues possible on EuroHPC-class compute. The same pipeline carries forward any bias the potential has on out-of-distribution chemistries."
     },
     {
       "id": "@conduit-recipe-dispatch",
-      "name": "Generative Candidate Dispatch Conduit",
-      "code": "HW-02",
+      "name": "Prediction-to-Synthesis Dispatch",
+      "code": "HW-03",
       "codename": "RECIPE DISPATCH",
       "from": "@spire-mattergen",
       "to": "@spire-alab",
-      "type": "Digital-to-Physical Recipe Pipeline",
-      "bandwidth": "Automated Machine-Actionable Synthesis Plans",
-      "description": "Top Pareto-optimal crystal candidates are translated by chemical NLP into executable robotic G-code, solid powder dispensing weights, and furnace thermal annealing profiles for A-Lab."
+      "type": "Digital-to-Physical Handover",
+      "bandwidth": "Candidate structures + LLM-extracted synthesis recipes",
+      "description": "Generated candidates are paired with recipes mined from literature by NLP tools (ChemDataExtractor and LLM agents) and translated into robot-executable procedures. The report calls this prediction-to-synthesis workflow emerging: synthesizability, kinetic accessibility and verified novelty are unresolved at this junction."
     },
     {
-      "id": "@conduit-beamline-feedback",
-      "name": "Synchrotron Active Feedback Loop",
-      "code": "HW-03",
-      "codename": "BEAMLINE LOOP",
-      "from": "@spire-esrf-edge",
-      "to": "@spire-bigmap",
-      "type": "In-Situ Operando Telemetry",
-      "bandwidth": "Gigabyte/sec Live Diffraction Streams",
-      "description": "Real-time XRD phase evolution from synchrotron beamlines updates Gaussian process surrogate models in autonomous labs, steering synthesis parameters mid-reaction before irreversible phase separation occurs."
-    },
-    {
-      "id": "@conduit-scaleup-transfer",
-      "name": "Lab-to-Fab Material Transfer Conduit",
+      "id": "@conduit-operando-loop",
+      "name": "Large-Facility Validation Loop",
       "code": "HW-04",
-      "codename": "LAB-TO-FAB",
-      "from": "@spire-alab",
-      "to": "@spire-additive-twin",
-      "type": "Process Scaling & Property Handover",
-      "bandwidth": "Powder Rheology & Melt-Pool Thermodynamics",
-      "description": "Laboratory-scale successful alloys are passed to industrial laser powder bed digital twins to simulate manufacturing stresses, cooling rates, and scrap risks before committing to multi-ton pilot production."
+      "codename": "OPERANDO LOOP",
+      "from": "@spire-beamline-edge",
+      "to": "@spire-bigmap",
+      "type": "In-Situ / Operando Telemetry",
+      "bandwidth": "GB/s synchrotron & neutron streams",
+      "description": "BATTERY 2030+ requires high-throughput battery discovery to be validated at LEAPS synchrotrons and LENS neutron sources. Edge preprocessing at the beamline turns these streams into feedback that acceleration platforms can use."
     },
     {
-      "id": "@conduit-provenance-ring",
-      "name": "Circular Provenance & AiiDA Registry Ring",
+      "id": "@conduit-scale-up",
+      "name": "Milligram-to-Kilogram Scale-Up",
       "code": "HW-05",
-      "codename": "CIRCULAR PASSPORT",
-      "from": "@spire-aiida",
-      "to": "@spire-circular-lca",
-      "type": "End-to-End Cryptographic Provenance",
-      "bandwidth": "FAIR Digital Product Passports",
-      "description": "Traces computational origin, experimental synthesis conditions, and environmental impact across the entire scale corridor into a circular product passport required by EU Net-Zero regulations."
+      "codename": "SCALE-UP",
+      "from": "@spire-flow-sdl",
+      "to": "@spire-aplab",
+      "type": "Process Scaling Handover",
+      "bandwidth": "Recipes + in-line process data, ~50,000 tests/batch",
+      "description": "Lab-optimised recipes pass to autonomous pilot-scale platforms that re-optimise them against local industrial data and application benchmarks. This is the step where the report says yield inconsistencies and unpredictable behaviour appear, and where the lab-to-fab gap is either closed or exposed."
+    },
+    {
+      "id": "@conduit-4d-print",
+      "name": "Shape-Memory Polymers to 4D Printing",
+      "code": "HW-06",
+      "codename": "4D PRINT",
+      "from": "@spire-polymer",
+      "to": "@spire-am-twin",
+      "type": "Material-to-Process Transfer",
+      "bandwidth": "Stimuli-responsive polymer designs + recovery kinetics",
+      "description": "Shape-memory polymers designed for 4D printing and soft robotics feed digital-twin-controlled additive manufacturing of adaptive metamaterials. Linking nanosecond MD to hour-scale shape-memory recovery is the open multiscale problem on this route."
+    },
+    {
+      "id": "@conduit-nexus-schema",
+      "name": "NeXus Ontology Pipeline",
+      "code": "HW-07",
+      "codename": "NEXUS SCHEMA",
+      "from": "@spire-nomad",
+      "to": "@spire-apt",
+      "type": "Standards & Metadata Flow",
+      "bandwidth": "Semantic ontologies for post-processing",
+      "description": "FAIRmat, which maintains NOMAD, is implementing NeXus ontologies to standardise atom-probe post-processing. It is a working example of the FAIR stack reaching characterisation, which the report recommends extending to all beamlines and microscopes."
+    },
+    {
+      "id": "@conduit-failure-log",
+      "name": "Negative-Result Return Path",
+      "code": "HW-08",
+      "codename": "FAILURE LOG",
+      "from": "@spire-alab",
+      "to": "@spire-nomad",
+      "type": "Southbound Feedback (largely missing)",
+      "bandwidth": "Failed-synthesis logs & in-situ records",
+      "description": "The remedy for dark data drawn as a pipe: failed syntheses and continuous in-situ logs from autonomous labs flow back into FAIR repositories. The report treats this as a needed cultural change, not an existing flow, which is why it runs against the corridor."
+    },
+    {
+      "id": "@conduit-ground-truth",
+      "name": "Characterisation Ground-Truth Return",
+      "code": "HW-09",
+      "codename": "GROUND TRUTH",
+      "from": "@spire-4dstem",
+      "to": "@spire-umlip",
+      "type": "Southbound Validation Feed",
+      "bandwidth": "Defect maps, atom-column positions, spectra",
+      "description": "Experimental microscopy and beamline data supply the ground truth needed to validate potentials trained on DFT alone. The simulation-to-real gap and the scarcity of gold-standard experimental data keep this return path thin."
+    },
+    {
+      "id": "@conduit-ssbd-guardrail",
+      "name": "SSbD Constraints into Generative Design",
+      "code": "HW-10",
+      "codename": "SSBD GUARDRAIL",
+      "from": "@spire-ssbd",
+      "to": "@spire-mattergen",
+      "type": "Southbound Constraint Injection",
+      "bandwidth": "Toxicity endpoints, PFAS restrictions, lifecycle criteria",
+      "description": "Safe and Sustainable by Design asks for risks to be identified 'at the earliest stages of material innovation', so the production district sends its constraints back to the generators. GenAI4EU's PFAS-substitution call funds exactly this reverse link."
     }
   ]
 }

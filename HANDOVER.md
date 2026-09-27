@@ -24,10 +24,11 @@ The kit is fully deployed to GitHub, zero-dependency in Python, and contains thr
    - **Compiled:** 126 3D building tiers. Served by default in `docs/` on port **8080**.
 
 2. **Materials Intelligence Metropolis** (`examples/sciance-materials/` & vault `2026-SCIANCE/city-map`):
-   - **Source:** Horizon Europe SCIANCE Deliverable D1.1 (Task 1.1 Landscape Report).
-   - **Corridor:** Scale Ascension from Ångström to Gigafactory.
-   - **Entities:** 15 spires, 5 bottlenecks, 5 EU mandates, 5 superhighways.
-   - **Compiled:** 105 3D building tiers. Served on port **8088**.
+   - **Source:** Horizon Europe SCIANCE Deliverable D1.1 (Task 1.1 Landscape Report), Materials Science chapter, draft v0.4 (`matsci-2026-09-27.docx`). Re-analysed from scratch against this version; claims absent from the source (CRMA "100%", Chips Act, "70% scrap", "500k patents/day", CDM Hub) were removed.
+   - **Corridor:** The chapter's integrated workflow — Modelling → Design → Characterisation → Closed-Loop → Lab-to-Fab Production.
+   - **Height semantics:** spire `scale_level` = maturity as graded by the report (Routine 0.88–0.98 · Specialist 0.74–0.86 · Emerging 0.58–0.72; contested claims such as MatterGen SUN novelty and A-Lab phase ID sit low). Bottleneck `severity` / priority `impact_scale` = recurrence across themes and whether the Conclusion or Recommendations name it.
+   - **Entities:** 15 spires, 8 bottlenecks, 7 priorities, 10 superhighways (3 southbound: FAILURE LOG, GROUND TRUTH, SSBD GUARDRAIL — feedback paths the report asks for but finds largely missing).
+   - **Compiled:** 120 3D building tiers. Served on port **8088**.
 
 3. **MIND-MATTER Cyber-Physical Roadmap** (`examples/mind-matter/`):
    - **Source:** DeepTech neuromorphic roadmap (ARIA / Horizon Europe).

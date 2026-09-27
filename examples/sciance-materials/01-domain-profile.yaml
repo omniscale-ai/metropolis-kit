@@ -1,68 +1,148 @@
 # METROPOLIS-KIT: DOMAIN PROFILE
-# Reference: SCIANCE Deliverable D1.1 (Task 1.1) - AI in Materials Science
+# Reference: SCIANCE D1.1 (Task 1.1), Chapter "Materials science" — draft v0.4 (matsci-2026-09-27.docx)
 # Generated via Metropolis-Kit Discovery Phase (studio-kit-sdlc inspired)
 
 domain:
   id: "sciance-d1.1-materials-science"
   title: "AI IN MATERIALS SCIENCE: THE QUANTUM-TO-INDUSTRY METROPOLIS"
-  source_document: "SCIANCE D1.1 State of the art for scientific research using AI for each pilot scientific area"
+  source_document: "SCIANCE D1.1 — State of the art for scientific research using AI for each pilot scientific area, Chapter: Materials science"
+  source_version: "Draft v0.4 (consolidated revision), file dated 2026-09-27"
+  chapter_authors: "Andrey Ustyuzhanin (CU); contributor Vitalii Kapitan (NUS)"
   project: "Horizon Europe SCIANCE (101293570)"
   url: "https://www.sciance.eu"
 
 metaphor:
   spatial_topology: "Scale Ascension Corridor (River of Scale)"
-  direction: "South to North (Sub-atomic Angstrom to Industrial Gigafactory)"
+  direction: "South to North — atomistic modelling → generative design → characterisation → closed-loop labs → lab-to-fab production"
   visual_theme: "quantum_crystal"
-  theme_notes: "Deep sapphire/obsidian crystalline base with prismatic facet edges, glowing cyan/emerald/amber/violet accents, refractive glassmorphism."
+  theme_notes: "Deep sapphire/obsidian crystalline base with prismatic facet edges, glowing cyan/emerald/amber/violet/cobalt accents."
+  rationale: >
+    The chapter itself frames its five themes as one integrated workflow "spanning from atomistic
+    modeling to industrial manufacturing": modelling and design propose candidates, labs and
+    characterisation facilities synthesise and validate them, production frameworks assess
+    manufacturability, safety and compliance. That ordering is the corridor.
 
 primary_axis:
   name: "Scale Ascension"
-  description: "Progression across physical orders of magnitude and technological realization"
+  description: "Materials development lifecycle ordered by physical scale and proximity to deployment"
   stages:
-    - id: "scale-angstrom"
-      name: "Sub-atomic & Atomistic"
+    - id: "scale-atomistic"
+      theme: "AI-Enabled Materials Modelling"
       order_of_magnitude: "10^-10 m (Å)"
-      core_discipline: "Quantum mechanics, DFT, MLIPs"
-    - id: "scale-nano"
-      name: "Meso & Nanocrystal"
-      order_of_magnitude: "10^-9 m (nm)"
-      core_discipline: "Generative crystal design, diffusion, compositional search"
+      core_discipline: "MLIPs (local, graph, equivariant), universal foundation potentials, DFT databases, UQ"
+    - id: "scale-structure"
+      theme: "Intelligent Materials Design"
+      order_of_magnitude: "10^-9 m (unit cell → macromolecule)"
+      core_discipline: "Diffusion / VAE / GAN inverse design, crystal GNNs, polymer & membrane generation, materials LLMs"
     - id: "scale-micro"
-      name: "Micro & Characterisation"
-      order_of_magnitude: "10^-6 m (μm)"
-      core_discipline: "Synchrotrons, electron microscopy, XRD phase mapping, Edge AI"
-    - id: "scale-macro"
-      name: "Macro & Autonomous Labs"
-      order_of_magnitude: "10^-2 m (cm)"
-      core_discipline: "Self-driving laboratories, MAPs, robotics, active learning"
+      theme: "Data-Driven Materials Characterisation"
+      order_of_magnitude: "10^-9 – 10^-6 m (atom column → grain)"
+      core_discipline: "4D-STEM, APT, synchrotron & neutron beamlines, spectroscopy, edge AI, self-driving microscopes"
+    - id: "scale-bench"
+      theme: "Closed-Loop Experiment Acceleration"
+      order_of_magnitude: "10^-3 – 10^-1 m (droplet → bench)"
+      core_discipline: "SDLs / MAPs, Bayesian optimisation, RL, LLM agents, robotic synthesis, Bayesian calibration"
     - id: "scale-fab"
-      name: "System & Industrial Fab"
-      order_of_magnitude: "10^0 - 10^3 m (Fab)"
-      core_discipline: "Additive manufacturing, digital twins, LCA, circular economy"
+      theme: "AI for Responsible and Scalable Production"
+      order_of_magnitude: "mg → kg → Fab"
+      core_discipline: "Autonomous pilot-scale labs, device acceleration platforms, SSbD, AM digital twins, Industry 5.0"
 
 scientific_metrics:
-  building_height: "Throughput Acceleration Factor vs Conventional Practice (10^2x to 10^7x)"
-  building_footprint: "European Infrastructure Scale & Data Repository Mass"
+  building_height: >
+    Operational maturity as graded by the chapter itself (Routine practice > Specialist/expert use >
+    Emerging/proof-of-concept), adjusted upward for pan-European infrastructure weight.
+    scale_level bands: Routine 0.88–0.98 · Specialist 0.74–0.86 · Emerging/PoC 0.58–0.72.
+    Contested claims (e.g. SUN novelty, automated phase identification) sit at the bottom of their band.
+  bottleneck_severity: "0–1; how many of the five themes the barrier recurs in, and whether the chapter's Conclusion lists it as a common/structural barrier"
+  priority_impact_scale: "0–1; breadth of the challenge across themes and whether it is an explicit strategic recommendation"
   district_hues:
     quantum: "#00f0ff"    # Quantum Cyan
     design: "#00e599"     # Crystalline Emerald
-    char: "#ffb700"       # Synchrotron Beamline Amber
-    closedloop: "#b026ff" # Robotic Autonomous Violet
-    fab: "#3a86ff"        # Industrial Cobalt Blue
+    char: "#ffb700"       # Beamline Amber
+    closedloop: "#c040ff" # Robotic Violet
+    fab: "#3a86ff"        # Industrial Cobalt
+
+districts:
+  - id: "@dist-quantum"
+    theme: "AI-Enabled Materials Modelling"
+    key_facts:
+      - "Alexandria: 5.8M DFT structures, 175k on the convex hull; sAlex25: 14M out-of-equilibrium configurations"
+      - "Up to 99% success within 100 meV/atom of the hull — a computational stability metric, not experimental success"
+      - "Predicted substitutional disorder: Alexandria 37–43%, ICSD 35%, GNoME 80–84%"
+      - "NOMAD: 13M+ entries from 50+ atomistic codes"
+      - "Equivariance alone does not guarantee conservative forces (only F = −∇E, as in NequIP/MACE)"
+  - id: "@dist-design"
+    theme: "Intelligent Materials Design"
+    key_facts:
+      - "GNoME: 2.2M structures — maturity of computational screening, not experimental discovery"
+      - "MatterGen/FlowLLM SUN novelty contested: TaCr2O6 example is a known disordered rutile phase (Juelsholt 2026)"
+      - "P1 symmetry bias in generative crystal models"
+      - "Polymer spaces > 10^30 candidates; polymers, soft matter and membranes at infancy / PoC"
+      - "BATTERY 2030+ target: 5–10× discovery acceleration"
+  - id: "@dist-char"
+    theme: "Data-Driven Materials Characterisation"
+    key_facts:
+      - "Pixelated detectors: GB/s to TB/s streams"
+      - "APT ML (ML-ToF, ML-APX) resolves CSRO down to 1 nm and removes operator bias"
+      - "Materials Project 178k materials; JARVIS 80k+; experimental data remains scarce"
+      - "Proprietary formats (GMS, Velox) vs open NeXus / HDF5 / USID; TANGO at ALBA"
+      - "Emerging: Large Spectroscopy Models, TEM-GPT agents"
+  - id: "@dist-closedloop"
+    theme: "Closed-Loop Experiment Acceleration"
+    key_facts:
+      - "10–100× lower chemical/energy use; 5–20× acceleration over automation alone; up to 100× faster phase-diagram mapping"
+      - "Autonomy taxonomy Level 0–5; A-Lab/SwissCAT+/AMANDA are Level-4 custom platforms; Level 5 unrealised"
+      - "Microfluidic intensification: 100–1,200 samples/hr; 10-D space of 98M points (mobile robotic chemist)"
+      - "232-min GC batch; ~3.9% hardware exception rate; A-Lab phase ID later questioned (Leeman 2024)"
+      - "Proprietary silos & non-standard hardware interfaces = single greatest SDL bottleneck (consensus)"
+  - id: "@dist-fab"
+    theme: "AI for Responsible and Scalable Production"
+    key_facts:
+      - "AP-Lab: mg → kg scale-up, ~50,000 tests per batch, application benchmarks (PCR Ct)"
+      - "Device Acceleration Platforms integrate screening with device fabrication and stability testing"
+      - "SSbD, PFAS substitution, regulatory 'pacing problem'"
+      - "Synthetic microscopy images indistinguishable to experts; 20–30% analytical error rates; MAIF"
+      - "SDL hardware > $1M per platform → federated access needed"
+
+bottlenecks:
+  - { id: "@bneck-dark-data", district: "@dist-quantum", severity: 0.95, note: "Common Challenge #1; appears in all five themes" }
+  - { id: "@bneck-ood", district: "@dist-quantum", severity: 0.85, note: "Common Challenge #2; OOD fragility + scarce hybrid/CCSD(T) PES data" }
+  - { id: "@bneck-novelty-mirage", district: "@dist-design", severity: 0.75, note: "New in v0.4: SUN / disorder caveats" }
+  - { id: "@bneck-vendor-lock", district: "@dist-char", severity: 0.70 }
+  - { id: "@bneck-physical-throttle", district: "@dist-closedloop", severity: 0.80, note: "232-min GC, fouling, powders, ~3.9% exceptions" }
+  - { id: "@bneck-middleware", district: "@dist-closedloop", severity: 0.90, note: "Structural Barrier #1 (OPC-UA / LADS adoption)" }
+  - { id: "@bneck-lab-to-fab", district: "@dist-fab", severity: 0.85 }
+  - { id: "@bneck-synthetic-fraud", district: "@dist-fab", severity: 0.65 }
+
+challenges:
+  - { id: "@chal-mev-polymorphs", district: "@dist-quantum", impact_scale: 0.70 }
+  - { id: "@chal-sim-to-real", district: "@dist-char", impact_scale: 0.75 }
+  - { id: "@chal-activity-cliffs", district: "@dist-design", impact_scale: 0.65 }
+  - { id: "@chal-pacing-problem", district: "@dist-fab", impact_scale: 0.70 }
+  - { id: "@chal-sovereign-fm", district: "@dist-quantum", impact_scale: 0.90, note: "Strategic recommendation; GenAI4EU call" }
+  - { id: "@chal-level5", district: "@dist-closedloop", impact_scale: 0.60 }
+  - { id: "@chal-cloud-labs", district: "@dist-closedloop", impact_scale: 0.85, note: "Strategic recommendation #1" }
+
+superhighways:
+  northbound: "Data → potentials → generated candidates → robotic synthesis → pilot scale (the chapter's integrated workflow)"
+  southbound: >
+    Three return paths the chapter calls for but describes as largely missing or emerging:
+    failed-synthesis logs back into FAIR repositories, characterisation ground truth back into
+    potentials, and SSbD/PFAS constraints back into generative design.
 
 key_layers:
   - id: "layer-districts"
     name: "Scale Zones (Districts)"
-    description: "Spatial domains mapped to the 5 research themes of Section 4.4"
+    description: "The five research themes of §7.4"
   - id: "layer-spires"
-    name: "Spires & Accelerators"
-    description: "Foundational AI models, simulation suites, and flagship centers"
+    name: "Spires"
+    description: "Infrastructures, model families and platforms named in the chapter; height = maturity"
   - id: "layer-superhighways"
     name: "Data & Material Superhighways"
-    description: "Inter-scale pipelines transferring potentials, candidates, and sensor streams"
+    description: "Northbound workflow and southbound feedback paths"
   - id: "layer-bottlenecks"
     name: "Physical & Epistemic Bottlenecks"
-    description: "Rate-limiting steps, dark data bias, hardware jams, and synthesizability gaps"
+    description: "Common challenges and structural barriers from §7.5"
   - id: "layer-priorities"
-    name: "EU Strategic Priorities & Challenges"
-    description: "Critical Raw Materials Act, Net Zero Industry Act, Chips Act, and grand scientific challenges"
+    name: "Research Challenges & Strategic Recommendations"
+    description: "Preliminary research challenges and the five recommendations for European RIs"

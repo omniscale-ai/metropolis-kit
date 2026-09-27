@@ -118,10 +118,11 @@ python -m cli.compiler --spec my-spec.json --web-dir dist/ --serve 8080
 ## 🏛️ Included Showcases
 
 ### 1. Materials Intelligence Metropolis ([`examples/sciance-materials/`](examples/sciance-materials/))
-*Based on the Horizon Europe SCIANCE Deliverable D1.1 (Task 1.1 Landscape Report).*
-- **Axis**: Scale Ascension across 13 physical orders of magnitude (Sub-atomic Ångström $\to$ Industrial Gigafactory).
-- **Features**: NOMAD CoE, CHGNet, MatterGen, ESRF Beamline Edge AI, A-Lab, BIG-MAP, Additive Manufacturing Digital Twin.
-- **Bottlenecks**: Negative reporting bias (dark data), synthesizability gap, 232-min GC latency, ~3.9% robotic error rate.
+*Based on the Materials Science chapter of Horizon Europe SCIANCE Deliverable D1.1 (Task 1.1 landscape report, draft v0.4).*
+- **Axis**: The report's own integrated workflow — atomistic modelling → generative design → characterisation → closed-loop labs → lab-to-fab production. Spire height encodes the maturity the report assigns.
+- **Features**: NOMAD·FAIRmat·AiiDA, Alexandria/sAlex25, universal MLIPs, GNoME, MatterGen, 4D-STEM & APT ML, BIG-MAP, A-Lab, AP-Lab, AM digital twins, SSbD/PFAS.
+- **Bottlenecks**: Dark data, OOD fragility, the novelty mirage (predicted disorder), vendor lock-in, 232-min GC latency & ~3.9% robot exceptions, middleware silos, lab-to-fab gap, synthetic data fraud.
+- **Signature detail**: 3 of 10 superhighways run south — the feedback paths (failure logs, ground truth, SSbD constraints) the report calls for but finds largely missing.
 
 ### 2. MIND-MATTER Cyber-Physical Roadmap ([`examples/mind-matter/`](examples/mind-matter/))
 *Based on a DeepTech ARIA / Horizon Europe neuromorphic materials roadmap.*

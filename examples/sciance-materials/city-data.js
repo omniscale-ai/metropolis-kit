@@ -5,7 +5,7 @@
 
 window.CITY_CONFIG = {
   "title": "MATERIALS INTELLIGENCE METROPOLIS",
-  "subtitle": "SCIANCE D1.1: Cartography of AI in European Materials Science",
+  "subtitle": "SCIANCE D1.1 \u00b7 Materials Science chapter (draft v0.4): AI across the European materials lifecycle",
   "theme": "quantum_crystal",
   "center": [
     13.4,
@@ -14,24 +14,28 @@ window.CITY_CONFIG = {
   "zoom": 15.0,
   "pitch": 60,
   "bearing": -18,
-  "scale_axis_label": "Scale Ascension: From Quantum to Industry",
-  "scale_axis_description": "South-to-North corridor traversing 13 orders of magnitude from Sub-atomic \u00c5ngstr\u00f6ms to Industrial Gigafactories"
+  "scale_axis_label": "Scale Ascension: From Atom to Fab",
+  "scale_axis_description": "South-to-North corridor following the chapter's integrated workflow: atomistic modelling and generative design propose candidates, characterisation and autonomous labs synthesise and validate them, production frameworks test manufacturability, safety and compliance. Spire height encodes the maturity the report assigns."
 };
 
 window.DISTRICTS = [
   {
     "id": "@dist-quantum",
-    "name": "ATOMISTIC MODELLING & QUANTUM SURROGATES",
+    "name": "AI-ENABLED MATERIALS MODELLING",
     "scale_label": "10^-10 m (\u00c5ngstr\u00f6m)",
     "order": 1,
     "color": "#00f0ff",
     "glow": "rgba(0, 240, 255, 0.4)",
-    "description": "Overcoming the O(N^3) DFT scaling bottleneck using SE(3)/E(3)-equivariant neural potentials, MLIPs, and exascale electronic structure surrogates.",
+    "description": "Machine-learning interatomic potentials bridge DFT accuracy and classical-force-field speed, reaching device-scale models with hundreds of thousands to millions of atoms. Local (SOAP, ACE), graph and equivariant (NequIP, MACE) architectures, universal foundation potentials, and Bayesian/ensemble UQ. Database screening is routine; custom potentials for defects remain specialist work.",
     "eu_infrastructures": [
+      "EMMC",
       "NOMAD CoE",
-      "MaX CoE",
-      "EuroHPC Joint Undertaking",
-      "Materials Cloud"
+      "FAIRmat (NFDI)",
+      "AiiDA",
+      "EuroHPC",
+      "SuperMUC-NG (LRZ)",
+      "DAEMON COST CA22154",
+      "ERC HERO"
     ],
     "center": [
       13.4,
@@ -62,16 +66,18 @@ window.DISTRICTS = [
   },
   {
     "id": "@dist-design",
-    "name": "GENERATIVE CRYSTAL & INVERSE DESIGN",
-    "scale_label": "10^-9 m (Nanoscale)",
+    "name": "INTELLIGENT MATERIALS DESIGN",
+    "scale_label": "10^-9 m (Unit Cell \u2192 Macromolecule)",
     "order": 2,
     "color": "#00e599",
     "glow": "rgba(0, 229, 153, 0.4)",
-    "description": "Direct inverse discovery replacing trial-and-error: periodic crystal diffusion models, compositional search, and multi-objective Pareto exploration.",
+    "description": "Inverse property-to-structure design with diffusion models, VAEs and GANs over crystals, polymers, porous frameworks and membranes; crystal GNNs (ALIGNN, MEGNet, M3GNet); materials LLMs (MatSciBERT, polyBERT, SteelBERT). Computational screening of inorganic crystals is mature; polymers, soft matter and membranes are at the proof-of-concept stage, and prediction-to-synthesis remains open.",
     "eu_infrastructures": [
-      "DiMAT",
-      "PIONEER",
-      "Alexandria Database"
+      "BATTERY 2030+",
+      "GenAI4EU (HORIZON-CL4-INDUSTRY-2025-01-DIGITAL-61)",
+      "GT4SD / IBM Research Europe",
+      "ERC CoDe4Bio",
+      "EuroHPC"
     ],
     "center": [
       13.4,
@@ -102,18 +108,23 @@ window.DISTRICTS = [
   },
   {
     "id": "@dist-char",
-    "name": "DATA-DRIVEN CHARACTERISATION & SYNCHROTRONS",
-    "scale_label": "10^-6 m (Microscale)",
+    "name": "DATA-DRIVEN MATERIALS CHARACTERISATION",
+    "scale_label": "10^-9 \u2013 10^-6 m (Atom Column \u2192 Grain)",
     "order": 3,
     "color": "#ffb700",
     "glow": "rgba(255, 183, 0, 0.4)",
-    "description": "High-throughput X-ray diffraction, TEM atomic defect segmentation, and real-time edge AI processing deployed directly at European synchrotron beamlines.",
+    "description": "Pixelated detectors in S/TEM and 4D-STEM, atom probe tomography and synchrotron beamlines produce GB/s\u2013TB/s streams. CNNs, GANs and self-supervised denoisers restore low-dose images, map defects and reconstruct tomograms; PCA/NMF unmixing is routine; spectrum\u2013structure\u2013property models and TEM-GPT agents are emerging. Edge nodes at detectors close real-time feedback loops.",
     "eu_infrastructures": [
       "ESRF",
       "DESY",
-      "MAX IV",
-      "European XFEL",
-      "EOSC"
+      "ALBA (TANGO)",
+      "ILL",
+      "ESS",
+      "ESTEEM3",
+      "e-DREAM",
+      "IMPRESS",
+      "InCAEM",
+      "LEAPS / LENS"
     ],
     "center": [
       13.4,
@@ -144,16 +155,21 @@ window.DISTRICTS = [
   },
   {
     "id": "@dist-closedloop",
-    "name": "AUTONOMOUS DISCOVERY & CLOSED-LOOP LABS",
-    "scale_label": "10^-2 m (Bench / Macro)",
+    "name": "CLOSED-LOOP EXPERIMENT ACCELERATION",
+    "scale_label": "10^-3 \u2013 10^-1 m (Droplet \u2192 Bench)",
     "order": 4,
     "color": "#c040ff",
     "glow": "rgba(192, 64, 255, 0.4)",
-    "description": "Self-Driving Laboratories (SDLs) and Materials Acceleration Platforms (MAPs) running closed-loop Design-Make-Test-Analyze (DMTA) cycles via Bayesian active learning.",
+    "description": "Self-Driving Laboratories and Materials Acceleration Platforms run Design-Make-Test-Analyze loops with Bayesian optimisation, GP emulators, RL agents (AlphaFlow) and LLM agents (ChemCrow, Coscientist). Reported gains: 10\u2013100\u00d7 lower chemical and energy use and 5\u201320\u00d7 acceleration. Narrow liquid-phase loops are mature; Level-4 general platforms are still custom research systems, and Level 5 has not been reached.",
     "eu_infrastructures": [
-      "BIG-MAP (Battery 2030+)",
-      "A-Lab",
-      "EMMC"
+      "BIG-MAP (BATTERY 2030+)",
+      "SwissCAT+",
+      "Materials 2030 / IAM4EU",
+      "MaterialDigital (PMD)",
+      "GC-MAC",
+      "DIADEM",
+      "ESFRI",
+      "Clean Sky 2 JU"
     ],
     "center": [
       13.4,
@@ -184,16 +200,18 @@ window.DISTRICTS = [
   },
   {
     "id": "@dist-fab",
-    "name": "LAB-TO-FAB & SUSTAINABLE MANUFACTURING",
-    "scale_label": "10^0 - 10^3 m (Gigafactory)",
+    "name": "AI FOR RESPONSIBLE & SCALABLE PRODUCTION",
+    "scale_label": "mg \u2192 kg \u2192 Fab",
     "order": 5,
     "color": "#3a86ff",
     "glow": "rgba(58, 134, 255, 0.4)",
-    "description": "Bridging laboratory discoveries to manufacturing: additive manufacturing digital twins, critical raw material substitution, process scale-up tolerances, and circular LCA.",
+    "description": "Closing the lab-to-fab gap: autonomous pilot-scale platforms and Device Acceleration Platforms carry processability, cost and application benchmarks into early discovery; Safe and Sustainable by Design tools screen toxicity and guide PFAS substitution; human-centred Industry 5.0 manufacturing with AI-monitored additive manufacturing. Lab-to-fab and AI-assisted risk governance are at an early stage.",
     "eu_infrastructures": [
-      "Made in Europe Partnership",
-      "Raw Materials KIC",
-      "EIT Manufacturing"
+      "Chemicals Strategy for Sustainability",
+      "Zero-Pollution Action Plan",
+      "Net-Zero Industry Act",
+      "Industry 5.0 / Digital Decade 2030",
+      "GenAI4EU (PFAS substitution)"
     ],
     "center": [
       13.4,
@@ -227,11 +245,11 @@ window.DISTRICTS = [
 window.SPIRES_INDEX = [
   {
     "id": "@spire-nomad",
-    "code": "QM-01",
-    "codename": "NOMAD CLOUD",
-    "title": "NOMAD CoE & Materials Cloud",
+    "code": "MOD-01",
+    "codename": "NOMAD STACK",
+    "title": "NOMAD \u00b7 FAIRmat \u00b7 AiiDA FAIR Stack",
     "district_ref": "@dist-quantum",
-    "district_name": "ATOMISTIC MODELLING & QUANTUM SURROGATES",
+    "district_name": "AI-ENABLED MATERIALS MODELLING",
     "scale_label": "10^-10 m (\u00c5ngstr\u00f6m)",
     "color": "#00f0ff",
     "coordinates": [
@@ -239,20 +257,20 @@ window.SPIRES_INDEX = [
       52.4987406
     ],
     "metrics": {
-      "scale": "10^-10 m (Sub-atomic)",
-      "acceleration": "10^4x Data Throughput",
-      "infrastructure": "NOMAD / EuroHPC",
-      "maturity": "Operational Routine"
+      "scale": "10^-10 m (DFT calculations & workflows)",
+      "acceleration": "13M+ entries from 50+ atomistic codes",
+      "infrastructure": "NOMAD CoE / FAIRmat (NFDI) / AiiDA",
+      "maturity": "Routine practice"
     },
-    "abstract": "European flagship repository hosting 100M+ DFT calculations. Serves as the primary training bedrock for universal interatomic potentials and FAIR data sharing across European supercomputers."
+    "abstract": "Europe's FAIR backbone for computational materials data. NOMAD holds more than 13 million entries from over 50 atomistic codes under a code-independent Metainfo schema, is maintained by FAIRmat, and is reachable through the OPTIMADE API and the cloud-based NOMAD AI Toolkit. AiiDA supplies reproducible workflow execution with enforced provenance across European supercomputing tiers. The report's recommendation on sovereign foundation models names this ecosystem as the source of verified training data."
   },
   {
-    "id": "@spire-chgnet",
-    "code": "QM-02",
-    "codename": "CHGNET POTENTIALS",
-    "title": "CHGNet & Equivariant Potentials",
+    "id": "@spire-alexandria",
+    "code": "MOD-02",
+    "codename": "ALEXANDRIA",
+    "title": "Alexandria Database & sAlex25",
     "district_ref": "@dist-quantum",
-    "district_name": "ATOMISTIC MODELLING & QUANTUM SURROGATES",
+    "district_name": "AI-ENABLED MATERIALS MODELLING",
     "scale_label": "10^-10 m (\u00c5ngstr\u00f6m)",
     "color": "#00f0ff",
     "coordinates": [
@@ -260,20 +278,20 @@ window.SPIRES_INDEX = [
       52.4981117
     ],
     "metrics": {
-      "scale": "10^-10 m (Bond Lengths)",
-      "acceleration": "10^6x vs Ab Initio DFT",
-      "infrastructure": "MaX CoE",
-      "maturity": "Validated Production"
+      "scale": "10^-10 m (Relaxed & off-equilibrium structures)",
+      "acceleration": "5.8M structures \u00b7 175k on hull \u00b7 14M sAlex25 configs",
+      "infrastructure": "ICAMS Bochum / SuperMUC-NG / ERC HERO",
+      "maturity": "Routine screening; 37\u201343% predicted disorder (ICSD 35%)"
     },
-    "abstract": "Pretrained crystal graph neural network incorporating explicit atomic charge states and magnetic moments. Enables microsecond-scale molecular dynamics with quantum-mechanical accuracy."
+    "abstract": "Open DFT database of 5.8 million structures, 175 thousand of them on the convex hull, with the sAlex25 subsample of 14 million out-of-equilibrium configurations carrying forces and stresses for potential training. Multi-stage generative workflows built on it reach up to 99% success within 100 meV/atom of the hull; the report stresses that this is a computational stability metric, not experimental success. Its predicted substitutional-disorder rate (37\u201343%) is close to the experimental ICSD (35%), compared with 80\u201384% for GNoME. Known artefacts include PAW convergence problems for Eu, Gd, Yb and Lu and a substitution bias toward oxides and hydrides."
   },
   {
-    "id": "@spire-aiida",
-    "code": "QM-03",
-    "codename": "AIIDA ORCHESTRATOR",
-    "title": "AiiDA Workflow Orchestrator",
+    "id": "@spire-umlip",
+    "code": "MOD-03",
+    "codename": "UNIVERSAL MLIP",
+    "title": "Universal & Equivariant MLIPs",
     "district_ref": "@dist-quantum",
-    "district_name": "ATOMISTIC MODELLING & QUANTUM SURROGATES",
+    "district_name": "AI-ENABLED MATERIALS MODELLING",
     "scale_label": "10^-10 m (\u00c5ngstr\u00f6m)",
     "color": "#00f0ff",
     "coordinates": [
@@ -281,264 +299,264 @@ window.SPIRES_INDEX = [
       52.4987406
     ],
     "metrics": {
-      "scale": "10^-10 m (Workflows)",
-      "acceleration": "Automated Exascale Provenance",
-      "infrastructure": "AiiDA / EOSC",
-      "maturity": "Operational Routine"
+      "scale": "10^-10 m \u2192 device-scale (10^5\u201310^6 atoms)",
+      "acceleration": "DFT accuracy at classical-force-field cost",
+      "infrastructure": "GPU clusters / EuroHPC",
+      "maturity": "Foundation models emerging; custom fitting is specialist"
     },
-    "abstract": "Automated interactive infrastructure managing computational graphs with complete cryptographic provenance, coordinating exascale materials simulations across heterogeneous HPC clusters."
+    "abstract": "Local MLIPs (SOAP, ACE), message-passing graph MLIPs, and equivariant architectures (NequIP, MACE) favoured for data efficiency, plus universal foundation potentials M3GNet, CHGNet, ORB-v2 and GRACE-2 that give out-of-the-box accuracy across chemistries. The report adds an explicit caveat: equivariance does not guarantee energy conservation, and forces are conservative only when computed as F = \u2212\u2207E. Open frontiers are long-range electrostatics, magnetism and spin, and fine-tuning on out-of-equilibrium data, which remains specialist work."
   },
   {
-    "id": "@spire-mattergen",
-    "code": "GEN-01",
-    "codename": "MATTERGEN CORE",
-    "title": "MatterGen & Crystal Diffusion Core",
+    "id": "@spire-gnome",
+    "code": "DES-01",
+    "codename": "GNOME",
+    "title": "GNoME Scale Discovery",
     "district_ref": "@dist-design",
-    "district_name": "GENERATIVE CRYSTAL & INVERSE DESIGN",
-    "scale_label": "10^-9 m (Nanoscale)",
+    "district_name": "INTELLIGENT MATERIALS DESIGN",
+    "scale_label": "10^-9 m (Unit Cell \u2192 Macromolecule)",
     "color": "#00e599",
     "coordinates": [
       13.3952763,
       52.507005
     ],
     "metrics": {
-      "scale": "10^-9 m (Unit Cell)",
-      "acceleration": "10^5x Search Space Compression",
-      "infrastructure": "DiMAT Consortium",
-      "maturity": "Pilot Validated"
+      "scale": "10^-9 m (Inorganic crystals, \u22655 elements)",
+      "acceleration": "2.2M structures \u00b7 10\u00d7 catalogue of stable materials",
+      "infrastructure": "Google DeepMind / Materials Project",
+      "maturity": "Mature computational screening; 80\u201384% predicted disorder"
     },
-    "abstract": "Generative diffusion model directly producing periodic 3D crystal structures conditioned on arbitrary property prompts (target bandgap, magnetic ordering, density), breaking the empirical trial-and-error cycle."
+    "abstract": "Graph networks for materials exploration expanded the catalogue of stable inorganic materials by an order of magnitude, to 2.2 million structures, pushing into multi-element 'unknown unknowns' beyond human intuition. The report reads this as a sign that computational structure prediction is mature and scalable, not as experimental discovery. Many of the multi-element compounds may be disordered versions of known phases rather than new ordered ones, and synthesizability, kinetic accessibility and property validation remain open."
   },
   {
-    "id": "@spire-gnome",
-    "code": "GEN-02",
-    "codename": "GNOME ENGINE",
-    "title": "GNoME Scale Discovery Engine",
+    "id": "@spire-mattergen",
+    "code": "DES-02",
+    "codename": "MATTERGEN",
+    "title": "MatterGen & FlowLLM Diffusion",
     "district_ref": "@dist-design",
-    "district_name": "GENERATIVE CRYSTAL & INVERSE DESIGN",
-    "scale_label": "10^-9 m (Nanoscale)",
+    "district_name": "INTELLIGENT MATERIALS DESIGN",
+    "scale_label": "10^-9 m (Unit Cell \u2192 Macromolecule)",
     "color": "#00e599",
     "coordinates": [
       13.4,
       52.5063762
     ],
     "metrics": {
-      "scale": "10^-9 m (Lattice Inorganics)",
-      "acceleration": "2.2M New Crystal Predictions",
-      "infrastructure": "Global / EU Academic",
-      "maturity": "High-Impact Benchmark"
+      "scale": "10^-9 m (Periodic unit cell)",
+      "acceleration": "SUN structures 10\u00d7 closer to local minima",
+      "infrastructure": "GenAI4EU / open diffusion toolkits",
+      "maturity": "Emerging; SUN novelty contested"
     },
-    "abstract": "Graph Network for Materials Exploration scaling candidate generation to millions of thermodynamically viable inorganic crystals, expanding human knowledge of stable compounds by an order of magnitude."
+    "abstract": "Diffusion models that reverse a corruption process to generate periodic crystals conditioned on target properties, producing stable, unique and new (SUN) materials about ten times closer to local energy minima than earlier generators. The report now qualifies SUN as database-matching novelty: a re-analysis showed that MatterGen's TaCr2O6 example is a known disordered rutile phase already in the training data (Juelsholt 2026). Generative crystal models also over-produce low-symmetry P1 structures."
   },
   {
-    "id": "@spire-flowllm",
-    "code": "GEN-03",
-    "codename": "FLOWLLM MINING",
-    "title": "FlowLLM & Chemical NLP Suite",
+    "id": "@spire-polymer",
+    "code": "DES-03",
+    "codename": "POLYMER GENOME",
+    "title": "Polymer & Membrane Inverse Design",
     "district_ref": "@dist-design",
-    "district_name": "GENERATIVE CRYSTAL & INVERSE DESIGN",
-    "scale_label": "10^-9 m (Nanoscale)",
+    "district_name": "INTELLIGENT MATERIALS DESIGN",
+    "scale_label": "10^-9 m (Unit Cell \u2192 Macromolecule)",
     "color": "#00e599",
     "coordinates": [
       13.4047237,
       52.507005
     ],
     "metrics": {
-      "scale": "10^-9 m (Recipe Mining)",
-      "acceleration": "500k Patents Parsed / Day",
-      "infrastructure": "Open Science NLP",
-      "maturity": "Active Adoption"
+      "scale": "10^-9 \u2013 10^-7 m (Macromolecules, networks)",
+      "acceleration": "> 10^30 candidate configurations",
+      "infrastructure": "PolyInfo / PI1M / polyVERSE / Open Membrane Database",
+      "maturity": "Infancy / proof-of-concept"
     },
-    "abstract": "Domain-adapted large language models extracting structured synthesis recipes, reaction conditions, and phase stability facts directly from millions of scientific papers and patent filings."
+    "abstract": "Frameworks such as polyG2G, Virtual Forward Synthesis and flowsheet autocompletion generate polymer dielectrics and membrane separation processes on demand. polyBERT embeddings and multi-fidelity training compensate for small data, and machine-learned coarse-grained force fields try to bridge nanosecond MD and hour-scale shape-memory recovery. VFS screens out candidates that cannot be synthesized, are toxic, or cannot be recycled before any wet-lab work. The report places polymers, soft matter and membranes at the proof-of-concept stage."
   },
   {
-    "id": "@spire-esrf-edge",
+    "id": "@spire-4dstem",
     "code": "CHR-01",
-    "codename": "ESRF BEAMLINE AI",
-    "title": "ESRF Synchrotron Edge AI Pipeline",
+    "codename": "4D-STEM VISION",
+    "title": "4D-STEM & Electron Microscopy Vision",
     "district_ref": "@dist-char",
-    "district_name": "DATA-DRIVEN CHARACTERISATION & SYNCHROTRONS",
-    "scale_label": "10^-6 m (Microscale)",
+    "district_name": "DATA-DRIVEN MATERIALS CHARACTERISATION",
+    "scale_label": "10^-9 \u2013 10^-6 m (Atom Column \u2192 Grain)",
     "color": "#ffb700",
     "coordinates": [
       13.3952763,
       52.5152695
     ],
     "metrics": {
-      "scale": "10^-6 m (Beamline Focus)",
-      "acceleration": "Real-time Gigabyte/s Streams",
-      "infrastructure": "ESRF / DESY / MAX IV",
-      "maturity": "Validated Deployment"
+      "scale": "10^-12 \u2013 10^-9 m (Sub-picometre defect mapping)",
+      "acceleration": "TB/s detector streams, beyond manual capacity",
+      "infrastructure": "ESTEEM3 / e-DREAM / IMPRESS",
+      "maturity": "Specialist use; PCA/NMF unmixing routine"
     },
-    "abstract": "In-situ deep learning deployed directly on beamline detectors, executing instantaneous 2D-to-3D diffraction unmixing and real-time phase identification during operando heating experiments."
+    "abstract": "Pixelated detectors produce the high-dimensional signals behind 4D-STEM at rates that exceed human analysis. CNNs, GANs, CycleGAN and self-supervised Noise2SR and SHINE restore low-dose images of beam-sensitive materials, locate atom columns, and segment vacancies, dopants and grain boundaries; open libraries such as AtomAI and DScribe make these methods reusable. Automated 3D tomography and 4D-STEM handling are still confined to specialist groups, and TEM-GPT generalist agents are emerging."
   },
   {
-    "id": "@spire-tem-vision",
+    "id": "@spire-apt",
     "code": "CHR-02",
-    "codename": "ATOMIC TEM VISION",
-    "title": "Atomic TEM & APT Defect Vision",
+    "codename": "ATOM PROBE",
+    "title": "Atom Probe Tomography ML",
     "district_ref": "@dist-char",
-    "district_name": "DATA-DRIVEN CHARACTERISATION & SYNCHROTRONS",
-    "scale_label": "10^-6 m (Microscale)",
+    "district_name": "DATA-DRIVEN MATERIALS CHARACTERISATION",
+    "scale_label": "10^-9 \u2013 10^-6 m (Atom Column \u2192 Grain)",
     "color": "#ffb700",
     "coordinates": [
       13.4,
       52.5146407
     ],
     "metrics": {
-      "scale": "10^-9 - 10^-6 m (Sub-nanometer)",
-      "acceleration": "100x vs Manual Annotation",
-      "infrastructure": "European Microscopy Network",
-      "maturity": "Operational PoC"
+      "scale": "10^-9 m (Chemical short-range order at 1 nm)",
+      "acceleration": "Removes operator-dependent mass-peak ranging",
+      "infrastructure": "FAIRmat NeXus APT ontology",
+      "maturity": "Emerging / specialist"
     },
-    "abstract": "Computer vision pipelines performing sub-pixel atom column tracking, dislocation recognition, and atomic probe tomography (APT) reconstruction with quantified uncertainty."
+    "abstract": "ML-ToF assigns mass-spectrum peaks and ML-APX identifies crystallographic poles, replacing the subjective ranging-interval choices that make APT results vary between operators. This resolves elusive chemical short-range order down to about 1 nm and supports reproducibility across laboratories. FAIRmat is implementing NeXus ontologies to standardise APT post-processing, making it one of the few characterisation techniques with a standardisation path toward FAIR AI pipelines."
   },
   {
-    "id": "@spire-cdm",
+    "id": "@spire-beamline-edge",
     "code": "CHR-03",
-    "codename": "CDM STANDARDS",
-    "title": "Common Data Model (CDM) Hub",
+    "codename": "BEAMLINE EDGE",
+    "title": "Beamline Edge AI & Self-Driving Microscopes",
     "district_ref": "@dist-char",
-    "district_name": "DATA-DRIVEN CHARACTERISATION & SYNCHROTRONS",
-    "scale_label": "10^-6 m (Microscale)",
+    "district_name": "DATA-DRIVEN MATERIALS CHARACTERISATION",
+    "scale_label": "10^-9 \u2013 10^-6 m (Atom Column \u2192 Grain)",
     "color": "#ffb700",
     "coordinates": [
       13.4047237,
       52.5152695
     ],
     "metrics": {
-      "scale": "10^-6 m (Standardization)",
-      "acceleration": "Pan-European Interoperability",
-      "infrastructure": "EOSC / EMMC",
-      "maturity": "Standardization Phase"
+      "scale": "10^-9 \u2013 10^-6 m (Operando probes)",
+      "acceleration": "Real-time preprocessing at GB/s",
+      "infrastructure": "ESRF / DESY / ALBA (TANGO) / ILL / ESS",
+      "maturity": "Emerging / proof-of-concept"
     },
-    "abstract": "Harmonized semantic schema aligning spectroscopic, diffraction, and microscopy metadata across European characterisation facilities, ensuring machine-actionable FAIR repositories."
+    "abstract": "Edge computers attached to detectors handle low-latency preprocessing, automatic region-of-interest selection and autonomous optics alignment, choosing measurement points with Bayesian active learning or reinforcement learning. Europe's synchrotron and neutron sources produce petabyte-scale ground truth for training and validating materials AI. Integration with standard control systems, such as TANGO at ALBA, opens these experiments to non-experts. The limits are distribution shift across detectors and calibrations, and the energy cost of large multimodal models."
   },
   {
     "id": "@spire-alab",
-    "code": "MAP-01",
-    "codename": "A-LAB SYNTHESIS",
-    "title": "A-Lab Autonomous Synthesis Core",
+    "code": "CLP-01",
+    "codename": "A-LAB",
+    "title": "A-Lab & Level-4 SDL Platforms",
     "district_ref": "@dist-closedloop",
-    "district_name": "AUTONOMOUS DISCOVERY & CLOSED-LOOP LABS",
-    "scale_label": "10^-2 m (Bench / Macro)",
+    "district_name": "CLOSED-LOOP EXPERIMENT ACCELERATION",
+    "scale_label": "10^-3 \u2013 10^-1 m (Droplet \u2192 Bench)",
     "color": "#c040ff",
     "coordinates": [
       13.3952763,
       52.523534
     ],
     "metrics": {
-      "scale": "10^-2 m (Bench Scale)",
-      "acceleration": "168 Samples / Week Continuous",
-      "infrastructure": "Autonomous Lab Alliances",
-      "maturity": "Pioneering Operation"
+      "scale": "10^-2 m (Powder synthesis bench)",
+      "acceleration": "24/7 \u00b7 168 samples/week",
+      "infrastructure": "A-Lab / SwissCAT+ / AMANDA",
+      "maturity": "Level-4 proof-of-concept; phase ID questioned"
     },
-    "abstract": "Fully automated solid-state synthesis laboratory combining active learning decision-makers, robotic arms for powder weighing, automated furnace heating, and XRD validation without human intervention."
+    "abstract": "Broad Level-4 platforms such as A-Lab, SwissCAT+ and AMANDA combine literature parsing, robotic dosing and calcination, and CNN-based XRD phase identification into closed synthesis loops. They remain custom research systems, not turnkey instruments. The report records that a later analysis found A-Lab's automated phase identification largely unsuccessful (Leeman 2024), and it names the prediction-to-synthesis link as the key open problem."
   },
   {
     "id": "@spire-bigmap",
-    "code": "MAP-02",
-    "codename": "BIG-MAP BATTERIES",
-    "title": "BIG-MAP / Battery 2030+ Hub",
+    "code": "CLP-02",
+    "codename": "BIG-MAP",
+    "title": "BIG-MAP / BATTERY 2030+",
     "district_ref": "@dist-closedloop",
-    "district_name": "AUTONOMOUS DISCOVERY & CLOSED-LOOP LABS",
-    "scale_label": "10^-2 m (Bench / Macro)",
+    "district_name": "CLOSED-LOOP EXPERIMENT ACCELERATION",
+    "scale_label": "10^-3 \u2013 10^-1 m (Droplet \u2192 Bench)",
     "color": "#c040ff",
     "coordinates": [
       13.4,
       52.5229051
     ],
     "metrics": {
-      "scale": "10^-2 m (Electrode Interface)",
-      "acceleration": "10x Battery Discovery Pace",
-      "infrastructure": "Battery 2030+ Flagship",
-      "maturity": "Strategic European Flagship"
+      "scale": "10^-2 m (Electrode\u2013electrolyte interface)",
+      "acceleration": "5\u201310\u00d7 discovery-rate target",
+      "infrastructure": "BATTERY 2030+ / IAM4EU / LEAPS\u2013LENS",
+      "maturity": "European flagship MAP"
     },
-    "abstract": "European initiative creating an accelerated discovery platform for next-generation solid-state batteries, integrating multi-scale simulation, automated synthesis, and operando interface tracking."
+    "abstract": "Europe's flagship Materials Acceleration Platform for batteries. It pairs multiscale modelling with closed-loop robotics through the Battery Interface Genome and the BattINFO ontology under a chemistry-neutral roadmap. Its target is a 5\u201310\u00d7 faster discovery rate and a shared European data infrastructure for autonomous research, with high-throughput results checked at LEAPS synchrotron and LENS neutron facilities. The Materials 2030 roadmap extends the model into IAM4EU, a network linking national acceleration platforms."
   },
   {
-    "id": "@spire-microfluidics",
-    "code": "MAP-03",
-    "codename": "MICROFLUIDIC MAP",
-    "title": "Microfluidic Continuous Flow MAP",
+    "id": "@spire-flow-sdl",
+    "code": "CLP-03",
+    "codename": "FLOW REACTOR",
+    "title": "Microfluidic SDLs & AlphaFlow",
     "district_ref": "@dist-closedloop",
-    "district_name": "AUTONOMOUS DISCOVERY & CLOSED-LOOP LABS",
-    "scale_label": "10^-2 m (Bench / Macro)",
+    "district_name": "CLOSED-LOOP EXPERIMENT ACCELERATION",
+    "scale_label": "10^-3 \u2013 10^-1 m (Droplet \u2192 Bench)",
     "color": "#c040ff",
     "coordinates": [
       13.4047237,
       52.523534
     ],
     "metrics": {
-      "scale": "10^-3 m (Droplet Reactor)",
-      "acceleration": "100x Reagent Conservation",
-      "infrastructure": "Advanced Materials Hubs",
-      "maturity": "Validated Lab Scale"
+      "scale": "10^-3 m (Droplet / flow reactor)",
+      "acceleration": "100\u20131,200 samples/hr \u00b7 10\u2013100\u00d7 less reagent",
+      "infrastructure": "Flow chemistry & nanocrystal SDLs",
+      "maturity": "Specialised, routinely deployed"
     },
-    "abstract": "Continuous flow microfluidic platform optimized via multi-objective Bayesian optimization, discovering semiconductor quantum dots and nanoparticles with tight polydispersity control."
+    "abstract": "Microfluidic process intensification for colloidal quantum dots, metal-halide perovskites and polymer\u2013protein hybrids, steered by GP-based Bayesian optimisation and by reinforcement-learning agents such as AlphaFlow for multi-step synthesis. Custom loops for liquid-phase reactions are among the most mature parts of the closed-loop theme, cutting chemical and energy use 10\u2013100\u00d7. Reactor fouling and clogging are the recurring failure modes."
   },
   {
-    "id": "@spire-additive-twin",
-    "code": "IND-01",
-    "codename": "ADDITIVE TWIN",
-    "title": "Additive Manufacturing Digital Twin",
+    "id": "@spire-aplab",
+    "code": "FAB-01",
+    "codename": "AP-LAB",
+    "title": "AP-Lab & Device Acceleration Platforms",
     "district_ref": "@dist-fab",
-    "district_name": "LAB-TO-FAB & SUSTAINABLE MANUFACTURING",
-    "scale_label": "10^0 - 10^3 m (Gigafactory)",
+    "district_name": "AI FOR RESPONSIBLE & SCALABLE PRODUCTION",
+    "scale_label": "mg \u2192 kg \u2192 Fab",
     "color": "#3a86ff",
     "coordinates": [
       13.3952763,
       52.5317984
     ],
     "metrics": {
-      "scale": "10^-1 - 10^0 m (Turbine Blade)",
-      "acceleration": "70% Reduction in Scrap",
-      "infrastructure": "Made in Europe Partnership",
-      "maturity": "Industrial Pilot"
+      "scale": "mg \u2192 kg batches",
+      "acceleration": "~50,000 tests per batch",
+      "infrastructure": "Island-structured pilot platforms",
+      "maturity": "Emerging / proof-of-concept"
     },
-    "abstract": "Physics-informed neural operator simulating laser powder bed fusion (LPBF), predicting melt pool porosity, residual stresses, and microstructural evolution in aerospace superalloys."
+    "abstract": "Autonomous pilot-scale workstations with agent control that combine local industrial datasets, in-line process monitoring and application benchmarks such as PCR Ct values, carrying milligram-scale results to kilogram batches. Device Acceleration Platforms extend self-driving labs into device fabrication and long-term stability testing, so that processability is measured from the start. The report treats this as the leading blueprint for closing the lab-to-fab gap, but still at an early stage."
   },
   {
-    "id": "@spire-crm-substitute",
-    "code": "IND-02",
-    "codename": "CRM SUBSTITUTION",
-    "title": "Critical Raw Material Substitute Core",
+    "id": "@spire-am-twin",
+    "code": "FAB-02",
+    "codename": "AM TWIN",
+    "title": "Additive Manufacturing Digital Twin",
     "district_ref": "@dist-fab",
-    "district_name": "LAB-TO-FAB & SUSTAINABLE MANUFACTURING",
-    "scale_label": "10^0 - 10^3 m (Gigafactory)",
+    "district_name": "AI FOR RESPONSIBLE & SCALABLE PRODUCTION",
+    "scale_label": "mg \u2192 kg \u2192 Fab",
     "color": "#3a86ff",
     "coordinates": [
       13.4,
       52.5311696
     ],
     "metrics": {
-      "scale": "10^0 m (Motor Stator)",
-      "acceleration": "Zero Cobalt / Zero Dysprosium",
-      "infrastructure": "Raw Materials KIC",
-      "maturity": "Strategic Deployment"
+      "scale": "10^-2 \u2013 10^0 m (Printed parts & metamaterials)",
+      "acceleration": "Sub-ms closed-loop defect correction",
+      "infrastructure": "5G / IIoT / FPGA edge \u00b7 Industry 5.0",
+      "maturity": "Cobots established; physics-informed DTs emerging"
     },
-    "abstract": "AI-accelerated compositional screening for permanent magnets and fuel cell catalysts that eliminate reliance on critical raw materials subject to geopolitical supply bottlenecks."
+    "abstract": "Multiphysics digital twins fuse acoustic, thermal and optical sensor streams through PINNs and U-Net segmentation to detect defects in real time, re-plan toolpaths and correct the process during printing. They also drive NSGA-II inverse design of 3D and 4D printed adaptive metamaterials. The Industry 5.0 framing puts human\u2013machine collaboration at the centre: AI cobots are already established in large manufacturers, while edge preprocessing over 5G/6G keeps control latency below what cloud round-trips allow."
   },
   {
-    "id": "@spire-circular-lca",
-    "code": "IND-03",
-    "codename": "CIRCULAR ECO-LCA",
-    "title": "Circular LCA & Eco-Design Platform",
+    "id": "@spire-ssbd",
+    "code": "FAB-03",
+    "codename": "SAFE BY DESIGN",
+    "title": "SSbD & PFAS Substitution Toolkit",
     "district_ref": "@dist-fab",
-    "district_name": "LAB-TO-FAB & SUSTAINABLE MANUFACTURING",
-    "scale_label": "10^0 - 10^3 m (Gigafactory)",
+    "district_name": "AI FOR RESPONSIBLE & SCALABLE PRODUCTION",
+    "scale_label": "mg \u2192 kg \u2192 Fab",
     "color": "#3a86ff",
     "coordinates": [
       13.4047237,
       52.5317984
     ],
     "metrics": {
-      "scale": "10^3 m (Gigafactory Lifecycle)",
-      "acceleration": "Automated Scope 3 Accounting",
-      "infrastructure": "EIT Manufacturing",
-      "maturity": "Emerging Mandate"
+      "scale": "Full material lifecycle",
+      "acceleration": "Early risk identification before scale-up",
+      "infrastructure": "Chemicals Strategy for Sustainability / GenAI4EU",
+      "maturity": "Early / developing"
     },
-    "abstract": "Machine learning system embedding carbon footprint, solvent toxicity, and hydrometallurgical recycling yield directly as objective constraints during generative candidate generation."
+    "abstract": "Machine learning inside Safe and Sustainable by Design frameworks: categorising advanced materials, multi-dimensional similarity assessment, computational exposure models, toxicity-data quality checks, and guided substitution of PFAS and other restricted substances. It is tied to digital material passports and sustainability ontologies that follow a material through its value chain. The report presents it as Europe's main tool against the regulatory pacing problem."
   }
 ];
 
@@ -547,247 +565,410 @@ window.BOTTLENECKS = [
     "id": "@bneck-dark-data",
     "code": "BOT-01",
     "codename": "DARK DATA",
-    "title": "Dark Data & Negative Reporting Bias",
-    "severity": 0.8,
+    "title": "Dark Data: Negative-Result Reporting Bias",
+    "severity": 0.95,
     "district_ref": "@dist-quantum",
-    "nature": "Epistemic Bias & Skewed Priors",
-    "impact": "Literature published over decades records almost exclusively successful syntheses. The omission of negative results systematically warps model priors, producing high false-positive rates during virtual screening.",
-    "remedy": "Standardized deposition of failed synthesis logs and negative XRD spectra in NOMAD and AiiDA.",
+    "nature": "Epistemic \u2014 systematically skewed training sets",
+    "impact": "Failed experiments and 'dark reactions' are almost never published, so literature-derived datasets are unbalanced in every theme. This distorts parameter spaces, raises false-positive rates in predictive screening, and limits what models trained on the literature can learn. The Conclusion lists it first among the common challenges.",
+    "remedy": "A cultural shift in which clean, well-annotated data, including negative results, counts as much as a publication; FAIR deposition with standard metadata (NOMAD Metainfo, SOPs, machine-readable handbooks); continuous in-situ logging in closed-loop campaigns.",
     "coordinates": [
       13.3927669,
       52.4968541
     ]
   },
   {
-    "id": "@bneck-synth-gap",
+    "id": "@bneck-ood",
     "code": "BOT-02",
-    "codename": "SYNTHESIS GAP",
-    "title": "The 'Synthesizability Gap'",
-    "severity": 0.8,
-    "district_ref": "@dist-design",
-    "nature": "Thermodynamics vs Kinetics Mismatch",
-    "impact": "Diffusion and GNN models propose millions of crystals with low energy above the convex hull, but physical labs fail to synthesize them due to insurmountable kinetic barriers or phase separation.",
-    "remedy": "Integrating nucleation kinetics and precursor-matching heuristics directly into generative loss functions.",
+    "codename": "OOD FRAGILITY",
+    "title": "Out-of-Distribution Fragility & PES Data Scarcity",
+    "severity": 0.85,
+    "district_ref": "@dist-quantum",
+    "nature": "Epistemic \u2014 generalisation gap",
+    "impact": "Models become unreliable on atomic environments, elements, out-of-equilibrium states or experimental noise absent from training. High-fidelity meta-GGA, hybrid and CCSD(T) potential-energy data is scarce, with CCSD(T) limited to small cells. Inconsistent convergence settings across codes add further noise, and deep models give no explicit physical guarantees.",
+    "remedy": "Separate aleatoric from epistemic uncertainty with Bayesian and ensemble UQ; use uncertainty-driven active learning to sample new configurations; build physical conservation laws and invariants into architectures; validate externally before any regulatory or safety-critical use.",
     "coordinates": [
       13.4072331,
-      52.5083525
+      52.500088
     ]
   },
   {
-    "id": "@bneck-gc-latency",
+    "id": "@bneck-novelty-mirage",
     "code": "BOT-03",
-    "codename": "232m GC LAG",
-    "title": "Analytical Rate-Limiter: 232-min GC Latency",
-    "severity": 0.8,
-    "district_ref": "@dist-closedloop",
-    "nature": "Physical Speed Asymmetry",
-    "impact": "AI Bayesian agents compute the next optimal experiment in 50 milliseconds, but physical characterisation (such as online gas chromatography) takes up to 232 minutes per batch, stalling autonomous loops.",
-    "remedy": "Surrogate spectroscopic screening (Raman/UV-Vis) to filter candidates before slow GC confirmation.",
+    "codename": "NOVELTY MIRAGE",
+    "title": "The Novelty Mirage: Disorder & Symmetry Bias",
+    "severity": 0.75,
+    "district_ref": "@dist-design",
+    "nature": "Epistemic \u2014 database-matching vs experimental novelty",
+    "impact": "'New' generated crystals are often disordered forms of known phases. GNoME's predicted substitutional-disorder rate is 80\u201384%, against 35% in the experimental ICSD, and MatterGen's showcase TaCr2O6 turned out to be a known disordered rutile. Diffusion models also over-produce P1 structures. The result is catalogues that look large on paper but contain few genuinely new phases.",
+    "remedy": "Disorder-aware structure matching, independent crystallographic and experimental verification before novelty claims, symmetry-aware generation, and Virtual Forward Synthesis to remove candidates that cannot be synthesized.",
     "coordinates": [
       13.3926193,
-      52.5247018
+      52.5081728
     ]
   },
   {
-    "id": "@bneck-robot-jams",
+    "id": "@bneck-vendor-lock",
     "code": "BOT-04",
-    "codename": "ROBOT JAMS",
-    "title": "Mechatronic Fragility & ~3.9% Robotic Error Rate",
-    "severity": 0.8,
-    "district_ref": "@dist-closedloop",
-    "nature": "Hardware Exception & Viscosity Fails",
-    "impact": "Non-zero hardware exception rates (~3.9%) during solid powder dispensing, pipette clogging, or microfluidic fouling frequently abort unattended 24/7 autonomous exploration campaigns.",
-    "remedy": "Computer-vision self-healing routines, automated wash cycles, and robotic grip anomaly detection.",
+    "codename": "VENDOR LOCK",
+    "title": "Proprietary Instrument Formats & Vendor Lock-In",
+    "severity": 0.7,
+    "district_ref": "@dist-char",
+    "nature": "Structural \u2014 closed data formats",
+    "impact": "Instrument-specific formats such as GMS and Velox, together with black-box vendor analysis platforms, drop essential context and block universal AI workflows. Open libraries (AtomAI, RamanSPy) are hard to maintain across hardware generations, and cross-facility analytics stop at the file boundary.",
+    "remedy": "Mandate open NeXus, HDF5 and USID structures with semantic ontologies (for example FAIRmat's NeXus APT work), standard control interfaces such as TANGO, and DOIs for datasets and workflows.",
     "coordinates": [
       13.4073807,
-      52.5217373
+      52.5134729
     ]
   },
   {
-    "id": "@bneck-ip-silos",
+    "id": "@bneck-physical-throttle",
     "code": "BOT-05",
-    "codename": "IP SILOS",
-    "title": "Industrial IP Silos vs Synthetic Academic Data",
+    "codename": "232-MIN GC",
+    "title": "Physical Throttle: 232-min GC & ~3.9% Robot Exceptions",
     "severity": 0.8,
-    "district_ref": "@dist-fab",
-    "nature": "Data Access & Secrecy Wall",
-    "impact": "Academic AI is trained on pristine idealized DFT simulations, while real-world factory scrap rates, nozzle fouling, and chemical batch variations remain strictly proprietary trade secrets.",
-    "remedy": "Federated privacy-preserving machine learning and trusted European data spaces (EOSC/EIT).",
+    "district_ref": "@dist-closedloop",
+    "nature": "Physical \u2014 analytical & mechanical rate-limiters",
+    "impact": "Closed loops move only as fast as their slowest analytical step: online gas chromatography takes up to 232 minutes per batch. Sample transport latency, microfluidic clogging and fouling, manual powder preparation, and a ~3.9% hardware exception rate during robotic handling interrupt unattended 24/7 campaigns.",
+    "remedy": "Faster in-line characterisation, microfluidic process intensification, robust automated preparation of solid samples (dosing, calcination, XRD/XRF mounting), and exception handling built into orchestration.",
     "coordinates": [
       13.4,
-      52.5337747
+      52.5255102
+    ]
+  },
+  {
+    "id": "@bneck-middleware",
+    "code": "BOT-06",
+    "codename": "MIDDLEWARE SILOS",
+    "title": "Middleware Silos: Missing Open Hardware Standards",
+    "severity": 0.9,
+    "district_ref": "@dist-closedloop",
+    "nature": "Structural \u2014 the single greatest SDL bottleneck",
+    "impact": "Open standards exist (OPC UA, with its LADS companion specification for laboratory devices), but vendors have adopted them only partly, legacy systems persist, and there is no semantic harmonisation. Every combination of robot arm, reactor and analyser therefore needs custom middleware (ChemOS, Helao, FINALES), producing fragmented stacks that limit full closed-loop control across distributed MAPs. The Conclusion calls this the primary technical hurdle.",
+    "remedy": "Accelerate adoption of OPC-UA/LADS and SiLA2; standard procedure languages (\u03c7DL); JSON-LD/RDF experiment metadata; tighter links to higher-level SDL orchestration.",
+    "coordinates": [
+      13.3927669,
+      52.5216475
+    ]
+  },
+  {
+    "id": "@bneck-lab-to-fab",
+    "code": "BOT-07",
+    "codename": "LAB-TO-FAB GAP",
+    "title": "The Lab-to-Fab Gap & Industrial Data Scarcity",
+    "severity": 0.85,
+    "district_ref": "@dist-fab",
+    "nature": "Translational \u2014 lab optima vs manufacturable space",
+    "impact": "Models trained on academic DFT metrics ignore solvent toxicity, raw-material scarcity and process tolerances, so they return 'optimal' materials that are impractical or too expensive at scale. Yields become inconsistent during scale-up, and the industrial datasets that map manufacturable regions stay proprietary.",
+    "remedy": "Optimise performance and manufacturability together from the first iteration; use application-oriented benchmarks such as PCR Ct; validate on autonomous pilot-scale platforms and DAPs before mass production.",
+    "coordinates": [
+      13.4072331,
+      52.5331459
+    ]
+  },
+  {
+    "id": "@bneck-synthetic-fraud",
+    "code": "BOT-08",
+    "codename": "SYNTHETIC FRAUD",
+    "title": "Synthetic Data Fraud & Provenance Erosion",
+    "severity": 0.65,
+    "district_ref": "@dist-fab",
+    "nature": "Integrity \u2014 undetectable generated evidence",
+    "impact": "AI-generated microscopy images and manipulated code can no longer be told apart from real data by experts, and the report cites analytical error rates of 20\u201330% in published literature. This contaminates the evidence that industrial adoption and regulation depend on.",
+    "remedy": "Standard raw-instrument data structures (Minimal Arrangement of Instrument Files, MAIF), automated AI fraud detection, and audited raw-to-processed data trails before industrial deployment.",
+    "coordinates": [
+      13.3926193,
+      52.5329662
     ]
   }
 ];
 
 window.CHALLENGES = [
   {
-    "id": "@chal-crm-act",
+    "id": "@chal-mev-polymorphs",
     "code": "PRIO-01",
-    "codename": "RAW MATERIALS",
-    "title": "EU Critical Raw Materials Act (CRMA)",
-    "impact_scale": 0.8,
-    "district_ref": "@dist-fab",
-    "type": "European Policy Mandate",
-    "target": "Achieve strategic technological sovereignty by substituting 100% of imported heavy rare earths and reducing cobalt in EV batteries by 2030.",
+    "codename": "MEV POLYMORPHS",
+    "title": "Chemical Accuracy vs Efficiency at the meV Scale",
+    "impact_scale": 0.7,
+    "district_ref": "@dist-quantum",
+    "type": "Frontier Question",
+    "target": "Resolve meV-per-atom energy differences between polymorphs while keeping the speed needed for microsecond simulations; capture rare events and transition states with uncertainty-driven sampling; add long-range electrostatics, magnetism and spin without the full cost of equivariant models.",
     "coordinates": [
       13.4069379,
-      52.529912
+      52.4968541
     ]
   },
   {
-    "id": "@chal-chips-act",
+    "id": "@chal-sim-to-real",
     "code": "PRIO-02",
-    "codename": "CHIPS ACT",
-    "title": "European Chips Act & Novel Semiconductors",
-    "impact_scale": 0.8,
-    "district_ref": "@dist-quantum",
-    "type": "European Industrial Strategy",
-    "target": "Accelerate discovery of ultra-wide bandgap semiconductors (GaN, SiC, diamond) and 2D dielectric heterostructures for energy-efficient computing.",
+    "codename": "SIM-TO-REAL",
+    "title": "Closing the Simulation-to-Real Gap in Characterisation",
+    "impact_scale": 0.75,
+    "district_ref": "@dist-char",
+    "type": "Methodological Challenge",
+    "target": "Make models trained on DFT spectra and kinematic diffraction work on real samples despite noise, drift, beam damage and processing history, using self-supervised denoising, transfer learning and physics-guided explainable AI that experimentalists can trust.",
     "coordinates": [
       13.3930621,
-      52.5001779
+      52.5167068
     ]
   },
   {
-    "id": "@chal-multiscale",
+    "id": "@chal-activity-cliffs",
     "code": "PRIO-03",
-    "codename": "MULTISCALE",
-    "title": "Grand Scientific Challenge: Multi-Scale Coupling",
-    "impact_scale": 0.8,
+    "codename": "ACTIVITY CLIFFS",
+    "title": "Resolving Activity Cliffs",
+    "impact_scale": 0.65,
     "district_ref": "@dist-design",
-    "type": "Fundamental Frontier",
-    "target": "Seamlessly bridge 10 orders of magnitude in space and 15 in time: from quantum wavefunctions (10^-10 m) to mechanical fatigue of aerospace structures (10^0 m).",
+    "type": "Frontier Question",
+    "target": "Detect non-linear property jumps, where a small atomic or molecular change shifts yield strength, dielectric breakdown or Tc sharply, instead of statistical models smoothing over narrow peaks; move from correlation to physics-informed causal models of synthesis and stability.",
     "coordinates": [
       13.4070855,
       52.508083
     ]
   },
   {
-    "id": "@chal-activity-cliffs",
+    "id": "@chal-pacing-problem",
     "code": "PRIO-04",
-    "codename": "ACTIVITY CLIFFS",
-    "title": "Scientific Frontier: Resolving Activity Cliffs",
-    "impact_scale": 0.8,
-    "district_ref": "@dist-char",
-    "type": "Methodological Challenge",
-    "target": "Detect ultra-sensitive non-linear performance jumps where substituting a single dopant atom in a 100-atom supercell dramatically shifts Tc or dielectric breakdown.",
+    "codename": "PACING PROBLEM",
+    "title": "Regulatory Pacing Problem & SSbD",
+    "impact_scale": 0.7,
+    "district_ref": "@dist-fab",
+    "type": "European Policy Mandate",
+    "target": "Use AI horizon scanning and early risk identification so that environmental, health and industrial viability is assessed before materials reach the market, in line with the Chemicals Strategy for Sustainability, the Zero-Pollution Action Plan and GenAI4EU's PFAS-substitution focus.",
     "coordinates": [
       13.3929145,
-      52.5134729
+      52.5300018
     ]
   },
   {
-    "id": "@chal-netzero",
+    "id": "@chal-sovereign-fm",
     "code": "PRIO-05",
-    "codename": "NET-ZERO",
-    "title": "Net-Zero Industry Act & Circular Chemistry",
-    "impact_scale": 0.8,
-    "district_ref": "@dist-fab",
-    "type": "Sustainability Mandate",
-    "target": "Enforce cradle-to-gate carbon intensity and zero-toxic solvent penalties into AI discovery loops before materials reach pilot-line testing.",
+    "codename": "SOVEREIGN FM",
+    "title": "Sovereign Open Foundation Models for Materials",
+    "impact_scale": 0.9,
+    "district_ref": "@dist-quantum",
+    "type": "Strategic Recommendation",
+    "target": "European open-source foundation models for chemistry and materials, trained on verified high-fidelity data curated through NOMAD, FAIRmat and AiiDA and funded through the GenAI4EU call HORIZON-CL4-INDUSTRY-2025-01-DIGITAL-61, covering PFAS alternatives, high-capacity batteries and photovoltaics.",
     "coordinates": [
       13.4,
-      52.5292831
+      52.4962253
+    ]
+  },
+  {
+    "id": "@chal-level5",
+    "code": "PRIO-06",
+    "codename": "LEVEL 5",
+    "title": "From Level-4 Platforms to Level-5 Autonomy",
+    "impact_scale": 0.6,
+    "district_ref": "@dist-closedloop",
+    "type": "Frontier Question",
+    "target": "Replace 'blind' Bayesian optimisation with agents that combine LLM reasoning (ChemCrow, Coscientist) and physics-informed models, moving from narrow Level 2\u20134 loops toward an autonomous AI researcher capable of self-guided hypothesis generation, a goal the report says has not been reached.",
+    "coordinates": [
+      13.4069379,
+      52.5216475
+    ]
+  },
+  {
+    "id": "@chal-cloud-labs",
+    "code": "PRIO-07",
+    "codename": "CLOUD LABS",
+    "title": "Federated European Cloud Laboratories",
+    "impact_scale": 0.85,
+    "district_ref": "@dist-closedloop",
+    "type": "Strategic Recommendation",
+    "target": "Open up platforms costing over $1M each through shared European user facilities run like HPC centres, with remote cloud-lab access, OPTIMADE/NeXus/USID/HDF5 schemas and interdisciplinary doctoral training, while managing IIoT cybersecurity, dual-use and AI-invention patentability risks.",
+    "coordinates": [
+      13.3930621,
+      52.5249713
     ]
   }
 ];
 
 window.CONDUITS = [
   {
-    "id": "@conduit-quantum-potentials",
+    "id": "@conduit-salex-training",
     "code": "HW-01",
-    "codename": "QUANTUM FEED",
-    "name": "Quantum Potential Superhighway",
-    "from": "@spire-nomad",
-    "from_name": "NOMAD CoE & Materials Cloud",
-    "to": "@spire-mattergen",
-    "to_name": "MatterGen & Crystal Diffusion Core",
-    "type": "Electronic Structure Feed",
-    "bandwidth": "Millions of Relaxed PES Geometries",
-    "description": "High-throughput DFT databases continuously stream energy and force tensors into generative diffusion models to calibrate stable chemical space. Without this continuous quantum calibration, crystal generation rapidly degenerates into unphysical geometries.",
+    "codename": "SALEX FEED",
+    "name": "Off-Equilibrium Training Feed",
+    "from": "@spire-alexandria",
+    "from_name": "Alexandria Database & sAlex25",
+    "to": "@spire-umlip",
+    "to_name": "Universal & Equivariant MLIPs",
+    "type": "Training Data Stream",
+    "bandwidth": "14M sAlex25 configurations with forces & stresses",
+    "description": "Relaxation trajectories and out-of-equilibrium configurations from Alexandria train and fine-tune universal potentials (for example GRACE-2). The report singles out this out-of-equilibrium data as the scarce input that determines how well a potential transfers.",
     "color": "#00f0ff",
     "midpoint": [
-      13.3952763,
+      13.4023441,
+      52.4984238
+    ]
+  },
+  {
+    "id": "@conduit-stability-screen",
+    "code": "HW-02",
+    "codename": "STABILITY SCREEN",
+    "name": "ML-Accelerated Stability Screening",
+    "from": "@spire-umlip",
+    "from_name": "Universal & Equivariant MLIPs",
+    "to": "@spire-gnome",
+    "to_name": "GNoME Scale Discovery",
+    "type": "Model-to-Model Evaluation",
+    "bandwidth": "Billions of ML-accelerated structure evaluations",
+    "description": "Universal potentials replace DFT relaxations when filtering generated candidates against the convex hull, which is what made GNoME-scale catalogues possible on EuroHPC-class compute. The same pipeline carries forward any bias the potential has on out-of-distribution chemistries.",
+    "color": "#ffb700",
+    "midpoint": [
+      13.4000354,
       52.5028418
     ]
   },
   {
     "id": "@conduit-recipe-dispatch",
-    "code": "HW-02",
+    "code": "HW-03",
     "codename": "RECIPE DISPATCH",
-    "name": "Generative Candidate Dispatch Conduit",
+    "name": "Prediction-to-Synthesis Dispatch",
     "from": "@spire-mattergen",
-    "from_name": "MatterGen & Crystal Diffusion Core",
+    "from_name": "MatterGen & FlowLLM Diffusion",
     "to": "@spire-alab",
-    "to_name": "A-Lab Autonomous Synthesis Core",
-    "type": "Digital-to-Physical Recipe Pipeline",
-    "bandwidth": "Automated Machine-Actionable Synthesis Plans",
-    "description": "Top Pareto-optimal crystal candidates are translated by chemical NLP into executable robotic G-code, solid powder dispensing weights, and furnace thermal annealing profiles for A-Lab.",
-    "color": "#ffb700",
+    "to_name": "A-Lab & Level-4 SDL Platforms",
+    "type": "Digital-to-Physical Handover",
+    "bandwidth": "Candidate structures + LLM-extracted synthesis recipes",
+    "description": "Generated candidates are paired with recipes mined from literature by NLP tools (ChemDataExtractor and LLM agents) and translated into robot-executable procedures. The report calls this prediction-to-synthesis workflow emerging: synthesizability, kinetic accessibility and verified novelty are unresolved at this junction.",
+    "color": "#00f0ff",
     "midpoint": [
-      13.3952763,
-      52.5152075
+      13.3976559,
+      52.5148907
     ]
   },
   {
-    "id": "@conduit-beamline-feedback",
-    "code": "HW-03",
-    "codename": "BEAMLINE LOOP",
-    "name": "Synchrotron Active Feedback Loop",
-    "from": "@spire-esrf-edge",
-    "from_name": "ESRF Synchrotron Edge AI Pipeline",
+    "id": "@conduit-operando-loop",
+    "code": "HW-04",
+    "codename": "OPERANDO LOOP",
+    "name": "Large-Facility Validation Loop",
+    "from": "@spire-beamline-edge",
+    "from_name": "Beamline Edge AI & Self-Driving Microscopes",
     "to": "@spire-bigmap",
-    "to_name": "BIG-MAP / Battery 2030+ Hub",
-    "type": "In-Situ Operando Telemetry",
-    "bandwidth": "Gigabyte/sec Live Diffraction Streams",
-    "description": "Real-time XRD phase evolution from synchrotron beamlines updates Gaussian process surrogate models in autonomous labs, steering synthesis parameters mid-reaction before irreversible phase separation occurs.",
-    "color": "#00f0ff",
+    "to_name": "BIG-MAP / BATTERY 2030+",
+    "type": "In-Situ / Operando Telemetry",
+    "bandwidth": "GB/s synchrotron & neutron streams",
+    "description": "BATTERY 2030+ requires high-throughput battery discovery to be validated at LEAPS synchrotrons and LENS neutron sources. Edge preprocessing at the beamline turns these streams into feedback that acceleration platforms can use.",
+    "color": "#ffb700",
     "midpoint": [
-      13.3976205,
+      13.4023795,
       52.5190587
     ]
   },
   {
-    "id": "@conduit-scaleup-transfer",
-    "code": "HW-04",
-    "codename": "LAB-TO-FAB",
-    "name": "Lab-to-Fab Material Transfer Conduit",
-    "from": "@spire-alab",
-    "from_name": "A-Lab Autonomous Synthesis Core",
-    "to": "@spire-additive-twin",
-    "to_name": "Additive Manufacturing Digital Twin",
-    "type": "Process Scaling & Property Handover",
-    "bandwidth": "Powder Rheology & Melt-Pool Thermodynamics",
-    "description": "Laboratory-scale successful alloys are passed to industrial laser powder bed digital twins to simulate manufacturing stresses, cooling rates, and scrap risks before committing to multi-ton pilot production.",
-    "color": "#ffb700",
+    "id": "@conduit-scale-up",
+    "code": "HW-05",
+    "codename": "SCALE-UP",
+    "name": "Milligram-to-Kilogram Scale-Up",
+    "from": "@spire-flow-sdl",
+    "from_name": "Microfluidic SDLs & AlphaFlow",
+    "to": "@spire-aplab",
+    "to_name": "AP-Lab & Device Acceleration Platforms",
+    "type": "Process Scaling Handover",
+    "bandwidth": "Recipes + in-line process data, ~50,000 tests/batch",
+    "description": "Lab-optimised recipes pass to autonomous pilot-scale platforms that re-optimise them against local industrial data and application benchmarks. This is the step where the report says yield inconsistencies and unpredictable behaviour appear, and where the lab-to-fab gap is either closed or exposed.",
+    "color": "#00f0ff",
     "midpoint": [
-      13.3952763,
+      13.4000354,
       52.5276352
     ]
   },
   {
-    "id": "@conduit-provenance-ring",
-    "code": "HW-05",
-    "codename": "CIRCULAR PASSPORT",
-    "name": "Circular Provenance & AiiDA Registry Ring",
-    "from": "@spire-aiida",
-    "from_name": "AiiDA Workflow Orchestrator",
-    "to": "@spire-circular-lca",
-    "to_name": "Circular LCA & Eco-Design Platform",
-    "type": "End-to-End Cryptographic Provenance",
-    "bandwidth": "FAIR Digital Product Passports",
-    "description": "Traces computational origin, experimental synthesis conditions, and environmental impact across the entire scale corridor into a circular product passport required by EU Net-Zero regulations.",
+    "id": "@conduit-4d-print",
+    "code": "HW-06",
+    "codename": "4D PRINT",
+    "name": "Shape-Memory Polymers to 4D Printing",
+    "from": "@spire-polymer",
+    "from_name": "Polymer & Membrane Inverse Design",
+    "to": "@spire-am-twin",
+    "to_name": "Additive Manufacturing Digital Twin",
+    "type": "Material-to-Process Transfer",
+    "bandwidth": "Stimuli-responsive polymer designs + recovery kinetics",
+    "description": "Shape-memory polymers designed for 4D printing and soft robotics feed digital-twin-controlled additive manufacturing of adaptive metamaterials. Linking nanosecond MD to hour-scale shape-memory recovery is the open multiscale problem on this route.",
+    "color": "#ffb700",
+    "midpoint": [
+      13.4023796,
+      52.5189967
+    ]
+  },
+  {
+    "id": "@conduit-nexus-schema",
+    "code": "HW-07",
+    "codename": "NEXUS SCHEMA",
+    "name": "NeXus Ontology Pipeline",
+    "from": "@spire-nomad",
+    "from_name": "NOMAD \u00b7 FAIRmat \u00b7 AiiDA FAIR Stack",
+    "to": "@spire-apt",
+    "to_name": "Atom Probe Tomography ML",
+    "type": "Standards & Metadata Flow",
+    "bandwidth": "Semantic ontologies for post-processing",
+    "description": "FAIRmat, which maintains NOMAD, is implementing NeXus ontologies to standardise atom-probe post-processing. It is a working example of the FAIR stack reaching characterisation, which the report recommends extending to all beamlines and microscopes.",
     "color": "#00f0ff",
     "midpoint": [
-      13.4047237,
-      52.5151455
+      13.3976205,
+      52.506631
+    ]
+  },
+  {
+    "id": "@conduit-failure-log",
+    "code": "HW-08",
+    "codename": "FAILURE LOG",
+    "name": "Negative-Result Return Path",
+    "from": "@spire-alab",
+    "from_name": "A-Lab & Level-4 SDL Platforms",
+    "to": "@spire-nomad",
+    "to_name": "NOMAD \u00b7 FAIRmat \u00b7 AiiDA FAIR Stack",
+    "type": "Southbound Feedback (largely missing)",
+    "bandwidth": "Failed-synthesis logs & in-situ records",
+    "description": "The remedy for dark data drawn as a pipe: failed syntheses and continuous in-situ logs from autonomous labs flow back into FAIR repositories. The report treats this as a needed cultural change, not an existing flow, which is why it runs against the corridor.",
+    "color": "#ffb700",
+    "midpoint": [
+      13.3952763,
+      52.5112303
+    ]
+  },
+  {
+    "id": "@conduit-ground-truth",
+    "code": "HW-09",
+    "codename": "GROUND TRUTH",
+    "name": "Characterisation Ground-Truth Return",
+    "from": "@spire-4dstem",
+    "from_name": "4D-STEM & Electron Microscopy Vision",
+    "to": "@spire-umlip",
+    "to_name": "Universal & Equivariant MLIPs",
+    "type": "Southbound Validation Feed",
+    "bandwidth": "Defect maps, atom-column positions, spectra",
+    "description": "Experimental microscopy and beamline data supply the ground truth needed to validate potentials trained on DFT alone. The simulation-to-real gap and the scarcity of gold-standard experimental data keep this return path thin.",
+    "color": "#00f0ff",
+    "midpoint": [
+      13.3999646,
+      52.507067
+    ]
+  },
+  {
+    "id": "@conduit-ssbd-guardrail",
+    "code": "HW-10",
+    "codename": "SSBD GUARDRAIL",
+    "name": "SSbD Constraints into Generative Design",
+    "from": "@spire-ssbd",
+    "from_name": "SSbD & PFAS Substitution Toolkit",
+    "to": "@spire-mattergen",
+    "to_name": "MatterGen & FlowLLM Diffusion",
+    "type": "Southbound Constraint Injection",
+    "bandwidth": "Toxicity endpoints, PFAS restrictions, lifecycle criteria",
+    "description": "Safe and Sustainable by Design asks for risks to be identified 'at the earliest stages of material innovation', so the production district sends its constraints back to the generators. GenAI4EU's PFAS-substitution call funds exactly this reverse link.",
+    "color": "#ffb700",
+    "midpoint": [
+      13.4023796,
+      52.5191826
     ]
   }
 ];
 
-window.BUILDINGS_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"id": "@spire-nomad-pedestal", "spire_ref": "@spire-nomad", "entity_type": "spire", "name": "NOMAD CoE & Materials Cloud", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#00f0ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960748, 52.4988708], [13.3956896, 52.4991763], [13.3950624, 52.4992265], [13.3945604, 52.4989921], [13.3944778, 52.4986104], [13.394863, 52.4983049], [13.3954902, 52.4982547], [13.3959922, 52.4984891], [13.3960748, 52.4988708]]]}}, {"type": "Feature", "properties": {"id": "@spire-nomad-tier1", "spire_ref": "@spire-nomad", "entity_type": "spire", "name": "NOMAD CoE & Materials Cloud", "tier": "body_lower", "height": 67.7, "base_height": 5.0, "color": "#00646b", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3959258, 52.4987406], [13.3957356, 52.4990201], [13.3952763, 52.4991359], [13.394817, 52.4990201], [13.3946268, 52.4987406], [13.394817, 52.4984611], [13.3952763, 52.4983453], [13.3957356, 52.4984611], [13.3959258, 52.4987406]]]}}, {"type": "Feature", "properties": {"id": "@spire-nomad-tier2", "spire_ref": "@spire-nomad", "entity_type": "spire", "name": "NOMAD CoE & Materials Cloud", "tier": "body_mid", "height": 139.3, "base_height": 67.7, "color": "#049fa9", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3957127, 52.4988506], [13.3954571, 52.4990062], [13.3950955, 52.4990062], [13.3948399, 52.4988506], [13.3948399, 52.4986306], [13.3950955, 52.498475], [13.3954571, 52.498475], [13.3957127, 52.4986306], [13.3957127, 52.4988506]]]}}, {"type": "Feature", "properties": {"id": "@spire-nomad-tier3", "spire_ref": "@spire-nomad", "entity_type": "spire", "name": "NOMAD CoE & Materials Cloud", "tier": "crown", "height": 193.5, "base_height": 139.3, "color": "#00f0ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954851, 52.4988676], [13.3952763, 52.4989203], [13.3950675, 52.4988676], [13.3949811, 52.4987406], [13.3950675, 52.4986136], [13.3952763, 52.4985609], [13.3954851, 52.4986136], [13.3955715, 52.4987406], [13.3954851, 52.4988676]]]}}, {"type": "Feature", "properties": {"id": "@spire-nomad-needle", "spire_ref": "@spire-nomad", "entity_type": "spire", "name": "NOMAD CoE & Materials Cloud", "tier": "needle", "height": 225.5, "base_height": 193.5, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953285, 52.4987724], [13.3952241, 52.4987724], [13.3952241, 52.4987088], [13.3953285, 52.4987088], [13.3953285, 52.4987724]]]}}, {"type": "Feature", "properties": {"id": "@spire-chgnet-pedestal", "spire_ref": "@spire-chgnet", "entity_type": "spire", "name": "CHGNet & Equivariant Potentials", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#00f0ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4007985, 52.4982419], [13.4002139, 52.4985976], [13.3994155, 52.4984674], [13.3992015, 52.4979815], [13.3997861, 52.4976258], [13.4005845, 52.497756], [13.4007985, 52.4982419]]]}}, {"type": "Feature", "properties": {"id": "@spire-chgnet-tier1", "spire_ref": "@spire-chgnet", "entity_type": "spire", "name": "CHGNet & Equivariant Potentials", "tier": "body_lower", "height": 71.6, "base_height": 5.0, "color": "#00646b", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4006495, 52.4981117], [13.4003248, 52.498454], [13.3996752, 52.498454], [13.3993505, 52.4981117], [13.3996752, 52.4977694], [13.4003248, 52.4977694], [13.4006495, 52.4981117]]]}}, {"type": "Feature", "properties": {"id": "@spire-chgnet-tier2", "spire_ref": "@spire-chgnet", "entity_type": "spire", "name": "CHGNet & Equivariant Potentials", "tier": "body_mid", "height": 147.2, "base_height": 71.6, "color": "#049fa9", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4004364, 52.4982217], [13.4000617, 52.4983967], [13.3996252, 52.4982867], [13.3995636, 52.4980017], [13.3999383, 52.4978267], [13.4003748, 52.4979367], [13.4004364, 52.4982217]]]}}, {"type": "Feature", "properties": {"id": "@spire-chgnet-tier3", "spire_ref": "@spire-chgnet", "entity_type": "spire", "name": "CHGNet & Equivariant Potentials", "tier": "crown", "height": 204.5, "base_height": 147.2, "color": "#00f0ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4002088, 52.4982387], [13.3999236, 52.4982852], [13.3997148, 52.4981582], [13.3997912, 52.4979847], [13.4000764, 52.4979382], [13.4002852, 52.4980652], [13.4002088, 52.4982387]]]}}, {"type": "Feature", "properties": {"id": "@spire-chgnet-needle", "spire_ref": "@spire-chgnet", "entity_type": "spire", "name": "CHGNet & Equivariant Potentials", "tier": "needle", "height": 236.5, "base_height": 204.5, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4000522, 52.4981435], [13.3999478, 52.4981435], [13.3999478, 52.4980799], [13.4000522, 52.4980799], [13.4000522, 52.4981435]]]}}, {"type": "Feature", "properties": {"id": "@spire-aiida-pedestal", "spire_ref": "@spire-aiida", "entity_type": "spire", "name": "AiiDA Workflow Orchestrator", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#00f0ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4055222, 52.4988708], [13.405137, 52.4991763], [13.4045098, 52.4992265], [13.4040078, 52.4989921], [13.4039252, 52.4986104], [13.4043104, 52.4983049], [13.4049376, 52.4982547], [13.4054396, 52.4984891], [13.4055222, 52.4988708]]]}}, {"type": "Feature", "properties": {"id": "@spire-aiida-tier1", "spire_ref": "@spire-aiida", "entity_type": "spire", "name": "AiiDA Workflow Orchestrator", "tier": "body_lower", "height": 63.9, "base_height": 5.0, "color": "#00646b", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4053732, 52.4987406], [13.405183, 52.4990201], [13.4047237, 52.4991359], [13.4042644, 52.4990201], [13.4040742, 52.4987406], [13.4042644, 52.4984611], [13.4047237, 52.4983453], [13.405183, 52.4984611], [13.4053732, 52.4987406]]]}}, {"type": "Feature", "properties": {"id": "@spire-aiida-tier2", "spire_ref": "@spire-aiida", "entity_type": "spire", "name": "AiiDA Workflow Orchestrator", "tier": "body_mid", "height": 131.4, "base_height": 63.9, "color": "#049fa9", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4051601, 52.4988506], [13.4049045, 52.4990062], [13.4045429, 52.4990062], [13.4042873, 52.4988506], [13.4042873, 52.4986306], [13.4045429, 52.498475], [13.4049045, 52.498475], [13.4051601, 52.4986306], [13.4051601, 52.4988506]]]}}, {"type": "Feature", "properties": {"id": "@spire-aiida-tier3", "spire_ref": "@spire-aiida", "entity_type": "spire", "name": "AiiDA Workflow Orchestrator", "tier": "crown", "height": 182.5, "base_height": 131.4, "color": "#00f0ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4049325, 52.4988676], [13.4047237, 52.4989203], [13.4045149, 52.4988676], [13.4044285, 52.4987406], [13.4045149, 52.4986136], [13.4047237, 52.4985609], [13.4049325, 52.4986136], [13.4050189, 52.4987406], [13.4049325, 52.4988676]]]}}, {"type": "Feature", "properties": {"id": "@spire-aiida-needle", "spire_ref": "@spire-aiida", "entity_type": "spire", "name": "AiiDA Workflow Orchestrator", "tier": "needle", "height": 214.5, "base_height": 182.5, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4047759, 52.4987724], [13.4046715, 52.4987724], [13.4046715, 52.4987088], [13.4047759, 52.4987088], [13.4047759, 52.4987724]]]}}, {"type": "Feature", "properties": {"id": "@spire-mattergen-pedestal", "spire_ref": "@spire-mattergen", "entity_type": "spire", "name": "MatterGen & Crystal Diffusion Core", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#00e599", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960748, 52.5071352], [13.3956896, 52.5074407], [13.3950624, 52.5074909], [13.3945604, 52.5072565], [13.3944778, 52.5068748], [13.394863, 52.5065693], [13.3954902, 52.5065191], [13.3959922, 52.5067535], [13.3960748, 52.5071352]]]}}, {"type": "Feature", "properties": {"id": "@spire-mattergen-tier1", "spire_ref": "@spire-mattergen", "entity_type": "spire", "name": "MatterGen & Crystal Diffusion Core", "tier": "body_lower", "height": 69.6, "base_height": 5.0, "color": "#006040", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3959258, 52.507005], [13.3957356, 52.5072845], [13.3952763, 52.5074003], [13.394817, 52.5072845], [13.3946268, 52.507005], [13.394817, 52.5067255], [13.3952763, 52.5066097], [13.3957356, 52.5067255], [13.3959258, 52.507005]]]}}, {"type": "Feature", "properties": {"id": "@spire-mattergen-tier2", "spire_ref": "@spire-mattergen", "entity_type": "spire", "name": "MatterGen & Crystal Diffusion Core", "tier": "body_mid", "height": 143.3, "base_height": 69.6, "color": "#039766", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3957127, 52.507115], [13.3954571, 52.5072706], [13.3950955, 52.5072706], [13.3948399, 52.507115], [13.3948399, 52.506895], [13.3950955, 52.5067394], [13.3954571, 52.5067394], [13.3957127, 52.506895], [13.3957127, 52.507115]]]}}, {"type": "Feature", "properties": {"id": "@spire-mattergen-tier3", "spire_ref": "@spire-mattergen", "entity_type": "spire", "name": "MatterGen & Crystal Diffusion Core", "tier": "crown", "height": 199.0, "base_height": 143.3, "color": "#00e599", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954851, 52.507132], [13.3952763, 52.5071847], [13.3950675, 52.507132], [13.3949811, 52.507005], [13.3950675, 52.506878], [13.3952763, 52.5068253], [13.3954851, 52.506878], [13.3955715, 52.507005], [13.3954851, 52.507132]]]}}, {"type": "Feature", "properties": {"id": "@spire-mattergen-needle", "spire_ref": "@spire-mattergen", "entity_type": "spire", "name": "MatterGen & Crystal Diffusion Core", "tier": "needle", "height": 231.0, "base_height": 199.0, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953285, 52.5070368], [13.3952241, 52.5070368], [13.3952241, 52.5069732], [13.3953285, 52.5069732], [13.3953285, 52.5070368]]]}}, {"type": "Feature", "properties": {"id": "@spire-gnome-pedestal", "spire_ref": "@spire-gnome", "entity_type": "spire", "name": "GNoME Scale Discovery Engine", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#00e599", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4007985, 52.5065064], [13.4002139, 52.5068621], [13.3994155, 52.5067319], [13.3992015, 52.506246], [13.3997861, 52.5058903], [13.4005845, 52.5060205], [13.4007985, 52.5065064]]]}}, {"type": "Feature", "properties": {"id": "@spire-gnome-tier1", "spire_ref": "@spire-gnome", "entity_type": "spire", "name": "GNoME Scale Discovery Engine", "tier": "body_lower", "height": 71.6, "base_height": 5.0, "color": "#006040", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4006495, 52.5063762], [13.4003248, 52.5067185], [13.3996752, 52.5067185], [13.3993505, 52.5063762], [13.3996752, 52.5060339], [13.4003248, 52.5060339], [13.4006495, 52.5063762]]]}}, {"type": "Feature", "properties": {"id": "@spire-gnome-tier2", "spire_ref": "@spire-gnome", "entity_type": "spire", "name": "GNoME Scale Discovery Engine", "tier": "body_mid", "height": 147.2, "base_height": 71.6, "color": "#039766", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4004364, 52.5064862], [13.4000617, 52.5066612], [13.3996252, 52.5065512], [13.3995636, 52.5062662], [13.3999383, 52.5060912], [13.4003748, 52.5062012], [13.4004364, 52.5064862]]]}}, {"type": "Feature", "properties": {"id": "@spire-gnome-tier3", "spire_ref": "@spire-gnome", "entity_type": "spire", "name": "GNoME Scale Discovery Engine", "tier": "crown", "height": 204.5, "base_height": 147.2, "color": "#00e599", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4002088, 52.5065032], [13.3999236, 52.5065497], [13.3997148, 52.5064227], [13.3997912, 52.5062492], [13.4000764, 52.5062027], [13.4002852, 52.5063297], [13.4002088, 52.5065032]]]}}, {"type": "Feature", "properties": {"id": "@spire-gnome-needle", "spire_ref": "@spire-gnome", "entity_type": "spire", "name": "GNoME Scale Discovery Engine", "tier": "needle", "height": 236.5, "base_height": 204.5, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4000522, 52.506408], [13.3999478, 52.506408], [13.3999478, 52.5063444], [13.4000522, 52.5063444], [13.4000522, 52.506408]]]}}, {"type": "Feature", "properties": {"id": "@spire-flowllm-pedestal", "spire_ref": "@spire-flowllm", "entity_type": "spire", "name": "FlowLLM & Chemical NLP Suite", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#00e599", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4055222, 52.5071352], [13.405137, 52.5074407], [13.4045098, 52.5074909], [13.4040078, 52.5072565], [13.4039252, 52.5068748], [13.4043104, 52.5065693], [13.4049376, 52.5065191], [13.4054396, 52.5067535], [13.4055222, 52.5071352]]]}}, {"type": "Feature", "properties": {"id": "@spire-flowllm-tier1", "spire_ref": "@spire-flowllm", "entity_type": "spire", "name": "FlowLLM & Chemical NLP Suite", "tier": "body_lower", "height": 61.9, "base_height": 5.0, "color": "#006040", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4053732, 52.507005], [13.405183, 52.5072845], [13.4047237, 52.5074003], [13.4042644, 52.5072845], [13.4040742, 52.507005], [13.4042644, 52.5067255], [13.4047237, 52.5066097], [13.405183, 52.5067255], [13.4053732, 52.507005]]]}}, {"type": "Feature", "properties": {"id": "@spire-flowllm-tier2", "spire_ref": "@spire-flowllm", "entity_type": "spire", "name": "FlowLLM & Chemical NLP Suite", "tier": "body_mid", "height": 127.4, "base_height": 61.9, "color": "#039766", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4051601, 52.507115], [13.4049045, 52.5072706], [13.4045429, 52.5072706], [13.4042873, 52.507115], [13.4042873, 52.506895], [13.4045429, 52.5067394], [13.4049045, 52.5067394], [13.4051601, 52.506895], [13.4051601, 52.507115]]]}}, {"type": "Feature", "properties": {"id": "@spire-flowllm-tier3", "spire_ref": "@spire-flowllm", "entity_type": "spire", "name": "FlowLLM & Chemical NLP Suite", "tier": "crown", "height": 177.0, "base_height": 127.4, "color": "#00e599", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4049325, 52.507132], [13.4047237, 52.5071847], [13.4045149, 52.507132], [13.4044285, 52.507005], [13.4045149, 52.506878], [13.4047237, 52.5068253], [13.4049325, 52.506878], [13.4050189, 52.507005], [13.4049325, 52.507132]]]}}, {"type": "Feature", "properties": {"id": "@spire-flowllm-needle", "spire_ref": "@spire-flowllm", "entity_type": "spire", "name": "FlowLLM & Chemical NLP Suite", "tier": "needle", "height": 209.0, "base_height": 177.0, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4047759, 52.5070368], [13.4046715, 52.5070368], [13.4046715, 52.5069732], [13.4047759, 52.5069732], [13.4047759, 52.5070368]]]}}, {"type": "Feature", "properties": {"id": "@spire-esrf-edge-pedestal", "spire_ref": "@spire-esrf-edge", "entity_type": "spire", "name": "ESRF Synchrotron Edge AI Pipeline", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#ffb700", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960748, 52.5153997], [13.3956896, 52.5157052], [13.3950624, 52.5157554], [13.3945604, 52.515521], [13.3944778, 52.5151393], [13.394863, 52.5148338], [13.3954902, 52.5147836], [13.3959922, 52.515018], [13.3960748, 52.5153997]]]}}, {"type": "Feature", "properties": {"id": "@spire-esrf-edge-tier1", "spire_ref": "@spire-esrf-edge", "entity_type": "spire", "name": "ESRF Synchrotron Edge AI Pipeline", "tier": "body_lower", "height": 71.6, "base_height": 5.0, "color": "#6b4c00", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3959258, 52.5152695], [13.3957356, 52.515549], [13.3952763, 52.5156648], [13.394817, 52.515549], [13.3946268, 52.5152695], [13.394817, 52.51499], [13.3952763, 52.5148742], [13.3957356, 52.51499], [13.3959258, 52.5152695]]]}}, {"type": "Feature", "properties": {"id": "@spire-esrf-edge-tier2", "spire_ref": "@spire-esrf-edge", "entity_type": "spire", "name": "ESRF Synchrotron Edge AI Pipeline", "tier": "body_mid", "height": 147.2, "base_height": 71.6, "color": "#a97a04", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3957127, 52.5153795], [13.3954571, 52.5155351], [13.3950955, 52.5155351], [13.3948399, 52.5153795], [13.3948399, 52.5151595], [13.3950955, 52.5150039], [13.3954571, 52.5150039], [13.3957127, 52.5151595], [13.3957127, 52.5153795]]]}}, {"type": "Feature", "properties": {"id": "@spire-esrf-edge-tier3", "spire_ref": "@spire-esrf-edge", "entity_type": "spire", "name": "ESRF Synchrotron Edge AI Pipeline", "tier": "crown", "height": 204.5, "base_height": 147.2, "color": "#ffb700", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954851, 52.5153965], [13.3952763, 52.5154492], [13.3950675, 52.5153965], [13.3949811, 52.5152695], [13.3950675, 52.5151425], [13.3952763, 52.5150898], [13.3954851, 52.5151425], [13.3955715, 52.5152695], [13.3954851, 52.5153965]]]}}, {"type": "Feature", "properties": {"id": "@spire-esrf-edge-needle", "spire_ref": "@spire-esrf-edge", "entity_type": "spire", "name": "ESRF Synchrotron Edge AI Pipeline", "tier": "needle", "height": 236.5, "base_height": 204.5, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953285, 52.5153013], [13.3952241, 52.5153013], [13.3952241, 52.5152377], [13.3953285, 52.5152377], [13.3953285, 52.5153013]]]}}, {"type": "Feature", "properties": {"id": "@spire-tem-vision-pedestal", "spire_ref": "@spire-tem-vision", "entity_type": "spire", "name": "Atomic TEM & APT Defect Vision", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#ffb700", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4007985, 52.5147709], [13.4002139, 52.5151266], [13.3994155, 52.5149964], [13.3992015, 52.5145105], [13.3997861, 52.5141548], [13.4005845, 52.514285], [13.4007985, 52.5147709]]]}}, {"type": "Feature", "properties": {"id": "@spire-tem-vision-tier1", "spire_ref": "@spire-tem-vision", "entity_type": "spire", "name": "Atomic TEM & APT Defect Vision", "tier": "body_lower", "height": 65.8, "base_height": 5.0, "color": "#6b4c00", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4006495, 52.5146407], [13.4003248, 52.514983], [13.3996752, 52.514983], [13.3993505, 52.5146407], [13.3996752, 52.5142984], [13.4003248, 52.5142984], [13.4006495, 52.5146407]]]}}, {"type": "Feature", "properties": {"id": "@spire-tem-vision-tier2", "spire_ref": "@spire-tem-vision", "entity_type": "spire", "name": "Atomic TEM & APT Defect Vision", "tier": "body_mid", "height": 135.4, "base_height": 65.8, "color": "#a97a04", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4004364, 52.5147507], [13.4000617, 52.5149257], [13.3996252, 52.5148157], [13.3995636, 52.5145307], [13.3999383, 52.5143557], [13.4003748, 52.5144657], [13.4004364, 52.5147507]]]}}, {"type": "Feature", "properties": {"id": "@spire-tem-vision-tier3", "spire_ref": "@spire-tem-vision", "entity_type": "spire", "name": "Atomic TEM & APT Defect Vision", "tier": "crown", "height": 188.0, "base_height": 135.4, "color": "#ffb700", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4002088, 52.5147677], [13.3999236, 52.5148142], [13.3997148, 52.5146872], [13.3997912, 52.5145137], [13.4000764, 52.5144672], [13.4002852, 52.5145942], [13.4002088, 52.5147677]]]}}, {"type": "Feature", "properties": {"id": "@spire-tem-vision-needle", "spire_ref": "@spire-tem-vision", "entity_type": "spire", "name": "Atomic TEM & APT Defect Vision", "tier": "needle", "height": 220.0, "base_height": 188.0, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4000522, 52.5146725], [13.3999478, 52.5146725], [13.3999478, 52.5146089], [13.4000522, 52.5146089], [13.4000522, 52.5146725]]]}}, {"type": "Feature", "properties": {"id": "@spire-cdm-pedestal", "spire_ref": "@spire-cdm", "entity_type": "spire", "name": "Common Data Model (CDM) Hub", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#ffb700", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4055222, 52.5153997], [13.405137, 52.5157052], [13.4045098, 52.5157554], [13.4040078, 52.515521], [13.4039252, 52.5151393], [13.4043104, 52.5148338], [13.4049376, 52.5147836], [13.4054396, 52.515018], [13.4055222, 52.5153997]]]}}, {"type": "Feature", "properties": {"id": "@spire-cdm-tier1", "spire_ref": "@spire-cdm", "entity_type": "spire", "name": "Common Data Model (CDM) Hub", "tier": "body_lower", "height": 63.9, "base_height": 5.0, "color": "#6b4c00", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4053732, 52.5152695], [13.405183, 52.515549], [13.4047237, 52.5156648], [13.4042644, 52.515549], [13.4040742, 52.5152695], [13.4042644, 52.51499], [13.4047237, 52.5148742], [13.405183, 52.51499], [13.4053732, 52.5152695]]]}}, {"type": "Feature", "properties": {"id": "@spire-cdm-tier2", "spire_ref": "@spire-cdm", "entity_type": "spire", "name": "Common Data Model (CDM) Hub", "tier": "body_mid", "height": 131.4, "base_height": 63.9, "color": "#a97a04", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4051601, 52.5153795], [13.4049045, 52.5155351], [13.4045429, 52.5155351], [13.4042873, 52.5153795], [13.4042873, 52.5151595], [13.4045429, 52.5150039], [13.4049045, 52.5150039], [13.4051601, 52.5151595], [13.4051601, 52.5153795]]]}}, {"type": "Feature", "properties": {"id": "@spire-cdm-tier3", "spire_ref": "@spire-cdm", "entity_type": "spire", "name": "Common Data Model (CDM) Hub", "tier": "crown", "height": 182.5, "base_height": 131.4, "color": "#ffb700", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4049325, 52.5153965], [13.4047237, 52.5154492], [13.4045149, 52.5153965], [13.4044285, 52.5152695], [13.4045149, 52.5151425], [13.4047237, 52.5150898], [13.4049325, 52.5151425], [13.4050189, 52.5152695], [13.4049325, 52.5153965]]]}}, {"type": "Feature", "properties": {"id": "@spire-cdm-needle", "spire_ref": "@spire-cdm", "entity_type": "spire", "name": "Common Data Model (CDM) Hub", "tier": "needle", "height": 214.5, "base_height": 182.5, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4047759, 52.5153013], [13.4046715, 52.5153013], [13.4046715, 52.5152377], [13.4047759, 52.5152377], [13.4047759, 52.5153013]]]}}, {"type": "Feature", "properties": {"id": "@spire-alab-pedestal", "spire_ref": "@spire-alab", "entity_type": "spire", "name": "A-Lab Autonomous Synthesis Core", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#c040ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960748, 52.5236642], [13.3956896, 52.5239697], [13.3950624, 52.5240199], [13.3945604, 52.5237855], [13.3944778, 52.5234038], [13.394863, 52.5230983], [13.3954902, 52.5230481], [13.3959922, 52.5232825], [13.3960748, 52.5236642]]]}}, {"type": "Feature", "properties": {"id": "@spire-alab-tier1", "spire_ref": "@spire-alab", "entity_type": "spire", "name": "A-Lab Autonomous Synthesis Core", "tier": "body_lower", "height": 71.6, "base_height": 5.0, "color": "#590085", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3959258, 52.523534], [13.3957356, 52.5238135], [13.3952763, 52.5239293], [13.394817, 52.5238135], [13.3946268, 52.523534], [13.394817, 52.5232545], [13.3952763, 52.5231387], [13.3957356, 52.5232545], [13.3959258, 52.523534]]]}}, {"type": "Feature", "properties": {"id": "@spire-alab-tier2", "spire_ref": "@spire-alab", "entity_type": "spire", "name": "A-Lab Autonomous Synthesis Core", "tier": "body_mid", "height": 147.2, "base_height": 71.6, "color": "#8f05d3", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3957127, 52.523644], [13.3954571, 52.5237996], [13.3950955, 52.5237996], [13.3948399, 52.523644], [13.3948399, 52.523424], [13.3950955, 52.5232684], [13.3954571, 52.5232684], [13.3957127, 52.523424], [13.3957127, 52.523644]]]}}, {"type": "Feature", "properties": {"id": "@spire-alab-tier3", "spire_ref": "@spire-alab", "entity_type": "spire", "name": "A-Lab Autonomous Synthesis Core", "tier": "crown", "height": 204.5, "base_height": 147.2, "color": "#c040ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954851, 52.523661], [13.3952763, 52.5237137], [13.3950675, 52.523661], [13.3949811, 52.523534], [13.3950675, 52.523407], [13.3952763, 52.5233543], [13.3954851, 52.523407], [13.3955715, 52.523534], [13.3954851, 52.523661]]]}}, {"type": "Feature", "properties": {"id": "@spire-alab-needle", "spire_ref": "@spire-alab", "entity_type": "spire", "name": "A-Lab Autonomous Synthesis Core", "tier": "needle", "height": 236.5, "base_height": 204.5, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953285, 52.5235658], [13.3952241, 52.5235658], [13.3952241, 52.5235022], [13.3953285, 52.5235022], [13.3953285, 52.5235658]]]}}, {"type": "Feature", "properties": {"id": "@spire-bigmap-pedestal", "spire_ref": "@spire-bigmap", "entity_type": "spire", "name": "BIG-MAP / Battery 2030+ Hub", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#c040ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4007985, 52.5230353], [13.4002139, 52.523391], [13.3994155, 52.5232608], [13.3992015, 52.5227749], [13.3997861, 52.5224192], [13.4005845, 52.5225494], [13.4007985, 52.5230353]]]}}, {"type": "Feature", "properties": {"id": "@spire-bigmap-tier1", "spire_ref": "@spire-bigmap", "entity_type": "spire", "name": "BIG-MAP / Battery 2030+ Hub", "tier": "body_lower", "height": 69.6, "base_height": 5.0, "color": "#590085", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4006495, 52.5229051], [13.4003248, 52.5232474], [13.3996752, 52.5232474], [13.3993505, 52.5229051], [13.3996752, 52.5225628], [13.4003248, 52.5225628], [13.4006495, 52.5229051]]]}}, {"type": "Feature", "properties": {"id": "@spire-bigmap-tier2", "spire_ref": "@spire-bigmap", "entity_type": "spire", "name": "BIG-MAP / Battery 2030+ Hub", "tier": "body_mid", "height": 143.3, "base_height": 69.6, "color": "#8f05d3", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4004364, 52.5230151], [13.4000617, 52.5231901], [13.3996252, 52.5230801], [13.3995636, 52.5227951], [13.3999383, 52.5226201], [13.4003748, 52.5227301], [13.4004364, 52.5230151]]]}}, {"type": "Feature", "properties": {"id": "@spire-bigmap-tier3", "spire_ref": "@spire-bigmap", "entity_type": "spire", "name": "BIG-MAP / Battery 2030+ Hub", "tier": "crown", "height": 199.0, "base_height": 143.3, "color": "#c040ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4002088, 52.5230321], [13.3999236, 52.5230786], [13.3997148, 52.5229516], [13.3997912, 52.5227781], [13.4000764, 52.5227316], [13.4002852, 52.5228586], [13.4002088, 52.5230321]]]}}, {"type": "Feature", "properties": {"id": "@spire-bigmap-needle", "spire_ref": "@spire-bigmap", "entity_type": "spire", "name": "BIG-MAP / Battery 2030+ Hub", "tier": "needle", "height": 231.0, "base_height": 199.0, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4000522, 52.5229369], [13.3999478, 52.5229369], [13.3999478, 52.5228733], [13.4000522, 52.5228733], [13.4000522, 52.5229369]]]}}, {"type": "Feature", "properties": {"id": "@spire-microfluidics-pedestal", "spire_ref": "@spire-microfluidics", "entity_type": "spire", "name": "Microfluidic Continuous Flow MAP", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#c040ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4055222, 52.5236642], [13.405137, 52.5239697], [13.4045098, 52.5240199], [13.4040078, 52.5237855], [13.4039252, 52.5234038], [13.4043104, 52.5230983], [13.4049376, 52.5230481], [13.4054396, 52.5232825], [13.4055222, 52.5236642]]]}}, {"type": "Feature", "properties": {"id": "@spire-microfluidics-tier1", "spire_ref": "@spire-microfluidics", "entity_type": "spire", "name": "Microfluidic Continuous Flow MAP", "tier": "body_lower", "height": 65.8, "base_height": 5.0, "color": "#590085", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4053732, 52.523534], [13.405183, 52.5238135], [13.4047237, 52.5239293], [13.4042644, 52.5238135], [13.4040742, 52.523534], [13.4042644, 52.5232545], [13.4047237, 52.5231387], [13.405183, 52.5232545], [13.4053732, 52.523534]]]}}, {"type": "Feature", "properties": {"id": "@spire-microfluidics-tier2", "spire_ref": "@spire-microfluidics", "entity_type": "spire", "name": "Microfluidic Continuous Flow MAP", "tier": "body_mid", "height": 135.4, "base_height": 65.8, "color": "#8f05d3", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4051601, 52.523644], [13.4049045, 52.5237996], [13.4045429, 52.5237996], [13.4042873, 52.523644], [13.4042873, 52.523424], [13.4045429, 52.5232684], [13.4049045, 52.5232684], [13.4051601, 52.523424], [13.4051601, 52.523644]]]}}, {"type": "Feature", "properties": {"id": "@spire-microfluidics-tier3", "spire_ref": "@spire-microfluidics", "entity_type": "spire", "name": "Microfluidic Continuous Flow MAP", "tier": "crown", "height": 188.0, "base_height": 135.4, "color": "#c040ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4049325, 52.523661], [13.4047237, 52.5237137], [13.4045149, 52.523661], [13.4044285, 52.523534], [13.4045149, 52.523407], [13.4047237, 52.5233543], [13.4049325, 52.523407], [13.4050189, 52.523534], [13.4049325, 52.523661]]]}}, {"type": "Feature", "properties": {"id": "@spire-microfluidics-needle", "spire_ref": "@spire-microfluidics", "entity_type": "spire", "name": "Microfluidic Continuous Flow MAP", "tier": "needle", "height": 220.0, "base_height": 188.0, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4047759, 52.5235658], [13.4046715, 52.5235658], [13.4046715, 52.5235022], [13.4047759, 52.5235022], [13.4047759, 52.5235658]]]}}, {"type": "Feature", "properties": {"id": "@spire-additive-twin-pedestal", "spire_ref": "@spire-additive-twin", "entity_type": "spire", "name": "Additive Manufacturing Digital Twin", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#3a86ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960748, 52.5319286], [13.3956896, 52.5322341], [13.3950624, 52.5322843], [13.3945604, 52.5320499], [13.3944778, 52.5316682], [13.394863, 52.5313627], [13.3954902, 52.5313125], [13.3959922, 52.5315469], [13.3960748, 52.5319286]]]}}, {"type": "Feature", "properties": {"id": "@spire-additive-twin-tier1", "spire_ref": "@spire-additive-twin", "entity_type": "spire", "name": "Additive Manufacturing Digital Twin", "tier": "body_lower", "height": 69.6, "base_height": 5.0, "color": "#003283", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3959258, 52.5317984], [13.3957356, 52.5320779], [13.3952763, 52.5321937], [13.394817, 52.5320779], [13.3946268, 52.5317984], [13.394817, 52.5315189], [13.3952763, 52.5314031], [13.3957356, 52.5315189], [13.3959258, 52.5317984]]]}}, {"type": "Feature", "properties": {"id": "@spire-additive-twin-tier2", "spire_ref": "@spire-additive-twin", "entity_type": "spire", "name": "Additive Manufacturing Digital Twin", "tier": "body_mid", "height": 143.3, "base_height": 69.6, "color": "#0553cf", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3957127, 52.5319084], [13.3954571, 52.532064], [13.3950955, 52.532064], [13.3948399, 52.5319084], [13.3948399, 52.5316884], [13.3950955, 52.5315328], [13.3954571, 52.5315328], [13.3957127, 52.5316884], [13.3957127, 52.5319084]]]}}, {"type": "Feature", "properties": {"id": "@spire-additive-twin-tier3", "spire_ref": "@spire-additive-twin", "entity_type": "spire", "name": "Additive Manufacturing Digital Twin", "tier": "crown", "height": 199.0, "base_height": 143.3, "color": "#3a86ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954851, 52.5319254], [13.3952763, 52.5319781], [13.3950675, 52.5319254], [13.3949811, 52.5317984], [13.3950675, 52.5316714], [13.3952763, 52.5316187], [13.3954851, 52.5316714], [13.3955715, 52.5317984], [13.3954851, 52.5319254]]]}}, {"type": "Feature", "properties": {"id": "@spire-additive-twin-needle", "spire_ref": "@spire-additive-twin", "entity_type": "spire", "name": "Additive Manufacturing Digital Twin", "tier": "needle", "height": 231.0, "base_height": 199.0, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953285, 52.5318302], [13.3952241, 52.5318302], [13.3952241, 52.5317666], [13.3953285, 52.5317666], [13.3953285, 52.5318302]]]}}, {"type": "Feature", "properties": {"id": "@spire-crm-substitute-pedestal", "spire_ref": "@spire-crm-substitute", "entity_type": "spire", "name": "Critical Raw Material Substitute Core", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#3a86ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4007985, 52.5312998], [13.4002139, 52.5316555], [13.3994155, 52.5315253], [13.3992015, 52.5310394], [13.3997861, 52.5306837], [13.4005845, 52.5308139], [13.4007985, 52.5312998]]]}}, {"type": "Feature", "properties": {"id": "@spire-crm-substitute-tier1", "spire_ref": "@spire-crm-substitute", "entity_type": "spire", "name": "Critical Raw Material Substitute Core", "tier": "body_lower", "height": 67.7, "base_height": 5.0, "color": "#003283", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4006495, 52.5311696], [13.4003248, 52.5315119], [13.3996752, 52.5315119], [13.3993505, 52.5311696], [13.3996752, 52.5308273], [13.4003248, 52.5308273], [13.4006495, 52.5311696]]]}}, {"type": "Feature", "properties": {"id": "@spire-crm-substitute-tier2", "spire_ref": "@spire-crm-substitute", "entity_type": "spire", "name": "Critical Raw Material Substitute Core", "tier": "body_mid", "height": 139.3, "base_height": 67.7, "color": "#0553cf", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4004364, 52.5312796], [13.4000617, 52.5314546], [13.3996252, 52.5313446], [13.3995636, 52.5310596], [13.3999383, 52.5308846], [13.4003748, 52.5309946], [13.4004364, 52.5312796]]]}}, {"type": "Feature", "properties": {"id": "@spire-crm-substitute-tier3", "spire_ref": "@spire-crm-substitute", "entity_type": "spire", "name": "Critical Raw Material Substitute Core", "tier": "crown", "height": 193.5, "base_height": 139.3, "color": "#3a86ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4002088, 52.5312966], [13.3999236, 52.5313431], [13.3997148, 52.5312161], [13.3997912, 52.5310426], [13.4000764, 52.5309961], [13.4002852, 52.5311231], [13.4002088, 52.5312966]]]}}, {"type": "Feature", "properties": {"id": "@spire-crm-substitute-needle", "spire_ref": "@spire-crm-substitute", "entity_type": "spire", "name": "Critical Raw Material Substitute Core", "tier": "needle", "height": 225.5, "base_height": 193.5, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4000522, 52.5312014], [13.3999478, 52.5312014], [13.3999478, 52.5311378], [13.4000522, 52.5311378], [13.4000522, 52.5312014]]]}}, {"type": "Feature", "properties": {"id": "@spire-circular-lca-pedestal", "spire_ref": "@spire-circular-lca", "entity_type": "spire", "name": "Circular LCA & Eco-Design Platform", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#3a86ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4055222, 52.5319286], [13.405137, 52.5322341], [13.4045098, 52.5322843], [13.4040078, 52.5320499], [13.4039252, 52.5316682], [13.4043104, 52.5313627], [13.4049376, 52.5313125], [13.4054396, 52.5315469], [13.4055222, 52.5319286]]]}}, {"type": "Feature", "properties": {"id": "@spire-circular-lca-tier1", "spire_ref": "@spire-circular-lca", "entity_type": "spire", "name": "Circular LCA & Eco-Design Platform", "tier": "body_lower", "height": 63.9, "base_height": 5.0, "color": "#003283", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4053732, 52.5317984], [13.405183, 52.5320779], [13.4047237, 52.5321937], [13.4042644, 52.5320779], [13.4040742, 52.5317984], [13.4042644, 52.5315189], [13.4047237, 52.5314031], [13.405183, 52.5315189], [13.4053732, 52.5317984]]]}}, {"type": "Feature", "properties": {"id": "@spire-circular-lca-tier2", "spire_ref": "@spire-circular-lca", "entity_type": "spire", "name": "Circular LCA & Eco-Design Platform", "tier": "body_mid", "height": 131.4, "base_height": 63.9, "color": "#0553cf", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4051601, 52.5319084], [13.4049045, 52.532064], [13.4045429, 52.532064], [13.4042873, 52.5319084], [13.4042873, 52.5316884], [13.4045429, 52.5315328], [13.4049045, 52.5315328], [13.4051601, 52.5316884], [13.4051601, 52.5319084]]]}}, {"type": "Feature", "properties": {"id": "@spire-circular-lca-tier3", "spire_ref": "@spire-circular-lca", "entity_type": "spire", "name": "Circular LCA & Eco-Design Platform", "tier": "crown", "height": 182.5, "base_height": 131.4, "color": "#3a86ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4049325, 52.5319254], [13.4047237, 52.5319781], [13.4045149, 52.5319254], [13.4044285, 52.5317984], [13.4045149, 52.5316714], [13.4047237, 52.5316187], [13.4049325, 52.5316714], [13.4050189, 52.5317984], [13.4049325, 52.5319254]]]}}, {"type": "Feature", "properties": {"id": "@spire-circular-lca-needle", "spire_ref": "@spire-circular-lca", "entity_type": "spire", "name": "Circular LCA & Eco-Design Platform", "tier": "needle", "height": 214.5, "base_height": 182.5, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4047759, 52.5318302], [13.4046715, 52.5318302], [13.4046715, 52.5317666], [13.4047759, 52.5317666], [13.4047759, 52.5318302]]]}}, {"type": "Feature", "properties": {"id": "@bneck-dark-data-base", "bottleneck_ref": "@bneck-dark-data", "entity_type": "bottleneck", "name": "Dark Data & Negative Reporting Bias", "codename": "DARK DATA", "tier": "hazard_base", "height": 72.5, "base_height": 0.0, "color": "#800020", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3933869, 52.4968541], [13.3930769, 52.4971808], [13.3924569, 52.4971808], [13.3921469, 52.4968541], [13.3924569, 52.4965274], [13.3930769, 52.4965274], [13.3933869, 52.4968541]]]}}, {"type": "Feature", "properties": {"id": "@bneck-dark-data-core", "bottleneck_ref": "@bneck-dark-data", "entity_type": "bottleneck", "name": "Dark Data & Negative Reporting Bias", "codename": "DARK DATA", "tier": "hazard_core", "height": 117.8, "base_height": 72.5, "color": "#ff1744", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.3930993, 52.4969709], [13.3927669, 52.4970877], [13.3924345, 52.4969709], [13.3924345, 52.4967373], [13.3927669, 52.4966205], [13.3930993, 52.4967373], [13.3930993, 52.4969709]]]}}, {"type": "Feature", "properties": {"id": "@bneck-dark-data-needle", "bottleneck_ref": "@bneck-dark-data", "entity_type": "bottleneck", "name": "Dark Data & Negative Reporting Bias", "codename": "DARK DATA", "tier": "hazard_needle", "height": 151.0, "base_height": 117.8, "color": "#ff3366", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3928191, 52.4968859], [13.3927147, 52.4968859], [13.3927147, 52.4968223], [13.3928191, 52.4968223], [13.3928191, 52.4968859]]]}}, {"type": "Feature", "properties": {"id": "@bneck-synth-gap-base", "bottleneck_ref": "@bneck-synth-gap", "entity_type": "bottleneck", "name": "The 'Synthesizability Gap'", "codename": "SYNTHESIS GAP", "tier": "hazard_base", "height": 72.5, "base_height": 0.0, "color": "#800020", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4078531, 52.5083525], [13.4075431, 52.5086792], [13.4069231, 52.5086792], [13.4066131, 52.5083525], [13.4069231, 52.5080258], [13.4075431, 52.5080258], [13.4078531, 52.5083525]]]}}, {"type": "Feature", "properties": {"id": "@bneck-synth-gap-core", "bottleneck_ref": "@bneck-synth-gap", "entity_type": "bottleneck", "name": "The 'Synthesizability Gap'", "codename": "SYNTHESIS GAP", "tier": "hazard_core", "height": 117.8, "base_height": 72.5, "color": "#ff1744", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.4075655, 52.5084693], [13.4072331, 52.5085861], [13.4069007, 52.5084693], [13.4069007, 52.5082357], [13.4072331, 52.5081189], [13.4075655, 52.5082357], [13.4075655, 52.5084693]]]}}, {"type": "Feature", "properties": {"id": "@bneck-synth-gap-needle", "bottleneck_ref": "@bneck-synth-gap", "entity_type": "bottleneck", "name": "The 'Synthesizability Gap'", "codename": "SYNTHESIS GAP", "tier": "hazard_needle", "height": 151.0, "base_height": 117.8, "color": "#ff3366", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4072853, 52.5083843], [13.4071809, 52.5083843], [13.4071809, 52.5083207], [13.4072853, 52.5083207], [13.4072853, 52.5083843]]]}}, {"type": "Feature", "properties": {"id": "@bneck-gc-latency-base", "bottleneck_ref": "@bneck-gc-latency", "entity_type": "bottleneck", "name": "Analytical Rate-Limiter: 232-min GC Latency", "codename": "232m GC LAG", "tier": "hazard_base", "height": 72.5, "base_height": 0.0, "color": "#800020", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3932393, 52.5247018], [13.3929293, 52.5250285], [13.3923093, 52.5250285], [13.3919993, 52.5247018], [13.3923093, 52.5243751], [13.3929293, 52.5243751], [13.3932393, 52.5247018]]]}}, {"type": "Feature", "properties": {"id": "@bneck-gc-latency-core", "bottleneck_ref": "@bneck-gc-latency", "entity_type": "bottleneck", "name": "Analytical Rate-Limiter: 232-min GC Latency", "codename": "232m GC LAG", "tier": "hazard_core", "height": 117.8, "base_height": 72.5, "color": "#ff1744", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.3929517, 52.5248186], [13.3926193, 52.5249354], [13.3922869, 52.5248186], [13.3922869, 52.524585], [13.3926193, 52.5244682], [13.3929517, 52.524585], [13.3929517, 52.5248186]]]}}, {"type": "Feature", "properties": {"id": "@bneck-gc-latency-needle", "bottleneck_ref": "@bneck-gc-latency", "entity_type": "bottleneck", "name": "Analytical Rate-Limiter: 232-min GC Latency", "codename": "232m GC LAG", "tier": "hazard_needle", "height": 151.0, "base_height": 117.8, "color": "#ff3366", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3926715, 52.5247336], [13.3925671, 52.5247336], [13.3925671, 52.52467], [13.3926715, 52.52467], [13.3926715, 52.5247336]]]}}, {"type": "Feature", "properties": {"id": "@bneck-robot-jams-base", "bottleneck_ref": "@bneck-robot-jams", "entity_type": "bottleneck", "name": "Mechatronic Fragility & ~3.9% Robotic Error Rate", "codename": "ROBOT JAMS", "tier": "hazard_base", "height": 72.5, "base_height": 0.0, "color": "#800020", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4080007, 52.5217373], [13.4076907, 52.522064], [13.4070707, 52.522064], [13.4067607, 52.5217373], [13.4070707, 52.5214106], [13.4076907, 52.5214106], [13.4080007, 52.5217373]]]}}, {"type": "Feature", "properties": {"id": "@bneck-robot-jams-core", "bottleneck_ref": "@bneck-robot-jams", "entity_type": "bottleneck", "name": "Mechatronic Fragility & ~3.9% Robotic Error Rate", "codename": "ROBOT JAMS", "tier": "hazard_core", "height": 117.8, "base_height": 72.5, "color": "#ff1744", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.4077131, 52.5218541], [13.4073807, 52.5219709], [13.4070483, 52.5218541], [13.4070483, 52.5216205], [13.4073807, 52.5215037], [13.4077131, 52.5216205], [13.4077131, 52.5218541]]]}}, {"type": "Feature", "properties": {"id": "@bneck-robot-jams-needle", "bottleneck_ref": "@bneck-robot-jams", "entity_type": "bottleneck", "name": "Mechatronic Fragility & ~3.9% Robotic Error Rate", "codename": "ROBOT JAMS", "tier": "hazard_needle", "height": 151.0, "base_height": 117.8, "color": "#ff3366", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4074329, 52.5217691], [13.4073285, 52.5217691], [13.4073285, 52.5217055], [13.4074329, 52.5217055], [13.4074329, 52.5217691]]]}}, {"type": "Feature", "properties": {"id": "@bneck-ip-silos-base", "bottleneck_ref": "@bneck-ip-silos", "entity_type": "bottleneck", "name": "Industrial IP Silos vs Synthetic Academic Data", "codename": "IP SILOS", "tier": "hazard_base", "height": 72.5, "base_height": 0.0, "color": "#800020", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.40062, 52.5337747], [13.40031, 52.5341014], [13.39969, 52.5341014], [13.39938, 52.5337747], [13.39969, 52.533448], [13.40031, 52.533448], [13.40062, 52.5337747]]]}}, {"type": "Feature", "properties": {"id": "@bneck-ip-silos-core", "bottleneck_ref": "@bneck-ip-silos", "entity_type": "bottleneck", "name": "Industrial IP Silos vs Synthetic Academic Data", "codename": "IP SILOS", "tier": "hazard_core", "height": 117.8, "base_height": 72.5, "color": "#ff1744", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.4003324, 52.5338915], [13.4, 52.5340083], [13.3996676, 52.5338915], [13.3996676, 52.5336579], [13.4, 52.5335411], [13.4003324, 52.5336579], [13.4003324, 52.5338915]]]}}, {"type": "Feature", "properties": {"id": "@bneck-ip-silos-needle", "bottleneck_ref": "@bneck-ip-silos", "entity_type": "bottleneck", "name": "Industrial IP Silos vs Synthetic Academic Data", "codename": "IP SILOS", "tier": "hazard_needle", "height": 151.0, "base_height": 117.8, "color": "#ff3366", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4000522, 52.5338065], [13.3999478, 52.5338065], [13.3999478, 52.5337429], [13.4000522, 52.5337429], [13.4000522, 52.5338065]]]}}, {"type": "Feature", "properties": {"id": "@chal-crm-act-base", "challenge_ref": "@chal-crm-act", "entity_type": "challenge", "name": "EU Critical Raw Materials Act (CRMA)", "codename": "RAW MATERIALS", "tier": "challenge_base", "height": 81.1, "base_height": 0.0, "color": "#b38600", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4073345, 52.5301534], [13.4065413, 52.5301534], [13.4065413, 52.5296706], [13.4073345, 52.5296706], [13.4073345, 52.5301534]]]}}, {"type": "Feature", "properties": {"id": "@chal-crm-act-core", "challenge_ref": "@chal-crm-act", "entity_type": "challenge", "name": "EU Critical Raw Materials Act (CRMA)", "codename": "RAW MATERIALS", "tier": "challenge_core", "height": 131.8, "base_height": 81.1, "color": "#ffb700", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.4072922, 52.529912], [13.4069379, 52.5301276], [13.4065836, 52.529912], [13.4069379, 52.5296964], [13.4072922, 52.529912]]]}}, {"type": "Feature", "properties": {"id": "@chal-crm-act-needle", "challenge_ref": "@chal-crm-act", "entity_type": "challenge", "name": "EU Critical Raw Materials Act (CRMA)", "codename": "RAW MATERIALS", "tier": "challenge_needle", "height": 169.0, "base_height": 131.8, "color": "#ffe082", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4069849, 52.5299406], [13.4068909, 52.5299406], [13.4068909, 52.5298834], [13.4069849, 52.5298834], [13.4069849, 52.5299406]]]}}, {"type": "Feature", "properties": {"id": "@chal-chips-act-base", "challenge_ref": "@chal-chips-act", "entity_type": "challenge", "name": "European Chips Act & Novel Semiconductors", "codename": "CHIPS ACT", "tier": "challenge_base", "height": 81.1, "base_height": 0.0, "color": "#b38600", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3934587, 52.5004193], [13.3926655, 52.5004193], [13.3926655, 52.4999365], [13.3934587, 52.4999365], [13.3934587, 52.5004193]]]}}, {"type": "Feature", "properties": {"id": "@chal-chips-act-core", "challenge_ref": "@chal-chips-act", "entity_type": "challenge", "name": "European Chips Act & Novel Semiconductors", "codename": "CHIPS ACT", "tier": "challenge_core", "height": 131.8, "base_height": 81.1, "color": "#ffb700", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.3934164, 52.5001779], [13.3930621, 52.5003935], [13.3927078, 52.5001779], [13.3930621, 52.4999623], [13.3934164, 52.5001779]]]}}, {"type": "Feature", "properties": {"id": "@chal-chips-act-needle", "challenge_ref": "@chal-chips-act", "entity_type": "challenge", "name": "European Chips Act & Novel Semiconductors", "codename": "CHIPS ACT", "tier": "challenge_needle", "height": 169.0, "base_height": 131.8, "color": "#ffe082", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3931091, 52.5002065], [13.3930151, 52.5002065], [13.3930151, 52.5001493], [13.3931091, 52.5001493], [13.3931091, 52.5002065]]]}}, {"type": "Feature", "properties": {"id": "@chal-multiscale-base", "challenge_ref": "@chal-multiscale", "entity_type": "challenge", "name": "Grand Scientific Challenge: Multi-Scale Coupling", "codename": "MULTISCALE", "tier": "challenge_base", "height": 81.1, "base_height": 0.0, "color": "#b38600", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4074821, 52.5083244], [13.4066889, 52.5083244], [13.4066889, 52.5078416], [13.4074821, 52.5078416], [13.4074821, 52.5083244]]]}}, {"type": "Feature", "properties": {"id": "@chal-multiscale-core", "challenge_ref": "@chal-multiscale", "entity_type": "challenge", "name": "Grand Scientific Challenge: Multi-Scale Coupling", "codename": "MULTISCALE", "tier": "challenge_core", "height": 131.8, "base_height": 81.1, "color": "#ffb700", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.4074398, 52.508083], [13.4070855, 52.5082986], [13.4067312, 52.508083], [13.4070855, 52.5078674], [13.4074398, 52.508083]]]}}, {"type": "Feature", "properties": {"id": "@chal-multiscale-needle", "challenge_ref": "@chal-multiscale", "entity_type": "challenge", "name": "Grand Scientific Challenge: Multi-Scale Coupling", "codename": "MULTISCALE", "tier": "challenge_needle", "height": 169.0, "base_height": 131.8, "color": "#ffe082", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4071325, 52.5081116], [13.4070385, 52.5081116], [13.4070385, 52.5080544], [13.4071325, 52.5080544], [13.4071325, 52.5081116]]]}}, {"type": "Feature", "properties": {"id": "@chal-activity-cliffs-base", "challenge_ref": "@chal-activity-cliffs", "entity_type": "challenge", "name": "Scientific Frontier: Resolving Activity Cliffs", "codename": "ACTIVITY CLIFFS", "tier": "challenge_base", "height": 81.1, "base_height": 0.0, "color": "#b38600", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3933111, 52.5137143], [13.3925179, 52.5137143], [13.3925179, 52.5132315], [13.3933111, 52.5132315], [13.3933111, 52.5137143]]]}}, {"type": "Feature", "properties": {"id": "@chal-activity-cliffs-core", "challenge_ref": "@chal-activity-cliffs", "entity_type": "challenge", "name": "Scientific Frontier: Resolving Activity Cliffs", "codename": "ACTIVITY CLIFFS", "tier": "challenge_core", "height": 131.8, "base_height": 81.1, "color": "#ffb700", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.3932688, 52.5134729], [13.3929145, 52.5136885], [13.3925602, 52.5134729], [13.3929145, 52.5132573], [13.3932688, 52.5134729]]]}}, {"type": "Feature", "properties": {"id": "@chal-activity-cliffs-needle", "challenge_ref": "@chal-activity-cliffs", "entity_type": "challenge", "name": "Scientific Frontier: Resolving Activity Cliffs", "codename": "ACTIVITY CLIFFS", "tier": "challenge_needle", "height": 169.0, "base_height": 131.8, "color": "#ffe082", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3929615, 52.5135015], [13.3928675, 52.5135015], [13.3928675, 52.5134443], [13.3929615, 52.5134443], [13.3929615, 52.5135015]]]}}, {"type": "Feature", "properties": {"id": "@chal-netzero-base", "challenge_ref": "@chal-netzero", "entity_type": "challenge", "name": "Net-Zero Industry Act & Circular Chemistry", "codename": "NET-ZERO", "tier": "challenge_base", "height": 81.1, "base_height": 0.0, "color": "#b38600", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4003966, 52.5295245], [13.3996034, 52.5295245], [13.3996034, 52.5290417], [13.4003966, 52.5290417], [13.4003966, 52.5295245]]]}}, {"type": "Feature", "properties": {"id": "@chal-netzero-core", "challenge_ref": "@chal-netzero", "entity_type": "challenge", "name": "Net-Zero Industry Act & Circular Chemistry", "codename": "NET-ZERO", "tier": "challenge_core", "height": 131.8, "base_height": 81.1, "color": "#ffb700", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.4003543, 52.5292831], [13.4, 52.5294987], [13.3996457, 52.5292831], [13.4, 52.5290675], [13.4003543, 52.5292831]]]}}, {"type": "Feature", "properties": {"id": "@chal-netzero-needle", "challenge_ref": "@chal-netzero", "entity_type": "challenge", "name": "Net-Zero Industry Act & Circular Chemistry", "codename": "NET-ZERO", "tier": "challenge_needle", "height": 169.0, "base_height": 131.8, "color": "#ffe082", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.400047, 52.5293117], [13.399953, 52.5293117], [13.399953, 52.5292545], [13.400047, 52.5292545], [13.400047, 52.5293117]]]}}]};
+window.BUILDINGS_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"id": "@spire-nomad-pedestal", "spire_ref": "@spire-nomad", "entity_type": "spire", "name": "NOMAD \u00b7 FAIRmat \u00b7 AiiDA FAIR Stack", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#00f0ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960748, 52.4988708], [13.3956896, 52.4991763], [13.3950624, 52.4992265], [13.3945604, 52.4989921], [13.3944778, 52.4986104], [13.394863, 52.4983049], [13.3954902, 52.4982547], [13.3959922, 52.4984891], [13.3960748, 52.4988708]]]}}, {"type": "Feature", "properties": {"id": "@spire-nomad-tier1", "spire_ref": "@spire-nomad", "entity_type": "spire", "name": "NOMAD \u00b7 FAIRmat \u00b7 AiiDA FAIR Stack", "tier": "body_lower", "height": 71.6, "base_height": 5.0, "color": "#00646b", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3959258, 52.4987406], [13.3957356, 52.4990201], [13.3952763, 52.4991359], [13.394817, 52.4990201], [13.3946268, 52.4987406], [13.394817, 52.4984611], [13.3952763, 52.4983453], [13.3957356, 52.4984611], [13.3959258, 52.4987406]]]}}, {"type": "Feature", "properties": {"id": "@spire-nomad-tier2", "spire_ref": "@spire-nomad", "entity_type": "spire", "name": "NOMAD \u00b7 FAIRmat \u00b7 AiiDA FAIR Stack", "tier": "body_mid", "height": 147.2, "base_height": 71.6, "color": "#049fa9", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3957127, 52.4988506], [13.3954571, 52.4990062], [13.3950955, 52.4990062], [13.3948399, 52.4988506], [13.3948399, 52.4986306], [13.3950955, 52.498475], [13.3954571, 52.498475], [13.3957127, 52.4986306], [13.3957127, 52.4988506]]]}}, {"type": "Feature", "properties": {"id": "@spire-nomad-tier3", "spire_ref": "@spire-nomad", "entity_type": "spire", "name": "NOMAD \u00b7 FAIRmat \u00b7 AiiDA FAIR Stack", "tier": "crown", "height": 204.5, "base_height": 147.2, "color": "#00f0ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954851, 52.4988676], [13.3952763, 52.4989203], [13.3950675, 52.4988676], [13.3949811, 52.4987406], [13.3950675, 52.4986136], [13.3952763, 52.4985609], [13.3954851, 52.4986136], [13.3955715, 52.4987406], [13.3954851, 52.4988676]]]}}, {"type": "Feature", "properties": {"id": "@spire-nomad-needle", "spire_ref": "@spire-nomad", "entity_type": "spire", "name": "NOMAD \u00b7 FAIRmat \u00b7 AiiDA FAIR Stack", "tier": "needle", "height": 236.5, "base_height": 204.5, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953285, 52.4987724], [13.3952241, 52.4987724], [13.3952241, 52.4987088], [13.3953285, 52.4987088], [13.3953285, 52.4987724]]]}}, {"type": "Feature", "properties": {"id": "@spire-alexandria-pedestal", "spire_ref": "@spire-alexandria", "entity_type": "spire", "name": "Alexandria Database & sAlex25", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#00f0ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4007985, 52.4982419], [13.4002139, 52.4985976], [13.3994155, 52.4984674], [13.3992015, 52.4979815], [13.3997861, 52.4976258], [13.4005845, 52.497756], [13.4007985, 52.4982419]]]}}, {"type": "Feature", "properties": {"id": "@spire-alexandria-tier1", "spire_ref": "@spire-alexandria", "entity_type": "spire", "name": "Alexandria Database & sAlex25", "tier": "body_lower", "height": 69.6, "base_height": 5.0, "color": "#00646b", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4006495, 52.4981117], [13.4003248, 52.498454], [13.3996752, 52.498454], [13.3993505, 52.4981117], [13.3996752, 52.4977694], [13.4003248, 52.4977694], [13.4006495, 52.4981117]]]}}, {"type": "Feature", "properties": {"id": "@spire-alexandria-tier2", "spire_ref": "@spire-alexandria", "entity_type": "spire", "name": "Alexandria Database & sAlex25", "tier": "body_mid", "height": 143.3, "base_height": 69.6, "color": "#049fa9", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4004364, 52.4982217], [13.4000617, 52.4983967], [13.3996252, 52.4982867], [13.3995636, 52.4980017], [13.3999383, 52.4978267], [13.4003748, 52.4979367], [13.4004364, 52.4982217]]]}}, {"type": "Feature", "properties": {"id": "@spire-alexandria-tier3", "spire_ref": "@spire-alexandria", "entity_type": "spire", "name": "Alexandria Database & sAlex25", "tier": "crown", "height": 199.0, "base_height": 143.3, "color": "#00f0ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4002088, 52.4982387], [13.3999236, 52.4982852], [13.3997148, 52.4981582], [13.3997912, 52.4979847], [13.4000764, 52.4979382], [13.4002852, 52.4980652], [13.4002088, 52.4982387]]]}}, {"type": "Feature", "properties": {"id": "@spire-alexandria-needle", "spire_ref": "@spire-alexandria", "entity_type": "spire", "name": "Alexandria Database & sAlex25", "tier": "needle", "height": 231.0, "base_height": 199.0, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4000522, 52.4981435], [13.3999478, 52.4981435], [13.3999478, 52.4980799], [13.4000522, 52.4980799], [13.4000522, 52.4981435]]]}}, {"type": "Feature", "properties": {"id": "@spire-umlip-pedestal", "spire_ref": "@spire-umlip", "entity_type": "spire", "name": "Universal & Equivariant MLIPs", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#00f0ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4055222, 52.4988708], [13.405137, 52.4991763], [13.4045098, 52.4992265], [13.4040078, 52.4989921], [13.4039252, 52.4986104], [13.4043104, 52.4983049], [13.4049376, 52.4982547], [13.4054396, 52.4984891], [13.4055222, 52.4988708]]]}}, {"type": "Feature", "properties": {"id": "@spire-umlip-tier1", "spire_ref": "@spire-umlip", "entity_type": "spire", "name": "Universal & Equivariant MLIPs", "tier": "body_lower", "height": 66.6, "base_height": 5.0, "color": "#00646b", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4053732, 52.4987406], [13.405183, 52.4990201], [13.4047237, 52.4991359], [13.4042644, 52.4990201], [13.4040742, 52.4987406], [13.4042644, 52.4984611], [13.4047237, 52.4983453], [13.405183, 52.4984611], [13.4053732, 52.4987406]]]}}, {"type": "Feature", "properties": {"id": "@spire-umlip-tier2", "spire_ref": "@spire-umlip", "entity_type": "spire", "name": "Universal & Equivariant MLIPs", "tier": "body_mid", "height": 136.9, "base_height": 66.6, "color": "#049fa9", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4051601, 52.4988506], [13.4049045, 52.4990062], [13.4045429, 52.4990062], [13.4042873, 52.4988506], [13.4042873, 52.4986306], [13.4045429, 52.498475], [13.4049045, 52.498475], [13.4051601, 52.4986306], [13.4051601, 52.4988506]]]}}, {"type": "Feature", "properties": {"id": "@spire-umlip-tier3", "spire_ref": "@spire-umlip", "entity_type": "spire", "name": "Universal & Equivariant MLIPs", "tier": "crown", "height": 190.2, "base_height": 136.9, "color": "#00f0ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4049325, 52.4988676], [13.4047237, 52.4989203], [13.4045149, 52.4988676], [13.4044285, 52.4987406], [13.4045149, 52.4986136], [13.4047237, 52.4985609], [13.4049325, 52.4986136], [13.4050189, 52.4987406], [13.4049325, 52.4988676]]]}}, {"type": "Feature", "properties": {"id": "@spire-umlip-needle", "spire_ref": "@spire-umlip", "entity_type": "spire", "name": "Universal & Equivariant MLIPs", "tier": "needle", "height": 222.2, "base_height": 190.2, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4047759, 52.4987724], [13.4046715, 52.4987724], [13.4046715, 52.4987088], [13.4047759, 52.4987088], [13.4047759, 52.4987724]]]}}, {"type": "Feature", "properties": {"id": "@spire-gnome-pedestal", "spire_ref": "@spire-gnome", "entity_type": "spire", "name": "GNoME Scale Discovery", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#00e599", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960748, 52.5071352], [13.3956896, 52.5074407], [13.3950624, 52.5074909], [13.3945604, 52.5072565], [13.3944778, 52.5068748], [13.394863, 52.5065693], [13.3954902, 52.5065191], [13.3959922, 52.5067535], [13.3960748, 52.5071352]]]}}, {"type": "Feature", "properties": {"id": "@spire-gnome-tier1", "spire_ref": "@spire-gnome", "entity_type": "spire", "name": "GNoME Scale Discovery", "tier": "body_lower", "height": 65.8, "base_height": 5.0, "color": "#006040", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3959258, 52.507005], [13.3957356, 52.5072845], [13.3952763, 52.5074003], [13.394817, 52.5072845], [13.3946268, 52.507005], [13.394817, 52.5067255], [13.3952763, 52.5066097], [13.3957356, 52.5067255], [13.3959258, 52.507005]]]}}, {"type": "Feature", "properties": {"id": "@spire-gnome-tier2", "spire_ref": "@spire-gnome", "entity_type": "spire", "name": "GNoME Scale Discovery", "tier": "body_mid", "height": 135.4, "base_height": 65.8, "color": "#039766", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3957127, 52.507115], [13.3954571, 52.5072706], [13.3950955, 52.5072706], [13.3948399, 52.507115], [13.3948399, 52.506895], [13.3950955, 52.5067394], [13.3954571, 52.5067394], [13.3957127, 52.506895], [13.3957127, 52.507115]]]}}, {"type": "Feature", "properties": {"id": "@spire-gnome-tier3", "spire_ref": "@spire-gnome", "entity_type": "spire", "name": "GNoME Scale Discovery", "tier": "crown", "height": 188.0, "base_height": 135.4, "color": "#00e599", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954851, 52.507132], [13.3952763, 52.5071847], [13.3950675, 52.507132], [13.3949811, 52.507005], [13.3950675, 52.506878], [13.3952763, 52.5068253], [13.3954851, 52.506878], [13.3955715, 52.507005], [13.3954851, 52.507132]]]}}, {"type": "Feature", "properties": {"id": "@spire-gnome-needle", "spire_ref": "@spire-gnome", "entity_type": "spire", "name": "GNoME Scale Discovery", "tier": "needle", "height": 220.0, "base_height": 188.0, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953285, 52.5070368], [13.3952241, 52.5070368], [13.3952241, 52.5069732], [13.3953285, 52.5069732], [13.3953285, 52.5070368]]]}}, {"type": "Feature", "properties": {"id": "@spire-mattergen-pedestal", "spire_ref": "@spire-mattergen", "entity_type": "spire", "name": "MatterGen & FlowLLM Diffusion", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#00e599", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4007985, 52.5065064], [13.4002139, 52.5068621], [13.3994155, 52.5067319], [13.3992015, 52.506246], [13.3997861, 52.5058903], [13.4005845, 52.5060205], [13.4007985, 52.5065064]]]}}, {"type": "Feature", "properties": {"id": "@spire-mattergen-tier1", "spire_ref": "@spire-mattergen", "entity_type": "spire", "name": "MatterGen & FlowLLM Diffusion", "tier": "body_lower", "height": 60.4, "base_height": 5.0, "color": "#006040", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4006495, 52.5063762], [13.4003248, 52.5067185], [13.3996752, 52.5067185], [13.3993505, 52.5063762], [13.3996752, 52.5060339], [13.4003248, 52.5060339], [13.4006495, 52.5063762]]]}}, {"type": "Feature", "properties": {"id": "@spire-mattergen-tier2", "spire_ref": "@spire-mattergen", "entity_type": "spire", "name": "MatterGen & FlowLLM Diffusion", "tier": "body_mid", "height": 124.3, "base_height": 60.4, "color": "#039766", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4004364, 52.5064862], [13.4000617, 52.5066612], [13.3996252, 52.5065512], [13.3995636, 52.5062662], [13.3999383, 52.5060912], [13.4003748, 52.5062012], [13.4004364, 52.5064862]]]}}, {"type": "Feature", "properties": {"id": "@spire-mattergen-tier3", "spire_ref": "@spire-mattergen", "entity_type": "spire", "name": "MatterGen & FlowLLM Diffusion", "tier": "crown", "height": 172.6, "base_height": 124.3, "color": "#00e599", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4002088, 52.5065032], [13.3999236, 52.5065497], [13.3997148, 52.5064227], [13.3997912, 52.5062492], [13.4000764, 52.5062027], [13.4002852, 52.5063297], [13.4002088, 52.5065032]]]}}, {"type": "Feature", "properties": {"id": "@spire-mattergen-needle", "spire_ref": "@spire-mattergen", "entity_type": "spire", "name": "MatterGen & FlowLLM Diffusion", "tier": "needle", "height": 204.6, "base_height": 172.6, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4000522, 52.506408], [13.3999478, 52.506408], [13.3999478, 52.5063444], [13.4000522, 52.5063444], [13.4000522, 52.506408]]]}}, {"type": "Feature", "properties": {"id": "@spire-polymer-pedestal", "spire_ref": "@spire-polymer", "entity_type": "spire", "name": "Polymer & Membrane Inverse Design", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#00e599", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4055222, 52.5071352], [13.405137, 52.5074407], [13.4045098, 52.5074909], [13.4040078, 52.5072565], [13.4039252, 52.5068748], [13.4043104, 52.5065693], [13.4049376, 52.5065191], [13.4054396, 52.5067535], [13.4055222, 52.5071352]]]}}, {"type": "Feature", "properties": {"id": "@spire-polymer-tier1", "spire_ref": "@spire-polymer", "entity_type": "spire", "name": "Polymer & Membrane Inverse Design", "tier": "body_lower", "height": 58.1, "base_height": 5.0, "color": "#006040", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4053732, 52.507005], [13.405183, 52.5072845], [13.4047237, 52.5074003], [13.4042644, 52.5072845], [13.4040742, 52.507005], [13.4042644, 52.5067255], [13.4047237, 52.5066097], [13.405183, 52.5067255], [13.4053732, 52.507005]]]}}, {"type": "Feature", "properties": {"id": "@spire-polymer-tier2", "spire_ref": "@spire-polymer", "entity_type": "spire", "name": "Polymer & Membrane Inverse Design", "tier": "body_mid", "height": 119.5, "base_height": 58.1, "color": "#039766", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4051601, 52.507115], [13.4049045, 52.5072706], [13.4045429, 52.5072706], [13.4042873, 52.507115], [13.4042873, 52.506895], [13.4045429, 52.5067394], [13.4049045, 52.5067394], [13.4051601, 52.506895], [13.4051601, 52.507115]]]}}, {"type": "Feature", "properties": {"id": "@spire-polymer-tier3", "spire_ref": "@spire-polymer", "entity_type": "spire", "name": "Polymer & Membrane Inverse Design", "tier": "crown", "height": 166.0, "base_height": 119.5, "color": "#00e599", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4049325, 52.507132], [13.4047237, 52.5071847], [13.4045149, 52.507132], [13.4044285, 52.507005], [13.4045149, 52.506878], [13.4047237, 52.5068253], [13.4049325, 52.506878], [13.4050189, 52.507005], [13.4049325, 52.507132]]]}}, {"type": "Feature", "properties": {"id": "@spire-polymer-needle", "spire_ref": "@spire-polymer", "entity_type": "spire", "name": "Polymer & Membrane Inverse Design", "tier": "needle", "height": 198.0, "base_height": 166.0, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4047759, 52.5070368], [13.4046715, 52.5070368], [13.4046715, 52.5069732], [13.4047759, 52.5069732], [13.4047759, 52.5070368]]]}}, {"type": "Feature", "properties": {"id": "@spire-4dstem-pedestal", "spire_ref": "@spire-4dstem", "entity_type": "spire", "name": "4D-STEM & Electron Microscopy Vision", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#ffb700", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960748, 52.5153997], [13.3956896, 52.5157052], [13.3950624, 52.5157554], [13.3945604, 52.515521], [13.3944778, 52.5151393], [13.394863, 52.5148338], [13.3954902, 52.5147836], [13.3959922, 52.515018], [13.3960748, 52.5153997]]]}}, {"type": "Feature", "properties": {"id": "@spire-4dstem-tier1", "spire_ref": "@spire-4dstem", "entity_type": "spire", "name": "4D-STEM & Electron Microscopy Vision", "tier": "body_lower", "height": 65.8, "base_height": 5.0, "color": "#6b4c00", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3959258, 52.5152695], [13.3957356, 52.515549], [13.3952763, 52.5156648], [13.394817, 52.515549], [13.3946268, 52.5152695], [13.394817, 52.51499], [13.3952763, 52.5148742], [13.3957356, 52.51499], [13.3959258, 52.5152695]]]}}, {"type": "Feature", "properties": {"id": "@spire-4dstem-tier2", "spire_ref": "@spire-4dstem", "entity_type": "spire", "name": "4D-STEM & Electron Microscopy Vision", "tier": "body_mid", "height": 135.4, "base_height": 65.8, "color": "#a97a04", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3957127, 52.5153795], [13.3954571, 52.5155351], [13.3950955, 52.5155351], [13.3948399, 52.5153795], [13.3948399, 52.5151595], [13.3950955, 52.5150039], [13.3954571, 52.5150039], [13.3957127, 52.5151595], [13.3957127, 52.5153795]]]}}, {"type": "Feature", "properties": {"id": "@spire-4dstem-tier3", "spire_ref": "@spire-4dstem", "entity_type": "spire", "name": "4D-STEM & Electron Microscopy Vision", "tier": "crown", "height": 188.0, "base_height": 135.4, "color": "#ffb700", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954851, 52.5153965], [13.3952763, 52.5154492], [13.3950675, 52.5153965], [13.3949811, 52.5152695], [13.3950675, 52.5151425], [13.3952763, 52.5150898], [13.3954851, 52.5151425], [13.3955715, 52.5152695], [13.3954851, 52.5153965]]]}}, {"type": "Feature", "properties": {"id": "@spire-4dstem-needle", "spire_ref": "@spire-4dstem", "entity_type": "spire", "name": "4D-STEM & Electron Microscopy Vision", "tier": "needle", "height": 220.0, "base_height": 188.0, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953285, 52.5153013], [13.3952241, 52.5153013], [13.3952241, 52.5152377], [13.3953285, 52.5152377], [13.3953285, 52.5153013]]]}}, {"type": "Feature", "properties": {"id": "@spire-apt-pedestal", "spire_ref": "@spire-apt", "entity_type": "spire", "name": "Atom Probe Tomography ML", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#ffb700", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4007985, 52.5147709], [13.4002139, 52.5151266], [13.3994155, 52.5149964], [13.3992015, 52.5145105], [13.3997861, 52.5141548], [13.4005845, 52.514285], [13.4007985, 52.5147709]]]}}, {"type": "Feature", "properties": {"id": "@spire-apt-tier1", "spire_ref": "@spire-apt", "entity_type": "spire", "name": "Atom Probe Tomography ML", "tier": "body_lower", "height": 61.9, "base_height": 5.0, "color": "#6b4c00", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4006495, 52.5146407], [13.4003248, 52.514983], [13.3996752, 52.514983], [13.3993505, 52.5146407], [13.3996752, 52.5142984], [13.4003248, 52.5142984], [13.4006495, 52.5146407]]]}}, {"type": "Feature", "properties": {"id": "@spire-apt-tier2", "spire_ref": "@spire-apt", "entity_type": "spire", "name": "Atom Probe Tomography ML", "tier": "body_mid", "height": 127.4, "base_height": 61.9, "color": "#a97a04", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4004364, 52.5147507], [13.4000617, 52.5149257], [13.3996252, 52.5148157], [13.3995636, 52.5145307], [13.3999383, 52.5143557], [13.4003748, 52.5144657], [13.4004364, 52.5147507]]]}}, {"type": "Feature", "properties": {"id": "@spire-apt-tier3", "spire_ref": "@spire-apt", "entity_type": "spire", "name": "Atom Probe Tomography ML", "tier": "crown", "height": 177.0, "base_height": 127.4, "color": "#ffb700", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4002088, 52.5147677], [13.3999236, 52.5148142], [13.3997148, 52.5146872], [13.3997912, 52.5145137], [13.4000764, 52.5144672], [13.4002852, 52.5145942], [13.4002088, 52.5147677]]]}}, {"type": "Feature", "properties": {"id": "@spire-apt-needle", "spire_ref": "@spire-apt", "entity_type": "spire", "name": "Atom Probe Tomography ML", "tier": "needle", "height": 209.0, "base_height": 177.0, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4000522, 52.5146725], [13.3999478, 52.5146725], [13.3999478, 52.5146089], [13.4000522, 52.5146089], [13.4000522, 52.5146725]]]}}, {"type": "Feature", "properties": {"id": "@spire-beamline-edge-pedestal", "spire_ref": "@spire-beamline-edge", "entity_type": "spire", "name": "Beamline Edge AI & Self-Driving Microscopes", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#ffb700", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4055222, 52.5153997], [13.405137, 52.5157052], [13.4045098, 52.5157554], [13.4040078, 52.515521], [13.4039252, 52.5151393], [13.4043104, 52.5148338], [13.4049376, 52.5147836], [13.4054396, 52.515018], [13.4055222, 52.5153997]]]}}, {"type": "Feature", "properties": {"id": "@spire-beamline-edge-tier1", "spire_ref": "@spire-beamline-edge", "entity_type": "spire", "name": "Beamline Edge AI & Self-Driving Microscopes", "tier": "body_lower", "height": 62.7, "base_height": 5.0, "color": "#6b4c00", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4053732, 52.5152695], [13.405183, 52.515549], [13.4047237, 52.5156648], [13.4042644, 52.515549], [13.4040742, 52.5152695], [13.4042644, 52.51499], [13.4047237, 52.5148742], [13.405183, 52.51499], [13.4053732, 52.5152695]]]}}, {"type": "Feature", "properties": {"id": "@spire-beamline-edge-tier2", "spire_ref": "@spire-beamline-edge", "entity_type": "spire", "name": "Beamline Edge AI & Self-Driving Microscopes", "tier": "body_mid", "height": 129.0, "base_height": 62.7, "color": "#a97a04", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4051601, 52.5153795], [13.4049045, 52.5155351], [13.4045429, 52.5155351], [13.4042873, 52.5153795], [13.4042873, 52.5151595], [13.4045429, 52.5150039], [13.4049045, 52.5150039], [13.4051601, 52.5151595], [13.4051601, 52.5153795]]]}}, {"type": "Feature", "properties": {"id": "@spire-beamline-edge-tier3", "spire_ref": "@spire-beamline-edge", "entity_type": "spire", "name": "Beamline Edge AI & Self-Driving Microscopes", "tier": "crown", "height": 179.2, "base_height": 129.0, "color": "#ffb700", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4049325, 52.5153965], [13.4047237, 52.5154492], [13.4045149, 52.5153965], [13.4044285, 52.5152695], [13.4045149, 52.5151425], [13.4047237, 52.5150898], [13.4049325, 52.5151425], [13.4050189, 52.5152695], [13.4049325, 52.5153965]]]}}, {"type": "Feature", "properties": {"id": "@spire-beamline-edge-needle", "spire_ref": "@spire-beamline-edge", "entity_type": "spire", "name": "Beamline Edge AI & Self-Driving Microscopes", "tier": "needle", "height": 211.2, "base_height": 179.2, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4047759, 52.5153013], [13.4046715, 52.5153013], [13.4046715, 52.5152377], [13.4047759, 52.5152377], [13.4047759, 52.5153013]]]}}, {"type": "Feature", "properties": {"id": "@spire-alab-pedestal", "spire_ref": "@spire-alab", "entity_type": "spire", "name": "A-Lab & Level-4 SDL Platforms", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#c040ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960748, 52.5236642], [13.3956896, 52.5239697], [13.3950624, 52.5240199], [13.3945604, 52.5237855], [13.3944778, 52.5234038], [13.394863, 52.5230983], [13.3954902, 52.5230481], [13.3959922, 52.5232825], [13.3960748, 52.5236642]]]}}, {"type": "Feature", "properties": {"id": "@spire-alab-tier1", "spire_ref": "@spire-alab", "entity_type": "spire", "name": "A-Lab & Level-4 SDL Platforms", "tier": "body_lower", "height": 61.2, "base_height": 5.0, "color": "#590085", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3959258, 52.523534], [13.3957356, 52.5238135], [13.3952763, 52.5239293], [13.394817, 52.5238135], [13.3946268, 52.523534], [13.394817, 52.5232545], [13.3952763, 52.5231387], [13.3957356, 52.5232545], [13.3959258, 52.523534]]]}}, {"type": "Feature", "properties": {"id": "@spire-alab-tier2", "spire_ref": "@spire-alab", "entity_type": "spire", "name": "A-Lab & Level-4 SDL Platforms", "tier": "body_mid", "height": 125.9, "base_height": 61.2, "color": "#8f05d3", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3957127, 52.523644], [13.3954571, 52.5237996], [13.3950955, 52.5237996], [13.3948399, 52.523644], [13.3948399, 52.523424], [13.3950955, 52.5232684], [13.3954571, 52.5232684], [13.3957127, 52.523424], [13.3957127, 52.523644]]]}}, {"type": "Feature", "properties": {"id": "@spire-alab-tier3", "spire_ref": "@spire-alab", "entity_type": "spire", "name": "A-Lab & Level-4 SDL Platforms", "tier": "crown", "height": 174.8, "base_height": 125.9, "color": "#c040ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954851, 52.523661], [13.3952763, 52.5237137], [13.3950675, 52.523661], [13.3949811, 52.523534], [13.3950675, 52.523407], [13.3952763, 52.5233543], [13.3954851, 52.523407], [13.3955715, 52.523534], [13.3954851, 52.523661]]]}}, {"type": "Feature", "properties": {"id": "@spire-alab-needle", "spire_ref": "@spire-alab", "entity_type": "spire", "name": "A-Lab & Level-4 SDL Platforms", "tier": "needle", "height": 206.8, "base_height": 174.8, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953285, 52.5235658], [13.3952241, 52.5235658], [13.3952241, 52.5235022], [13.3953285, 52.5235022], [13.3953285, 52.5235658]]]}}, {"type": "Feature", "properties": {"id": "@spire-bigmap-pedestal", "spire_ref": "@spire-bigmap", "entity_type": "spire", "name": "BIG-MAP / BATTERY 2030+", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#c040ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4007985, 52.5230353], [13.4002139, 52.523391], [13.3994155, 52.5232608], [13.3992015, 52.5227749], [13.3997861, 52.5224192], [13.4005845, 52.5225494], [13.4007985, 52.5230353]]]}}, {"type": "Feature", "properties": {"id": "@spire-bigmap-tier1", "spire_ref": "@spire-bigmap", "entity_type": "spire", "name": "BIG-MAP / BATTERY 2030+", "tier": "body_lower", "height": 65.0, "base_height": 5.0, "color": "#590085", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4006495, 52.5229051], [13.4003248, 52.5232474], [13.3996752, 52.5232474], [13.3993505, 52.5229051], [13.3996752, 52.5225628], [13.4003248, 52.5225628], [13.4006495, 52.5229051]]]}}, {"type": "Feature", "properties": {"id": "@spire-bigmap-tier2", "spire_ref": "@spire-bigmap", "entity_type": "spire", "name": "BIG-MAP / BATTERY 2030+", "tier": "body_mid", "height": 133.8, "base_height": 65.0, "color": "#8f05d3", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4004364, 52.5230151], [13.4000617, 52.5231901], [13.3996252, 52.5230801], [13.3995636, 52.5227951], [13.3999383, 52.5226201], [13.4003748, 52.5227301], [13.4004364, 52.5230151]]]}}, {"type": "Feature", "properties": {"id": "@spire-bigmap-tier3", "spire_ref": "@spire-bigmap", "entity_type": "spire", "name": "BIG-MAP / BATTERY 2030+", "tier": "crown", "height": 185.8, "base_height": 133.8, "color": "#c040ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4002088, 52.5230321], [13.3999236, 52.5230786], [13.3997148, 52.5229516], [13.3997912, 52.5227781], [13.4000764, 52.5227316], [13.4002852, 52.5228586], [13.4002088, 52.5230321]]]}}, {"type": "Feature", "properties": {"id": "@spire-bigmap-needle", "spire_ref": "@spire-bigmap", "entity_type": "spire", "name": "BIG-MAP / BATTERY 2030+", "tier": "needle", "height": 217.8, "base_height": 185.8, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4000522, 52.5229369], [13.3999478, 52.5229369], [13.3999478, 52.5228733], [13.4000522, 52.5228733], [13.4000522, 52.5229369]]]}}, {"type": "Feature", "properties": {"id": "@spire-flow-sdl-pedestal", "spire_ref": "@spire-flow-sdl", "entity_type": "spire", "name": "Microfluidic SDLs & AlphaFlow", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#c040ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4055222, 52.5236642], [13.405137, 52.5239697], [13.4045098, 52.5240199], [13.4040078, 52.5237855], [13.4039252, 52.5234038], [13.4043104, 52.5230983], [13.4049376, 52.5230481], [13.4054396, 52.5232825], [13.4055222, 52.5236642]]]}}, {"type": "Feature", "properties": {"id": "@spire-flow-sdl-tier1", "spire_ref": "@spire-flow-sdl", "entity_type": "spire", "name": "Microfluidic SDLs & AlphaFlow", "tier": "body_lower", "height": 68.1, "base_height": 5.0, "color": "#590085", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4053732, 52.523534], [13.405183, 52.5238135], [13.4047237, 52.5239293], [13.4042644, 52.5238135], [13.4040742, 52.523534], [13.4042644, 52.5232545], [13.4047237, 52.5231387], [13.405183, 52.5232545], [13.4053732, 52.523534]]]}}, {"type": "Feature", "properties": {"id": "@spire-flow-sdl-tier2", "spire_ref": "@spire-flow-sdl", "entity_type": "spire", "name": "Microfluidic SDLs & AlphaFlow", "tier": "body_mid", "height": 140.1, "base_height": 68.1, "color": "#8f05d3", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4051601, 52.523644], [13.4049045, 52.5237996], [13.4045429, 52.5237996], [13.4042873, 52.523644], [13.4042873, 52.523424], [13.4045429, 52.5232684], [13.4049045, 52.5232684], [13.4051601, 52.523424], [13.4051601, 52.523644]]]}}, {"type": "Feature", "properties": {"id": "@spire-flow-sdl-tier3", "spire_ref": "@spire-flow-sdl", "entity_type": "spire", "name": "Microfluidic SDLs & AlphaFlow", "tier": "crown", "height": 194.6, "base_height": 140.1, "color": "#c040ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4049325, 52.523661], [13.4047237, 52.5237137], [13.4045149, 52.523661], [13.4044285, 52.523534], [13.4045149, 52.523407], [13.4047237, 52.5233543], [13.4049325, 52.523407], [13.4050189, 52.523534], [13.4049325, 52.523661]]]}}, {"type": "Feature", "properties": {"id": "@spire-flow-sdl-needle", "spire_ref": "@spire-flow-sdl", "entity_type": "spire", "name": "Microfluidic SDLs & AlphaFlow", "tier": "needle", "height": 226.6, "base_height": 194.6, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4047759, 52.5235658], [13.4046715, 52.5235658], [13.4046715, 52.5235022], [13.4047759, 52.5235022], [13.4047759, 52.5235658]]]}}, {"type": "Feature", "properties": {"id": "@spire-aplab-pedestal", "spire_ref": "@spire-aplab", "entity_type": "spire", "name": "AP-Lab & Device Acceleration Platforms", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#3a86ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960748, 52.5319286], [13.3956896, 52.5322341], [13.3950624, 52.5322843], [13.3945604, 52.5320499], [13.3944778, 52.5316682], [13.394863, 52.5313627], [13.3954902, 52.5313125], [13.3959922, 52.5315469], [13.3960748, 52.5319286]]]}}, {"type": "Feature", "properties": {"id": "@spire-aplab-tier1", "spire_ref": "@spire-aplab", "entity_type": "spire", "name": "AP-Lab & Device Acceleration Platforms", "tier": "body_lower", "height": 60.4, "base_height": 5.0, "color": "#003283", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3959258, 52.5317984], [13.3957356, 52.5320779], [13.3952763, 52.5321937], [13.394817, 52.5320779], [13.3946268, 52.5317984], [13.394817, 52.5315189], [13.3952763, 52.5314031], [13.3957356, 52.5315189], [13.3959258, 52.5317984]]]}}, {"type": "Feature", "properties": {"id": "@spire-aplab-tier2", "spire_ref": "@spire-aplab", "entity_type": "spire", "name": "AP-Lab & Device Acceleration Platforms", "tier": "body_mid", "height": 124.3, "base_height": 60.4, "color": "#0553cf", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3957127, 52.5319084], [13.3954571, 52.532064], [13.3950955, 52.532064], [13.3948399, 52.5319084], [13.3948399, 52.5316884], [13.3950955, 52.5315328], [13.3954571, 52.5315328], [13.3957127, 52.5316884], [13.3957127, 52.5319084]]]}}, {"type": "Feature", "properties": {"id": "@spire-aplab-tier3", "spire_ref": "@spire-aplab", "entity_type": "spire", "name": "AP-Lab & Device Acceleration Platforms", "tier": "crown", "height": 172.6, "base_height": 124.3, "color": "#3a86ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954851, 52.5319254], [13.3952763, 52.5319781], [13.3950675, 52.5319254], [13.3949811, 52.5317984], [13.3950675, 52.5316714], [13.3952763, 52.5316187], [13.3954851, 52.5316714], [13.3955715, 52.5317984], [13.3954851, 52.5319254]]]}}, {"type": "Feature", "properties": {"id": "@spire-aplab-needle", "spire_ref": "@spire-aplab", "entity_type": "spire", "name": "AP-Lab & Device Acceleration Platforms", "tier": "needle", "height": 204.6, "base_height": 172.6, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953285, 52.5318302], [13.3952241, 52.5318302], [13.3952241, 52.5317666], [13.3953285, 52.5317666], [13.3953285, 52.5318302]]]}}, {"type": "Feature", "properties": {"id": "@spire-am-twin-pedestal", "spire_ref": "@spire-am-twin", "entity_type": "spire", "name": "Additive Manufacturing Digital Twin", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#3a86ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4007985, 52.5312998], [13.4002139, 52.5316555], [13.3994155, 52.5315253], [13.3992015, 52.5310394], [13.3997861, 52.5306837], [13.4005845, 52.5308139], [13.4007985, 52.5312998]]]}}, {"type": "Feature", "properties": {"id": "@spire-am-twin-tier1", "spire_ref": "@spire-am-twin", "entity_type": "spire", "name": "Additive Manufacturing Digital Twin", "tier": "body_lower", "height": 65.0, "base_height": 5.0, "color": "#003283", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4006495, 52.5311696], [13.4003248, 52.5315119], [13.3996752, 52.5315119], [13.3993505, 52.5311696], [13.3996752, 52.5308273], [13.4003248, 52.5308273], [13.4006495, 52.5311696]]]}}, {"type": "Feature", "properties": {"id": "@spire-am-twin-tier2", "spire_ref": "@spire-am-twin", "entity_type": "spire", "name": "Additive Manufacturing Digital Twin", "tier": "body_mid", "height": 133.8, "base_height": 65.0, "color": "#0553cf", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4004364, 52.5312796], [13.4000617, 52.5314546], [13.3996252, 52.5313446], [13.3995636, 52.5310596], [13.3999383, 52.5308846], [13.4003748, 52.5309946], [13.4004364, 52.5312796]]]}}, {"type": "Feature", "properties": {"id": "@spire-am-twin-tier3", "spire_ref": "@spire-am-twin", "entity_type": "spire", "name": "Additive Manufacturing Digital Twin", "tier": "crown", "height": 185.8, "base_height": 133.8, "color": "#3a86ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4002088, 52.5312966], [13.3999236, 52.5313431], [13.3997148, 52.5312161], [13.3997912, 52.5310426], [13.4000764, 52.5309961], [13.4002852, 52.5311231], [13.4002088, 52.5312966]]]}}, {"type": "Feature", "properties": {"id": "@spire-am-twin-needle", "spire_ref": "@spire-am-twin", "entity_type": "spire", "name": "Additive Manufacturing Digital Twin", "tier": "needle", "height": 217.8, "base_height": 185.8, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4000522, 52.5312014], [13.3999478, 52.5312014], [13.3999478, 52.5311378], [13.4000522, 52.5311378], [13.4000522, 52.5312014]]]}}, {"type": "Feature", "properties": {"id": "@spire-ssbd-pedestal", "spire_ref": "@spire-ssbd", "entity_type": "spire", "name": "SSbD & PFAS Substitution Toolkit", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#3a86ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.4055222, 52.5319286], [13.405137, 52.5322341], [13.4045098, 52.5322843], [13.4040078, 52.5320499], [13.4039252, 52.5316682], [13.4043104, 52.5313627], [13.4049376, 52.5313125], [13.4054396, 52.5315469], [13.4055222, 52.5319286]]]}}, {"type": "Feature", "properties": {"id": "@spire-ssbd-tier1", "spire_ref": "@spire-ssbd", "entity_type": "spire", "name": "SSbD & PFAS Substitution Toolkit", "tier": "body_lower", "height": 58.9, "base_height": 5.0, "color": "#003283", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4053732, 52.5317984], [13.405183, 52.5320779], [13.4047237, 52.5321937], [13.4042644, 52.5320779], [13.4040742, 52.5317984], [13.4042644, 52.5315189], [13.4047237, 52.5314031], [13.405183, 52.5315189], [13.4053732, 52.5317984]]]}}, {"type": "Feature", "properties": {"id": "@spire-ssbd-tier2", "spire_ref": "@spire-ssbd", "entity_type": "spire", "name": "SSbD & PFAS Substitution Toolkit", "tier": "body_mid", "height": 121.1, "base_height": 58.9, "color": "#0553cf", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4051601, 52.5319084], [13.4049045, 52.532064], [13.4045429, 52.532064], [13.4042873, 52.5319084], [13.4042873, 52.5316884], [13.4045429, 52.5315328], [13.4049045, 52.5315328], [13.4051601, 52.5316884], [13.4051601, 52.5319084]]]}}, {"type": "Feature", "properties": {"id": "@spire-ssbd-tier3", "spire_ref": "@spire-ssbd", "entity_type": "spire", "name": "SSbD & PFAS Substitution Toolkit", "tier": "crown", "height": 168.2, "base_height": 121.1, "color": "#3a86ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4049325, 52.5319254], [13.4047237, 52.5319781], [13.4045149, 52.5319254], [13.4044285, 52.5317984], [13.4045149, 52.5316714], [13.4047237, 52.5316187], [13.4049325, 52.5316714], [13.4050189, 52.5317984], [13.4049325, 52.5319254]]]}}, {"type": "Feature", "properties": {"id": "@spire-ssbd-needle", "spire_ref": "@spire-ssbd", "entity_type": "spire", "name": "SSbD & PFAS Substitution Toolkit", "tier": "needle", "height": 200.2, "base_height": 168.2, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4047759, 52.5318302], [13.4046715, 52.5318302], [13.4046715, 52.5317666], [13.4047759, 52.5317666], [13.4047759, 52.5318302]]]}}, {"type": "Feature", "properties": {"id": "@bneck-dark-data-base", "bottleneck_ref": "@bneck-dark-data", "entity_type": "bottleneck", "name": "Dark Data: Negative-Result Reporting Bias", "codename": "DARK DATA", "tier": "hazard_base", "height": 79.3, "base_height": 0.0, "color": "#800020", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3933869, 52.4968541], [13.3930769, 52.4971808], [13.3924569, 52.4971808], [13.3921469, 52.4968541], [13.3924569, 52.4965274], [13.3930769, 52.4965274], [13.3933869, 52.4968541]]]}}, {"type": "Feature", "properties": {"id": "@bneck-dark-data-core", "bottleneck_ref": "@bneck-dark-data", "entity_type": "bottleneck", "name": "Dark Data: Negative-Result Reporting Bias", "codename": "DARK DATA", "tier": "hazard_core", "height": 128.9, "base_height": 79.3, "color": "#ff1744", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.3930993, 52.4969709], [13.3927669, 52.4970877], [13.3924345, 52.4969709], [13.3924345, 52.4967373], [13.3927669, 52.4966205], [13.3930993, 52.4967373], [13.3930993, 52.4969709]]]}}, {"type": "Feature", "properties": {"id": "@bneck-dark-data-needle", "bottleneck_ref": "@bneck-dark-data", "entity_type": "bottleneck", "name": "Dark Data: Negative-Result Reporting Bias", "codename": "DARK DATA", "tier": "hazard_needle", "height": 165.2, "base_height": 128.9, "color": "#ff3366", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3928191, 52.4968859], [13.3927147, 52.4968859], [13.3927147, 52.4968223], [13.3928191, 52.4968223], [13.3928191, 52.4968859]]]}}, {"type": "Feature", "properties": {"id": "@bneck-ood-base", "bottleneck_ref": "@bneck-ood", "entity_type": "bottleneck", "name": "Out-of-Distribution Fragility & PES Data Scarcity", "codename": "OOD FRAGILITY", "tier": "hazard_base", "height": 74.8, "base_height": 0.0, "color": "#800020", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4078531, 52.500088], [13.4075431, 52.5004147], [13.4069231, 52.5004147], [13.4066131, 52.500088], [13.4069231, 52.4997613], [13.4075431, 52.4997613], [13.4078531, 52.500088]]]}}, {"type": "Feature", "properties": {"id": "@bneck-ood-core", "bottleneck_ref": "@bneck-ood", "entity_type": "bottleneck", "name": "Out-of-Distribution Fragility & PES Data Scarcity", "codename": "OOD FRAGILITY", "tier": "hazard_core", "height": 121.5, "base_height": 74.8, "color": "#ff1744", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.4075655, 52.5002048], [13.4072331, 52.5003216], [13.4069007, 52.5002048], [13.4069007, 52.4999712], [13.4072331, 52.4998544], [13.4075655, 52.4999712], [13.4075655, 52.5002048]]]}}, {"type": "Feature", "properties": {"id": "@bneck-ood-needle", "bottleneck_ref": "@bneck-ood", "entity_type": "bottleneck", "name": "Out-of-Distribution Fragility & PES Data Scarcity", "codename": "OOD FRAGILITY", "tier": "hazard_needle", "height": 155.8, "base_height": 121.5, "color": "#ff3366", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4072853, 52.5001198], [13.4071809, 52.5001198], [13.4071809, 52.5000562], [13.4072853, 52.5000562], [13.4072853, 52.5001198]]]}}, {"type": "Feature", "properties": {"id": "@bneck-novelty-mirage-base", "bottleneck_ref": "@bneck-novelty-mirage", "entity_type": "bottleneck", "name": "The Novelty Mirage: Disorder & Symmetry Bias", "codename": "NOVELTY MIRAGE", "tier": "hazard_base", "height": 70.2, "base_height": 0.0, "color": "#800020", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3932393, 52.5081728], [13.3929293, 52.5084995], [13.3923093, 52.5084995], [13.3919993, 52.5081728], [13.3923093, 52.5078461], [13.3929293, 52.5078461], [13.3932393, 52.5081728]]]}}, {"type": "Feature", "properties": {"id": "@bneck-novelty-mirage-core", "bottleneck_ref": "@bneck-novelty-mirage", "entity_type": "bottleneck", "name": "The Novelty Mirage: Disorder & Symmetry Bias", "codename": "NOVELTY MIRAGE", "tier": "hazard_core", "height": 114.0, "base_height": 70.2, "color": "#ff1744", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.3929517, 52.5082896], [13.3926193, 52.5084064], [13.3922869, 52.5082896], [13.3922869, 52.508056], [13.3926193, 52.5079392], [13.3929517, 52.508056], [13.3929517, 52.5082896]]]}}, {"type": "Feature", "properties": {"id": "@bneck-novelty-mirage-needle", "bottleneck_ref": "@bneck-novelty-mirage", "entity_type": "bottleneck", "name": "The Novelty Mirage: Disorder & Symmetry Bias", "codename": "NOVELTY MIRAGE", "tier": "hazard_needle", "height": 146.2, "base_height": 114.0, "color": "#ff3366", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3926715, 52.5082046], [13.3925671, 52.5082046], [13.3925671, 52.508141], [13.3926715, 52.508141], [13.3926715, 52.5082046]]]}}, {"type": "Feature", "properties": {"id": "@bneck-vendor-lock-base", "bottleneck_ref": "@bneck-vendor-lock", "entity_type": "bottleneck", "name": "Proprietary Instrument Formats & Vendor Lock-In", "codename": "VENDOR LOCK", "tier": "hazard_base", "height": 67.9, "base_height": 0.0, "color": "#800020", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4080007, 52.5134729], [13.4076907, 52.5137996], [13.4070707, 52.5137996], [13.4067607, 52.5134729], [13.4070707, 52.5131462], [13.4076907, 52.5131462], [13.4080007, 52.5134729]]]}}, {"type": "Feature", "properties": {"id": "@bneck-vendor-lock-core", "bottleneck_ref": "@bneck-vendor-lock", "entity_type": "bottleneck", "name": "Proprietary Instrument Formats & Vendor Lock-In", "codename": "VENDOR LOCK", "tier": "hazard_core", "height": 110.4, "base_height": 67.9, "color": "#ff1744", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.4077131, 52.5135897], [13.4073807, 52.5137065], [13.4070483, 52.5135897], [13.4070483, 52.5133561], [13.4073807, 52.5132393], [13.4077131, 52.5133561], [13.4077131, 52.5135897]]]}}, {"type": "Feature", "properties": {"id": "@bneck-vendor-lock-needle", "bottleneck_ref": "@bneck-vendor-lock", "entity_type": "bottleneck", "name": "Proprietary Instrument Formats & Vendor Lock-In", "codename": "VENDOR LOCK", "tier": "hazard_needle", "height": 141.5, "base_height": 110.4, "color": "#ff3366", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4074329, 52.5135047], [13.4073285, 52.5135047], [13.4073285, 52.5134411], [13.4074329, 52.5134411], [13.4074329, 52.5135047]]]}}, {"type": "Feature", "properties": {"id": "@bneck-physical-throttle-base", "bottleneck_ref": "@bneck-physical-throttle", "entity_type": "bottleneck", "name": "Physical Throttle: 232-min GC & ~3.9% Robot Exceptions", "codename": "232-MIN GC", "tier": "hazard_base", "height": 72.5, "base_height": 0.0, "color": "#800020", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.40062, 52.5255102], [13.40031, 52.5258369], [13.39969, 52.5258369], [13.39938, 52.5255102], [13.39969, 52.5251835], [13.40031, 52.5251835], [13.40062, 52.5255102]]]}}, {"type": "Feature", "properties": {"id": "@bneck-physical-throttle-core", "bottleneck_ref": "@bneck-physical-throttle", "entity_type": "bottleneck", "name": "Physical Throttle: 232-min GC & ~3.9% Robot Exceptions", "codename": "232-MIN GC", "tier": "hazard_core", "height": 117.8, "base_height": 72.5, "color": "#ff1744", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.4003324, 52.525627], [13.4, 52.5257438], [13.3996676, 52.525627], [13.3996676, 52.5253934], [13.4, 52.5252766], [13.4003324, 52.5253934], [13.4003324, 52.525627]]]}}, {"type": "Feature", "properties": {"id": "@bneck-physical-throttle-needle", "bottleneck_ref": "@bneck-physical-throttle", "entity_type": "bottleneck", "name": "Physical Throttle: 232-min GC & ~3.9% Robot Exceptions", "codename": "232-MIN GC", "tier": "hazard_needle", "height": 151.0, "base_height": 117.8, "color": "#ff3366", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4000522, 52.525542], [13.3999478, 52.525542], [13.3999478, 52.5254784], [13.4000522, 52.5254784], [13.4000522, 52.525542]]]}}, {"type": "Feature", "properties": {"id": "@bneck-middleware-base", "bottleneck_ref": "@bneck-middleware", "entity_type": "bottleneck", "name": "Middleware Silos: Missing Open Hardware Standards", "codename": "MIDDLEWARE SILOS", "tier": "hazard_base", "height": 77.0, "base_height": 0.0, "color": "#800020", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3933869, 52.5216475], [13.3930769, 52.5219742], [13.3924569, 52.5219742], [13.3921469, 52.5216475], [13.3924569, 52.5213208], [13.3930769, 52.5213208], [13.3933869, 52.5216475]]]}}, {"type": "Feature", "properties": {"id": "@bneck-middleware-core", "bottleneck_ref": "@bneck-middleware", "entity_type": "bottleneck", "name": "Middleware Silos: Missing Open Hardware Standards", "codename": "MIDDLEWARE SILOS", "tier": "hazard_core", "height": 125.2, "base_height": 77.0, "color": "#ff1744", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.3930993, 52.5217643], [13.3927669, 52.5218811], [13.3924345, 52.5217643], [13.3924345, 52.5215307], [13.3927669, 52.5214139], [13.3930993, 52.5215307], [13.3930993, 52.5217643]]]}}, {"type": "Feature", "properties": {"id": "@bneck-middleware-needle", "bottleneck_ref": "@bneck-middleware", "entity_type": "bottleneck", "name": "Middleware Silos: Missing Open Hardware Standards", "codename": "MIDDLEWARE SILOS", "tier": "hazard_needle", "height": 160.5, "base_height": 125.2, "color": "#ff3366", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3928191, 52.5216793], [13.3927147, 52.5216793], [13.3927147, 52.5216157], [13.3928191, 52.5216157], [13.3928191, 52.5216793]]]}}, {"type": "Feature", "properties": {"id": "@bneck-lab-to-fab-base", "bottleneck_ref": "@bneck-lab-to-fab", "entity_type": "bottleneck", "name": "The Lab-to-Fab Gap & Industrial Data Scarcity", "codename": "LAB-TO-FAB GAP", "tier": "hazard_base", "height": 74.8, "base_height": 0.0, "color": "#800020", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4078531, 52.5331459], [13.4075431, 52.5334726], [13.4069231, 52.5334726], [13.4066131, 52.5331459], [13.4069231, 52.5328192], [13.4075431, 52.5328192], [13.4078531, 52.5331459]]]}}, {"type": "Feature", "properties": {"id": "@bneck-lab-to-fab-core", "bottleneck_ref": "@bneck-lab-to-fab", "entity_type": "bottleneck", "name": "The Lab-to-Fab Gap & Industrial Data Scarcity", "codename": "LAB-TO-FAB GAP", "tier": "hazard_core", "height": 121.5, "base_height": 74.8, "color": "#ff1744", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.4075655, 52.5332627], [13.4072331, 52.5333795], [13.4069007, 52.5332627], [13.4069007, 52.5330291], [13.4072331, 52.5329123], [13.4075655, 52.5330291], [13.4075655, 52.5332627]]]}}, {"type": "Feature", "properties": {"id": "@bneck-lab-to-fab-needle", "bottleneck_ref": "@bneck-lab-to-fab", "entity_type": "bottleneck", "name": "The Lab-to-Fab Gap & Industrial Data Scarcity", "codename": "LAB-TO-FAB GAP", "tier": "hazard_needle", "height": 155.8, "base_height": 121.5, "color": "#ff3366", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4072853, 52.5331777], [13.4071809, 52.5331777], [13.4071809, 52.5331141], [13.4072853, 52.5331141], [13.4072853, 52.5331777]]]}}, {"type": "Feature", "properties": {"id": "@bneck-synthetic-fraud-base", "bottleneck_ref": "@bneck-synthetic-fraud", "entity_type": "bottleneck", "name": "Synthetic Data Fraud & Provenance Erosion", "codename": "SYNTHETIC FRAUD", "tier": "hazard_base", "height": 65.7, "base_height": 0.0, "color": "#800020", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3932393, 52.5329662], [13.3929293, 52.5332929], [13.3923093, 52.5332929], [13.3919993, 52.5329662], [13.3923093, 52.5326395], [13.3929293, 52.5326395], [13.3932393, 52.5329662]]]}}, {"type": "Feature", "properties": {"id": "@bneck-synthetic-fraud-core", "bottleneck_ref": "@bneck-synthetic-fraud", "entity_type": "bottleneck", "name": "Synthetic Data Fraud & Provenance Erosion", "codename": "SYNTHETIC FRAUD", "tier": "hazard_core", "height": 106.7, "base_height": 65.7, "color": "#ff1744", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.3929517, 52.533083], [13.3926193, 52.5331998], [13.3922869, 52.533083], [13.3922869, 52.5328494], [13.3926193, 52.5327326], [13.3929517, 52.5328494], [13.3929517, 52.533083]]]}}, {"type": "Feature", "properties": {"id": "@bneck-synthetic-fraud-needle", "bottleneck_ref": "@bneck-synthetic-fraud", "entity_type": "bottleneck", "name": "Synthetic Data Fraud & Provenance Erosion", "codename": "SYNTHETIC FRAUD", "tier": "hazard_needle", "height": 136.8, "base_height": 106.7, "color": "#ff3366", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3926715, 52.532998], [13.3925671, 52.532998], [13.3925671, 52.5329344], [13.3926715, 52.5329344], [13.3926715, 52.532998]]]}}, {"type": "Feature", "properties": {"id": "@chal-mev-polymorphs-base", "challenge_ref": "@chal-mev-polymorphs", "entity_type": "challenge", "name": "Chemical Accuracy vs Efficiency at the meV Scale", "codename": "MEV POLYMORPHS", "tier": "challenge_base", "height": 76.1, "base_height": 0.0, "color": "#b38600", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4073345, 52.4970955], [13.4065413, 52.4970955], [13.4065413, 52.4966127], [13.4073345, 52.4966127], [13.4073345, 52.4970955]]]}}, {"type": "Feature", "properties": {"id": "@chal-mev-polymorphs-core", "challenge_ref": "@chal-mev-polymorphs", "entity_type": "challenge", "name": "Chemical Accuracy vs Efficiency at the meV Scale", "codename": "MEV POLYMORPHS", "tier": "challenge_core", "height": 123.6, "base_height": 76.1, "color": "#ffb700", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.4072922, 52.4968541], [13.4069379, 52.4970697], [13.4065836, 52.4968541], [13.4069379, 52.4966385], [13.4072922, 52.4968541]]]}}, {"type": "Feature", "properties": {"id": "@chal-mev-polymorphs-needle", "challenge_ref": "@chal-mev-polymorphs", "entity_type": "challenge", "name": "Chemical Accuracy vs Efficiency at the meV Scale", "codename": "MEV POLYMORPHS", "tier": "challenge_needle", "height": 158.5, "base_height": 123.6, "color": "#ffe082", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4069849, 52.4968827], [13.4068909, 52.4968827], [13.4068909, 52.4968255], [13.4069849, 52.4968255], [13.4069849, 52.4968827]]]}}, {"type": "Feature", "properties": {"id": "@chal-sim-to-real-base", "challenge_ref": "@chal-sim-to-real", "entity_type": "challenge", "name": "Closing the Simulation-to-Real Gap in Characterisation", "codename": "SIM-TO-REAL", "tier": "challenge_base", "height": 78.6, "base_height": 0.0, "color": "#b38600", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3934587, 52.5169482], [13.3926655, 52.5169482], [13.3926655, 52.5164654], [13.3934587, 52.5164654], [13.3934587, 52.5169482]]]}}, {"type": "Feature", "properties": {"id": "@chal-sim-to-real-core", "challenge_ref": "@chal-sim-to-real", "entity_type": "challenge", "name": "Closing the Simulation-to-Real Gap in Characterisation", "codename": "SIM-TO-REAL", "tier": "challenge_core", "height": 127.8, "base_height": 78.6, "color": "#ffb700", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.3934164, 52.5167068], [13.3930621, 52.5169224], [13.3927078, 52.5167068], [13.3930621, 52.5164912], [13.3934164, 52.5167068]]]}}, {"type": "Feature", "properties": {"id": "@chal-sim-to-real-needle", "challenge_ref": "@chal-sim-to-real", "entity_type": "challenge", "name": "Closing the Simulation-to-Real Gap in Characterisation", "codename": "SIM-TO-REAL", "tier": "challenge_needle", "height": 163.8, "base_height": 127.8, "color": "#ffe082", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3931091, 52.5167354], [13.3930151, 52.5167354], [13.3930151, 52.5166782], [13.3931091, 52.5166782], [13.3931091, 52.5167354]]]}}, {"type": "Feature", "properties": {"id": "@chal-activity-cliffs-base", "challenge_ref": "@chal-activity-cliffs", "entity_type": "challenge", "name": "Resolving Activity Cliffs", "codename": "ACTIVITY CLIFFS", "tier": "challenge_base", "height": 73.5, "base_height": 0.0, "color": "#b38600", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4074821, 52.5083244], [13.4066889, 52.5083244], [13.4066889, 52.5078416], [13.4074821, 52.5078416], [13.4074821, 52.5083244]]]}}, {"type": "Feature", "properties": {"id": "@chal-activity-cliffs-core", "challenge_ref": "@chal-activity-cliffs", "entity_type": "challenge", "name": "Resolving Activity Cliffs", "codename": "ACTIVITY CLIFFS", "tier": "challenge_core", "height": 119.5, "base_height": 73.5, "color": "#ffb700", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.4074398, 52.508083], [13.4070855, 52.5082986], [13.4067312, 52.508083], [13.4070855, 52.5078674], [13.4074398, 52.508083]]]}}, {"type": "Feature", "properties": {"id": "@chal-activity-cliffs-needle", "challenge_ref": "@chal-activity-cliffs", "entity_type": "challenge", "name": "Resolving Activity Cliffs", "codename": "ACTIVITY CLIFFS", "tier": "challenge_needle", "height": 153.2, "base_height": 119.5, "color": "#ffe082", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4071325, 52.5081116], [13.4070385, 52.5081116], [13.4070385, 52.5080544], [13.4071325, 52.5080544], [13.4071325, 52.5081116]]]}}, {"type": "Feature", "properties": {"id": "@chal-pacing-problem-base", "challenge_ref": "@chal-pacing-problem", "entity_type": "challenge", "name": "Regulatory Pacing Problem & SSbD", "codename": "PACING PROBLEM", "tier": "challenge_base", "height": 76.1, "base_height": 0.0, "color": "#b38600", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3933111, 52.5302432], [13.3925179, 52.5302432], [13.3925179, 52.5297604], [13.3933111, 52.5297604], [13.3933111, 52.5302432]]]}}, {"type": "Feature", "properties": {"id": "@chal-pacing-problem-core", "challenge_ref": "@chal-pacing-problem", "entity_type": "challenge", "name": "Regulatory Pacing Problem & SSbD", "codename": "PACING PROBLEM", "tier": "challenge_core", "height": 123.6, "base_height": 76.1, "color": "#ffb700", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.3932688, 52.5300018], [13.3929145, 52.5302174], [13.3925602, 52.5300018], [13.3929145, 52.5297862], [13.3932688, 52.5300018]]]}}, {"type": "Feature", "properties": {"id": "@chal-pacing-problem-needle", "challenge_ref": "@chal-pacing-problem", "entity_type": "challenge", "name": "Regulatory Pacing Problem & SSbD", "codename": "PACING PROBLEM", "tier": "challenge_needle", "height": 158.5, "base_height": 123.6, "color": "#ffe082", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3929615, 52.5300304], [13.3928675, 52.5300304], [13.3928675, 52.5299732], [13.3929615, 52.5299732], [13.3929615, 52.5300304]]]}}, {"type": "Feature", "properties": {"id": "@chal-sovereign-fm-base", "challenge_ref": "@chal-sovereign-fm", "entity_type": "challenge", "name": "Sovereign Open Foundation Models for Materials", "codename": "SOVEREIGN FM", "tier": "challenge_base", "height": 86.2, "base_height": 0.0, "color": "#b38600", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4003966, 52.4964667], [13.3996034, 52.4964667], [13.3996034, 52.4959839], [13.4003966, 52.4959839], [13.4003966, 52.4964667]]]}}, {"type": "Feature", "properties": {"id": "@chal-sovereign-fm-core", "challenge_ref": "@chal-sovereign-fm", "entity_type": "challenge", "name": "Sovereign Open Foundation Models for Materials", "codename": "SOVEREIGN FM", "tier": "challenge_core", "height": 140.0, "base_height": 86.2, "color": "#ffb700", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.4003543, 52.4962253], [13.4, 52.4964409], [13.3996457, 52.4962253], [13.4, 52.4960097], [13.4003543, 52.4962253]]]}}, {"type": "Feature", "properties": {"id": "@chal-sovereign-fm-needle", "challenge_ref": "@chal-sovereign-fm", "entity_type": "challenge", "name": "Sovereign Open Foundation Models for Materials", "codename": "SOVEREIGN FM", "tier": "challenge_needle", "height": 179.5, "base_height": 140.0, "color": "#ffe082", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.400047, 52.4962539], [13.399953, 52.4962539], [13.399953, 52.4961967], [13.400047, 52.4961967], [13.400047, 52.4962539]]]}}, {"type": "Feature", "properties": {"id": "@chal-level5-base", "challenge_ref": "@chal-level5", "entity_type": "challenge", "name": "From Level-4 Platforms to Level-5 Autonomy", "codename": "LEVEL 5", "tier": "challenge_base", "height": 71.0, "base_height": 0.0, "color": "#b38600", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4073345, 52.5218889], [13.4065413, 52.5218889], [13.4065413, 52.5214061], [13.4073345, 52.5214061], [13.4073345, 52.5218889]]]}}, {"type": "Feature", "properties": {"id": "@chal-level5-core", "challenge_ref": "@chal-level5", "entity_type": "challenge", "name": "From Level-4 Platforms to Level-5 Autonomy", "codename": "LEVEL 5", "tier": "challenge_core", "height": 115.4, "base_height": 71.0, "color": "#ffb700", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.4072922, 52.5216475], [13.4069379, 52.5218631], [13.4065836, 52.5216475], [13.4069379, 52.5214319], [13.4072922, 52.5216475]]]}}, {"type": "Feature", "properties": {"id": "@chal-level5-needle", "challenge_ref": "@chal-level5", "entity_type": "challenge", "name": "From Level-4 Platforms to Level-5 Autonomy", "codename": "LEVEL 5", "tier": "challenge_needle", "height": 148.0, "base_height": 115.4, "color": "#ffe082", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4069849, 52.5216761], [13.4068909, 52.5216761], [13.4068909, 52.5216189], [13.4069849, 52.5216189], [13.4069849, 52.5216761]]]}}, {"type": "Feature", "properties": {"id": "@chal-cloud-labs-base", "challenge_ref": "@chal-cloud-labs", "entity_type": "challenge", "name": "Federated European Cloud Laboratories", "codename": "CLOUD LABS", "tier": "challenge_base", "height": 83.6, "base_height": 0.0, "color": "#b38600", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3934587, 52.5252127], [13.3926655, 52.5252127], [13.3926655, 52.5247299], [13.3934587, 52.5247299], [13.3934587, 52.5252127]]]}}, {"type": "Feature", "properties": {"id": "@chal-cloud-labs-core", "challenge_ref": "@chal-cloud-labs", "entity_type": "challenge", "name": "Federated European Cloud Laboratories", "codename": "CLOUD LABS", "tier": "challenge_core", "height": 135.9, "base_height": 83.6, "color": "#ffb700", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.3934164, 52.5249713], [13.3930621, 52.5251869], [13.3927078, 52.5249713], [13.3930621, 52.5247557], [13.3934164, 52.5249713]]]}}, {"type": "Feature", "properties": {"id": "@chal-cloud-labs-needle", "challenge_ref": "@chal-cloud-labs", "entity_type": "challenge", "name": "Federated European Cloud Laboratories", "codename": "CLOUD LABS", "tier": "challenge_needle", "height": 174.2, "base_height": 135.9, "color": "#ffe082", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3931091, 52.5249999], [13.3930151, 52.5249999], [13.3930151, 52.5249427], [13.3931091, 52.5249427], [13.3931091, 52.5249999]]]}}]};
 
 window.WIREFRAME_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"color": "#00f0ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.4987406], [13.3957356, 52.4990201], [13.3952763, 52.4991359], [13.394817, 52.4990201], [13.3946268, 52.4987406], [13.394817, 52.4984611], [13.3952763, 52.4983453], [13.3957356, 52.4984611], [13.3959258, 52.4987406]]}}, {"type": "Feature", "properties": {"color": "#00f0ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.4988506], [13.3954571, 52.4990062], [13.3950955, 52.4990062], [13.3948399, 52.4988506], [13.3948399, 52.4986306], [13.3950955, 52.498475], [13.3954571, 52.498475], [13.3957127, 52.4986306], [13.3957127, 52.4988506]]}}, {"type": "Feature", "properties": {"color": "#00f0ff"}, "geometry": {"type": "LineString", "coordinates": [[13.4006495, 52.4981117], [13.4003248, 52.498454], [13.3996752, 52.498454], [13.3993505, 52.4981117], [13.3996752, 52.4977694], [13.4003248, 52.4977694], [13.4006495, 52.4981117]]}}, {"type": "Feature", "properties": {"color": "#00f0ff"}, "geometry": {"type": "LineString", "coordinates": [[13.4004364, 52.4982217], [13.4000617, 52.4983967], [13.3996252, 52.4982867], [13.3995636, 52.4980017], [13.3999383, 52.4978267], [13.4003748, 52.4979367], [13.4004364, 52.4982217]]}}, {"type": "Feature", "properties": {"color": "#00f0ff"}, "geometry": {"type": "LineString", "coordinates": [[13.4053732, 52.4987406], [13.405183, 52.4990201], [13.4047237, 52.4991359], [13.4042644, 52.4990201], [13.4040742, 52.4987406], [13.4042644, 52.4984611], [13.4047237, 52.4983453], [13.405183, 52.4984611], [13.4053732, 52.4987406]]}}, {"type": "Feature", "properties": {"color": "#00f0ff"}, "geometry": {"type": "LineString", "coordinates": [[13.4051601, 52.4988506], [13.4049045, 52.4990062], [13.4045429, 52.4990062], [13.4042873, 52.4988506], [13.4042873, 52.4986306], [13.4045429, 52.498475], [13.4049045, 52.498475], [13.4051601, 52.4986306], [13.4051601, 52.4988506]]}}, {"type": "Feature", "properties": {"color": "#00e599"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.507005], [13.3957356, 52.5072845], [13.3952763, 52.5074003], [13.394817, 52.5072845], [13.3946268, 52.507005], [13.394817, 52.5067255], [13.3952763, 52.5066097], [13.3957356, 52.5067255], [13.3959258, 52.507005]]}}, {"type": "Feature", "properties": {"color": "#00e599"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.507115], [13.3954571, 52.5072706], [13.3950955, 52.5072706], [13.3948399, 52.507115], [13.3948399, 52.506895], [13.3950955, 52.5067394], [13.3954571, 52.5067394], [13.3957127, 52.506895], [13.3957127, 52.507115]]}}, {"type": "Feature", "properties": {"color": "#00e599"}, "geometry": {"type": "LineString", "coordinates": [[13.4006495, 52.5063762], [13.4003248, 52.5067185], [13.3996752, 52.5067185], [13.3993505, 52.5063762], [13.3996752, 52.5060339], [13.4003248, 52.5060339], [13.4006495, 52.5063762]]}}, {"type": "Feature", "properties": {"color": "#00e599"}, "geometry": {"type": "LineString", "coordinates": [[13.4004364, 52.5064862], [13.4000617, 52.5066612], [13.3996252, 52.5065512], [13.3995636, 52.5062662], [13.3999383, 52.5060912], [13.4003748, 52.5062012], [13.4004364, 52.5064862]]}}, {"type": "Feature", "properties": {"color": "#00e599"}, "geometry": {"type": "LineString", "coordinates": [[13.4053732, 52.507005], [13.405183, 52.5072845], [13.4047237, 52.5074003], [13.4042644, 52.5072845], [13.4040742, 52.507005], [13.4042644, 52.5067255], [13.4047237, 52.5066097], [13.405183, 52.5067255], [13.4053732, 52.507005]]}}, {"type": "Feature", "properties": {"color": "#00e599"}, "geometry": {"type": "LineString", "coordinates": [[13.4051601, 52.507115], [13.4049045, 52.5072706], [13.4045429, 52.5072706], [13.4042873, 52.507115], [13.4042873, 52.506895], [13.4045429, 52.5067394], [13.4049045, 52.5067394], [13.4051601, 52.506895], [13.4051601, 52.507115]]}}, {"type": "Feature", "properties": {"color": "#ffb700"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.5152695], [13.3957356, 52.515549], [13.3952763, 52.5156648], [13.394817, 52.515549], [13.3946268, 52.5152695], [13.394817, 52.51499], [13.3952763, 52.5148742], [13.3957356, 52.51499], [13.3959258, 52.5152695]]}}, {"type": "Feature", "properties": {"color": "#ffb700"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.5153795], [13.3954571, 52.5155351], [13.3950955, 52.5155351], [13.3948399, 52.5153795], [13.3948399, 52.5151595], [13.3950955, 52.5150039], [13.3954571, 52.5150039], [13.3957127, 52.5151595], [13.3957127, 52.5153795]]}}, {"type": "Feature", "properties": {"color": "#ffb700"}, "geometry": {"type": "LineString", "coordinates": [[13.4006495, 52.5146407], [13.4003248, 52.514983], [13.3996752, 52.514983], [13.3993505, 52.5146407], [13.3996752, 52.5142984], [13.4003248, 52.5142984], [13.4006495, 52.5146407]]}}, {"type": "Feature", "properties": {"color": "#ffb700"}, "geometry": {"type": "LineString", "coordinates": [[13.4004364, 52.5147507], [13.4000617, 52.5149257], [13.3996252, 52.5148157], [13.3995636, 52.5145307], [13.3999383, 52.5143557], [13.4003748, 52.5144657], [13.4004364, 52.5147507]]}}, {"type": "Feature", "properties": {"color": "#ffb700"}, "geometry": {"type": "LineString", "coordinates": [[13.4053732, 52.5152695], [13.405183, 52.515549], [13.4047237, 52.5156648], [13.4042644, 52.515549], [13.4040742, 52.5152695], [13.4042644, 52.51499], [13.4047237, 52.5148742], [13.405183, 52.51499], [13.4053732, 52.5152695]]}}, {"type": "Feature", "properties": {"color": "#ffb700"}, "geometry": {"type": "LineString", "coordinates": [[13.4051601, 52.5153795], [13.4049045, 52.5155351], [13.4045429, 52.5155351], [13.4042873, 52.5153795], [13.4042873, 52.5151595], [13.4045429, 52.5150039], [13.4049045, 52.5150039], [13.4051601, 52.5151595], [13.4051601, 52.5153795]]}}, {"type": "Feature", "properties": {"color": "#c040ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.523534], [13.3957356, 52.5238135], [13.3952763, 52.5239293], [13.394817, 52.5238135], [13.3946268, 52.523534], [13.394817, 52.5232545], [13.3952763, 52.5231387], [13.3957356, 52.5232545], [13.3959258, 52.523534]]}}, {"type": "Feature", "properties": {"color": "#c040ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.523644], [13.3954571, 52.5237996], [13.3950955, 52.5237996], [13.3948399, 52.523644], [13.3948399, 52.523424], [13.3950955, 52.5232684], [13.3954571, 52.5232684], [13.3957127, 52.523424], [13.3957127, 52.523644]]}}, {"type": "Feature", "properties": {"color": "#c040ff"}, "geometry": {"type": "LineString", "coordinates": [[13.4006495, 52.5229051], [13.4003248, 52.5232474], [13.3996752, 52.5232474], [13.3993505, 52.5229051], [13.3996752, 52.5225628], [13.4003248, 52.5225628], [13.4006495, 52.5229051]]}}, {"type": "Feature", "properties": {"color": "#c040ff"}, "geometry": {"type": "LineString", "coordinates": [[13.4004364, 52.5230151], [13.4000617, 52.5231901], [13.3996252, 52.5230801], [13.3995636, 52.5227951], [13.3999383, 52.5226201], [13.4003748, 52.5227301], [13.4004364, 52.5230151]]}}, {"type": "Feature", "properties": {"color": "#c040ff"}, "geometry": {"type": "LineString", "coordinates": [[13.4053732, 52.523534], [13.405183, 52.5238135], [13.4047237, 52.5239293], [13.4042644, 52.5238135], [13.4040742, 52.523534], [13.4042644, 52.5232545], [13.4047237, 52.5231387], [13.405183, 52.5232545], [13.4053732, 52.523534]]}}, {"type": "Feature", "properties": {"color": "#c040ff"}, "geometry": {"type": "LineString", "coordinates": [[13.4051601, 52.523644], [13.4049045, 52.5237996], [13.4045429, 52.5237996], [13.4042873, 52.523644], [13.4042873, 52.523424], [13.4045429, 52.5232684], [13.4049045, 52.5232684], [13.4051601, 52.523424], [13.4051601, 52.523644]]}}, {"type": "Feature", "properties": {"color": "#3a86ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.5317984], [13.3957356, 52.5320779], [13.3952763, 52.5321937], [13.394817, 52.5320779], [13.3946268, 52.5317984], [13.394817, 52.5315189], [13.3952763, 52.5314031], [13.3957356, 52.5315189], [13.3959258, 52.5317984]]}}, {"type": "Feature", "properties": {"color": "#3a86ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.5319084], [13.3954571, 52.532064], [13.3950955, 52.532064], [13.3948399, 52.5319084], [13.3948399, 52.5316884], [13.3950955, 52.5315328], [13.3954571, 52.5315328], [13.3957127, 52.5316884], [13.3957127, 52.5319084]]}}, {"type": "Feature", "properties": {"color": "#3a86ff"}, "geometry": {"type": "LineString", "coordinates": [[13.4006495, 52.5311696], [13.4003248, 52.5315119], [13.3996752, 52.5315119], [13.3993505, 52.5311696], [13.3996752, 52.5308273], [13.4003248, 52.5308273], [13.4006495, 52.5311696]]}}, {"type": "Feature", "properties": {"color": "#3a86ff"}, "geometry": {"type": "LineString", "coordinates": [[13.4004364, 52.5312796], [13.4000617, 52.5314546], [13.3996252, 52.5313446], [13.3995636, 52.5310596], [13.3999383, 52.5308846], [13.4003748, 52.5309946], [13.4004364, 52.5312796]]}}, {"type": "Feature", "properties": {"color": "#3a86ff"}, "geometry": {"type": "LineString", "coordinates": [[13.4053732, 52.5317984], [13.405183, 52.5320779], [13.4047237, 52.5321937], [13.4042644, 52.5320779], [13.4040742, 52.5317984], [13.4042644, 52.5315189], [13.4047237, 52.5314031], [13.405183, 52.5315189], [13.4053732, 52.5317984]]}}, {"type": "Feature", "properties": {"color": "#3a86ff"}, "geometry": {"type": "LineString", "coordinates": [[13.4051601, 52.5319084], [13.4049045, 52.532064], [13.4045429, 52.532064], [13.4042873, 52.5319084], [13.4042873, 52.5316884], [13.4045429, 52.5315328], [13.4049045, 52.5315328], [13.4051601, 52.5316884], [13.4051601, 52.5319084]]}}]};
 
-window.CONDUITS_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"id": "@conduit-quantum-potentials", "code": "HW-01", "codename": "QUANTUM FEED", "name": "Quantum Potential Superhighway", "from": "@spire-nomad", "from_name": "NOMAD CoE & Materials Cloud", "to": "@spire-mattergen", "to_name": "MatterGen & Crystal Diffusion Core", "type": "Electronic Structure Feed", "bandwidth": "Millions of Relaxed PES Geometries", "description": "High-throughput DFT databases continuously stream energy and force tensors into generative diffusion models to calibrate stable chemical space. Without this continuous quantum calibration, crystal generation rapidly degenerates into unphysical geometries.", "color": "#00f0ff", "midpoint": [13.3952763, 52.5028418]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.4987406], [13.3950543, 52.4990328], [13.3948816, 52.4993251], [13.3947545, 52.4996173], [13.3946691, 52.4999097], [13.3946217, 52.5002021], [13.3946084, 52.5004947], [13.3946255, 52.5007873], [13.3946691, 52.5010802], [13.3947355, 52.5013732], [13.3948209, 52.5016664], [13.3949215, 52.5019599], [13.3950334, 52.5022536], [13.395153, 52.5025476], [13.3952763, 52.5028418], [13.3953996, 52.5031364], [13.3955192, 52.5034313], [13.3956311, 52.5037266], [13.3957317, 52.5040223], [13.3958171, 52.5043183], [13.3958835, 52.5046148], [13.3959271, 52.5049118], [13.3959442, 52.5052092], [13.3959309, 52.5055071], [13.3958835, 52.5058056], [13.3957981, 52.5061046], [13.395671, 52.5064041], [13.3954983, 52.5067043], [13.3952763, 52.507005]]}}, {"type": "Feature", "properties": {"id": "@conduit-recipe-dispatch", "code": "HW-02", "codename": "RECIPE DISPATCH", "name": "Generative Candidate Dispatch Conduit", "from": "@spire-mattergen", "from_name": "MatterGen & Crystal Diffusion Core", "to": "@spire-alab", "to_name": "A-Lab Autonomous Synthesis Core", "type": "Digital-to-Physical Recipe Pipeline", "bandwidth": "Automated Machine-Actionable Synthesis Plans", "description": "Top Pareto-optimal crystal candidates are translated by chemical NLP into executable robotic G-code, solid powder dispensing weights, and furnace thermal annealing profiles for A-Lab.", "color": "#ffb700", "midpoint": [13.3952763, 52.5152075]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.507005], [13.3957203, 52.5075894], [13.3960656, 52.5081739], [13.3963199, 52.5087585], [13.3964907, 52.5093432], [13.3965855, 52.509928], [13.3966121, 52.5105131], [13.396578, 52.5110985], [13.3964907, 52.5116842], [13.3963578, 52.5122703], [13.3961871, 52.5128567], [13.3959859, 52.5134436], [13.395762, 52.514031], [13.395523, 52.514619], [13.3952763, 52.5152075], [13.3950296, 52.5157967], [13.3947906, 52.5163865], [13.3945667, 52.5169771], [13.3943655, 52.5175684], [13.3941948, 52.5181606], [13.3940619, 52.5187536], [13.3939746, 52.5193475], [13.3939405, 52.5199424], [13.3939671, 52.5205382], [13.3940619, 52.5211351], [13.3942327, 52.5217331], [13.394487, 52.5223322], [13.3948323, 52.5229325], [13.3952763, 52.523534]]}}, {"type": "Feature", "properties": {"id": "@conduit-beamline-feedback", "code": "HW-03", "codename": "BEAMLINE LOOP", "name": "Synchrotron Active Feedback Loop", "from": "@spire-esrf-edge", "from_name": "ESRF Synchrotron Edge AI Pipeline", "to": "@spire-bigmap", "to_name": "BIG-MAP / Battery 2030+ Hub", "type": "In-Situ Operando Telemetry", "bandwidth": "Gigabyte/sec Live Diffraction Streams", "description": "Real-time XRD phase evolution from synchrotron beamlines updates Gaussian process surrogate models in autonomous labs, steering synthesis parameters mid-reaction before irreversible phase separation occurs.", "color": "#00f0ff", "midpoint": [13.3976205, 52.5190587]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.5152695], [13.3952382, 52.5156664], [13.3952457, 52.5160351], [13.3952953, 52.5163778], [13.3953835, 52.5166967], [13.3955069, 52.516994], [13.3956618, 52.5172719], [13.3958449, 52.5175325], [13.3960526, 52.5177781], [13.3962814, 52.5180109], [13.3965279, 52.518233], [13.3967885, 52.5184467], [13.3970598, 52.518654], [13.3973383, 52.5188573], [13.3976205, 52.5190587], [13.3979028, 52.5192604], [13.3981818, 52.5194645], [13.398454, 52.5196733], [13.3987159, 52.519889], [13.398964, 52.5201138], [13.3991948, 52.5203498], [13.3994049, 52.5205992], [13.3995907, 52.5208642], [13.3997487, 52.5211471], [13.3998754, 52.5214499], [13.3999674, 52.5217749], [13.4000212, 52.5221244], [13.4000332, 52.5225003], [13.4, 52.5229051]]}}, {"type": "Feature", "properties": {"id": "@conduit-scaleup-transfer", "code": "HW-04", "codename": "LAB-TO-FAB", "name": "Lab-to-Fab Material Transfer Conduit", "from": "@spire-alab", "from_name": "A-Lab Autonomous Synthesis Core", "to": "@spire-additive-twin", "to_name": "Additive Manufacturing Digital Twin", "type": "Process Scaling & Property Handover", "bandwidth": "Powder Rheology & Melt-Pool Thermodynamics", "description": "Laboratory-scale successful alloys are passed to industrial laser powder bed digital twins to simulate manufacturing stresses, cooling rates, and scrap risks before committing to multi-ton pilot production.", "color": "#ffb700", "midpoint": [13.3952763, 52.5276352]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.523534], [13.3954983, 52.5238262], [13.395671, 52.5241185], [13.3957981, 52.5244107], [13.3958835, 52.5247031], [13.3959309, 52.5249955], [13.3959442, 52.5252881], [13.3959271, 52.5255807], [13.3958835, 52.5258736], [13.3958171, 52.5261666], [13.3957317, 52.5264598], [13.3956311, 52.5267533], [13.3955192, 52.527047], [13.3953996, 52.527341], [13.3952763, 52.5276352], [13.395153, 52.5279298], [13.3950334, 52.5282247], [13.3949215, 52.52852], [13.3948209, 52.5288157], [13.3947355, 52.5291117], [13.3946691, 52.5294082], [13.3946255, 52.5297052], [13.3946084, 52.5300026], [13.3946217, 52.5303005], [13.3946691, 52.530599], [13.3947545, 52.530898], [13.3948816, 52.5311975], [13.3950543, 52.5314977], [13.3952763, 52.5317984]]}}, {"type": "Feature", "properties": {"id": "@conduit-provenance-ring", "code": "HW-05", "codename": "CIRCULAR PASSPORT", "name": "Circular Provenance & AiiDA Registry Ring", "from": "@spire-aiida", "from_name": "AiiDA Workflow Orchestrator", "to": "@spire-circular-lca", "to_name": "Circular LCA & Eco-Design Platform", "type": "End-to-End Cryptographic Provenance", "bandwidth": "FAIR Digital Product Passports", "description": "Traces computational origin, experimental synthesis conditions, and environmental impact across the entire scale corridor into a circular product passport required by EU Net-Zero regulations.", "color": "#00f0ff", "midpoint": [13.4047237, 52.5151455]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.4987406], [13.4038357, 52.4999094], [13.403145, 52.5010784], [13.4026365, 52.5022475], [13.402295, 52.5034169], [13.4021052, 52.5045866], [13.4020521, 52.5057568], [13.4021204, 52.5069276], [13.402295, 52.5080989], [13.4025606, 52.509271], [13.4029021, 52.510444], [13.4033044, 52.5116178], [13.4037522, 52.5127926], [13.4042304, 52.5139685], [13.4047237, 52.5151455], [13.405217, 52.5163239], [13.4056952, 52.5175035], [13.406143, 52.5186847], [13.4065453, 52.5198673], [13.4068868, 52.5210516], [13.4071524, 52.5222376], [13.407327, 52.5234255], [13.4073953, 52.5246152], [13.4073422, 52.5258069], [13.4071524, 52.5270007], [13.4068109, 52.5281966], [13.4063024, 52.5293948], [13.4056117, 52.5305954], [13.4047237, 52.5317984]]}}]};
+window.CONDUITS_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"id": "@conduit-salex-training", "code": "HW-01", "codename": "SALEX FEED", "name": "Off-Equilibrium Training Feed", "from": "@spire-alexandria", "from_name": "Alexandria Database & sAlex25", "to": "@spire-umlip", "to_name": "Universal & Equivariant MLIPs", "type": "Training Data Stream", "bandwidth": "14M sAlex25 configurations with forces & stresses", "description": "Relaxation trajectories and out-of-equilibrium configurations from Alexandria train and fine-tune universal potentials (for example GRACE-2). The report singles out this out-of-equilibrium data as the scarce input that determines how well a potential transfers.", "color": "#00f0ff", "midpoint": [13.4023441, 52.4984238]}, "geometry": {"type": "LineString", "coordinates": [[13.4, 52.4981117], [13.4001501, 52.4982608], [13.400304, 52.4983818], [13.4004614, 52.4984767], [13.400622, 52.4985477], [13.4007855, 52.4985971], [13.4009517, 52.4986269], [13.4011203, 52.4986394], [13.401291, 52.4986368], [13.4014635, 52.4986211], [13.4016376, 52.4985946], [13.401813, 52.4985595], [13.4019894, 52.4985178], [13.4021665, 52.4984719], [13.4023441, 52.4984238], [13.4025219, 52.4983757], [13.4026995, 52.4983298], [13.4028768, 52.4982883], [13.4030535, 52.4982533], [13.4032292, 52.4982271], [13.4034037, 52.4982117], [13.4035768, 52.4982093], [13.4037481, 52.4982222], [13.4039174, 52.4982524], [13.4040843, 52.4983023], [13.4042487, 52.4983738], [13.4044103, 52.4984693], [13.4045687, 52.4985908], [13.4047237, 52.4987406]]}}, {"type": "Feature", "properties": {"id": "@conduit-stability-screen", "code": "HW-02", "codename": "STABILITY SCREEN", "name": "ML-Accelerated Stability Screening", "from": "@spire-umlip", "from_name": "Universal & Equivariant MLIPs", "to": "@spire-gnome", "to_name": "GNoME Scale Discovery", "type": "Model-to-Model Evaluation", "bandwidth": "Billions of ML-accelerated structure evaluations", "description": "Universal potentials replace DFT relaxations when filtering generated candidates against the convex hull, which is what made GNoME-scale catalogues possible on EuroHPC-class compute. The same pipeline carries forward any bias the potential has on out-of-distribution chemistries.", "color": "#ffb700", "midpoint": [13.4000354, 52.5028418]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.4987406], [13.4046117, 52.4992866], [13.4044503, 52.4997762], [13.4042433, 52.5002138], [13.4039945, 52.5006037], [13.4037076, 52.5009504], [13.4033865, 52.5012581], [13.4030348, 52.5015313], [13.4026564, 52.5017743], [13.402255, 52.5019914], [13.4018345, 52.502187], [13.4013984, 52.5023655], [13.4009507, 52.5025312], [13.4004952, 52.5026885], [13.4000354, 52.5028418], [13.3995754, 52.5029954], [13.3991187, 52.5031537], [13.3986692, 52.503321], [13.3982306, 52.5035017], [13.3978068, 52.5037001], [13.3974014, 52.5039207], [13.3970183, 52.5041678], [13.3966613, 52.5044457], [13.396334, 52.5047588], [13.3960402, 52.5051115], [13.3957838, 52.5055081], [13.3955685, 52.5059529], [13.3953981, 52.5064505], [13.3952763, 52.507005]]}}, {"type": "Feature", "properties": {"id": "@conduit-recipe-dispatch", "code": "HW-03", "codename": "RECIPE DISPATCH", "name": "Prediction-to-Synthesis Dispatch", "from": "@spire-mattergen", "from_name": "MatterGen & FlowLLM Diffusion", "to": "@spire-alab", "to_name": "A-Lab & Level-4 SDL Platforms", "type": "Digital-to-Physical Handover", "bandwidth": "Candidate structures + LLM-extracted synthesis recipes", "description": "Generated candidates are paired with recipes mined from literature by NLP tools (ChemDataExtractor and LLM agents) and translated into robot-executable procedures. The report calls this prediction-to-synthesis workflow emerging: synthesizability, kinetic accessibility and verified novelty are unresolved at this junction.", "color": "#00f0ff", "midpoint": [13.3976559, 52.5148907]}, "geometry": {"type": "LineString", "coordinates": [[13.4, 52.5063762], [13.3993721, 52.506856], [13.3988466, 52.507364], [13.3984156, 52.5078981], [13.3980712, 52.5084562], [13.3978056, 52.5090363], [13.3976108, 52.509636], [13.397479, 52.5102534], [13.3974022, 52.5108863], [13.3973726, 52.5115327], [13.3973822, 52.5121902], [13.3974233, 52.5128569], [13.3974878, 52.5135307], [13.397568, 52.5142093], [13.3976559, 52.5148907], [13.3977435, 52.5155728], [13.3978231, 52.5162534], [13.3978868, 52.5169305], [13.3979266, 52.5176018], [13.3979346, 52.5182653], [13.397903, 52.5189188], [13.3978239, 52.5195602], [13.3976893, 52.5201875], [13.3974915, 52.5207984], [13.3972224, 52.5213909], [13.3968743, 52.5219628], [13.3964391, 52.5225121], [13.3959091, 52.5230365], [13.3952763, 52.523534]]}}, {"type": "Feature", "properties": {"id": "@conduit-operando-loop", "code": "HW-04", "codename": "OPERANDO LOOP", "name": "Large-Facility Validation Loop", "from": "@spire-beamline-edge", "from_name": "Beamline Edge AI & Self-Driving Microscopes", "to": "@spire-bigmap", "to_name": "BIG-MAP / BATTERY 2030+", "type": "In-Situ / Operando Telemetry", "bandwidth": "GB/s synchrotron & neutron streams", "description": "BATTERY 2030+ requires high-throughput battery discovery to be validated at LEAPS synchrotrons and LENS neutron sources. Edge preprocessing at the beamline turns these streams into feedback that acceleration platforms can use.", "color": "#ffb700", "midpoint": [13.4023795, 52.5190587]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.5152695], [13.4047618, 52.5156664], [13.4047543, 52.5160351], [13.4047047, 52.5163778], [13.4046165, 52.5166967], [13.4044931, 52.516994], [13.4043382, 52.5172719], [13.4041551, 52.5175325], [13.4039474, 52.5177781], [13.4037186, 52.5180109], [13.4034721, 52.518233], [13.4032115, 52.5184467], [13.4029402, 52.518654], [13.4026617, 52.5188573], [13.4023795, 52.5190587], [13.4020972, 52.5192604], [13.4018182, 52.5194645], [13.401546, 52.5196733], [13.4012841, 52.519889], [13.401036, 52.5201138], [13.4008052, 52.5203498], [13.4005951, 52.5205992], [13.4004093, 52.5208642], [13.4002513, 52.5211471], [13.4001246, 52.5214499], [13.4000326, 52.5217749], [13.3999788, 52.5221244], [13.3999668, 52.5225003], [13.4, 52.5229051]]}}, {"type": "Feature", "properties": {"id": "@conduit-scale-up", "code": "HW-05", "codename": "SCALE-UP", "name": "Milligram-to-Kilogram Scale-Up", "from": "@spire-flow-sdl", "from_name": "Microfluidic SDLs & AlphaFlow", "to": "@spire-aplab", "to_name": "AP-Lab & Device Acceleration Platforms", "type": "Process Scaling Handover", "bandwidth": "Recipes + in-line process data, ~50,000 tests/batch", "description": "Lab-optimised recipes pass to autonomous pilot-scale platforms that re-optimise them against local industrial data and application benchmarks. This is the step where the report says yield inconsistencies and unpredictable behaviour appear, and where the lab-to-fab gap is either closed or exposed.", "color": "#00f0ff", "midpoint": [13.4000354, 52.5276352]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.523534], [13.4041677, 52.5235724], [13.4036609, 52.5236673], [13.4031997, 52.5238142], [13.4027801, 52.524009], [13.4023984, 52.5242472], [13.4020507, 52.5245246], [13.4017332, 52.5248368], [13.401442, 52.5251795], [13.4011735, 52.5255484], [13.4009237, 52.5259393], [13.4006888, 52.5263477], [13.400465, 52.5267694], [13.4002485, 52.5272], [13.4000354, 52.5276352], [13.399822, 52.5280708], [13.3996044, 52.5285024], [13.3993788, 52.5289256], [13.3991414, 52.5293362], [13.3988883, 52.5297299], [13.3986158, 52.5301023], [13.3983199, 52.5304492], [13.397997, 52.5307661], [13.3976432, 52.5310489], [13.3972546, 52.5312931], [13.3968274, 52.5314945], [13.3963579, 52.5316487], [13.3958421, 52.5317514], [13.3952763, 52.5317984]]}}, {"type": "Feature", "properties": {"id": "@conduit-4d-print", "code": "HW-06", "codename": "4D PRINT", "name": "Shape-Memory Polymers to 4D Printing", "from": "@spire-polymer", "from_name": "Polymer & Membrane Inverse Design", "to": "@spire-am-twin", "to_name": "Additive Manufacturing Digital Twin", "type": "Material-to-Process Transfer", "bandwidth": "Stimuli-responsive polymer designs + recovery kinetics", "description": "Shape-memory polymers designed for 4D printing and soft robotics feed digital-twin-controlled additive manufacturing of adaptive metamaterials. Linking nanosecond MD to hour-scale shape-memory recovery is the open multiscale problem on this route.", "color": "#ffb700", "midpoint": [13.4023796, 52.5189967]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.507005], [13.4052058, 52.5079863], [13.4055436, 52.5089395], [13.4057483, 52.5098667], [13.4058309, 52.5107703], [13.4058024, 52.5116525], [13.405674, 52.5125155], [13.4054568, 52.5133615], [13.4051618, 52.5141928], [13.4048002, 52.5150117], [13.4043829, 52.5158202], [13.4039212, 52.5166208], [13.4034259, 52.5174156], [13.4029084, 52.5182068], [13.4023796, 52.5189967], [13.4018506, 52.5197875], [13.4013325, 52.5205815], [13.4008364, 52.5213809], [13.4003734, 52.522188], [13.3999545, 52.5230049], [13.3995908, 52.5238338], [13.3992935, 52.5246772], [13.3990735, 52.5255371], [13.3989421, 52.5264158], [13.3989102, 52.5273155], [13.398989, 52.5282385], [13.3991895, 52.5291871], [13.3995228, 52.5301633], [13.4, 52.5311696]]}}, {"type": "Feature", "properties": {"id": "@conduit-nexus-schema", "code": "HW-07", "codename": "NEXUS SCHEMA", "name": "NeXus Ontology Pipeline", "from": "@spire-nomad", "from_name": "NOMAD \u00b7 FAIRmat \u00b7 AiiDA FAIR Stack", "to": "@spire-apt", "to_name": "Atom Probe Tomography ML", "type": "Standards & Metadata Flow", "bandwidth": "Semantic ontologies for post-processing", "description": "FAIRmat, which maintains NOMAD, is implementing NeXus ontologies to standardise atom-probe post-processing. It is a working example of the FAIR stack reaching characterisation, which the report recommends extending to all beamlines and microscopes.", "color": "#00f0ff", "midpoint": [13.3976205, 52.506631]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.4987406], [13.3950162, 52.4994297], [13.394851, 52.5000906], [13.3947735, 52.5007256], [13.3947763, 52.5013368], [13.3948522, 52.5019266], [13.3949939, 52.502497], [13.395194, 52.5030504], [13.3954454, 52.5035888], [13.3957406, 52.5041146], [13.3960725, 52.50463], [13.3964337, 52.5051371], [13.396817, 52.5056381], [13.397215, 52.5061354], [13.3976205, 52.506631], [13.3980261, 52.5071273], [13.3984247, 52.5076264], [13.3988088, 52.5081305], [13.3991713, 52.5086418], [13.3995048, 52.5091626], [13.399802, 52.5096951], [13.4000557, 52.5102415], [13.4002586, 52.510804], [13.4004033, 52.5113847], [13.4004826, 52.511986], [13.4004892, 52.5126101], [13.4004159, 52.5132591], [13.4002552, 52.5139352], [13.4, 52.5146407]]}}, {"type": "Feature", "properties": {"id": "@conduit-failure-log", "code": "HW-08", "codename": "FAILURE LOG", "name": "Negative-Result Return Path", "from": "@spire-alab", "from_name": "A-Lab & Level-4 SDL Platforms", "to": "@spire-nomad", "to_name": "NOMAD \u00b7 FAIRmat \u00b7 AiiDA FAIR Stack", "type": "Southbound Feedback (largely missing)", "bandwidth": "Failed-synthesis logs & in-situ records", "description": "The remedy for dark data drawn as a pipe: failed syntheses and continuous in-situ logs from autonomous labs flow back into FAIR repositories. The report treats this as a needed cultural change, not an existing flow, which is why it runs against the corridor.", "color": "#ffb700", "midpoint": [13.3952763, 52.5112303]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.523534], [13.3946103, 52.5226574], [13.3940923, 52.5217807], [13.3937109, 52.5209038], [13.3934547, 52.5200268], [13.3933124, 52.5191495], [13.3932726, 52.5182718], [13.3933238, 52.5173938], [13.3934547, 52.5165152], [13.393654, 52.5156362], [13.3939101, 52.5147565], [13.3942118, 52.5138761], [13.3945477, 52.512995], [13.3949063, 52.5121131], [13.3952763, 52.5112303], [13.3956463, 52.5103465], [13.3960049, 52.5094618], [13.3963408, 52.5085759], [13.3966425, 52.5076889], [13.3968986, 52.5068007], [13.3970979, 52.5059112], [13.3972288, 52.5050203], [13.39728, 52.504128], [13.3972402, 52.5032343], [13.3970979, 52.5023389], [13.3968417, 52.5014419], [13.3964603, 52.5005433], [13.3959423, 52.4996429], [13.3952763, 52.4987406]]}}, {"type": "Feature", "properties": {"id": "@conduit-ground-truth", "code": "HW-09", "codename": "GROUND TRUTH", "name": "Characterisation Ground-Truth Return", "from": "@spire-4dstem", "from_name": "4D-STEM & Electron Microscopy Vision", "to": "@spire-umlip", "to_name": "Universal & Equivariant MLIPs", "type": "Southbound Validation Feed", "bandwidth": "Defect maps, atom-column positions, spectra", "description": "Experimental microscopy and beamline data supply the ground truth needed to validate potentials trained on DFT alone. The simulation-to-real gap and the scarcity of gold-standard experimental data keep this return path thin.", "color": "#00f0ff", "midpoint": [13.3999646, 52.507067]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.5152695], [13.3960543, 52.5149389], [13.3967337, 52.5145518], [13.3973221, 52.5141125], [13.3978271, 52.5136254], [13.3982562, 52.5130948], [13.3986172, 52.5125249], [13.3989176, 52.51192], [13.3991651, 52.5112844], [13.3993673, 52.5106225], [13.3995317, 52.5099384], [13.399666, 52.5092365], [13.3997779, 52.5085212], [13.3998748, 52.5077966], [13.3999646, 52.507067], [13.4000546, 52.5063369], [13.4001527, 52.5056104], [13.4002664, 52.5048919], [13.4004032, 52.5041856], [13.4005709, 52.5034958], [13.400777, 52.5028269], [13.4010292, 52.5021831], [13.401335, 52.5015687], [13.4017022, 52.500988], [13.4021382, 52.5004454], [13.4026508, 52.499945], [13.4032475, 52.4994912], [13.4039359, 52.4990883], [13.4047237, 52.4987406]]}}, {"type": "Feature", "properties": {"id": "@conduit-ssbd-guardrail", "code": "HW-10", "codename": "SSBD GUARDRAIL", "name": "SSbD Constraints into Generative Design", "from": "@spire-ssbd", "from_name": "SSbD & PFAS Substitution Toolkit", "to": "@spire-mattergen", "to_name": "MatterGen & FlowLLM Diffusion", "type": "Southbound Constraint Injection", "bandwidth": "Toxicity endpoints, PFAS restrictions, lifecycle criteria", "description": "Safe and Sustainable by Design asks for risks to be identified 'at the earliest stages of material innovation', so the production district sends its constraints back to the generators. GenAI4EU's PFAS-substitution call funds exactly this reverse link.", "color": "#ffb700", "midpoint": [13.4023796, 52.5191826]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.5317984], [13.4038738, 52.5310264], [13.4031756, 52.5302262], [13.4026175, 52.5293998], [13.4021878, 52.5285493], [13.4018747, 52.5276768], [13.4016666, 52.5267845], [13.4015519, 52.5258744], [13.4015187, 52.5249487], [13.4015555, 52.5240093], [13.4016506, 52.5230585], [13.4017922, 52.5220984], [13.4019687, 52.5211309], [13.4021684, 52.5201583], [13.4023796, 52.5191826], [13.4025906, 52.518206], [13.4027897, 52.5172304], [13.4029653, 52.5162581], [13.4031057, 52.5152912], [13.4031991, 52.5143316], [13.4032339, 52.5133816], [13.4031984, 52.5124432], [13.403081, 52.5115185], [13.4028698, 52.5106096], [13.4025533, 52.5097187], [13.4021198, 52.5088478], [13.4015575, 52.507999], [13.4008548, 52.5071744], [13.4, 52.5063762]]}}]};
