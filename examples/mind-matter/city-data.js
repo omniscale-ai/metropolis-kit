@@ -11,8 +11,8 @@ window.CITY_CONFIG = {
     13.4,
     52.515
   ],
-  "zoom": 14.8,
-  "pitch": 58,
+  "zoom": 15.0,
+  "pitch": 60,
   "bearing": -18,
   "scale_axis_label": "Horizon River: From Fundamental Physics to Neuromorphic Fabric",
   "scale_axis_description": "Milestone progression from M1 transport disentanglement to D3 integrated wafer fabrication"
@@ -30,28 +30,28 @@ window.DISTRICTS = [
     "eu_infrastructures": [],
     "center": [
       13.4,
-      52.4993694
+      52.4984711
     ],
     "bounds": [
       [
         13.3918812,
-        52.4964499
+        52.4954168
       ],
       [
         13.4081188,
-        52.4964499
+        52.4954168
       ],
       [
         13.4081188,
-        52.5022889
+        52.5015254
       ],
       [
         13.3918812,
-        52.5022889
+        52.5015254
       ],
       [
         13.3918812,
-        52.4964499
+        52.4954168
       ]
     ]
   },
@@ -66,28 +66,28 @@ window.DISTRICTS = [
     "eu_infrastructures": [],
     "center": [
       13.4,
-      52.5071847
+      52.5067355
     ],
     "bounds": [
       [
         13.3918812,
-        52.5042652
+        52.5036812
       ],
       [
         13.4081188,
-        52.5042652
+        52.5036812
       ],
       [
         13.4081188,
-        52.5101042
+        52.5097898
       ],
       [
         13.3918812,
-        52.5101042
+        52.5097898
       ],
       [
         13.3918812,
-        52.5042652
+        52.5036812
       ]
     ]
   },
@@ -107,23 +107,23 @@ window.DISTRICTS = [
     "bounds": [
       [
         13.3918812,
-        52.5120805
+        52.5119457
       ],
       [
         13.4081188,
-        52.5120805
+        52.5119457
       ],
       [
         13.4081188,
-        52.5179195
+        52.5180543
       ],
       [
         13.3918812,
-        52.5179195
+        52.5180543
       ],
       [
         13.3918812,
-        52.5120805
+        52.5119457
       ]
     ]
   },
@@ -138,28 +138,28 @@ window.DISTRICTS = [
     "eu_infrastructures": [],
     "center": [
       13.4,
-      52.5228153
+      52.5232645
     ],
     "bounds": [
       [
         13.3918812,
-        52.5198958
+        52.5202102
       ],
       [
         13.4081188,
-        52.5198958
+        52.5202102
       ],
       [
         13.4081188,
-        52.5257348
+        52.5263188
       ],
       [
         13.3918812,
-        52.5257348
+        52.5263188
       ],
       [
         13.3918812,
-        52.5198958
+        52.5202102
       ]
     ]
   },
@@ -174,28 +174,28 @@ window.DISTRICTS = [
     "eu_infrastructures": [],
     "center": [
       13.4,
-      52.5306306
+      52.5315289
     ],
     "bounds": [
       [
         13.3918812,
-        52.5277111
+        52.5284746
       ],
       [
         13.4081188,
-        52.5277111
+        52.5284746
       ],
       [
         13.4081188,
-        52.5335501
+        52.5345832
       ],
       [
         13.3918812,
-        52.5335501
+        52.5345832
       ],
       [
         13.3918812,
-        52.5277111
+        52.5284746
       ]
     ]
   }
@@ -205,6 +205,7 @@ window.SPIRES_INDEX = [
   {
     "id": "@spire-transport-h0",
     "code": "PHY-01",
+    "codename": "PHY-01",
     "title": "SCLC Null-Hypothesis Spire",
     "district_ref": "@dist-physics",
     "district_name": "QUANTUM TRANSPORT & SOLID-STATE PHYSICS",
@@ -212,7 +213,7 @@ window.SPIRES_INDEX = [
     "color": "#00e676",
     "coordinates": [
       13.3952763,
-      52.4996389
+      52.4987406
     ],
     "metrics": {
       "scale": "Carrier Transport",
@@ -225,6 +226,7 @@ window.SPIRES_INDEX = [
   {
     "id": "@spire-agent-orchestrator",
     "code": "AGT-01",
+    "codename": "AGT-01",
     "title": "Agentic Experiment Designer",
     "district_ref": "@dist-agents",
     "district_name": "AUTONOMOUS AI SCIENTIST & ACTIVE EXPERIMENTATION",
@@ -232,7 +234,7 @@ window.SPIRES_INDEX = [
     "color": "#00f0ff",
     "coordinates": [
       13.3952763,
-      52.5074542
+      52.507005
     ],
     "metrics": {
       "scale": "Autonomous Tool Loop",
@@ -245,6 +247,7 @@ window.SPIRES_INDEX = [
   {
     "id": "@spire-crossbar-engine",
     "code": "MEM-01",
+    "codename": "MEM-01",
     "title": "Analog Crossbar Accelerator",
     "district_ref": "@dist-compute",
     "district_name": "IN-MEMORY COMPUTING & ANALOG CROSSBARS",
@@ -265,6 +268,7 @@ window.SPIRES_INDEX = [
   {
     "id": "@spire-vdw-stacker",
     "code": "MAT-01",
+    "codename": "MAT-01",
     "title": "Van der Waals Robotic Stacker",
     "district_ref": "@dist-materials",
     "district_name": "2D HETEROSTRUCTURES & ATOM-THIN INTERFACES",
@@ -272,7 +276,7 @@ window.SPIRES_INDEX = [
     "color": "#c040ff",
     "coordinates": [
       13.3952763,
-      52.5230848
+      52.523534
     ],
     "metrics": {
       "scale": "Monolayer Hetero",
@@ -285,6 +289,7 @@ window.SPIRES_INDEX = [
   {
     "id": "@spire-wafer-foundry",
     "code": "FAB-01",
+    "codename": "FAB-01",
     "title": "CMOS-Compatible Wafer Pilot Line",
     "district_ref": "@dist-foundry",
     "district_name": "INTEGRATED NEUROMORPHIC FOUNDRY & SCALE-UP",
@@ -292,7 +297,7 @@ window.SPIRES_INDEX = [
     "color": "#3a86ff",
     "coordinates": [
       13.3952763,
-      52.5309001
+      52.5317984
     ],
     "metrics": {
       "scale": "200mm Wafer",
@@ -308,40 +313,43 @@ window.BOTTLENECKS = [
   {
     "id": "@bneck-physical-world",
     "code": "BOT-01",
+    "codename": "BOT-01",
     "title": "The Physical World Rate-Limiter",
     "district_ref": "@dist-physics",
     "nature": "Partner Capacity & Fab Scheduling",
     "impact": "The agent designed the crucial settling experiment; fabrication was declined on capacity grounds. A loop whose slowest step is human partner scheduling cannot be accelerated with better models.",
     "remedy": "Decentralized on-demand micro-foundry access and multi-site fabrication agreements.",
     "coordinates": [
-      13.3929145,
-      52.4977524
+      13.3927669,
+      52.4968541
     ]
   },
   {
     "id": "@bneck-sparse-data",
     "code": "BOT-02",
+    "codename": "BOT-02",
     "title": "Sparse & Uneven Experimental Data",
     "district_ref": "@dist-agents",
     "nature": "Missing Experimental Axis",
     "impact": "Temperature was varied at one device size only; temperature and geometry cannot be separated. No amount of AI modelling fixes a missing physical axis.",
     "remedy": "Enforce orthogonal experimental matrix requirements before active learning initiates.",
     "coordinates": [
-      13.4070855,
-      52.5088017
+      13.4072331,
+      52.5083525
     ]
   },
   {
     "id": "@bneck-metadata-loss",
     "code": "BOT-03",
+    "codename": "BOT-03",
     "title": "Irreversible Metadata Loss",
     "district_ref": "@dist-materials",
     "nature": "Dark Measurement History",
     "impact": "For an entire batch of samples one geometric parameter was never recorded. Those measurements can never be converted into intrinsic material properties by anyone.",
     "remedy": "Automated cryptographic provenance tracking directly at instrument data capture.",
     "coordinates": [
-      13.3927669,
-      52.5242526
+      13.3926193,
+      52.5247018
     ]
   }
 ];
@@ -350,25 +358,27 @@ window.CHALLENGES = [
   {
     "id": "@chal-agent-eval",
     "code": "PRIO-01",
+    "codename": "PRIO-01",
     "title": "Attribution Challenge: Evaluating the Agent",
     "district_ref": "@dist-agents",
     "type": "Methodological Challenge",
     "target": "Develop rigorous double-blind benchmarks to prove the AI agent was the true cause of discovery, rather than a well-equipped human using the same tools.",
     "coordinates": [
-      13.4067902,
-      52.5055677
+      13.4069379,
+      52.5051186
     ]
   },
   {
     "id": "@chal-scalability",
     "code": "PRIO-02",
+    "codename": "PRIO-02",
     "title": "2D Defect Scaling to 200mm Wafers",
     "district_ref": "@dist-foundry",
     "type": "Industrial Milestone",
     "target": "Achieve wafer-scale uniformity of 2D film conductance with defect density under 1 defect per square micron.",
     "coordinates": [
-      13.3932098,
-      52.5323374
+      13.3930621,
+      52.5332357
     ]
   }
 ];
@@ -376,26 +386,44 @@ window.CHALLENGES = [
 window.CONDUITS = [
   {
     "id": "@conduit-physics-to-agent",
-    "name": "Physics Transport Prior Conduit",
     "code": "HW-01",
+    "codename": "HW-01",
+    "name": "Physics Transport Prior Conduit",
     "from": "@spire-transport-h0",
+    "from_name": "SCLC Null-Hypothesis Spire",
     "to": "@spire-agent-orchestrator",
+    "to_name": "Agentic Experiment Designer",
     "type": "Statistical Prior Stream",
     "bandwidth": "SCLC Verification Priors",
-    "description": "Transfers verified physical transport models into the agent's prior distribution to avoid degenerate parameter sweeps."
+    "description": "Transfers verified physical transport models into the agent's prior distribution to avoid degenerate parameter sweeps.",
+    "color": "#00f0ff",
+    "midpoint": [
+      13.3952763,
+      52.5028418
+    ]
   },
   {
     "id": "@conduit-agent-to-crossbar",
-    "name": "Crossbar Synthesis Dispatch",
     "code": "HW-02",
+    "codename": "HW-02",
+    "name": "Crossbar Synthesis Dispatch",
     "from": "@spire-agent-orchestrator",
+    "from_name": "Agentic Experiment Designer",
     "to": "@spire-crossbar-engine",
+    "to_name": "Analog Crossbar Accelerator",
     "type": "Analog Calibration Stream",
     "bandwidth": "Real-Time Conductance States",
-    "description": "Dispatches optimized device biasing and pulse-width modulation sequences into the neuromorphic crossbar."
+    "description": "Dispatches optimized device biasing and pulse-width modulation sequences into the neuromorphic crossbar.",
+    "color": "#ffb700",
+    "midpoint": [
+      13.3952763,
+      52.5111063
+    ]
   }
 ];
 
-window.BUILDINGS_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"id": "@spire-transport-h0-pedestal", "spire_ref": "@spire-transport-h0", "name": "SCLC Null-Hypothesis Spire", "tier": "pedestal", "height": 4.0, "base_height": 0.0, "color": "#00e676", "opacity": 0.8}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960605, 52.4997668], [13.3956822, 52.5000668], [13.3950662, 52.5001161], [13.3945732, 52.4998859], [13.3944921, 52.499511], [13.3948704, 52.499211], [13.3954864, 52.4991617], [13.3959794, 52.4993919], [13.3960605, 52.4997668]]]}}, {"type": "Feature", "properties": {"id": "@spire-transport-h0-tier1", "spire_ref": "@spire-transport-h0", "name": "SCLC Null-Hypothesis Spire", "tier": "body_lower", "height": 52.5, "base_height": 4.0, "color": "#0d1a2d", "edge_color": "#00e676"}, "geometry": {"type": "Polygon", "coordinates": [[[13.3958963, 52.4996389], [13.3957147, 52.4999057], [13.3952763, 52.5000162], [13.3948379, 52.4999057], [13.3946563, 52.4996389], [13.3948379, 52.4993721], [13.3952763, 52.4992616], [13.3957147, 52.4993721], [13.3958963, 52.4996389]]]}}, {"type": "Feature", "properties": {"id": "@spire-transport-h0-tier2", "spire_ref": "@spire-transport-h0", "name": "SCLC Null-Hypothesis Spire", "tier": "body_mid", "height": 105.0, "base_height": 52.5, "color": "#112540", "edge_color": "#00e676"}, "geometry": {"type": "Polygon", "coordinates": [[[13.3956854, 52.499742], [13.3954458, 52.4998879], [13.3951068, 52.4998879], [13.3948672, 52.499742], [13.3948672, 52.4995358], [13.3951068, 52.4993899], [13.3954458, 52.4993899], [13.3956854, 52.4995358], [13.3956854, 52.499742]]]}}, {"type": "Feature", "properties": {"id": "@spire-transport-h0-tier3", "spire_ref": "@spire-transport-h0", "name": "SCLC Null-Hypothesis Spire", "tier": "crown", "height": 150.0, "base_height": 105.0, "color": "#00e676", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954642, 52.4997532], [13.3952763, 52.4998006], [13.3950884, 52.4997532], [13.3950106, 52.4996389], [13.3950884, 52.4995246], [13.3952763, 52.4994772], [13.3954642, 52.4995246], [13.395542, 52.4996389], [13.3954642, 52.4997532]]]}}, {"type": "Feature", "properties": {"id": "@spire-transport-h0-needle", "spire_ref": "@spire-transport-h0", "name": "SCLC Null-Hypothesis Spire", "tier": "needle", "height": 175.0, "base_height": 150.0, "color": "#ffffff"}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953233, 52.4996675], [13.3952293, 52.4996675], [13.3952293, 52.4996103], [13.3953233, 52.4996103], [13.3953233, 52.4996675]]]}}, {"type": "Feature", "properties": {"id": "@spire-agent-orchestrator-pedestal", "spire_ref": "@spire-agent-orchestrator", "name": "Agentic Experiment Designer", "tier": "pedestal", "height": 4.0, "base_height": 0.0, "color": "#00f0ff", "opacity": 0.8}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960605, 52.5075821], [13.3956822, 52.5078821], [13.3950662, 52.5079314], [13.3945732, 52.5077012], [13.3944921, 52.5073263], [13.3948704, 52.5070263], [13.3954864, 52.506977], [13.3959794, 52.5072072], [13.3960605, 52.5075821]]]}}, {"type": "Feature", "properties": {"id": "@spire-agent-orchestrator-tier1", "spire_ref": "@spire-agent-orchestrator", "name": "Agentic Experiment Designer", "tier": "body_lower", "height": 54.2, "base_height": 4.0, "color": "#0d1a2d", "edge_color": "#00f0ff"}, "geometry": {"type": "Polygon", "coordinates": [[[13.3958963, 52.5074542], [13.3957147, 52.507721], [13.3952763, 52.5078315], [13.3948379, 52.507721], [13.3946563, 52.5074542], [13.3948379, 52.5071874], [13.3952763, 52.5070769], [13.3957147, 52.5071874], [13.3958963, 52.5074542]]]}}, {"type": "Feature", "properties": {"id": "@spire-agent-orchestrator-tier2", "spire_ref": "@spire-agent-orchestrator", "name": "Agentic Experiment Designer", "tier": "body_mid", "height": 108.5, "base_height": 54.2, "color": "#112540", "edge_color": "#00f0ff"}, "geometry": {"type": "Polygon", "coordinates": [[[13.3956854, 52.5075573], [13.3954458, 52.5077032], [13.3951068, 52.5077032], [13.3948672, 52.5075573], [13.3948672, 52.5073511], [13.3951068, 52.5072052], [13.3954458, 52.5072052], [13.3956854, 52.5073511], [13.3956854, 52.5075573]]]}}, {"type": "Feature", "properties": {"id": "@spire-agent-orchestrator-tier3", "spire_ref": "@spire-agent-orchestrator", "name": "Agentic Experiment Designer", "tier": "crown", "height": 155.0, "base_height": 108.5, "color": "#00f0ff", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954642, 52.5075685], [13.3952763, 52.5076159], [13.3950884, 52.5075685], [13.3950106, 52.5074542], [13.3950884, 52.5073399], [13.3952763, 52.5072925], [13.3954642, 52.5073399], [13.395542, 52.5074542], [13.3954642, 52.5075685]]]}}, {"type": "Feature", "properties": {"id": "@spire-agent-orchestrator-needle", "spire_ref": "@spire-agent-orchestrator", "name": "Agentic Experiment Designer", "tier": "needle", "height": 180.0, "base_height": 155.0, "color": "#ffffff"}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953233, 52.5074828], [13.3952293, 52.5074828], [13.3952293, 52.5074256], [13.3953233, 52.5074256], [13.3953233, 52.5074828]]]}}, {"type": "Feature", "properties": {"id": "@spire-crossbar-engine-pedestal", "spire_ref": "@spire-crossbar-engine", "name": "Analog Crossbar Accelerator", "tier": "pedestal", "height": 4.0, "base_height": 0.0, "color": "#ffb700", "opacity": 0.8}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960605, 52.5153974], [13.3956822, 52.5156974], [13.3950662, 52.5157467], [13.3945732, 52.5155165], [13.3944921, 52.5151416], [13.3948704, 52.5148416], [13.3954864, 52.5147923], [13.3959794, 52.5150225], [13.3960605, 52.5153974]]]}}, {"type": "Feature", "properties": {"id": "@spire-crossbar-engine-tier1", "spire_ref": "@spire-crossbar-engine", "name": "Analog Crossbar Accelerator", "tier": "body_lower", "height": 50.8, "base_height": 4.0, "color": "#0d1a2d", "edge_color": "#ffb700"}, "geometry": {"type": "Polygon", "coordinates": [[[13.3958963, 52.5152695], [13.3957147, 52.5155363], [13.3952763, 52.5156468], [13.3948379, 52.5155363], [13.3946563, 52.5152695], [13.3948379, 52.5150027], [13.3952763, 52.5148922], [13.3957147, 52.5150027], [13.3958963, 52.5152695]]]}}, {"type": "Feature", "properties": {"id": "@spire-crossbar-engine-tier2", "spire_ref": "@spire-crossbar-engine", "name": "Analog Crossbar Accelerator", "tier": "body_mid", "height": 101.5, "base_height": 50.8, "color": "#112540", "edge_color": "#ffb700"}, "geometry": {"type": "Polygon", "coordinates": [[[13.3956854, 52.5153726], [13.3954458, 52.5155185], [13.3951068, 52.5155185], [13.3948672, 52.5153726], [13.3948672, 52.5151664], [13.3951068, 52.5150205], [13.3954458, 52.5150205], [13.3956854, 52.5151664], [13.3956854, 52.5153726]]]}}, {"type": "Feature", "properties": {"id": "@spire-crossbar-engine-tier3", "spire_ref": "@spire-crossbar-engine", "name": "Analog Crossbar Accelerator", "tier": "crown", "height": 145.0, "base_height": 101.5, "color": "#ffb700", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954642, 52.5153838], [13.3952763, 52.5154312], [13.3950884, 52.5153838], [13.3950106, 52.5152695], [13.3950884, 52.5151552], [13.3952763, 52.5151078], [13.3954642, 52.5151552], [13.395542, 52.5152695], [13.3954642, 52.5153838]]]}}, {"type": "Feature", "properties": {"id": "@spire-crossbar-engine-needle", "spire_ref": "@spire-crossbar-engine", "name": "Analog Crossbar Accelerator", "tier": "needle", "height": 170.0, "base_height": 145.0, "color": "#ffffff"}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953233, 52.5152981], [13.3952293, 52.5152981], [13.3952293, 52.5152409], [13.3953233, 52.5152409], [13.3953233, 52.5152981]]]}}, {"type": "Feature", "properties": {"id": "@spire-vdw-stacker-pedestal", "spire_ref": "@spire-vdw-stacker", "name": "Van der Waals Robotic Stacker", "tier": "pedestal", "height": 4.0, "base_height": 0.0, "color": "#c040ff", "opacity": 0.8}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960605, 52.5232127], [13.3956822, 52.5235127], [13.3950662, 52.523562], [13.3945732, 52.5233318], [13.3944921, 52.5229569], [13.3948704, 52.5226569], [13.3954864, 52.5226076], [13.3959794, 52.5228378], [13.3960605, 52.5232127]]]}}, {"type": "Feature", "properties": {"id": "@spire-vdw-stacker-tier1", "spire_ref": "@spire-vdw-stacker", "name": "Van der Waals Robotic Stacker", "tier": "body_lower", "height": 49.0, "base_height": 4.0, "color": "#0d1a2d", "edge_color": "#c040ff"}, "geometry": {"type": "Polygon", "coordinates": [[[13.3958963, 52.5230848], [13.3957147, 52.5233516], [13.3952763, 52.5234621], [13.3948379, 52.5233516], [13.3946563, 52.5230848], [13.3948379, 52.522818], [13.3952763, 52.5227075], [13.3957147, 52.522818], [13.3958963, 52.5230848]]]}}, {"type": "Feature", "properties": {"id": "@spire-vdw-stacker-tier2", "spire_ref": "@spire-vdw-stacker", "name": "Van der Waals Robotic Stacker", "tier": "body_mid", "height": 98.0, "base_height": 49.0, "color": "#112540", "edge_color": "#c040ff"}, "geometry": {"type": "Polygon", "coordinates": [[[13.3956854, 52.5231879], [13.3954458, 52.5233338], [13.3951068, 52.5233338], [13.3948672, 52.5231879], [13.3948672, 52.5229817], [13.3951068, 52.5228358], [13.3954458, 52.5228358], [13.3956854, 52.5229817], [13.3956854, 52.5231879]]]}}, {"type": "Feature", "properties": {"id": "@spire-vdw-stacker-tier3", "spire_ref": "@spire-vdw-stacker", "name": "Van der Waals Robotic Stacker", "tier": "crown", "height": 140.0, "base_height": 98.0, "color": "#c040ff", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954642, 52.5231991], [13.3952763, 52.5232465], [13.3950884, 52.5231991], [13.3950106, 52.5230848], [13.3950884, 52.5229705], [13.3952763, 52.5229231], [13.3954642, 52.5229705], [13.395542, 52.5230848], [13.3954642, 52.5231991]]]}}, {"type": "Feature", "properties": {"id": "@spire-vdw-stacker-needle", "spire_ref": "@spire-vdw-stacker", "name": "Van der Waals Robotic Stacker", "tier": "needle", "height": 165.0, "base_height": 140.0, "color": "#ffffff"}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953233, 52.5231134], [13.3952293, 52.5231134], [13.3952293, 52.5230562], [13.3953233, 52.5230562], [13.3953233, 52.5231134]]]}}, {"type": "Feature", "properties": {"id": "@spire-wafer-foundry-pedestal", "spire_ref": "@spire-wafer-foundry", "name": "CMOS-Compatible Wafer Pilot Line", "tier": "pedestal", "height": 4.0, "base_height": 0.0, "color": "#3a86ff", "opacity": 0.8}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960605, 52.531028], [13.3956822, 52.531328], [13.3950662, 52.5313773], [13.3945732, 52.5311471], [13.3944921, 52.5307722], [13.3948704, 52.5304722], [13.3954864, 52.5304229], [13.3959794, 52.5306531], [13.3960605, 52.531028]]]}}, {"type": "Feature", "properties": {"id": "@spire-wafer-foundry-tier1", "spire_ref": "@spire-wafer-foundry", "name": "CMOS-Compatible Wafer Pilot Line", "tier": "body_lower", "height": 52.5, "base_height": 4.0, "color": "#0d1a2d", "edge_color": "#3a86ff"}, "geometry": {"type": "Polygon", "coordinates": [[[13.3958963, 52.5309001], [13.3957147, 52.5311669], [13.3952763, 52.5312774], [13.3948379, 52.5311669], [13.3946563, 52.5309001], [13.3948379, 52.5306333], [13.3952763, 52.5305228], [13.3957147, 52.5306333], [13.3958963, 52.5309001]]]}}, {"type": "Feature", "properties": {"id": "@spire-wafer-foundry-tier2", "spire_ref": "@spire-wafer-foundry", "name": "CMOS-Compatible Wafer Pilot Line", "tier": "body_mid", "height": 105.0, "base_height": 52.5, "color": "#112540", "edge_color": "#3a86ff"}, "geometry": {"type": "Polygon", "coordinates": [[[13.3956854, 52.5310032], [13.3954458, 52.5311491], [13.3951068, 52.5311491], [13.3948672, 52.5310032], [13.3948672, 52.530797], [13.3951068, 52.5306511], [13.3954458, 52.5306511], [13.3956854, 52.530797], [13.3956854, 52.5310032]]]}}, {"type": "Feature", "properties": {"id": "@spire-wafer-foundry-tier3", "spire_ref": "@spire-wafer-foundry", "name": "CMOS-Compatible Wafer Pilot Line", "tier": "crown", "height": 150.0, "base_height": 105.0, "color": "#3a86ff", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954642, 52.5310144], [13.3952763, 52.5310618], [13.3950884, 52.5310144], [13.3950106, 52.5309001], [13.3950884, 52.5307858], [13.3952763, 52.5307384], [13.3954642, 52.5307858], [13.395542, 52.5309001], [13.3954642, 52.5310144]]]}}, {"type": "Feature", "properties": {"id": "@spire-wafer-foundry-needle", "spire_ref": "@spire-wafer-foundry", "name": "CMOS-Compatible Wafer Pilot Line", "tier": "needle", "height": 175.0, "base_height": 150.0, "color": "#ffffff"}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953233, 52.5309287], [13.3952293, 52.5309287], [13.3952293, 52.5308715], [13.3953233, 52.5308715], [13.3953233, 52.5309287]]]}}]};
+window.BUILDINGS_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"id": "@spire-transport-h0-pedestal", "spire_ref": "@spire-transport-h0", "entity_type": "spire", "name": "SCLC Null-Hypothesis Spire", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#00e676", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960748, 52.4988708], [13.3956896, 52.4991763], [13.3950624, 52.4992265], [13.3945604, 52.4989921], [13.3944778, 52.4986104], [13.394863, 52.4983049], [13.3954902, 52.4982547], [13.3959922, 52.4984891], [13.3960748, 52.4988708]]]}}, {"type": "Feature", "properties": {"id": "@spire-transport-h0-tier1", "spire_ref": "@spire-transport-h0", "entity_type": "spire", "name": "SCLC Null-Hypothesis Spire", "tier": "body_lower", "height": 69.6, "base_height": 5.0, "color": "#006031", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3959258, 52.4987406], [13.3957356, 52.4990201], [13.3952763, 52.4991359], [13.394817, 52.4990201], [13.3946268, 52.4987406], [13.394817, 52.4984611], [13.3952763, 52.4983453], [13.3957356, 52.4984611], [13.3959258, 52.4987406]]]}}, {"type": "Feature", "properties": {"id": "@spire-transport-h0-tier2", "spire_ref": "@spire-transport-h0", "entity_type": "spire", "name": "SCLC Null-Hypothesis Spire", "tier": "body_mid", "height": 143.3, "base_height": 69.6, "color": "#039850", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3957127, 52.4988506], [13.3954571, 52.4990062], [13.3950955, 52.4990062], [13.3948399, 52.4988506], [13.3948399, 52.4986306], [13.3950955, 52.498475], [13.3954571, 52.498475], [13.3957127, 52.4986306], [13.3957127, 52.4988506]]]}}, {"type": "Feature", "properties": {"id": "@spire-transport-h0-tier3", "spire_ref": "@spire-transport-h0", "entity_type": "spire", "name": "SCLC Null-Hypothesis Spire", "tier": "crown", "height": 199.0, "base_height": 143.3, "color": "#00e676", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954851, 52.4988676], [13.3952763, 52.4989203], [13.3950675, 52.4988676], [13.3949811, 52.4987406], [13.3950675, 52.4986136], [13.3952763, 52.4985609], [13.3954851, 52.4986136], [13.3955715, 52.4987406], [13.3954851, 52.4988676]]]}}, {"type": "Feature", "properties": {"id": "@spire-transport-h0-needle", "spire_ref": "@spire-transport-h0", "entity_type": "spire", "name": "SCLC Null-Hypothesis Spire", "tier": "needle", "height": 231.0, "base_height": 199.0, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953285, 52.4987724], [13.3952241, 52.4987724], [13.3952241, 52.4987088], [13.3953285, 52.4987088], [13.3953285, 52.4987724]]]}}, {"type": "Feature", "properties": {"id": "@spire-agent-orchestrator-pedestal", "spire_ref": "@spire-agent-orchestrator", "entity_type": "spire", "name": "Agentic Experiment Designer", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#00f0ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960748, 52.5071352], [13.3956896, 52.5074407], [13.3950624, 52.5074909], [13.3945604, 52.5072565], [13.3944778, 52.5068748], [13.394863, 52.5065693], [13.3954902, 52.5065191], [13.3959922, 52.5067535], [13.3960748, 52.5071352]]]}}, {"type": "Feature", "properties": {"id": "@spire-agent-orchestrator-tier1", "spire_ref": "@spire-agent-orchestrator", "entity_type": "spire", "name": "Agentic Experiment Designer", "tier": "body_lower", "height": 71.6, "base_height": 5.0, "color": "#00646b", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3959258, 52.507005], [13.3957356, 52.5072845], [13.3952763, 52.5074003], [13.394817, 52.5072845], [13.3946268, 52.507005], [13.394817, 52.5067255], [13.3952763, 52.5066097], [13.3957356, 52.5067255], [13.3959258, 52.507005]]]}}, {"type": "Feature", "properties": {"id": "@spire-agent-orchestrator-tier2", "spire_ref": "@spire-agent-orchestrator", "entity_type": "spire", "name": "Agentic Experiment Designer", "tier": "body_mid", "height": 147.2, "base_height": 71.6, "color": "#049fa9", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3957127, 52.507115], [13.3954571, 52.5072706], [13.3950955, 52.5072706], [13.3948399, 52.507115], [13.3948399, 52.506895], [13.3950955, 52.5067394], [13.3954571, 52.5067394], [13.3957127, 52.506895], [13.3957127, 52.507115]]]}}, {"type": "Feature", "properties": {"id": "@spire-agent-orchestrator-tier3", "spire_ref": "@spire-agent-orchestrator", "entity_type": "spire", "name": "Agentic Experiment Designer", "tier": "crown", "height": 204.5, "base_height": 147.2, "color": "#00f0ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954851, 52.507132], [13.3952763, 52.5071847], [13.3950675, 52.507132], [13.3949811, 52.507005], [13.3950675, 52.506878], [13.3952763, 52.5068253], [13.3954851, 52.506878], [13.3955715, 52.507005], [13.3954851, 52.507132]]]}}, {"type": "Feature", "properties": {"id": "@spire-agent-orchestrator-needle", "spire_ref": "@spire-agent-orchestrator", "entity_type": "spire", "name": "Agentic Experiment Designer", "tier": "needle", "height": 236.5, "base_height": 204.5, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953285, 52.5070368], [13.3952241, 52.5070368], [13.3952241, 52.5069732], [13.3953285, 52.5069732], [13.3953285, 52.5070368]]]}}, {"type": "Feature", "properties": {"id": "@spire-crossbar-engine-pedestal", "spire_ref": "@spire-crossbar-engine", "entity_type": "spire", "name": "Analog Crossbar Accelerator", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#ffb700", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960748, 52.5153997], [13.3956896, 52.5157052], [13.3950624, 52.5157554], [13.3945604, 52.515521], [13.3944778, 52.5151393], [13.394863, 52.5148338], [13.3954902, 52.5147836], [13.3959922, 52.515018], [13.3960748, 52.5153997]]]}}, {"type": "Feature", "properties": {"id": "@spire-crossbar-engine-tier1", "spire_ref": "@spire-crossbar-engine", "entity_type": "spire", "name": "Analog Crossbar Accelerator", "tier": "body_lower", "height": 67.7, "base_height": 5.0, "color": "#6b4c00", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3959258, 52.5152695], [13.3957356, 52.515549], [13.3952763, 52.5156648], [13.394817, 52.515549], [13.3946268, 52.5152695], [13.394817, 52.51499], [13.3952763, 52.5148742], [13.3957356, 52.51499], [13.3959258, 52.5152695]]]}}, {"type": "Feature", "properties": {"id": "@spire-crossbar-engine-tier2", "spire_ref": "@spire-crossbar-engine", "entity_type": "spire", "name": "Analog Crossbar Accelerator", "tier": "body_mid", "height": 139.3, "base_height": 67.7, "color": "#a97a04", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3957127, 52.5153795], [13.3954571, 52.5155351], [13.3950955, 52.5155351], [13.3948399, 52.5153795], [13.3948399, 52.5151595], [13.3950955, 52.5150039], [13.3954571, 52.5150039], [13.3957127, 52.5151595], [13.3957127, 52.5153795]]]}}, {"type": "Feature", "properties": {"id": "@spire-crossbar-engine-tier3", "spire_ref": "@spire-crossbar-engine", "entity_type": "spire", "name": "Analog Crossbar Accelerator", "tier": "crown", "height": 193.5, "base_height": 139.3, "color": "#ffb700", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954851, 52.5153965], [13.3952763, 52.5154492], [13.3950675, 52.5153965], [13.3949811, 52.5152695], [13.3950675, 52.5151425], [13.3952763, 52.5150898], [13.3954851, 52.5151425], [13.3955715, 52.5152695], [13.3954851, 52.5153965]]]}}, {"type": "Feature", "properties": {"id": "@spire-crossbar-engine-needle", "spire_ref": "@spire-crossbar-engine", "entity_type": "spire", "name": "Analog Crossbar Accelerator", "tier": "needle", "height": 225.5, "base_height": 193.5, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953285, 52.5153013], [13.3952241, 52.5153013], [13.3952241, 52.5152377], [13.3953285, 52.5152377], [13.3953285, 52.5153013]]]}}, {"type": "Feature", "properties": {"id": "@spire-vdw-stacker-pedestal", "spire_ref": "@spire-vdw-stacker", "entity_type": "spire", "name": "Van der Waals Robotic Stacker", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#c040ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960748, 52.5236642], [13.3956896, 52.5239697], [13.3950624, 52.5240199], [13.3945604, 52.5237855], [13.3944778, 52.5234038], [13.394863, 52.5230983], [13.3954902, 52.5230481], [13.3959922, 52.5232825], [13.3960748, 52.5236642]]]}}, {"type": "Feature", "properties": {"id": "@spire-vdw-stacker-tier1", "spire_ref": "@spire-vdw-stacker", "entity_type": "spire", "name": "Van der Waals Robotic Stacker", "tier": "body_lower", "height": 65.8, "base_height": 5.0, "color": "#590085", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3959258, 52.523534], [13.3957356, 52.5238135], [13.3952763, 52.5239293], [13.394817, 52.5238135], [13.3946268, 52.523534], [13.394817, 52.5232545], [13.3952763, 52.5231387], [13.3957356, 52.5232545], [13.3959258, 52.523534]]]}}, {"type": "Feature", "properties": {"id": "@spire-vdw-stacker-tier2", "spire_ref": "@spire-vdw-stacker", "entity_type": "spire", "name": "Van der Waals Robotic Stacker", "tier": "body_mid", "height": 135.4, "base_height": 65.8, "color": "#8f05d3", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3957127, 52.523644], [13.3954571, 52.5237996], [13.3950955, 52.5237996], [13.3948399, 52.523644], [13.3948399, 52.523424], [13.3950955, 52.5232684], [13.3954571, 52.5232684], [13.3957127, 52.523424], [13.3957127, 52.523644]]]}}, {"type": "Feature", "properties": {"id": "@spire-vdw-stacker-tier3", "spire_ref": "@spire-vdw-stacker", "entity_type": "spire", "name": "Van der Waals Robotic Stacker", "tier": "crown", "height": 188.0, "base_height": 135.4, "color": "#c040ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954851, 52.523661], [13.3952763, 52.5237137], [13.3950675, 52.523661], [13.3949811, 52.523534], [13.3950675, 52.523407], [13.3952763, 52.5233543], [13.3954851, 52.523407], [13.3955715, 52.523534], [13.3954851, 52.523661]]]}}, {"type": "Feature", "properties": {"id": "@spire-vdw-stacker-needle", "spire_ref": "@spire-vdw-stacker", "entity_type": "spire", "name": "Van der Waals Robotic Stacker", "tier": "needle", "height": 220.0, "base_height": 188.0, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953285, 52.5235658], [13.3952241, 52.5235658], [13.3952241, 52.5235022], [13.3953285, 52.5235022], [13.3953285, 52.5235658]]]}}, {"type": "Feature", "properties": {"id": "@spire-wafer-foundry-pedestal", "spire_ref": "@spire-wafer-foundry", "entity_type": "spire", "name": "CMOS-Compatible Wafer Pilot Line", "tier": "pedestal", "height": 5.0, "base_height": 0.0, "color": "#3a86ff", "opacity": 0.85}, "geometry": {"type": "Polygon", "coordinates": [[[13.3960748, 52.5319286], [13.3956896, 52.5322341], [13.3950624, 52.5322843], [13.3945604, 52.5320499], [13.3944778, 52.5316682], [13.394863, 52.5313627], [13.3954902, 52.5313125], [13.3959922, 52.5315469], [13.3960748, 52.5319286]]]}}, {"type": "Feature", "properties": {"id": "@spire-wafer-foundry-tier1", "spire_ref": "@spire-wafer-foundry", "entity_type": "spire", "name": "CMOS-Compatible Wafer Pilot Line", "tier": "body_lower", "height": 69.6, "base_height": 5.0, "color": "#003283", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3959258, 52.5317984], [13.3957356, 52.5320779], [13.3952763, 52.5321937], [13.394817, 52.5320779], [13.3946268, 52.5317984], [13.394817, 52.5315189], [13.3952763, 52.5314031], [13.3957356, 52.5315189], [13.3959258, 52.5317984]]]}}, {"type": "Feature", "properties": {"id": "@spire-wafer-foundry-tier2", "spire_ref": "@spire-wafer-foundry", "entity_type": "spire", "name": "CMOS-Compatible Wafer Pilot Line", "tier": "body_mid", "height": 143.3, "base_height": 69.6, "color": "#0553cf", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3957127, 52.5319084], [13.3954571, 52.532064], [13.3950955, 52.532064], [13.3948399, 52.5319084], [13.3948399, 52.5316884], [13.3950955, 52.5315328], [13.3954571, 52.5315328], [13.3957127, 52.5316884], [13.3957127, 52.5319084]]]}}, {"type": "Feature", "properties": {"id": "@spire-wafer-foundry-tier3", "spire_ref": "@spire-wafer-foundry", "entity_type": "spire", "name": "CMOS-Compatible Wafer Pilot Line", "tier": "crown", "height": 199.0, "base_height": 143.3, "color": "#3a86ff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3954851, 52.5319254], [13.3952763, 52.5319781], [13.3950675, 52.5319254], [13.3949811, 52.5317984], [13.3950675, 52.5316714], [13.3952763, 52.5316187], [13.3954851, 52.5316714], [13.3955715, 52.5317984], [13.3954851, 52.5319254]]]}}, {"type": "Feature", "properties": {"id": "@spire-wafer-foundry-needle", "spire_ref": "@spire-wafer-foundry", "entity_type": "spire", "name": "CMOS-Compatible Wafer Pilot Line", "tier": "needle", "height": 231.0, "base_height": 199.0, "color": "#ffffff", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3953285, 52.5318302], [13.3952241, 52.5318302], [13.3952241, 52.5317666], [13.3953285, 52.5317666], [13.3953285, 52.5318302]]]}}, {"type": "Feature", "properties": {"id": "@bneck-physical-world-base", "bottleneck_ref": "@bneck-physical-world", "entity_type": "bottleneck", "name": "The Physical World Rate-Limiter", "codename": "BOT-01", "tier": "hazard_base", "height": 60.0, "base_height": 0.0, "color": "#800020", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3933869, 52.4968541], [13.3930769, 52.4971808], [13.3924569, 52.4971808], [13.3921469, 52.4968541], [13.3924569, 52.4965274], [13.3930769, 52.4965274], [13.3933869, 52.4968541]]]}}, {"type": "Feature", "properties": {"id": "@bneck-physical-world-core", "bottleneck_ref": "@bneck-physical-world", "entity_type": "bottleneck", "name": "The Physical World Rate-Limiter", "codename": "BOT-01", "tier": "hazard_core", "height": 95.0, "base_height": 60.0, "color": "#ff1744", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.3930993, 52.4969709], [13.3927669, 52.4970877], [13.3924345, 52.4969709], [13.3924345, 52.4967373], [13.3927669, 52.4966205], [13.3930993, 52.4967373], [13.3930993, 52.4969709]]]}}, {"type": "Feature", "properties": {"id": "@bneck-physical-world-needle", "bottleneck_ref": "@bneck-physical-world", "entity_type": "bottleneck", "name": "The Physical World Rate-Limiter", "codename": "BOT-01", "tier": "hazard_needle", "height": 125.0, "base_height": 95.0, "color": "#ff3366", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3928191, 52.4968859], [13.3927147, 52.4968859], [13.3927147, 52.4968223], [13.3928191, 52.4968223], [13.3928191, 52.4968859]]]}}, {"type": "Feature", "properties": {"id": "@bneck-sparse-data-base", "bottleneck_ref": "@bneck-sparse-data", "entity_type": "bottleneck", "name": "Sparse & Uneven Experimental Data", "codename": "BOT-02", "tier": "hazard_base", "height": 60.0, "base_height": 0.0, "color": "#800020", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4078531, 52.5083525], [13.4075431, 52.5086792], [13.4069231, 52.5086792], [13.4066131, 52.5083525], [13.4069231, 52.5080258], [13.4075431, 52.5080258], [13.4078531, 52.5083525]]]}}, {"type": "Feature", "properties": {"id": "@bneck-sparse-data-core", "bottleneck_ref": "@bneck-sparse-data", "entity_type": "bottleneck", "name": "Sparse & Uneven Experimental Data", "codename": "BOT-02", "tier": "hazard_core", "height": 95.0, "base_height": 60.0, "color": "#ff1744", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.4075655, 52.5084693], [13.4072331, 52.5085861], [13.4069007, 52.5084693], [13.4069007, 52.5082357], [13.4072331, 52.5081189], [13.4075655, 52.5082357], [13.4075655, 52.5084693]]]}}, {"type": "Feature", "properties": {"id": "@bneck-sparse-data-needle", "bottleneck_ref": "@bneck-sparse-data", "entity_type": "bottleneck", "name": "Sparse & Uneven Experimental Data", "codename": "BOT-02", "tier": "hazard_needle", "height": 125.0, "base_height": 95.0, "color": "#ff3366", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4072853, 52.5083843], [13.4071809, 52.5083843], [13.4071809, 52.5083207], [13.4072853, 52.5083207], [13.4072853, 52.5083843]]]}}, {"type": "Feature", "properties": {"id": "@bneck-metadata-loss-base", "bottleneck_ref": "@bneck-metadata-loss", "entity_type": "bottleneck", "name": "Irreversible Metadata Loss", "codename": "BOT-03", "tier": "hazard_base", "height": 60.0, "base_height": 0.0, "color": "#800020", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3932393, 52.5247018], [13.3929293, 52.5250285], [13.3923093, 52.5250285], [13.3919993, 52.5247018], [13.3923093, 52.5243751], [13.3929293, 52.5243751], [13.3932393, 52.5247018]]]}}, {"type": "Feature", "properties": {"id": "@bneck-metadata-loss-core", "bottleneck_ref": "@bneck-metadata-loss", "entity_type": "bottleneck", "name": "Irreversible Metadata Loss", "codename": "BOT-03", "tier": "hazard_core", "height": 95.0, "base_height": 60.0, "color": "#ff1744", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.3929517, 52.5248186], [13.3926193, 52.5249354], [13.3922869, 52.5248186], [13.3922869, 52.524585], [13.3926193, 52.5244682], [13.3929517, 52.524585], [13.3929517, 52.5248186]]]}}, {"type": "Feature", "properties": {"id": "@bneck-metadata-loss-needle", "bottleneck_ref": "@bneck-metadata-loss", "entity_type": "bottleneck", "name": "Irreversible Metadata Loss", "codename": "BOT-03", "tier": "hazard_needle", "height": 125.0, "base_height": 95.0, "color": "#ff3366", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3926715, 52.5247336], [13.3925671, 52.5247336], [13.3925671, 52.52467], [13.3926715, 52.52467], [13.3926715, 52.5247336]]]}}, {"type": "Feature", "properties": {"id": "@chal-agent-eval-base", "challenge_ref": "@chal-agent-eval", "entity_type": "challenge", "name": "Attribution Challenge: Evaluating the Agent", "codename": "PRIO-01", "tier": "challenge_base", "height": 68.0, "base_height": 0.0, "color": "#b38600", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.4073345, 52.50536], [13.4065413, 52.50536], [13.4065413, 52.5048772], [13.4073345, 52.5048772], [13.4073345, 52.50536]]]}}, {"type": "Feature", "properties": {"id": "@chal-agent-eval-core", "challenge_ref": "@chal-agent-eval", "entity_type": "challenge", "name": "Attribution Challenge: Evaluating the Agent", "codename": "PRIO-01", "tier": "challenge_core", "height": 112.0, "base_height": 68.0, "color": "#ffb700", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.4072922, 52.5051186], [13.4069379, 52.5053342], [13.4065836, 52.5051186], [13.4069379, 52.504903], [13.4072922, 52.5051186]]]}}, {"type": "Feature", "properties": {"id": "@chal-agent-eval-needle", "challenge_ref": "@chal-agent-eval", "entity_type": "challenge", "name": "Attribution Challenge: Evaluating the Agent", "codename": "PRIO-01", "tier": "challenge_needle", "height": 142.0, "base_height": 112.0, "color": "#ffe082", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.4069849, 52.5051472], [13.4068909, 52.5051472], [13.4068909, 52.50509], [13.4069849, 52.50509], [13.4069849, 52.5051472]]]}}, {"type": "Feature", "properties": {"id": "@chal-scalability-base", "challenge_ref": "@chal-scalability", "entity_type": "challenge", "name": "2D Defect Scaling to 200mm Wafers", "codename": "PRIO-02", "tier": "challenge_base", "height": 68.0, "base_height": 0.0, "color": "#b38600", "opacity": 0.95}, "geometry": {"type": "Polygon", "coordinates": [[[13.3934587, 52.5334771], [13.3926655, 52.5334771], [13.3926655, 52.5329943], [13.3934587, 52.5329943], [13.3934587, 52.5334771]]]}}, {"type": "Feature", "properties": {"id": "@chal-scalability-core", "challenge_ref": "@chal-scalability", "entity_type": "challenge", "name": "2D Defect Scaling to 200mm Wafers", "codename": "PRIO-02", "tier": "challenge_core", "height": 112.0, "base_height": 68.0, "color": "#ffb700", "opacity": 0.98}, "geometry": {"type": "Polygon", "coordinates": [[[13.3934164, 52.5332357], [13.3930621, 52.5334513], [13.3927078, 52.5332357], [13.3930621, 52.5330201], [13.3934164, 52.5332357]]]}}, {"type": "Feature", "properties": {"id": "@chal-scalability-needle", "challenge_ref": "@chal-scalability", "entity_type": "challenge", "name": "2D Defect Scaling to 200mm Wafers", "codename": "PRIO-02", "tier": "challenge_needle", "height": 142.0, "base_height": 112.0, "color": "#ffe082", "opacity": 1.0}, "geometry": {"type": "Polygon", "coordinates": [[[13.3931091, 52.5332643], [13.3930151, 52.5332643], [13.3930151, 52.5332071], [13.3931091, 52.5332071], [13.3931091, 52.5332643]]]}}]};
 
-window.CONDUITS_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"id": "@conduit-physics-to-agent", "name": "Physics Transport Prior Conduit", "code": "HW-01", "from_spire": "@spire-transport-h0", "to_spire": "@spire-agent-orchestrator", "type": "Statistical Prior Stream", "bandwidth": "SCLC Verification Priors", "description": "Transfers verified physical transport models into the agent's prior distribution to avoid degenerate parameter sweeps.", "color": "#00f0ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.4996389], [13.3950889, 52.4999152], [13.3949431, 52.5001916], [13.3948357, 52.500468], [13.3947636, 52.5007444], [13.3947236, 52.501021], [13.3947124, 52.5012976], [13.3947268, 52.5015744], [13.3947636, 52.5018513], [13.3948197, 52.5021284], [13.3948918, 52.5024057], [13.3949767, 52.5026832], [13.3950712, 52.502961], [13.3951722, 52.5032389], [13.3952763, 52.5035172], [13.3953804, 52.5037958], [13.3954814, 52.5040747], [13.3955759, 52.5043539], [13.3956608, 52.5046335], [13.3957329, 52.5049135], [13.395789, 52.5051939], [13.3958258, 52.5054747], [13.3958402, 52.505756], [13.395829, 52.5060377], [13.395789, 52.50632], [13.3957169, 52.5066027], [13.3956095, 52.506886], [13.3954637, 52.5071698], [13.3952763, 52.5074542]]}}, {"type": "Feature", "properties": {"id": "@conduit-agent-to-crossbar", "name": "Crossbar Synthesis Dispatch", "code": "HW-02", "from_spire": "@spire-agent-orchestrator", "to_spire": "@spire-crossbar-engine", "type": "Analog Calibration Stream", "bandwidth": "Real-Time Conductance States", "description": "Dispatches optimized device biasing and pulse-width modulation sequences into the neuromorphic crossbar.", "color": "#ffb700"}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.5074542], [13.3954637, 52.5077305], [13.3956095, 52.5080069], [13.3957169, 52.5082833], [13.395789, 52.5085597], [13.395829, 52.5088363], [13.3958402, 52.5091129], [13.3958258, 52.5093897], [13.395789, 52.5096666], [13.3957329, 52.5099437], [13.3956608, 52.510221], [13.3955759, 52.5104985], [13.3954814, 52.5107763], [13.3953804, 52.5110542], [13.3952763, 52.5113325], [13.3951722, 52.5116111], [13.3950712, 52.51189], [13.3949767, 52.5121692], [13.3948918, 52.5124488], [13.3948197, 52.5127288], [13.3947636, 52.5130092], [13.3947268, 52.51329], [13.3947124, 52.5135713], [13.3947236, 52.513853], [13.3947636, 52.5141353], [13.3948357, 52.514418], [13.3949431, 52.5147013], [13.3950889, 52.5149851], [13.3952763, 52.5152695]]}}]};
+window.WIREFRAME_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"color": "#00e676"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.4987406], [13.3957356, 52.4990201], [13.3952763, 52.4991359], [13.394817, 52.4990201], [13.3946268, 52.4987406], [13.394817, 52.4984611], [13.3952763, 52.4983453], [13.3957356, 52.4984611], [13.3959258, 52.4987406]]}}, {"type": "Feature", "properties": {"color": "#00e676"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.4988506], [13.3954571, 52.4990062], [13.3950955, 52.4990062], [13.3948399, 52.4988506], [13.3948399, 52.4986306], [13.3950955, 52.498475], [13.3954571, 52.498475], [13.3957127, 52.4986306], [13.3957127, 52.4988506]]}}, {"type": "Feature", "properties": {"color": "#00f0ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.507005], [13.3957356, 52.5072845], [13.3952763, 52.5074003], [13.394817, 52.5072845], [13.3946268, 52.507005], [13.394817, 52.5067255], [13.3952763, 52.5066097], [13.3957356, 52.5067255], [13.3959258, 52.507005]]}}, {"type": "Feature", "properties": {"color": "#00f0ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.507115], [13.3954571, 52.5072706], [13.3950955, 52.5072706], [13.3948399, 52.507115], [13.3948399, 52.506895], [13.3950955, 52.5067394], [13.3954571, 52.5067394], [13.3957127, 52.506895], [13.3957127, 52.507115]]}}, {"type": "Feature", "properties": {"color": "#ffb700"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.5152695], [13.3957356, 52.515549], [13.3952763, 52.5156648], [13.394817, 52.515549], [13.3946268, 52.5152695], [13.394817, 52.51499], [13.3952763, 52.5148742], [13.3957356, 52.51499], [13.3959258, 52.5152695]]}}, {"type": "Feature", "properties": {"color": "#ffb700"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.5153795], [13.3954571, 52.5155351], [13.3950955, 52.5155351], [13.3948399, 52.5153795], [13.3948399, 52.5151595], [13.3950955, 52.5150039], [13.3954571, 52.5150039], [13.3957127, 52.5151595], [13.3957127, 52.5153795]]}}, {"type": "Feature", "properties": {"color": "#c040ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.523534], [13.3957356, 52.5238135], [13.3952763, 52.5239293], [13.394817, 52.5238135], [13.3946268, 52.523534], [13.394817, 52.5232545], [13.3952763, 52.5231387], [13.3957356, 52.5232545], [13.3959258, 52.523534]]}}, {"type": "Feature", "properties": {"color": "#c040ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.523644], [13.3954571, 52.5237996], [13.3950955, 52.5237996], [13.3948399, 52.523644], [13.3948399, 52.523424], [13.3950955, 52.5232684], [13.3954571, 52.5232684], [13.3957127, 52.523424], [13.3957127, 52.523644]]}}, {"type": "Feature", "properties": {"color": "#3a86ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.5317984], [13.3957356, 52.5320779], [13.3952763, 52.5321937], [13.394817, 52.5320779], [13.3946268, 52.5317984], [13.394817, 52.5315189], [13.3952763, 52.5314031], [13.3957356, 52.5315189], [13.3959258, 52.5317984]]}}, {"type": "Feature", "properties": {"color": "#3a86ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.5319084], [13.3954571, 52.532064], [13.3950955, 52.532064], [13.3948399, 52.5319084], [13.3948399, 52.5316884], [13.3950955, 52.5315328], [13.3954571, 52.5315328], [13.3957127, 52.5316884], [13.3957127, 52.5319084]]}}]};
+
+window.CONDUITS_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"id": "@conduit-physics-to-agent", "code": "HW-01", "codename": "HW-01", "name": "Physics Transport Prior Conduit", "from": "@spire-transport-h0", "from_name": "SCLC Null-Hypothesis Spire", "to": "@spire-agent-orchestrator", "to_name": "Agentic Experiment Designer", "type": "Statistical Prior Stream", "bandwidth": "SCLC Verification Priors", "description": "Transfers verified physical transport models into the agent's prior distribution to avoid degenerate parameter sweeps.", "color": "#00f0ff", "midpoint": [13.3952763, 52.5028418]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.4987406], [13.3950543, 52.4990328], [13.3948816, 52.4993251], [13.3947545, 52.4996173], [13.3946691, 52.4999097], [13.3946217, 52.5002021], [13.3946084, 52.5004947], [13.3946255, 52.5007873], [13.3946691, 52.5010802], [13.3947355, 52.5013732], [13.3948209, 52.5016664], [13.3949215, 52.5019599], [13.3950334, 52.5022536], [13.395153, 52.5025476], [13.3952763, 52.5028418], [13.3953996, 52.5031364], [13.3955192, 52.5034313], [13.3956311, 52.5037266], [13.3957317, 52.5040223], [13.3958171, 52.5043183], [13.3958835, 52.5046148], [13.3959271, 52.5049118], [13.3959442, 52.5052092], [13.3959309, 52.5055071], [13.3958835, 52.5058056], [13.3957981, 52.5061046], [13.395671, 52.5064041], [13.3954983, 52.5067043], [13.3952763, 52.507005]]}}, {"type": "Feature", "properties": {"id": "@conduit-agent-to-crossbar", "code": "HW-02", "codename": "HW-02", "name": "Crossbar Synthesis Dispatch", "from": "@spire-agent-orchestrator", "from_name": "Agentic Experiment Designer", "to": "@spire-crossbar-engine", "to_name": "Analog Crossbar Accelerator", "type": "Analog Calibration Stream", "bandwidth": "Real-Time Conductance States", "description": "Dispatches optimized device biasing and pulse-width modulation sequences into the neuromorphic crossbar.", "color": "#ffb700", "midpoint": [13.3952763, 52.5111063]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.507005], [13.3954983, 52.5072972], [13.395671, 52.5075895], [13.3957981, 52.5078817], [13.3958835, 52.5081741], [13.3959309, 52.5084665], [13.3959442, 52.5087591], [13.3959271, 52.5090518], [13.3958835, 52.5093446], [13.3958171, 52.5096376], [13.3957317, 52.5099309], [13.3956311, 52.5102243], [13.3955192, 52.510518], [13.3953996, 52.510812], [13.3952763, 52.5111063], [13.395153, 52.5114009], [13.3950334, 52.5116958], [13.3949215, 52.5119911], [13.3948209, 52.5122867], [13.3947355, 52.5125828], [13.3946691, 52.5128793], [13.3946255, 52.5131763], [13.3946084, 52.5134737], [13.3946217, 52.5137716], [13.3946691, 52.5140701], [13.3947545, 52.5143691], [13.3948816, 52.5146686], [13.3950543, 52.5149688], [13.3952763, 52.5152695]]}}]};

@@ -1,0 +1,637 @@
+{
+  "city_metadata": {
+    "title": "AI MULTISCALE MODELLING METROPOLIS",
+    "subtitle": "Maevskiy, Kapitan & Ustyuzhanin (2026) — AI for Multiscale Modeling in Solid-State Physics and Chemistry",
+    "theme": "quantum_crystal",
+    "scale_axis_label": "Scale Ascension: Kohn-Sham to Self-Driving Lab",
+    "scale_axis_description": "South-to-North corridor from sub-Angstrom electronic structure (femtoseconds) through atomistic potentials, phonons, coarse-graining and emergent mesoscale order to continuum digital twins and closed-loop autonomous discovery"
+  },
+  "districts": [
+    {
+      "id": "@dist-electronic",
+      "name": "ELECTRONIC STRUCTURE FOUNDRY",
+      "scale_label": "10^-11 m / fs (Kohn-Sham)",
+      "order": 1,
+      "color": "#00f0ff",
+      "glow": "rgba(0, 240, 255, 0.4)",
+      "description": "Bypassing the O(N^3) SCF wall. Equivariant networks predict DFT Hamiltonians directly, differentiable programming replaces self-consistent iteration with backpropagated energy minimisation, and exchange-correlation functionals are learned neurally or discovered symbolically.",
+      "eu_infrastructures": [
+        "Materials Project (55k training structures)",
+        "MD17",
+        "QH9",
+        "NOMAD"
+      ]
+    },
+    {
+      "id": "@dist-atomistic",
+      "name": "INTERATOMIC POTENTIAL WORKS",
+      "scale_label": "10^-10 m / ps (Angstrom)",
+      "order": 2,
+      "color": "#00e599",
+      "glow": "rgba(0, 229, 153, 0.4)",
+      "description": "The workhorse district. MLIPs evaluate two to four orders of magnitude faster than DFT while holding near-ab-initio accuracy, splitting into explicit hand-crafted descriptors and implicit learned representations from equivariant message-passing graphs.",
+      "eu_infrastructures": [
+        "MatPES",
+        "Matbench Discovery",
+        "OQMD",
+        "AFLOW",
+        "LAMMPS / ASE / QUIP"
+      ]
+    },
+    {
+      "id": "@dist-vibrational",
+      "name": "VIBRATIONAL & TRANSPORT EXCHANGE",
+      "scale_label": "10^-9 m / ps-ns (Nanoscale)",
+      "order": 3,
+      "color": "#ffb700",
+      "glow": "rgba(255, 183, 0, 0.4)",
+      "description": "Intrinsically multiscale district where atomic vibration becomes macroscopic observables: thermal conductivity, heat capacity, superconducting Tc and ionic conductivity. Force constants, electron-phonon couplings and diffusion coefficients are the traded currency.",
+      "eu_infrastructures": [
+        "phonopy / phono3py",
+        "ShengBTE",
+        "JARVIS-DFT",
+        "ICSD"
+      ]
+    },
+    {
+      "id": "@dist-coarse",
+      "name": "COARSE-GRAINING TERRACES",
+      "scale_label": "10^-8 - 10^-7 m / ns-us",
+      "order": 4,
+      "color": "#a06bff",
+      "glow": "rgba(160, 107, 255, 0.4)",
+      "description": "Degrees of freedom are systematically thrown away and their statistics kept. Beads replace atoms, representative atoms replace lattices, Gaussian phase packets replace trajectories, and renormalization-group ideas resurface as learned latent order parameters.",
+      "eu_infrastructures": [
+        "Onsager / GENERIC formalisms",
+        "Kadanoff decimation",
+        "RSMI-NE",
+        "Quasicontinuum / GPP"
+      ]
+    },
+    {
+      "id": "@dist-mesoscale",
+      "name": "EMERGENT ORDER MESOSCALE",
+      "scale_label": "10^-7 - 10^-5 m / us-ms",
+      "order": 5,
+      "color": "#ff4fa3",
+      "glow": "rgba(255, 79, 163, 0.4)",
+      "description": "Where collective behaviour that no single atom possesses becomes visible: chiral magnetic domains, skyrmion crystals, reconstructive phase transitions, grain boundaries and crack fronts. Small exact solutions are learned, then extrapolated to lattices orders of magnitude larger.",
+      "eu_infrastructures": [
+        "Ising / Fermi-Hubbard references",
+        "Metadynamics",
+        "Kinetic Monte-Carlo",
+        "Landau-Lifshitz-Gilbert"
+      ]
+    },
+    {
+      "id": "@dist-continuum",
+      "name": "CONTINUUM & AUTONOMOUS DISCOVERY",
+      "scale_label": "10^-5 m -> Device / s-years",
+      "order": 6,
+      "color": "#ffe9a8",
+      "glow": "rgba(255, 233, 168, 0.4)",
+      "description": "The northern city limit the review deliberately leaves half-built: phase-field and FEM continuum models fed by learned free-energy landscapes, generative design of mesostructured materials, and the closed-loop self-driving laboratory that would finally ground the whole corridor in experiment.",
+      "eu_infrastructures": [
+        "Phase-field / FEM solvers",
+        "CoRE MOF",
+        "BW-DB",
+        "Battery digital twins"
+      ]
+    }
+  ],
+  "spires": [
+    {
+      "id": "@spire-deeph",
+      "district_ref": "@dist-electronic",
+      "title": "DeepH Family & xDeepH",
+      "code": "EL-01",
+      "scale_level": 0.98,
+      "metrics": {
+        "scale": "10^-11 m (Hamiltonian matrix elements)",
+        "acceleration": "SCF iterations eliminated; O(L^6) -> O(L^3) in DeepH-2",
+        "infrastructure": "Equivariant GNN / local-coordinate transformer",
+        "maturity": "Sub-meV across material classes"
+      },
+      "abstract": "A lineage exploiting locality and equivariance to predict DFT Hamiltonians without self-consistent field iteration: DeepH's local coordinates, DeepH-E3's rigorous E(3) equivariance, DeepH-2's equivariant local-coordinate transformer, DeepH-r's basis-independent real-space potentials, and xDeepH's time-reversal symmetry for magnetic systems. Trained on 3x3 supercells (576 structures) it generalises to magic-angle twisted bilayer graphene at 1.08 degrees with 11,000+ atoms, reaching 0.12 meV MAE for monolayer graphene and 0.21 meV for MoS2, and resolves SOC-induced topological phase transitions in twisted bismuthene, Bi2Se3 and Bi2Te3.",
+      "codename": "DEEPH FAMILY"
+    },
+    {
+      "id": "@spire-hamgnn",
+      "district_ref": "@dist-electronic",
+      "title": "HamGNN Universal Kohn-Sham Model",
+      "code": "EL-02",
+      "scale_level": 0.9,
+      "metrics": {
+        "scale": "10^-11 m (Real-space Hamiltonian)",
+        "acceleration": "C60 clusters to 5,562-atom MOFs with constant accuracy",
+        "infrastructure": "55,000 Materials Project structures",
+        "maturity": "5.4 meV MAE, whole periodic table"
+      },
+      "abstract": "Equivariant graph network with irreducible spherical tensor representations aiming at a single Kohn-Sham Hamiltonian model valid across the periodic table. A two-step curriculum first learns real-space Hamiltonian matrices, then fine-tunes on orbital energies so that band structures come out right rather than merely the matrix. Demonstrated on 5+ element systems, twisted MoS2/WS2 heterostructures at 3.5 degrees (1,625 atoms) and metal-organic frameworks.",
+      "codename": "HAMGNN UNIVERSAL"
+    },
+    {
+      "id": "@spire-diffdft",
+      "district_ref": "@dist-electronic",
+      "title": "Differentiable DFT & Learned Functionals",
+      "code": "EL-03",
+      "scale_level": 0.82,
+      "metrics": {
+        "scale": "10^-11 m (Exchange-correlation)",
+        "acceleration": "O(N^3) via direct minimisation; SCF replaced by backprop",
+        "infrastructure": "JAX / Autograd — D4FT, GradDFT, Jrystal",
+        "maturity": "Emerging, hardware-parallel"
+      },
+      "abstract": "Two converging lines. Differentiable programming (D4FT, GradDFT, Jrystal) recasts DFT as end-to-end stochastic optimisation over neural wave function parameters, with minibatch direct energy minimisation replacing SCF, while DEQH embeds the fixed-point character of self-consistency into implicit deep-equilibrium layers. In parallel, DM21 learns fractional-charge behaviour neurally and SyFES evolves explainable symbolic functionals such as GAS22 that outperform standard GGAs and hybrids while remaining human-readable.",
+      "codename": "DIFFERENTIABLE DFT"
+    },
+    {
+      "id": "@spire-descriptor-mlip",
+      "district_ref": "@dist-atomistic",
+      "title": "Explicit-Descriptor Potentials",
+      "code": "MP-01",
+      "scale_level": 0.86,
+      "metrics": {
+        "scale": "10^-10 m (Local atomic environment)",
+        "acceleration": "10^2-10^4x below DFT; millions of atoms via tabGAP",
+        "infrastructure": "QUIP, LAMMPS, ASE",
+        "maturity": "Few meV/atom on carbon, iron, silicon"
+      },
+      "abstract": "Hand-crafted invariant descriptors paired with tractable regressors: GAP's Gaussian process regression over SOAP, ACE's radial functions times spherical harmonics, moment tensor potentials, and UF3's cubic B-spline two- and three-body terms. GAP-20 reproduces carbon phase energetics, phonon dispersions and defect formation energies to within a few meV/atom; iron and silicon GAPs match DFT on defect migration and stress-strain. Fast to train, but historically hard to stretch across broad chemical space.",
+      "codename": "EXPLICIT-DESCRIPTOR POTENTIALS"
+    },
+    {
+      "id": "@spire-universal-mlip",
+      "district_ref": "@dist-atomistic",
+      "title": "Universal Equivariant Potentials",
+      "code": "MP-02",
+      "scale_level": 1.0,
+      "metrics": {
+        "scale": "10^-10 m (Learned representation)",
+        "acceleration": "2-4 orders of magnitude below DFT per MD step",
+        "infrastructure": "Matbench Discovery leaderboard",
+        "maturity": "Foundation-model scale, GPU-parallel"
+      },
+      "abstract": "The tallest spire in the corridor. NequIP introduced E(3)-equivariant geometric tensors and data-efficient training; SevenNet parallelised it and SevenNet-MF added multifidelity training that reaches good accuracy with a high-fidelity set roughly 10 percent the size of the low-fidelity one; MACE fused ACE with message passing so that many-body equivariant messages cut the number of passing iterations. CHGNet carries explicit charge and magnetic moments into complex oxides and battery materials, M3GNet and Allegro scale to millions of atoms. Collectively these universal potentials predict properties across the periodic table without retraining, ranked publicly on Matbench Discovery.",
+      "codename": "UNIVERSAL EQUIVARIANT"
+    },
+    {
+      "id": "@spire-magnetic-mlip",
+      "district_ref": "@dist-atomistic",
+      "title": "Spin-Lattice & Magnetic MLIPs",
+      "code": "MP-03",
+      "scale_level": 0.78,
+      "metrics": {
+        "scale": "10^-10 m (Positions + spin configurations)",
+        "acceleration": "Magnon dispersion from monolayer training",
+        "infrastructure": "E(3)-equivariant networks",
+        "maturity": "1.67e-2 meV/uB magnetic force MAE"
+      },
+      "abstract": "Potentials that take spin configurations alongside atomic positions, at the cost of a markedly higher-dimensional input space. SpinGNN splits Heisenberg edge and spin-distance edge networks to cover simple exchange and multibody spin-lattice coupling, applied to BiFeO3 phase transitions; DeepSPIN predicts energies, forces and magnetic torques; MagNet uses E(3) equivariance for CrI3 monolayers, nanotubes and moire-twisted bilayers, generalising from flat sheets to nanotubes at 0.129 meV/atom and to 4,326-atom twisted bilayers.",
+      "codename": "SPIN-LATTICE &"
+    },
+    {
+      "id": "@spire-phonon",
+      "district_ref": "@dist-vibrational",
+      "title": "Phonon & Electron-Phonon Engines",
+      "code": "VT-01",
+      "scale_level": 0.8,
+      "metrics": {
+        "scale": "10^-9 m (Force constants, dynamical matrix)",
+        "acceleration": "50-100x on e-ph interactions via SVD at 1-2% of data",
+        "infrastructure": "phonopy, phono3py, ShengBTE, Phonax",
+        "maturity": "Now itself a benchmark for MLIPs"
+      },
+      "abstract": "Vibrational dynamics is the natural hinge between atoms and thermodynamics. MLIPs substitute for DFT in force-constant evaluation, opening higher-order phonon scattering; because most MLIPs are differentiable, packages like Phonax compute phonon properties inside the same framework. Virtual node GNNs predict full dynamical matrices whose dimension varies with the cell, giving complete dispersions directly from coordinates, and SVD compression of first-principles electron-phonon interactions reaches Pareto-optimal parametrisation from 1-2 percent of the original data.",
+      "codename": "PHONON &"
+    },
+    {
+      "id": "@spire-ionic",
+      "district_ref": "@dist-vibrational",
+      "title": "Ionic Transport & Superionic Screening",
+      "code": "VT-02",
+      "scale_level": 0.92,
+      "metrics": {
+        "scale": "10^-9 m -> device (Percolating diffusion networks)",
+        "acceleration": "Hundreds of thousands to millions of atoms; MD bypassed by flow matching",
+        "infrastructure": "DeePMD, Allegro, LIFLOW, NEB / BVSE",
+        "maturity": "Experimentally confirmed candidates"
+      },
+      "abstract": "AIMD gives the most accurate conductivities and is unaffordable, so the district trades accuracy for reach. Active-learning DeePMD and Allegro (trained on 192-atom Li3PO4) scale to millions of atoms; LIFLOW replaces step-by-step integration with flow-matched displacement prediction over long intervals (Spearman up to 0.7). On the screening side, Sendek's logistic regression doubled expert F1 at 0.5, Laskowski's semi-supervised clustering produced 212 candidates including experimentally confirmed Li3BS3, and Maevskiy et al. ranked candidates from lithium potential-energy-surface descriptors, surfacing hydroborates absent from training and novel LiB3H8 at 82 +/- 23 mS/cm at 90 C in AIMD.",
+      "codename": "IONIC TRANSPORT"
+    },
+    {
+      "id": "@spire-thermal",
+      "district_ref": "@dist-vibrational",
+      "title": "Thermal Property Surrogates",
+      "code": "VT-03",
+      "scale_level": 0.7,
+      "metrics": {
+        "scale": "10^-9 m -> bulk (Heat capacity, conductivity)",
+        "acceleration": "DFT-prohibitive MOFs predicted from small training sets",
+        "infrastructure": "MACE-MP-MOF0, matminer, JARVIS-DFT",
+        "maturity": "4.505 J/(mol K) MAE on heat capacity"
+      },
+      "abstract": "Surrogates that map elemental and local structural information onto per-atom heat capacity for nanoporous MOFs, COFs and zeolites, validated against fresh experimental measurements. Fine-tuned MACE-MP-MOF0 reproduces phonon density of states, thermal expansion and bulk moduli; transformer-plus-matminer pipelines on JARVIS-DFT improve heat capacity MAE from 5.276 to 4.505 J/(mol K); MLP models on compositional and space-group descriptors screened the ICSD for thermoelectric and heat-dissipation candidates.",
+      "codename": "THERMAL PROPERTY"
+    },
+    {
+      "id": "@spire-cg-forcefield",
+      "district_ref": "@dist-coarse",
+      "title": "Learned Coarse-Grained Force Fields",
+      "code": "CG-01",
+      "scale_level": 0.76,
+      "metrics": {
+        "scale": "10^-8 m (Beads / effective atoms)",
+        "acceleration": "100x data reduction via denoising score matching",
+        "infrastructure": "CGnet / CGSchNet, normalizing flows",
+        "maturity": "Mature in biomolecules, open in solids"
+      },
+      "abstract": "All-atom systems are mapped to interacting beads and the force field acting on that reduced representation is learned. Flow matching trains a normalizing flow over the coarse-grained density and generates synthetic samples and forces, removing the need for atomistic reference forces; denoising score matching unifies distribution learning with force matching and cuts data requirements by up to two orders of magnitude. In solids, an n^3:1 graphite model with a modified Airebo potential reproduces all-atom thermal and mechanical properties, and AI-adaptive time stepping over RNN autoencoder latents removes 40 percent of redundant computation within 3 percent error.",
+      "codename": "LEARNED COARSE-GRAINED"
+    },
+    {
+      "id": "@spire-quasicontinuum",
+      "district_ref": "@dist-coarse",
+      "title": "Quasicontinuum & Gaussian Phase Packets",
+      "code": "CG-02",
+      "scale_level": 0.72,
+      "metrics": {
+        "scale": "10^-7 m (Representative atoms)",
+        "acceleration": "Degrees of freedom reduced to a representative subset",
+        "infrastructure": "QC, GPP, GNN quadrature surrogates",
+        "maturity": "Validated on Cu, Fe, grain boundaries"
+      },
+      "abstract": "The classical bridge between atomistics and continuum: representative atoms interpolate everyone else, with summation rules approximating thermodynamic quantities from chosen lattice sites, extended to ionic crystals with long-range electrostatics. Gaussian Phase Packets evolve a multivariate Gaussian in phase space instead of individual trajectories, adding finite temperature and nonequilibrium thermomechanics. GNNs trained on accurate Monte-Carlo integration replace the numerical quadrature rules whose lack of frame indifference produced fictitious energy minima, validated on copper thermal expansion, the martensitic transition in iron, and grain boundary energies.",
+      "codename": "QUASICONTINUUM &"
+    },
+    {
+      "id": "@spire-rg-latent",
+      "district_ref": "@dist-coarse",
+      "title": "RG-Inspired Latent Representations",
+      "code": "CG-03",
+      "scale_level": 0.88,
+      "metrics": {
+        "scale": "Scale-free (Order parameters)",
+        "acceleration": "Tc from single configuration snapshots",
+        "infrastructure": "RSMI-NE up to 256x256 lattices",
+        "maturity": "Unsupervised, equilibrium and non-equilibrium"
+      },
+      "abstract": "The most conceptually interesting terrace. RSMI-NE couples renormalization group theory to neural estimation of real-space mutual information, extracting order parameters directly from raw configurations without supervision: boundary filters at Tc for the ferromagnetic Ising case, staggered magnetisation for the antiferromagnetic one, columnar and plaquette operators below the BKT transition in the interacting dimer model. Bagrov's multiscale structural complexity sums squared dissimilarities between successively decimated patterns, vanishing for both trivially ordered and fully random configurations and peaking for hierarchically structured ones such as spin spirals and magnetic labyrinths; its temperature derivative locates Tc sharply. OnsagerNet and GFINNs add thermodynamically consistent latent dynamics.",
+      "codename": "RG-INSPIRED LATENT"
+    },
+    {
+      "id": "@spire-spin-dynamics",
+      "district_ref": "@dist-mesoscale",
+      "title": "Spin Texture & Magnetic Dynamics",
+      "code": "EM-01",
+      "scale_level": 0.84,
+      "metrics": {
+        "scale": "10^-7 m (Chiral domains, skyrmions)",
+        "acceleration": "30x30 exact diagonalization -> 100x100 simulation",
+        "infrastructure": "LLG, kinetic Monte-Carlo, KPM",
+        "maturity": "MSE 1.64e-5 on torque prediction"
+      },
+      "abstract": "Effective local fields learned from small exact solutions, then run at mesoscale. Chiral domain coarsening on 96x96 triangular Kondo lattices shows linear domain growth rather than the Allen-Cahn square-root law, a consequence of directional anisotropy in the chiral domain walls. Deep-learning potentials trained on 30x30 exact diagonalization drive 100x100 double-exchange simulations that uncover correlation-induced freezing and arrested phase separation, and CNN surrogates for local energy change make kMC on 10^5 spins scale as O(N) per sweep instead of O(N^2)-O(N^3).",
+      "codename": "SPIN TEXTURE"
+    },
+    {
+      "id": "@spire-phase-transitions",
+      "district_ref": "@dist-mesoscale",
+      "title": "Phase Transition Cartography",
+      "code": "EM-02",
+      "scale_level": 0.9,
+      "metrics": {
+        "scale": "10^-7 - 10^-5 m (Phase diagrams)",
+        "acceleration": "~50,000 compounds screened for solid-solid transitions",
+        "infrastructure": "DeePMD-kit + DP-GEN, metadynamics, MTP",
+        "maturity": "Reproduces experimental phase diagrams"
+      },
+      "abstract": "MLIPs push both the time and length scales of phase-diagram MD. A UF3 silicon-carbon potential trained on genetic-algorithm-sampled structures predicts the peritectic decomposition of SiC; DeePMD potentials trained on 2-64-atom silicon cells drive metadynamics in 8x8x8 supercells to resolve reconstructive high-pressure transitions and their defects; active-learned moment tensor potentials plus Gaussian process regression reproduce the experimental titanium-vanadium phase diagram with uncertainties. Beyond MLIPs, symbolic regression yields an interpretable linear law for binary ionic melting temperatures dominated by cohesive energy and elastic moduli, and GNN-estimated vibrational free energies screened roughly 50,000 inorganic compounds to over 2,000 candidate solid-solid transitions.",
+      "codename": "PHASE TRANSITION"
+    },
+    {
+      "id": "@spire-fracture",
+      "district_ref": "@dist-mesoscale",
+      "title": "Defect, Stress & Fracture Mesostructure",
+      "code": "EM-03",
+      "scale_level": 0.74,
+      "metrics": {
+        "scale": "10^-6 m (Crack fronts, grain boundaries)",
+        "acceleration": "Seconds on one CPU vs hours on 24 cores",
+        "infrastructure": "ConvLSTM, GNN stress-field models",
+        "maturity": "4.9-11.0% mean error across systems"
+      },
+      "abstract": "ConvLSTM models trained on 14,300 image matrices from atomistic crack-propagation MD predict crack lengths, energy release rates and fracture patterns, and generalise to unseen bicrystalline and gradient structures. GNNs map mesoscale crystalline structure to atomic stress fields and potential energy distributions with mean errors of 5.5 percent for polycrystalline graphene, 4.9 percent for porous graphene and 11.0 percent for polycrystalline aluminium, while preserving derived quantities such as mean von Mises stress and Young's modulus under varying boundary conditions.",
+      "codename": "DEFECT, STRESS"
+    },
+    {
+      "id": "@spire-hierarchical-pipeline",
+      "district_ref": "@dist-continuum",
+      "title": "Hierarchical Scale-Bridging Pipelines",
+      "code": "CD-01",
+      "scale_level": 0.94,
+      "metrics": {
+        "scale": "10^-10 m -> 10^-3 m (Four coupled scales)",
+        "acceleration": "Practically relevant temperatures and charge-discharge cycles",
+        "infrastructure": "DFT + cluster expansion + MC + NN + phase field",
+        "maturity": "Rare: the exemplar of >2 coupled scales"
+      },
+      "abstract": "The clearest existing answer to the review's own central challenge. For LixCoO2 cathodes, DFT informs a cluster expansion, semi-grand canonical Monte-Carlo trains a deep network on the free energy landscape under active learning, and those predictions drive continuum phase-field simulation of order-disorder transitions in isolated particles and during cycling. The AGAT graph attention model plays the same game laterally, fusing microscale DFT Young's moduli for carbon nanotubes with macroscale FEM electromechanics to predict CNT/PDMS composite resistance to 20 percent strain, where adding the DFT-FEM module lifted R-squared from 0.7548 to 0.7883.",
+      "codename": "HIERARCHICAL SCALE-BRIDGING"
+    },
+    {
+      "id": "@spire-generative-design",
+      "district_ref": "@dist-continuum",
+      "title": "Generative Mesostructured Design",
+      "code": "CD-02",
+      "scale_level": 0.86,
+      "metrics": {
+        "scale": "10^-9 - 10^-6 m (Building blocks -> pore networks)",
+        "acceleration": "75% cost reduction per candidate; 64% faster prediction",
+        "infrastructure": "CoRE MOF, BW-DB, GCMC validation",
+        "maturity": "31.69% match rate vs 0.09% baseline"
+      },
+      "abstract": "Generative models that operate at two scales at once. MOFDiff diffuses over coarse-grained building blocks (6.9 blocks of 26.8 atoms on average) and full atomic structures, with over 30 percent of generated MOFs valid and novel and superior CO2 performance to BW-DB references. MOFFlow couples rigid-body dynamics of metal nodes and linkers with periodic crystal structure, predicting MOFs above 2,200 atoms per unit cell at a 31.69 percent match rate against DiffCSP's 0.09 percent. MSAIGNN decomposes crystal graphs by interaction range (0-3 A open metal sites, 3-8 A functional groups, 8-15 A pore structure), reaching R-squared 0.9423 on single-component CO2 adsorption, and genetic-algorithm workflows carry candidates all the way into simulated pressure-swing carbon-capture cycles that beat 13X zeolites and CALF-20.",
+      "codename": "GENERATIVE MESOSTRUCTURED"
+    },
+    {
+      "id": "@spire-selfdriving",
+      "district_ref": "@dist-continuum",
+      "title": "Self-Driving Labs & Digital Twins",
+      "code": "CD-03",
+      "scale_level": 0.66,
+      "metrics": {
+        "scale": "Device / plant (Closed loop)",
+        "acceleration": "Real-time parameter adjustment; minimal human intervention",
+        "infrastructure": "Battery digital twins, autonomous platforms",
+        "maturity": "Emerging trend, largely aspirational"
+      },
+      "abstract": "The corridor's unfinished northern terminus. AI systems coordinate discovery by predicting behaviour across scales, designing experiments and analysing results automatically, iterating toward target properties with minimal human intervention. Multiphysics-plus-AI battery digital twins already maintain a dynamic rule library that predicts and manages critical instability thresholds in real time. The review's own conclusion names this as the route out of the field's deepest structural weakness: almost every application it surveyed rests on computational data alone, with limited connection to experimental results.",
+      "codename": "SELF-DRIVING LABS"
+    }
+  ],
+  "bottlenecks": [
+    {
+      "id": "@bneck-benchmark-only",
+      "title": "Benchmark-Only Validation of Electronic Surrogates",
+      "code": "BOT-01",
+      "district_ref": "@dist-electronic",
+      "nature": "Epistemic — evaluation distribution mismatch",
+      "impact": "Hamiltonian and functional surrogates are largely validated on MD17 and QH9 rather than production-scale materials, and out-of-distribution accuracy remains under study. The cost of training the neural representation can exceed the saving for one-off calculations, so the reported speedups are amortisation claims that only hold at high query volume.",
+      "remedy": "Uncertainty quantification as a required output, robust production-scale dataset generation, and tighter integration of ML predictors with ab initio solvers rather than replacement of them.",
+      "codename": "BENCHMARK TRAP"
+    },
+    {
+      "id": "@bneck-transferability",
+      "title": "MLIP Transferability Beyond the Training Basin",
+      "code": "BOT-02",
+      "district_ref": "@dist-atomistic",
+      "nature": "Physical — potential energy surface coverage",
+      "impact": "Universal potentials carry a systematic bias toward overstabilising local minima, producing high false-positive rates for stability predictions when checked against DFT. Accuracy degrades in high-energy regions of the PES, far from equilibrium, and across unseen temperature, composition and phase space — with surfaces and interfaces singled out as the gap that most limits applicability.",
+      "remedy": "Active learning with on-the-fly retraining that calls DFT only when uncertainty exceeds threshold, multifidelity training in the SevenNet-MF style, and explicit uncertainty quantification carried through downstream simulations.",
+      "codename": "OOD BASIN"
+    },
+    {
+      "id": "@bneck-longrange-phonon",
+      "title": "Long-Range Interaction Blindness in Phonon Prediction",
+      "code": "BOT-03",
+      "district_ref": "@dist-vibrational",
+      "nature": "Architectural — finite receptive field",
+      "impact": "Models optimised for energies and forces still yield inaccurate phonon dispersions, because standard GNN architectures struggle to capture the long-range interactions that phonons and heat capacity depend on. Benchmarks show some universal MLIPs predicting harmonic phonon properties well while others fail, despite comparable energy and force errors — so force accuracy is not a proxy for vibrational accuracy.",
+      "remedy": "Train on Hessian or small-displacement data: 1x1x1 supercells plus Hessian information outperform 3x3x3 supercells without it, at a fraction of the data cost.",
+      "codename": "PHONON BLIND"
+    },
+    {
+      "id": "@bneck-bead-symmetry",
+      "title": "Bead Mapping Versus Crystalline Symmetry",
+      "code": "BOT-04",
+      "district_ref": "@dist-coarse",
+      "nature": "Conceptual — representation mismatch",
+      "impact": "The bead-based coarse-graining that works in biomolecular systems may be fundamentally unsuited to solids, since crystalline symmetries and long-range elastic interactions are not easily reconciled with effective-particle representations. Learned latent variables compound the problem by lacking direct physical interpretability, and temporal bypass methods have not yet demonstrated fidelity across diverse material classes.",
+      "remedy": "Thermodynamically constrained reduction (Onsager principle, GENERIC) and RG-grounded latent discovery so that reduced coordinates retain a physical reading rather than an opaque one.",
+      "codename": "BEAD SYMMETRY"
+    },
+    {
+      "id": "@bneck-one-way-coupling",
+      "title": "One-Way Hierarchical Coupling",
+      "code": "BOT-05",
+      "district_ref": "@dist-mesoscale",
+      "nature": "Structural — the review's central limitation",
+      "impact": "Almost every multiscale ML implementation surveyed is hierarchical, with information flowing from fine to coarse and very limited bidirectional exchange. Applications coupling more than two scales are rare, and concurrent coupling of even two remains computationally expensive and restricted in the number of scales it can carry.",
+      "remedy": "Hybrid mechanistic-ML frameworks that couple learned components directly to physics solvers, and architectures purpose-built for joint feature fusion of heterogeneous data — atomic structures alongside macroscopic properties.",
+      "codename": "ONE-WAY WALL"
+    },
+    {
+      "id": "@bneck-data-scarcity",
+      "title": "Computational-Only Ground Truth & Multiscale Data Scarcity",
+      "code": "BOT-06",
+      "district_ref": "@dist-continuum",
+      "nature": "Infrastructural — data economics",
+      "impact": "Labelled multiscale datasets are expensive because each label is a DFT run or an experiment. There is no unified data model, structures are heterogeneous across scales, standardised multiscale datasets are scarce, and the dimensionality of multiscale solution spaces compounds all of it. Most reviewed applications therefore rest on computational data with limited connection to experiment.",
+      "remedy": "Open data initiatives and FAIR repositories, transfer and meta-learning to extract maximum information from small sets, and autonomous laboratories that generate experimental ground truth in the loop.",
+      "codename": "DATA SCARCITY"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "@chal-interpretability",
+      "title": "Intrinsic Interpretability, Not Post-Hoc Explanation",
+      "code": "PRIO-01",
+      "district_ref": "@dist-electronic",
+      "type": "Frontier Question",
+      "target": "Move from post-hoc XAI applied to black boxes toward frameworks with transparency built in from the outset, generating explanations in real time without separate interpretation tooling — with symbolic functional discovery (SyFES, GAS22) as the existence proof that interpretability and accuracy are not in opposition.",
+      "codename": "INTERPRET"
+    },
+    {
+      "id": "@chal-physics-informed",
+      "title": "Physics Enforced by Construction",
+      "code": "PRIO-02",
+      "district_ref": "@dist-atomistic",
+      "type": "Methodological Mandate",
+      "target": "Work the full taxonomy of physical enforcement — hard constraints via equivariant architecture, soft penalty regularisers, hybrid mechanistic-ML coupling, latent coarse-grained representations, symbolic forms and physics-guided descriptors — choosing per task rather than defaulting, and accepting the flexibility cost where guaranteed consistency matters.",
+      "codename": "EXACT PHYSICS"
+    },
+    {
+      "id": "@chal-uncertainty",
+      "title": "Uncertainty Quantification as a First-Class Output",
+      "code": "PRIO-03",
+      "district_ref": "@dist-vibrational",
+      "type": "Frontier Question",
+      "target": "Make every scale-bridging prediction carry a calibrated uncertainty, so that production-level high-throughput screening can distinguish a confident phonon dispersion from a plausible-looking wrong one, and so that active learning has a principled trigger.",
+      "codename": "UNCERTAINTY UQ"
+    },
+    {
+      "id": "@chal-rg-ml",
+      "title": "Formal Renormalization Group Meets Machine Learning",
+      "code": "PRIO-04",
+      "district_ref": "@dist-coarse",
+      "type": "Theoretical Frontier",
+      "target": "Integrate explicit RG machinery with ML architectures for systems near criticality, with strong electron correlations, or hosting topological order — turning the current analogy between hierarchical representation learning and coarse-graining into a formal, controllable correspondence.",
+      "codename": "RG RENORM"
+    },
+    {
+      "id": "@chal-concurrent-scales",
+      "title": "Three Scales, Simultaneously and Bidirectionally",
+      "code": "PRIO-05",
+      "district_ref": "@dist-mesoscale",
+      "type": "Grand Challenge",
+      "target": "Integrate features from three or more distinct scales for static property prediction, and enable concurrent evolution of at least two physical scales — electronic and domain-level dynamics together — inside one robust framework rather than a chain of one-way handoffs.",
+      "codename": "3-SCALE BIDIR"
+    },
+    {
+      "id": "@chal-closed-loop",
+      "title": "Closed-Loop Grounding in Experiment",
+      "code": "PRIO-06",
+      "district_ref": "@dist-continuum",
+      "type": "Strategic Priority",
+      "target": "Build self-driving laboratories that collect data and validate models in real time, closing the loop between prediction and measurement, and pair them with open data initiatives plus transfer and meta-learning so that expensive narrow datasets stop being the binding constraint on the whole field.",
+      "codename": "LAB GROUNDING"
+    }
+  ],
+  "conduits": [
+    {
+      "id": "@conduit-ab-initio-feed",
+      "name": "Ab Initio Ground-Truth Feed",
+      "code": "HW-01",
+      "from": "@spire-diffdft",
+      "to": "@spire-universal-mlip",
+      "type": "Electronic Structure Stream",
+      "bandwidth": "Energies, forces and stresses at DFT fidelity",
+      "description": "Accelerated and differentiable DFT supplies the labelled potential energy surface that every universal potential is trained on, aggregated through MatPES, Materials Project, OQMD and AFLOW.",
+      "codename": "DFT FEED"
+    },
+    {
+      "id": "@conduit-force-constants",
+      "name": "Force-Constant & Hessian Line",
+      "code": "HW-02",
+      "from": "@spire-universal-mlip",
+      "to": "@spire-phonon",
+      "type": "Bidirectional Derivative Exchange",
+      "bandwidth": "Second derivatives, dynamical matrices",
+      "description": "MLIPs replace DFT in finite-displacement force-constant evaluation, opening higher-order phonon scattering; Hessian and small-displacement data flow back south as the training signal that fixes long-range blindness.",
+      "codename": "HESSIAN LINE"
+    },
+    {
+      "id": "@conduit-spin-lattice",
+      "name": "Spin-Lattice Coupling Channel",
+      "code": "HW-03",
+      "from": "@spire-magnetic-mlip",
+      "to": "@spire-spin-dynamics",
+      "type": "Magnetic Force Transfer",
+      "bandwidth": "Magnetic torques and forces to 1.67e-2 meV/uB",
+      "description": "E(3)-equivariant magnetic energies and torques parameterise Landau-Lifshitz-Gilbert and kinetic Monte-Carlo simulation of chiral domains, magnon dispersion and skyrmion textures at mesoscale.",
+      "codename": "SPIN-LATTICE"
+    },
+    {
+      "id": "@conduit-hamiltonian-screening",
+      "name": "Universal Hamiltonian Screening Bridge",
+      "code": "HW-04",
+      "from": "@spire-hamgnn",
+      "to": "@spire-generative-design",
+      "type": "Electronic Property Filter",
+      "bandwidth": "Band structures across the periodic table",
+      "description": "A Hamiltonian model valid for 5+ element systems and 5,562-atom MOFs lets generative pipelines be screened on electronic properties rather than formation energy alone, at sizes conventional DFT cannot reach.",
+      "codename": "HAMILTONIAN"
+    },
+    {
+      "id": "@conduit-superstructure",
+      "name": "Twisted Superstructure Ramp",
+      "code": "HW-05",
+      "from": "@spire-deeph",
+      "to": "@spire-spin-dynamics",
+      "type": "Equivariant Generalisation",
+      "bandwidth": "3x3 supercells -> 11,000+ atom moire cells",
+      "description": "Trained on small nontwisted supercells, xDeepH predicts magnetic Hamiltonians for moire-twisted bilayer CrI3 at 4,336 atoms and captures skyrmion-induced flat band removal — a jump of three orders of magnitude in system size on the strength of locality plus symmetry alone.",
+      "codename": "MOIRE RAMP"
+    },
+    {
+      "id": "@conduit-bead-mapping",
+      "name": "Bead Mapping Descent",
+      "code": "HW-06",
+      "from": "@spire-descriptor-mlip",
+      "to": "@spire-cg-forcefield",
+      "type": "Degree-of-Freedom Reduction",
+      "bandwidth": "n^3:1 atom-to-bead mapping",
+      "description": "All-atom trajectories are force-matched onto coarse-grained beads; flow matching and denoising score matching cut the reference-force requirement by up to two orders of magnitude.",
+      "codename": "BEAD DESCENT"
+    },
+    {
+      "id": "@conduit-representative-atoms",
+      "name": "Representative-Atom Reduction",
+      "code": "HW-07",
+      "from": "@spire-cg-forcefield",
+      "to": "@spire-quasicontinuum",
+      "type": "Statistical Upscaling",
+      "bandwidth": "Phase-space ensembles, not trajectories",
+      "description": "Coarse-grained ensembles feed quasicontinuum summation rules and Gaussian phase packet statistics, with GNN surrogates replacing the numerical quadrature whose lack of frame indifference produced fictitious energy minima.",
+      "codename": "ATOM REDUCTION"
+    },
+    {
+      "id": "@conduit-order-parameter",
+      "name": "Order-Parameter Extraction Loop",
+      "code": "HW-08",
+      "from": "@spire-rg-latent",
+      "to": "@spire-phase-transitions",
+      "type": "Unsupervised Collective Variable Discovery",
+      "bandwidth": "Tc from single configuration snapshots",
+      "description": "RSMI-NE and multiscale structural complexity pull order parameters straight out of raw real-space configurations, distinguishing magnetic phases where conventional structure-factor analysis fails and locating critical temperatures without prior knowledge of the order parameter.",
+      "codename": "ORDER PARAMETER"
+    },
+    {
+      "id": "@conduit-free-energy",
+      "name": "Free-Energy Handoff to Continuum",
+      "code": "HW-09",
+      "from": "@spire-phase-transitions",
+      "to": "@spire-hierarchical-pipeline",
+      "type": "Thermodynamic Upscaling",
+      "bandwidth": "Learned free energy landscapes over order parameters",
+      "description": "Cluster expansion plus semi-grand canonical Monte-Carlo trains a network on the free energy landscape under active learning; those predictions become the driving thermodynamics of continuum phase-field simulation.",
+      "codename": "FREE-ENERGY"
+    },
+    {
+      "id": "@conduit-thermal-uplink",
+      "name": "Thermal Property Uplink",
+      "code": "HW-10",
+      "from": "@spire-thermal",
+      "to": "@spire-hierarchical-pipeline",
+      "type": "Constitutive Parameterisation",
+      "bandwidth": "Heat capacity, thermal expansion, bulk moduli",
+      "description": "Surrogate thermal properties for materials too large for direct DFT become the constitutive inputs of continuum thermomechanical models.",
+      "codename": "THERMAL UPLINK"
+    },
+    {
+      "id": "@conduit-stress-feedback",
+      "name": "Mesoscale Stress Feedback",
+      "code": "HW-11",
+      "from": "@spire-fracture",
+      "to": "@spire-hierarchical-pipeline",
+      "type": "Mechanical Upscaling",
+      "bandwidth": "Atomic stress fields, crack morphologies",
+      "description": "GNN-predicted von Mises and tensile stress fields and ConvLSTM crack patterns upscale into FEM and electromechanical composite models, as in the DFT-FEM fusion that lifted CNT/PDMS resistance prediction from 0.7548 to 0.7883 R-squared.",
+      "codename": "STRESS FEEDBACK"
+    },
+    {
+      "id": "@conduit-transport-twin",
+      "name": "Transport Digital Twin Line",
+      "code": "HW-12",
+      "from": "@spire-ionic",
+      "to": "@spire-selfdriving",
+      "type": "Digital-to-Physical Screening Pipeline",
+      "bandwidth": "Ranked superionic candidates, conductivity estimates",
+      "description": "Descriptor-ranked superionic candidates and MLIP conductivity estimates drive battery digital twins and closed-loop electrolyte search — the path that produced experimentally confirmed Li3BS3 and novel LiB3H8.",
+      "codename": "DIGITAL TWIN"
+    },
+    {
+      "id": "@conduit-active-return",
+      "name": "Active-Learning Return Conduit",
+      "code": "HW-13",
+      "from": "@spire-selfdriving",
+      "to": "@spire-universal-mlip",
+      "type": "Northbound-to-Southbound Feedback",
+      "bandwidth": "Uncertainty-triggered DFT and experimental labels",
+      "description": "The one conduit that runs back down the corridor. On-the-fly learning invokes expensive DFT only when uncertainty exceeds threshold, and autonomous laboratories would close the same loop with physical measurements — the bidirectional exchange whose absence the review names as its central structural limitation.",
+      "codename": "ACTIVE RETURN"
+    }
+  ]
+}

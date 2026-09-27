@@ -131,6 +131,15 @@ python -m cli.compiler --spec my-spec.json --web-dir dist/ --serve 8080
 
 ---
 
+### 3. AI Multiscale Modelling Metropolis ([`examples/ai-multiscale/`](examples/ai-multiscale/))
+*Based on Maevskiy, Kapitan & Ustyuzhanin, "Artificial Intelligence for Multiscale Modeling in Solid-State Physics and Chemistry: A Comprehensive Review", Advanced Intelligent Systems 8 (2026) e202501219.*
+- **Axis**: Scale Ascension from sub-Ångström Kohn–Sham electronic structure (fs) to device-level digital twins and self-driving laboratories.
+- **Features**: DeepH/xDeepH, HamGNN, differentiable DFT (D4FT, GradDFT, Jrystal), NequIP/MACE/SevenNet/CHGNet, Phonax, RSMI-NE & multiscale structural complexity, quasicontinuum & Gaussian Phase Packets, MOFDiff/MOFFlow, the Li$_x$CoO$_2$ four-scale pipeline.
+- **Bottlenecks**: Benchmark-only validation (MD17/QH9), MLIP overstabilisation of local minima, long-range blindness in GNN phonons, bead mapping vs crystalline symmetry, one-way hierarchical coupling, computational-only ground truth.
+- **Signature detail**: 12 superhighways run northbound and exactly 1 runs back south — the review's finding on the near-absence of bidirectional scale coupling, rendered as geometry.
+
+---
+
 ## 🚀 1-Click GitHub Pages Deployment
 
 The repository includes a ready-to-run GitHub Actions workflow ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)):

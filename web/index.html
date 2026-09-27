@@ -14,9 +14,9 @@
 
   <style>
     :root {
-      --bg-space: #060913;
-      --bg-panel: rgba(10, 16, 32, 0.82);
-      --bg-panel-border: rgba(0, 240, 255, 0.22);
+      --bg-space: #050811;
+      --bg-panel: rgba(10, 16, 32, 0.85);
+      --bg-panel-border: rgba(0, 240, 255, 0.25);
       --accent-cyan: #00f0ff;
       --accent-emerald: #00e599;
       --accent-amber: #ffb700;
@@ -39,8 +39,8 @@
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       pointer-events: none;
-      box-shadow: inset 0 0 120px rgba(4, 8, 20, 0.85);
-      background: radial-gradient(circle at 50% 50%, transparent 60%, rgba(2, 5, 15, 0.5) 100%);
+      box-shadow: inset 0 0 130px rgba(3, 6, 16, 0.9);
+      background: radial-gradient(circle at 50% 50%, transparent 60%, rgba(2, 5, 15, 0.6) 100%);
       z-index: 5;
     }
 
@@ -65,7 +65,7 @@
       border: 1px solid var(--bg-panel-border);
       border-radius: 12px;
       padding: 10px 18px;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 240, 255, 0.1);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 24px rgba(0, 240, 255, 0.12);
       display: flex;
       flex-direction: column;
       gap: 3px;
@@ -82,7 +82,7 @@
       height: 12px;
       background: linear-gradient(135deg, var(--accent-cyan), var(--accent-emerald));
       transform: rotate(45deg);
-      box-shadow: 0 0 10px var(--accent-cyan);
+      box-shadow: 0 0 12px var(--accent-cyan);
     }
 
     .hud-title {
@@ -120,12 +120,12 @@
       background: var(--bg-panel);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: 12px;
       padding: 6px 12px;
       display: flex;
       gap: 6px;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
     }
 
     .layer-btn {
@@ -165,22 +165,28 @@
 
     .layer-btn[data-layer="bottlenecks"].active {
       border-color: var(--accent-red);
-      background: rgba(255, 51, 102, 0.12);
-      box-shadow: 0 0 14px rgba(255, 51, 102, 0.25);
+      background: rgba(255, 51, 102, 0.14);
+      box-shadow: 0 0 14px rgba(255, 51, 102, 0.3);
     }
 
     .layer-btn[data-layer="challenges"].active {
       border-color: var(--accent-amber);
-      background: rgba(255, 183, 0, 0.12);
-      box-shadow: 0 0 14px rgba(255, 183, 0, 0.25);
+      background: rgba(255, 183, 0, 0.14);
+      box-shadow: 0 0 14px rgba(255, 183, 0, 0.3);
     }
 
-    /* LEFT COLLAPSIBLE SPIRE LEGEND */
+    .layer-btn[data-layer="conduits"].active {
+      border-color: var(--accent-violet);
+      background: rgba(192, 64, 255, 0.14);
+      box-shadow: 0 0 14px rgba(192, 64, 255, 0.3);
+    }
+
+    /* LEFT COLLAPSIBLE SPIRE & SUPERHIGHWAY LEGEND */
     .spire-legend-card {
       position: absolute;
       top: 90px;
       left: 20px;
-      width: 320px;
+      width: 330px;
       max-height: calc(100vh - 120px);
       background: var(--bg-panel);
       backdrop-filter: blur(18px);
@@ -196,7 +202,7 @@
     }
 
     .spire-legend-card.collapsed {
-      transform: translateX(-360px);
+      transform: translateX(-370px);
       opacity: 0;
       pointer-events: none;
     }
@@ -207,7 +213,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.25);
     }
 
     .legend-title {
@@ -247,7 +253,7 @@
       max-height: calc(100vh - 190px);
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
     }
 
     .legend-scroll::-webkit-scrollbar { width: 5px; }
@@ -281,7 +287,7 @@
 
     .district-color-bar {
       width: 4px;
-      height: 18px;
+      height: 20px;
       border-radius: 2px;
     }
 
@@ -311,15 +317,15 @@
     }
 
     .spire-item:hover {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.18);
       transform: translateX(3px);
     }
 
     .spire-item.active {
-      background: rgba(0, 240, 255, 0.1);
+      background: rgba(0, 240, 255, 0.12);
       border-color: var(--accent-cyan);
-      box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.25);
     }
 
     .spire-item-name {
@@ -331,10 +337,11 @@
     .spire-item-code {
       font-family: var(--font-mono);
       font-size: 10px;
-      color: var(--text-muted);
-      background: rgba(255, 255, 255, 0.05);
-      padding: 2px 5px;
+      color: var(--accent-cyan);
+      background: rgba(0, 240, 255, 0.08);
+      padding: 2px 6px;
       border-radius: 4px;
+      border: 1px solid rgba(0, 240, 255, 0.2);
     }
 
     /* RESTORE LEGEND BUTTON */
@@ -375,19 +382,19 @@
       position: absolute;
       top: 90px;
       right: 20px;
-      width: 380px;
+      width: 400px;
       max-height: calc(100vh - 120px);
       background: var(--bg-panel);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
       border: 1px solid var(--bg-panel-border);
       border-radius: 14px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 240, 255, 0.1);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 240, 255, 0.12);
       z-index: 20;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      transform: translateX(420px);
+      transform: translateX(440px);
       opacity: 0;
       pointer-events: none;
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s;
@@ -423,9 +430,9 @@
     }
 
     .badge-spire { background: rgba(0, 240, 255, 0.15); color: var(--accent-cyan); border: 1px solid rgba(0, 240, 255, 0.3); }
-    .badge-bottleneck { background: rgba(255, 51, 102, 0.15); color: var(--accent-red); border: 1px solid rgba(255, 51, 102, 0.3); }
-    .badge-challenge { background: rgba(255, 183, 0, 0.15); color: var(--accent-amber); border: 1px solid rgba(255, 183, 0, 0.3); }
-    .badge-conduit { background: rgba(192, 64, 255, 0.15); color: var(--accent-violet); border: 1px solid rgba(192, 64, 255, 0.3); }
+    .badge-bottleneck { background: rgba(255, 51, 102, 0.18); color: var(--accent-red); border: 1px solid rgba(255, 51, 102, 0.4); }
+    .badge-challenge { background: rgba(255, 183, 0, 0.18); color: var(--accent-amber); border: 1px solid rgba(255, 183, 0, 0.4); }
+    .badge-conduit { background: rgba(192, 64, 255, 0.18); color: var(--accent-violet); border: 1px solid rgba(192, 64, 255, 0.4); }
 
     .drawer-close-btn {
       background: transparent;
@@ -458,7 +465,7 @@
     /* PAGER CONTROLS IN DRAWER */
     .drawer-pager-bar {
       padding: 8px 16px;
-      background: rgba(0, 0, 0, 0.25);
+      background: rgba(0, 0, 0, 0.3);
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
       display: flex;
       align-items: center;
@@ -490,7 +497,7 @@
     .pager-chips-container {
       display: flex;
       gap: 4px;
-      max-width: 190px;
+      max-width: 210px;
       overflow-x: auto;
       padding: 2px 0;
     }
@@ -547,7 +554,7 @@
 
     .metric-card {
       background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.07);
       border-radius: 8px;
       padding: 10px;
       display: flex;
@@ -599,13 +606,41 @@
     }
 
     .hazard-box {
-      background: rgba(255, 51, 102, 0.08);
+      background: rgba(255, 51, 102, 0.1);
       border-left: 3px solid var(--accent-red);
       padding: 10px 12px;
       border-radius: 0 8px 8px 0;
       font-size: 12.5px;
       line-height: 1.5;
       color: #fecdd3;
+    }
+
+    /* INTER-SPIRE JUMP BUTTONS IN CONDUIT CARD */
+    .conduit-endpoints-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .conduit-endpoint-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      color: #ffffff;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      transition: all 0.2s;
+    }
+
+    .conduit-endpoint-btn:hover {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: var(--accent-cyan);
+      transform: translateX(3px);
     }
 
     /* BOTTOM CONTROLS & CAMERA ACTIONS */
@@ -708,7 +743,7 @@
 
     .district-ground-stencil .stencil-title {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 800;
       letter-spacing: 4px;
       text-transform: uppercase;
@@ -718,11 +753,11 @@
 
     .district-ground-stencil .stencil-tag {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 600;
       letter-spacing: 2px;
       text-transform: uppercase;
-      opacity: 0.65;
+      opacity: 0.7;
       margin-top: 4px;
     }
 
@@ -770,24 +805,25 @@
       letter-spacing: 0.5px;
     }
 
-    /* HAZARD RADAR MARKER */
+    /* PUNCHY CODENAME MARKERS (NO MORE BLAND CODES!) */
     .hazard-radar-marker {
       pointer-events: auto;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 6px;
-      background: rgba(255, 51, 102, 0.15);
+      background: rgba(255, 51, 102, 0.22);
       border: 1px solid var(--accent-red);
-      padding: 3px 8px;
+      padding: 4px 9px;
       border-radius: 6px;
-      box-shadow: 0 0 14px rgba(255, 51, 102, 0.4);
-      transition: transform 0.2s;
+      box-shadow: 0 0 16px rgba(255, 51, 102, 0.5);
+      transition: transform 0.2s, background 0.2s;
     }
 
     .hazard-radar-marker:hover {
-      transform: scale(1.1);
-      background: rgba(255, 51, 102, 0.3);
+      transform: scale(1.12);
+      background: rgba(255, 51, 102, 0.4);
+      box-shadow: 0 0 24px rgba(255, 51, 102, 0.8);
     }
 
     .hazard-pulse-ring {
@@ -806,29 +842,30 @@
 
     .hazard-radar-text {
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 10.5px;
       font-weight: 700;
-      color: #ffb3c1;
+      color: #ffffff;
+      letter-spacing: 0.5px;
     }
 
-    /* STRATEGIC PRIORITY MARKER */
     .challenge-beacon-marker {
       pointer-events: auto;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 6px;
-      background: rgba(255, 183, 0, 0.15);
+      background: rgba(255, 183, 0, 0.22);
       border: 1px solid var(--accent-amber);
-      padding: 3px 8px;
+      padding: 4px 9px;
       border-radius: 6px;
-      box-shadow: 0 0 14px rgba(255, 183, 0, 0.4);
-      transition: transform 0.2s;
+      box-shadow: 0 0 16px rgba(255, 183, 0, 0.5);
+      transition: transform 0.2s, background 0.2s;
     }
 
     .challenge-beacon-marker:hover {
-      transform: scale(1.1);
-      background: rgba(255, 183, 0, 0.3);
+      transform: scale(1.12);
+      background: rgba(255, 183, 0, 0.4);
+      box-shadow: 0 0 24px rgba(255, 183, 0, 0.8);
     }
 
     .challenge-gem {
@@ -836,14 +873,44 @@
       height: 7px;
       background: var(--accent-amber);
       transform: rotate(45deg);
-      box-shadow: 0 0 8px var(--accent-amber);
+      box-shadow: 0 0 10px var(--accent-amber);
     }
 
     .challenge-text {
       font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+    }
+
+    /* CLICKABLE CONDUIT FLOATING BADGES */
+    .conduit-beacon-marker {
+      pointer-events: auto;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(192, 64, 255, 0.25);
+      border: 1px solid var(--accent-violet);
+      padding: 3px 8px;
+      border-radius: 14px;
+      box-shadow: 0 0 14px rgba(192, 64, 255, 0.4);
+      transition: all 0.2s;
+    }
+
+    .conduit-beacon-marker:hover {
+      transform: scale(1.12);
+      background: rgba(192, 64, 255, 0.45);
+      box-shadow: 0 0 22px rgba(192, 64, 255, 0.7);
+    }
+
+    .conduit-beacon-text {
+      font-family: var(--font-mono);
       font-size: 10px;
       font-weight: 700;
-      color: #ffe082;
+      color: #ffffff;
+      letter-spacing: 0.5px;
     }
   </style>
 </head>
@@ -875,11 +942,11 @@
         <span class="layer-dot" style="color: var(--accent-emerald);"></span>
         <span>Spires</span>
       </button>
-      <button class="layer-btn active" data-layer="conduits" title="Toggle Inter-Scale Pipelines">
+      <button class="layer-btn active" data-layer="conduits" title="Toggle Inter-Scale Superhighways">
         <span class="layer-dot" style="color: var(--accent-violet);"></span>
         <span>Superhighways</span>
       </button>
-      <button class="layer-btn active" data-layer="bottlenecks" title="Toggle Rate-Limiters & Biases">
+      <button class="layer-btn active" data-layer="bottlenecks" title="Toggle Physical Rate-Limiters">
         <span class="layer-dot" style="color: var(--accent-red);"></span>
         <span>Bottlenecks</span>
       </button>
@@ -892,15 +959,15 @@
 
   <!-- RESTORE LEGEND BUTTON -->
   <button id="restoreLegendBtn" class="restore-legend-btn" title="Open Legend (Shortcut: L)">
-    <span>🧭 SPIRES & SCALE ZONES ▶</span>
+    <span>🧭 METROPOLIS INDEX ▶</span>
   </button>
 
-  <!-- LEFT COLLAPSIBLE SPIRE LEGEND -->
+  <!-- LEFT COLLAPSIBLE SPIRE & SUPERHIGHWAY LEGEND -->
   <aside id="spireLegendCard" class="spire-legend-card">
     <div class="legend-header">
       <div class="legend-title">
         <span>🏛️</span>
-        <span>SCALE ZONES & SPIRES</span>
+        <span>METROPOLIS DIRECTORY</span>
       </div>
       <button id="collapseLegendBtn" class="collapse-btn" title="Collapse Legend (L)">◀</button>
     </div>
@@ -973,8 +1040,9 @@
     const districtMarkers = [];
     const bottleneckMarkers = [];
     const challengeMarkers = [];
+    const conduitMarkers = [];
 
-    // Initialize MapLibre
+    // Initialize MapLibre with Directional Sunlight & Depth
     function initMap() {
       map = new maplibregl.Map({
         container: 'map',
@@ -997,6 +1065,16 @@
       });
 
       map.on('load', () => {
+        // Configure MapLibre 3D Lighting
+        if (map.setLight) {
+          map.setLight({
+            anchor: 'viewport',
+            color: '#ffffff',
+            intensity: 0.65,
+            position: [1.3, 75, 45]
+          });
+        }
+
         setupSourcesAndLayers();
         renderGroundStencilsAndMarkers();
         setupInteraction();
@@ -1035,7 +1113,7 @@
         source: 'districts-geo',
         paint: {
           'fill-color': ['get', 'color'],
-          'fill-opacity': 0.05
+          'fill-opacity': 0.06
         }
       });
 
@@ -1047,7 +1125,7 @@
           'line-color': ['get', 'color'],
           'line-width': 1.5,
           'line-dasharray': [4, 3],
-          'line-opacity': 0.6
+          'line-opacity': 0.7
         }
       });
 
@@ -1057,31 +1135,45 @@
         data: window.CONDUITS_GEOJSON
       });
 
+      // Wide invisible hit-area for easy clicking anywhere near the conduit
+      map.addLayer({
+        id: 'conduits-hitarea',
+        type: 'line',
+        source: 'conduits-geo',
+        paint: {
+          'line-color': '#000000',
+          'line-width': 22,
+          'line-opacity': 0.001
+        }
+      });
+
+      // Outer luminous halo
       map.addLayer({
         id: 'conduits-glow',
         type: 'line',
         source: 'conduits-geo',
         paint: {
           'line-color': ['get', 'color'],
-          'line-width': 6,
-          'line-blur': 4,
-          'line-opacity': 0.5
+          'line-width': 8,
+          'line-blur': 5,
+          'line-opacity': 0.65
         }
       });
 
+      // Inner pulsating laser core
       map.addLayer({
         id: 'conduits-core',
         type: 'line',
         source: 'conduits-geo',
         paint: {
           'line-color': '#ffffff',
-          'line-width': 2,
+          'line-width': 2.5,
           'line-dasharray': [3, 2],
           'line-opacity': 0.95
         }
       });
 
-      // 3. 3D Buildings & Crystals
+      // 3. 3D Buildings & Crystals (Spires + Hazard Radars + Priority Monoliths)
       map.addSource('buildings-geo', {
         type: 'geojson',
         data: window.BUILDINGS_GEOJSON
@@ -1095,22 +1187,42 @@
           'fill-extrusion-color': [
             'case',
             ['has', 'color'], ['get', 'color'],
-            '#0d1a2d'
+            '#00f0ff'
           ],
           'fill-extrusion-height': ['get', 'height'],
           'fill-extrusion-base': ['get', 'base_height'],
           'fill-extrusion-opacity': [
             'case',
             ['has', 'opacity'], ['get', 'opacity'],
-            0.92
-          ]
+            0.95
+          ],
+          'fill-extrusion-vertical-gradient': true
         }
       });
+
+      // 4. Wireframe Outlines on Building Facets for Crystalline Aesthetics
+      if (window.WIREFRAME_GEOJSON) {
+        map.addSource('wireframe-geo', {
+          type: 'geojson',
+          data: window.WIREFRAME_GEOJSON
+        });
+
+        map.addLayer({
+          id: 'buildings-wireframe',
+          type: 'line',
+          source: 'wireframe-geo',
+          paint: {
+            'line-color': ['get', 'color'],
+            'line-width': 1.5,
+            'line-opacity': 0.75
+          }
+        });
+      }
     }
 
-    // Ground Runways & Beacons
+    // Ground Runways, Beacons, and Punchy Codename Markers
     function renderGroundStencilsAndMarkers() {
-      // Districts
+      // 1. Districts
       window.DISTRICTS.forEach(d => {
         // Ground Stencil
         const stencilEl = document.createElement('div');
@@ -1148,13 +1260,13 @@
         districtMarkers.push(beaconMarker);
       });
 
-      // Bottleneck Hazard Radars
+      // 2. Bottleneck Hazard Radars (WITH PUNCHY 1-2 WORD CODENAMES!)
       window.BOTTLENECKS.forEach((b, idx) => {
         const hazardEl = document.createElement('div');
         hazardEl.className = 'hazard-radar-marker';
         hazardEl.innerHTML = `
           <div class="hazard-pulse-ring"></div>
-          <div class="hazard-radar-text">${b.code}</div>
+          <div class="hazard-radar-text">⚠️ ${b.codename}</div>
         `;
         hazardEl.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -1169,13 +1281,13 @@
         bottleneckMarkers.push(marker);
       });
 
-      // Strategic Priorities & Challenges
+      // 3. Strategic Priorities & Challenges (WITH PUNCHY 1-2 WORD CODENAMES!)
       window.CHALLENGES.forEach((c, idx) => {
         const chalEl = document.createElement('div');
         chalEl.className = 'challenge-beacon-marker';
         chalEl.innerHTML = `
           <div class="challenge-gem"></div>
-          <div class="challenge-text">${c.code}</div>
+          <div class="challenge-text">🎯 ${c.codename}</div>
         `;
         chalEl.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -1188,6 +1300,28 @@
         }).setLngLat(c.coordinates).addTo(map);
 
         challengeMarkers.push(marker);
+      });
+
+      // 4. Clickable Floating Conduit Badges at Apex of Each Superhighway!
+      window.CONDUITS.forEach((cond, idx) => {
+        if (!cond.midpoint) return;
+        const conduitEl = document.createElement('div');
+        conduitEl.className = 'conduit-beacon-marker';
+        conduitEl.innerHTML = `
+          <span style="font-size: 11px;">⚡</span>
+          <span class="conduit-beacon-text">${cond.codename}</span>
+        `;
+        conduitEl.addEventListener('click', (e) => {
+          e.stopPropagation();
+          selectObject('conduit', cond.id, idx);
+        });
+
+        const marker = new maplibregl.Marker({
+          element: conduitEl,
+          pitchAlignment: 'viewport'
+        }).setLngLat(cond.midpoint).addTo(map);
+
+        conduitMarkers.push(marker);
       });
 
       // LOD Fading for Ground Stencils during deep zoom
@@ -1205,24 +1339,29 @@
 
     // Interaction Setup
     function setupInteraction() {
-      // Click on 3D Building
+      // Click on ANY 3D Building (Spire, Bottleneck Tower, Priority Monolith)
       map.on('click', 'buildings-3d', (e) => {
         if (!e.features || !e.features.length) return;
         const feat = e.features[0];
-        const spireRef = feat.properties.spire_ref;
-        if (spireRef) {
-          const sIdx = window.SPIRES_INDEX.findIndex(s => s.id === spireRef);
-          if (sIdx !== -1) {
-            selectObject('spire', spireRef, sIdx);
-          }
+        const props = feat.properties;
+
+        if (props.spire_ref) {
+          const sIdx = window.SPIRES_INDEX.findIndex(s => s.id === props.spire_ref);
+          if (sIdx !== -1) selectObject('spire', props.spire_ref, sIdx);
+        } else if (props.bottleneck_ref) {
+          const bIdx = window.BOTTLENECKS.findIndex(b => b.id === props.bottleneck_ref);
+          if (bIdx !== -1) selectObject('bottleneck', props.bottleneck_ref, bIdx);
+        } else if (props.challenge_ref) {
+          const cIdx = window.CHALLENGES.findIndex(c => c.id === props.challenge_ref);
+          if (cIdx !== -1) selectObject('challenge', props.challenge_ref, cIdx);
         }
       });
 
       map.on('mouseenter', 'buildings-3d', () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', 'buildings-3d', () => { map.getCanvas().style.cursor = ''; });
 
-      // Click on Conduit Line
-      map.on('click', 'conduits-core', (e) => {
+      // Click on Conduit Line or Conduit Hit-Area
+      const onConduitClick = (e) => {
         if (!e.features || !e.features.length) return;
         const feat = e.features[0];
         const condId = feat.properties.id;
@@ -1230,7 +1369,12 @@
         if (cIdx !== -1) {
           selectObject('conduit', condId, cIdx);
         }
-      });
+      };
+
+      map.on('click', 'conduits-core', onConduitClick);
+      map.on('click', 'conduits-hitarea', onConduitClick);
+      map.on('mouseenter', 'conduits-hitarea', () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', 'conduits-hitarea', () => { map.getCanvas().style.cursor = ''; });
 
       // Layer Toggles
       document.querySelectorAll('.layer-btn').forEach(btn => {
@@ -1246,7 +1390,7 @@
       const orbitBtn = document.getElementById('orbitBtn');
       orbitBtn.addEventListener('click', toggleOrbit);
 
-      // Reset Camera
+      // Reset Camera Overview
       document.getElementById('resetCamBtn').addEventListener('click', () => {
         stopOrbit();
         map.flyTo({
@@ -1302,14 +1446,25 @@
         map.setLayoutProperty('districts-line', 'visibility', isVisible ? 'visible' : 'none');
         districtMarkers.forEach(m => m.getElement().style.display = isVisible ? 'flex' : 'none');
       } else if (layerKey === 'spires') {
-        map.setLayoutProperty('buildings-3d', 'visibility', isVisible ? 'visible' : 'none');
+        map.setFilter('buildings-3d', isVisible ? null : ['!=', ['get', 'entity_type'], 'spire']);
       } else if (layerKey === 'conduits') {
         map.setLayoutProperty('conduits-glow', 'visibility', isVisible ? 'visible' : 'none');
         map.setLayoutProperty('conduits-core', 'visibility', isVisible ? 'visible' : 'none');
+        conduitMarkers.forEach(m => m.getElement().style.display = isVisible ? 'flex' : 'none');
       } else if (layerKey === 'bottlenecks') {
         bottleneckMarkers.forEach(m => m.getElement().style.display = isVisible ? 'flex' : 'none');
+        if (!isVisible) {
+          map.setFilter('buildings-3d', ['!=', ['get', 'entity_type'], 'bottleneck']);
+        } else {
+          map.setFilter('buildings-3d', null);
+        }
       } else if (layerKey === 'challenges') {
         challengeMarkers.forEach(m => m.getElement().style.display = isVisible ? 'flex' : 'none');
+        if (!isVisible) {
+          map.setFilter('buildings-3d', ['!=', ['get', 'entity_type'], 'challenge']);
+        } else {
+          map.setFilter('buildings-3d', null);
+        }
       }
     }
 
@@ -1323,14 +1478,14 @@
       const body = document.getElementById('drawerBody');
 
       // Update Legend Selection
-      document.querySelectorAll('.spire-item').forEach(el => el.classList.remove('active'));
-      const activeLegendItem = document.querySelector(`.spire-item[data-id="${id}"]`);
+      document.querySelectorAll('.spire-item, .conduit-legend-item').forEach(el => el.classList.remove('active'));
+      const activeLegendItem = document.querySelector(`[data-id="${id}"]`);
       if (activeLegendItem) activeLegendItem.classList.add('active');
 
       if (type === 'spire') {
         const item = window.SPIRES_INDEX[index];
         badge.className = 'drawer-type-badge badge-spire';
-        badge.textContent = `SPIRE • ${item.code}`;
+        badge.textContent = `SPIRE • ${item.code} (${item.codename})`;
         title.textContent = item.title;
         subtitle.textContent = `${item.district_name} (${item.scale_label})`;
 
@@ -1364,8 +1519,8 @@
       } else if (type === 'bottleneck') {
         const item = window.BOTTLENECKS[index];
         badge.className = 'drawer-type-badge badge-bottleneck';
-        badge.textContent = `RATE-LIMITER • ${item.code}`;
-        title.textContent = item.title;
+        badge.textContent = `RATE-LIMITER • ${item.code} [${item.codename}]`;
+        title.textContent = `${item.codename}: ${item.title}`;
         subtitle.textContent = item.nature;
 
         body.innerHTML = `
@@ -1383,8 +1538,8 @@
       } else if (type === 'challenge') {
         const item = window.CHALLENGES[index];
         badge.className = 'drawer-type-badge badge-challenge';
-        badge.textContent = `MANDATE • ${item.code}`;
-        title.textContent = item.title;
+        badge.textContent = `MANDATE • ${item.code} [${item.codename}]`;
+        title.textContent = `${item.codename}: ${item.title}`;
         subtitle.textContent = item.type;
 
         body.innerHTML = `
@@ -1399,9 +1554,9 @@
       } else if (type === 'conduit') {
         const item = window.CONDUITS[index];
         badge.className = 'drawer-type-badge badge-conduit';
-        badge.textContent = `SUPERHIGHWAY • ${item.code}`;
-        title.textContent = item.name;
-        subtitle.textContent = `${item.from} ➔ ${item.to}`;
+        badge.textContent = `SUPERHIGHWAY • ${item.code} [${item.codename}]`;
+        title.textContent = `${item.codename}: ${item.name}`;
+        subtitle.textContent = `${item.from_name} ➔ ${item.to_name}`;
 
         body.innerHTML = `
           <div class="metrics-grid">
@@ -1414,10 +1569,45 @@
               <span class="metric-value">${item.bandwidth}</span>
             </div>
           </div>
-          <p class="drawer-body-text">${item.description}</p>
+          <div>
+            <div class="drawer-section-title"><span>✦</span> Inter-Scale Scientific Flow</div>
+            <p class="drawer-body-text">${item.description}</p>
+          </div>
+          <div class="conduit-endpoints-row">
+            <div class="drawer-section-title"><span>🏛️</span> Connected Spires</div>
+            <button class="conduit-endpoint-btn" id="conduitFromBtn">
+              <span>SOURCE: ${item.from_name}</span>
+              <span>Fly ➔</span>
+            </button>
+            <button class="conduit-endpoint-btn" id="conduitToBtn">
+              <span>TARGET: ${item.to_name}</span>
+              <span>Fly ➔</span>
+            </button>
+          </div>
         `;
 
+        // Wire jump buttons
+        setTimeout(() => {
+          const fromBtn = document.getElementById('conduitFromBtn');
+          const toBtn = document.getElementById('conduitToBtn');
+          if (fromBtn) {
+            fromBtn.addEventListener('click', () => {
+              const sIdx = window.SPIRES_INDEX.findIndex(s => s.id === item.from);
+              if (sIdx !== -1) selectObject('spire', item.from, sIdx);
+            });
+          }
+          if (toBtn) {
+            toBtn.addEventListener('click', () => {
+              const sIdx = window.SPIRES_INDEX.findIndex(s => s.id === item.to);
+              if (sIdx !== -1) selectObject('spire', item.to, sIdx);
+            });
+          }
+        }, 50);
+
         updatePager(window.CONDUITS.length, index);
+        if (item.midpoint) {
+          flyToConduit(item.midpoint);
+        }
       }
 
       drawer.classList.add('open');
@@ -1425,13 +1615,23 @@
 
     function flyToObject(coords) {
       stopOrbit();
-      // Balanced camera distance: zoom 16.2 with offset pitch
       map.flyTo({
         center: [coords[0], coords[1] - 0.0016],
         zoom: 16.15,
         pitch: 62,
         bearing: -22,
         duration: 1400
+      });
+    }
+
+    function flyToConduit(midpoint) {
+      stopOrbit();
+      map.flyTo({
+        center: [midpoint[0], midpoint[1] - 0.0022],
+        zoom: 15.6,
+        pitch: 58,
+        bearing: -18,
+        duration: 1500
       });
     }
 
@@ -1470,7 +1670,6 @@
         chips.appendChild(chip);
       }
 
-      // Scroll active chip into view
       const activeChip = chips.children[current];
       if (activeChip) activeChip.scrollIntoView({ behavior: 'smooth', inline: 'center' });
     }
@@ -1500,15 +1699,16 @@
 
     function closeDrawer() {
       document.getElementById('detailDrawer').classList.remove('open');
-      document.querySelectorAll('.spire-item').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.spire-item, .conduit-legend-item').forEach(el => el.classList.remove('active'));
       activeSelection = null;
     }
 
-    // Legend Builder
+    // Legend Builder (With Dedicated Superhighways Section!)
     function buildLegendUI() {
       const container = document.getElementById('legendDistrictList');
       container.innerHTML = '';
 
+      // 1. Scale Districts & Spires
       window.DISTRICTS.forEach(d => {
         const group = document.createElement('div');
         group.className = 'district-group';
@@ -1529,7 +1729,6 @@
 
         group.appendChild(header);
 
-        // Spires in this district
         const districtSpires = window.SPIRES_INDEX.filter(s => s.district_ref === d.id);
         districtSpires.forEach(s => {
           const item = document.createElement('div');
@@ -1537,7 +1736,7 @@
           item.dataset.id = s.id;
           item.innerHTML = `
             <span class="spire-item-name">${s.title}</span>
-            <span class="spire-item-code">${s.code}</span>
+            <span class="spire-item-code">${s.codename || s.code}</span>
           `;
           item.addEventListener('click', () => {
             const sIdx = window.SPIRES_INDEX.findIndex(x => x.id === s.id);
@@ -1548,6 +1747,41 @@
 
         container.appendChild(group);
       });
+
+      // 2. Superhighways Directory Section
+      const conduitGroup = document.createElement('div');
+      conduitGroup.className = 'district-group';
+      conduitGroup.style.borderTop = '1px solid rgba(255, 255, 255, 0.1)';
+      conduitGroup.style.paddingTop = '10px';
+
+      const conduitHeader = document.createElement('div');
+      conduitHeader.className = 'district-group-header';
+      conduitHeader.innerHTML = `
+        <div class="district-label-box">
+          <span style="font-size: 14px;">⚡</span>
+          <div>
+            <div class="district-group-name" style="color: var(--accent-violet);">SUPERHIGHWAYS (${window.CONDUITS.length})</div>
+            <div class="district-group-scale">Inter-Scale Pipelines</div>
+          </div>
+        </div>
+      `;
+      conduitGroup.appendChild(conduitHeader);
+
+      window.CONDUITS.forEach((cond, idx) => {
+        const cItem = document.createElement('div');
+        cItem.className = 'spire-item conduit-legend-item';
+        cItem.dataset.id = cond.id;
+        cItem.innerHTML = `
+          <span class="spire-item-name">${cond.codename}</span>
+          <span class="spire-item-code" style="color: var(--accent-violet); border-color: rgba(192, 64, 255, 0.3);">${cond.code}</span>
+        `;
+        cItem.addEventListener('click', () => {
+          selectObject('conduit', cond.id, idx);
+        });
+        conduitGroup.appendChild(cItem);
+      });
+
+      container.appendChild(conduitGroup);
     }
 
     // Scale Runway Builder

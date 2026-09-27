@@ -64,6 +64,7 @@
       "district_ref": "@dist-quantum",
       "title": "NOMAD CoE & Materials Cloud",
       "code": "QM-01",
+      "codename": "NOMAD CLOUD",
       "scale_level": 0.85,
       "metrics": {
         "scale": "10^-10 m (Sub-atomic)",
@@ -78,6 +79,7 @@
       "district_ref": "@dist-quantum",
       "title": "CHGNet & Equivariant Potentials",
       "code": "QM-02",
+      "codename": "CHGNET POTENTIALS",
       "scale_level": 0.95,
       "metrics": {
         "scale": "10^-10 m (Bond Lengths)",
@@ -92,6 +94,7 @@
       "district_ref": "@dist-quantum",
       "title": "AiiDA Workflow Orchestrator",
       "code": "QM-03",
+      "codename": "AIIDA ORCHESTRATOR",
       "scale_level": 0.75,
       "metrics": {
         "scale": "10^-10 m (Workflows)",
@@ -106,6 +109,7 @@
       "district_ref": "@dist-design",
       "title": "MatterGen & Crystal Diffusion Core",
       "code": "GEN-01",
+      "codename": "MATTERGEN CORE",
       "scale_level": 0.90,
       "metrics": {
         "scale": "10^-9 m (Unit Cell)",
@@ -120,6 +124,7 @@
       "district_ref": "@dist-design",
       "title": "GNoME Scale Discovery Engine",
       "code": "GEN-02",
+      "codename": "GNOME ENGINE",
       "scale_level": 0.95,
       "metrics": {
         "scale": "10^-9 m (Lattice Inorganics)",
@@ -134,6 +139,7 @@
       "district_ref": "@dist-design",
       "title": "FlowLLM & Chemical NLP Suite",
       "code": "GEN-03",
+      "codename": "FLOWLLM MINING",
       "scale_level": 0.70,
       "metrics": {
         "scale": "10^-9 m (Recipe Mining)",
@@ -148,6 +154,7 @@
       "district_ref": "@dist-char",
       "title": "ESRF Synchrotron Edge AI Pipeline",
       "code": "CHR-01",
+      "codename": "ESRF BEAMLINE AI",
       "scale_level": 0.95,
       "metrics": {
         "scale": "10^-6 m (Beamline Focus)",
@@ -162,6 +169,7 @@
       "district_ref": "@dist-char",
       "title": "Atomic TEM & APT Defect Vision",
       "code": "CHR-02",
+      "codename": "ATOMIC TEM VISION",
       "scale_level": 0.80,
       "metrics": {
         "scale": "10^-9 - 10^-6 m (Sub-nanometer)",
@@ -176,6 +184,7 @@
       "district_ref": "@dist-char",
       "title": "Common Data Model (CDM) Hub",
       "code": "CHR-03",
+      "codename": "CDM STANDARDS",
       "scale_level": 0.75,
       "metrics": {
         "scale": "10^-6 m (Standardization)",
@@ -190,6 +199,7 @@
       "district_ref": "@dist-closedloop",
       "title": "A-Lab Autonomous Synthesis Core",
       "code": "MAP-01",
+      "codename": "A-LAB SYNTHESIS",
       "scale_level": 0.95,
       "metrics": {
         "scale": "10^-2 m (Bench Scale)",
@@ -204,6 +214,7 @@
       "district_ref": "@dist-closedloop",
       "title": "BIG-MAP / Battery 2030+ Hub",
       "code": "MAP-02",
+      "codename": "BIG-MAP BATTERIES",
       "scale_level": 0.90,
       "metrics": {
         "scale": "10^-2 m (Electrode Interface)",
@@ -218,6 +229,7 @@
       "district_ref": "@dist-closedloop",
       "title": "Microfluidic Continuous Flow MAP",
       "code": "MAP-03",
+      "codename": "MICROFLUIDIC MAP",
       "scale_level": 0.80,
       "metrics": {
         "scale": "10^-3 m (Droplet Reactor)",
@@ -232,6 +244,7 @@
       "district_ref": "@dist-fab",
       "title": "Additive Manufacturing Digital Twin",
       "code": "IND-01",
+      "codename": "ADDITIVE TWIN",
       "scale_level": 0.90,
       "metrics": {
         "scale": "10^-1 - 10^0 m (Turbine Blade)",
@@ -246,6 +259,7 @@
       "district_ref": "@dist-fab",
       "title": "Critical Raw Material Substitute Core",
       "code": "IND-02",
+      "codename": "CRM SUBSTITUTION",
       "scale_level": 0.85,
       "metrics": {
         "scale": "10^0 m (Motor Stator)",
@@ -260,6 +274,7 @@
       "district_ref": "@dist-fab",
       "title": "Circular LCA & Eco-Design Platform",
       "code": "IND-03",
+      "codename": "CIRCULAR ECO-LCA",
       "scale_level": 0.75,
       "metrics": {
         "scale": "10^3 m (Gigafactory Lifecycle)",
@@ -275,6 +290,7 @@
       "id": "@bneck-dark-data",
       "title": "Dark Data & Negative Reporting Bias",
       "code": "BOT-01",
+      "codename": "DARK DATA",
       "district_ref": "@dist-quantum",
       "nature": "Epistemic Bias & Skewed Priors",
       "impact": "Literature published over decades records almost exclusively successful syntheses. The omission of negative results systematically warps model priors, producing high false-positive rates during virtual screening.",
@@ -284,6 +300,7 @@
       "id": "@bneck-synth-gap",
       "title": "The 'Synthesizability Gap'",
       "code": "BOT-02",
+      "codename": "SYNTHESIS GAP",
       "district_ref": "@dist-design",
       "nature": "Thermodynamics vs Kinetics Mismatch",
       "impact": "Diffusion and GNN models propose millions of crystals with low energy above the convex hull, but physical labs fail to synthesize them due to insurmountable kinetic barriers or phase separation.",
@@ -293,6 +310,7 @@
       "id": "@bneck-gc-latency",
       "title": "Analytical Rate-Limiter: 232-min GC Latency",
       "code": "BOT-03",
+      "codename": "232m GC LAG",
       "district_ref": "@dist-closedloop",
       "nature": "Physical Speed Asymmetry",
       "impact": "AI Bayesian agents compute the next optimal experiment in 50 milliseconds, but physical characterisation (such as online gas chromatography) takes up to 232 minutes per batch, stalling autonomous loops.",
@@ -302,6 +320,7 @@
       "id": "@bneck-robot-jams",
       "title": "Mechatronic Fragility & ~3.9% Robotic Error Rate",
       "code": "BOT-04",
+      "codename": "ROBOT JAMS",
       "district_ref": "@dist-closedloop",
       "nature": "Hardware Exception & Viscosity Fails",
       "impact": "Non-zero hardware exception rates (~3.9%) during solid powder dispensing, pipette clogging, or microfluidic fouling frequently abort unattended 24/7 autonomous exploration campaigns.",
@@ -311,6 +330,7 @@
       "id": "@bneck-ip-silos",
       "title": "Industrial IP Silos vs Synthetic Academic Data",
       "code": "BOT-05",
+      "codename": "IP SILOS",
       "district_ref": "@dist-fab",
       "nature": "Data Access & Secrecy Wall",
       "impact": "Academic AI is trained on pristine idealized DFT simulations, while real-world factory scrap rates, nozzle fouling, and chemical batch variations remain strictly proprietary trade secrets.",
@@ -322,6 +342,7 @@
       "id": "@chal-crm-act",
       "title": "EU Critical Raw Materials Act (CRMA)",
       "code": "PRIO-01",
+      "codename": "RAW MATERIALS",
       "district_ref": "@dist-fab",
       "type": "European Policy Mandate",
       "target": "Achieve strategic technological sovereignty by substituting 100% of imported heavy rare earths and reducing cobalt in EV batteries by 2030."
@@ -330,6 +351,7 @@
       "id": "@chal-chips-act",
       "title": "European Chips Act & Novel Semiconductors",
       "code": "PRIO-02",
+      "codename": "CHIPS ACT",
       "district_ref": "@dist-quantum",
       "type": "European Industrial Strategy",
       "target": "Accelerate discovery of ultra-wide bandgap semiconductors (GaN, SiC, diamond) and 2D dielectric heterostructures for energy-efficient computing."
@@ -338,6 +360,7 @@
       "id": "@chal-multiscale",
       "title": "Grand Scientific Challenge: Multi-Scale Coupling",
       "code": "PRIO-03",
+      "codename": "MULTISCALE",
       "district_ref": "@dist-design",
       "type": "Fundamental Frontier",
       "target": "Seamlessly bridge 10 orders of magnitude in space and 15 in time: from quantum wavefunctions (10^-10 m) to mechanical fatigue of aerospace structures (10^0 m)."
@@ -346,6 +369,7 @@
       "id": "@chal-activity-cliffs",
       "title": "Scientific Frontier: Resolving Activity Cliffs",
       "code": "PRIO-04",
+      "codename": "ACTIVITY CLIFFS",
       "district_ref": "@dist-char",
       "type": "Methodological Challenge",
       "target": "Detect ultra-sensitive non-linear performance jumps where substituting a single dopant atom in a 100-atom supercell dramatically shifts Tc or dielectric breakdown."
@@ -354,6 +378,7 @@
       "id": "@chal-netzero",
       "title": "Net-Zero Industry Act & Circular Chemistry",
       "code": "PRIO-05",
+      "codename": "NET-ZERO",
       "district_ref": "@dist-fab",
       "type": "Sustainability Mandate",
       "target": "Enforce cradle-to-gate carbon intensity and zero-toxic solvent penalties into AI discovery loops before materials reach pilot-line testing."
@@ -364,51 +389,56 @@
       "id": "@conduit-quantum-potentials",
       "name": "Quantum Potential Superhighway",
       "code": "HW-01",
+      "codename": "QUANTUM FEED",
       "from": "@spire-nomad",
       "to": "@spire-mattergen",
       "type": "Electronic Structure Feed",
       "bandwidth": "Millions of Relaxed PES Geometries",
-      "description": "High-throughput DFT databases continuously stream energy and force tensors into generative diffusion models to calibrate stable chemical space."
+      "description": "High-throughput DFT databases continuously stream energy and force tensors into generative diffusion models to calibrate stable chemical space. Without this continuous quantum calibration, crystal generation rapidly degenerates into unphysical geometries."
     },
     {
       "id": "@conduit-recipe-dispatch",
       "name": "Generative Candidate Dispatch Conduit",
       "code": "HW-02",
+      "codename": "RECIPE DISPATCH",
       "from": "@spire-mattergen",
       "to": "@spire-alab",
       "type": "Digital-to-Physical Recipe Pipeline",
       "bandwidth": "Automated Machine-Actionable Synthesis Plans",
-      "description": "Top Pareto-optimal crystal candidates are translated by chemical NLP into executable robotic G-code and liquid handler sequences for A-Lab."
+      "description": "Top Pareto-optimal crystal candidates are translated by chemical NLP into executable robotic G-code, solid powder dispensing weights, and furnace thermal annealing profiles for A-Lab."
     },
     {
       "id": "@conduit-beamline-feedback",
       "name": "Synchrotron Active Feedback Loop",
       "code": "HW-03",
+      "codename": "BEAMLINE LOOP",
       "from": "@spire-esrf-edge",
       "to": "@spire-bigmap",
       "type": "In-Situ Operando Telemetry",
       "bandwidth": "Gigabyte/sec Live Diffraction Streams",
-      "description": "Real-time XRD phase evolution from synchrotron beamlines updates Gaussian process models in autonomous labs, steering experimental parameters mid-reaction."
+      "description": "Real-time XRD phase evolution from synchrotron beamlines updates Gaussian process surrogate models in autonomous labs, steering synthesis parameters mid-reaction before irreversible phase separation occurs."
     },
     {
       "id": "@conduit-scaleup-transfer",
       "name": "Lab-to-Fab Material Transfer Conduit",
       "code": "HW-04",
+      "codename": "LAB-TO-FAB",
       "from": "@spire-alab",
       "to": "@spire-additive-twin",
       "type": "Process Scaling & Property Handover",
       "bandwidth": "Powder Rheology & Melt-Pool Thermodynamics",
-      "description": "Laboratory-scale successful alloys are passed to industrial laser powder bed digital twins to simulate manufacturing stresses and scrap rates."
+      "description": "Laboratory-scale successful alloys are passed to industrial laser powder bed digital twins to simulate manufacturing stresses, cooling rates, and scrap risks before committing to multi-ton pilot production."
     },
     {
       "id": "@conduit-provenance-ring",
       "name": "Circular Provenance & AiiDA Registry Ring",
       "code": "HW-05",
+      "codename": "CIRCULAR PASSPORT",
       "from": "@spire-aiida",
       "to": "@spire-circular-lca",
       "type": "End-to-End Cryptographic Provenance",
       "bandwidth": "FAIR Digital Product Passports",
-      "description": "Traces computational origin, experimental synthesis conditions, and environmental impact across the entire scale corridor into a circular product passport."
+      "description": "Traces computational origin, experimental synthesis conditions, and environmental impact across the entire scale corridor into a circular product passport required by EU Net-Zero regulations."
     }
   ]
 }

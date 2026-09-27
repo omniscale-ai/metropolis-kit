@@ -10,6 +10,7 @@ Usage:
 """
 
 import argparse
+import colorsys
 import http.server
 import json
 import math
@@ -23,6 +24,24 @@ LAT_CENTER = 52.5150
 LNG_CENTER = 13.4000
 DEG_LAT_PER_METER = 1.0 / 111320.0
 DEG_LNG_PER_METER = 1.0 / (111320.0 * math.cos(math.radians(LAT_CENTER)))
+
+def hex_to_rgb(h):
+    h = h.lstrip('#')
+    return tuple(int(h[i:i+2], 16)/255.0 for i in (0, 2, 4))
+
+def rgb_to_hex(r, g, b):
+    return '#{:02x}{:02x}{:02x}'.format(int(r*255), int(g*255), int(b*255))
+
+def adjust_color(hex_str, sat_mult=1.0, light_mult=1.0):
+    try:
+        r, g, b = hex_to_rgb(hex_str)
+        h, l, s = colorsys.rgb_to_hls(r, g, b)
+        l = min(1.0, max(0.0, l * light_mult))
+        s = min(1.0, max(0.0, s * sat_mult))
+        nr, ng, nb = colorsys.hls_to_rgb(h, l, s)
+        return rgb_to_hex(nr, ng, nb)
+    except Exception:
+        return hex_str
 
 def meters_to_geo(dx_meters, dy_meters, base_lng=LNG_CENTER, base_lat=LAT_CENTER):
     """Convert delta (x, y) in meters to geodetic (lng, lat)."""
@@ -129,8 +148,8 @@ def compile_metropolis_data(spec):
     """Compiles the spec into GeoJSON features and metadata structures."""
     district_ids = {d['id']: d for d in spec['districts']}
     DISTRICT_WIDTH = 1100.0   # meters
-    DISTRICT_HEIGHT = 650.0   # meters
-    DISTRICT_GAP = 220.0      # meters
+    DISTRICT_HEIGHT = 680.0   # meters
+    DISTRICT_GAP = 240.0      # meters
 
     compiled_districts = []
     spire_locations = {}
@@ -142,7 +161,9 @@ def compile_metropolis_data(spec):
     start_y = -total_span / 2.0
 
     building_features = []
+    wireframe_features = []
 
+    # 1. Compile Districts & Spires
     for idx, dist in enumerate(sorted_districts):
         dist_y = start_y + idx * (DISTRICT_HEIGHT + DISTRICT_GAP)
         dist_x = 0.0
@@ -182,103 +203,280 @@ def compile_metropolis_data(spec):
                 'lng': spire_lnglat[0],
                 'lat': spire_lnglat[1],
                 'title': spire['title'],
+                'codename': spire.get('codename', spire.get('code', 'SPIRE')),
                 'district_ref': dist['id'],
                 'color': dist['color']
             }
 
             scale_lvl = spire.get('scale_level', 0.8)
-            total_height = round(60.0 + scale_lvl * 100.0, 1)
+            # Towering 3D Heights: 120m to 210m tall!
+            total_height = round(100.0 + scale_lvl * 110.0, 1)
             base_tier_h = round(total_height * 0.35, 1)
-            mid_tier_h = round(total_height * 0.70, 1)
+            mid_tier_h = round(total_height * 0.72, 1)
             top_tier_h = total_height
-            needle_h = round(total_height + 25.0, 1)
+            needle_h = round(total_height + 32.0, 1)
 
-            # Tier 0: Ground Foundation Pedestal (radius 55m, height 4m)
-            poly_base = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 55.0, sides=sides, rotation_deg=15)
+            # Saturated, rich district-themed colors for 3D crystal lighting
+            color_lower = adjust_color(dist['color'], sat_mult=1.0, light_mult=0.42)
+            color_mid = adjust_color(dist['color'], sat_mult=0.95, light_mult=0.68)
+            color_crown = dist['color']
+
+            # Tier 0: Ground Foundation Pedestal (radius 56m, height 0 to 5m)
+            poly_base = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 56.0, sides=sides, rotation_deg=15)
             building_features.append({
                 'type': 'Feature',
                 'properties': {
                     'id': f"{spire['id']}-pedestal",
                     'spire_ref': spire['id'],
+                    'entity_type': 'spire',
                     'name': spire['title'],
                     'tier': 'pedestal',
-                    'height': 4.0,
+                    'height': 5.0,
                     'base_height': 0.0,
                     'color': dist['color'],
-                    'opacity': 0.8
+                    'opacity': 0.85
                 },
                 'geometry': {'type': 'Polygon', 'coordinates': [poly_base]}
             })
 
-            # Tier 1: Lower Prism
-            poly_t1 = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 42.0, sides=sides, rotation_deg=0)
+            # Tier 1: Lower Crystal Prism (radius 44m, height 5m to base_tier_h)
+            poly_t1 = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 44.0, sides=sides, rotation_deg=0)
             building_features.append({
                 'type': 'Feature',
                 'properties': {
                     'id': f"{spire['id']}-tier1",
                     'spire_ref': spire['id'],
+                    'entity_type': 'spire',
                     'name': spire['title'],
                     'tier': 'body_lower',
                     'height': base_tier_h,
-                    'base_height': 4.0,
-                    'color': '#0d1a2d',
-                    'edge_color': dist['color']
+                    'base_height': 5.0,
+                    'color': color_lower,
+                    'opacity': 0.95
                 },
                 'geometry': {'type': 'Polygon', 'coordinates': [poly_t1]}
             })
 
-            # Tier 2: Mid Crystalline Shaft
-            poly_t2 = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 30.0, sides=sides, rotation_deg=22.5)
+            # Tier 2: Mid Crystalline Shaft (radius 32m, height base_tier_h to mid_tier_h)
+            poly_t2 = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 32.0, sides=sides, rotation_deg=22.5)
             building_features.append({
                 'type': 'Feature',
                 'properties': {
                     'id': f"{spire['id']}-tier2",
                     'spire_ref': spire['id'],
+                    'entity_type': 'spire',
                     'name': spire['title'],
                     'tier': 'body_mid',
                     'height': mid_tier_h,
                     'base_height': base_tier_h,
-                    'color': '#112540',
-                    'edge_color': dist['color']
+                    'color': color_mid,
+                    'opacity': 0.95
                 },
                 'geometry': {'type': 'Polygon', 'coordinates': [poly_t2]}
             })
 
-            # Tier 3: Upper Facet Crown
-            poly_t3 = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 18.0, sides=sides, rotation_deg=45)
+            # Tier 3: Upper Facet Crown (radius 20m, height mid_tier_h to top_tier_h)
+            poly_t3 = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 20.0, sides=sides, rotation_deg=45)
             building_features.append({
                 'type': 'Feature',
                 'properties': {
                     'id': f"{spire['id']}-tier3",
                     'spire_ref': spire['id'],
+                    'entity_type': 'spire',
                     'name': spire['title'],
                     'tier': 'crown',
                     'height': top_tier_h,
                     'base_height': mid_tier_h,
-                    'color': dist['color'],
-                    'opacity': 0.95
+                    'color': color_crown,
+                    'opacity': 1.0
                 },
                 'geometry': {'type': 'Polygon', 'coordinates': [poly_t3]}
             })
 
-            # Tier 4: Needle Antenna
-            poly_needle = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 4.5, sides=4, rotation_deg=45)
+            # Tier 4: Needle Antenna (radius 5m, height top_tier_h to needle_h)
+            poly_needle = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 5.0, sides=4, rotation_deg=45)
             building_features.append({
                 'type': 'Feature',
                 'properties': {
                     'id': f"{spire['id']}-needle",
                     'spire_ref': spire['id'],
+                    'entity_type': 'spire',
                     'name': spire['title'],
                     'tier': 'needle',
                     'height': needle_h,
                     'base_height': top_tier_h,
-                    'color': '#ffffff'
+                    'color': '#ffffff',
+                    'opacity': 1.0
                 },
                 'geometry': {'type': 'Polygon', 'coordinates': [poly_needle]}
             })
 
-    # Conduits
+            # Wireframe outline feature for crisp polygonal facet edges
+            wireframe_features.append({
+                'type': 'Feature',
+                'properties': {'color': dist['color']},
+                'geometry': {'type': 'LineString', 'coordinates': poly_t1}
+            })
+            wireframe_features.append({
+                'type': 'Feature',
+                'properties': {'color': dist['color']},
+                'geometry': {'type': 'LineString', 'coordinates': poly_t2}
+            })
+
+    # 2. 3D Bottleneck Hazard Radars (Real 3D Citadel Towers!)
+    compiled_bottlenecks = []
+    bneck_offsets = [(-490.0, -180.0), (490.0, 180.0), (-500.0, 160.0), (500.0, -170.0), (0.0, 250.0)]
+    for b_idx, bneck in enumerate(spec.get('bottlenecks', [])):
+        d_center = district_centers[bneck['district_ref']]
+        off_x, off_y = bneck_offsets[b_idx % len(bneck_offsets)]
+        coords = meters_to_geo(off_x, d_center['dy'] + off_y)
+        codename = bneck.get('codename', bneck.get('code', f"BOT-0{b_idx+1}"))
+        compiled_bottlenecks.append({
+            'id': bneck['id'],
+            'code': bneck.get('code', f"BOT-0{b_idx+1}"),
+            'codename': codename,
+            'title': bneck['title'],
+            'district_ref': bneck['district_ref'],
+            'nature': bneck.get('nature', 'Physical Rate-Limiter'),
+            'impact': bneck.get('impact', ''),
+            'remedy': bneck.get('remedy', ''),
+            'coordinates': coords
+        })
+
+        # Generate 3D Hazard Citadel (Red Hexagonal Obelisk)
+        poly_bneck_base = create_regular_polygon(coords[0], coords[1], 42.0, sides=6, rotation_deg=0)
+        building_features.append({
+            'type': 'Feature',
+            'properties': {
+                'id': f"{bneck['id']}-base",
+                'bottleneck_ref': bneck['id'],
+                'entity_type': 'bottleneck',
+                'name': bneck['title'],
+                'codename': codename,
+                'tier': 'hazard_base',
+                'height': 60.0,
+                'base_height': 0.0,
+                'color': '#800020', # Deep hazard crimson
+                'opacity': 0.95
+            },
+            'geometry': {'type': 'Polygon', 'coordinates': [poly_bneck_base]}
+        })
+
+        poly_bneck_core = create_regular_polygon(coords[0], coords[1], 26.0, sides=6, rotation_deg=30)
+        building_features.append({
+            'type': 'Feature',
+            'properties': {
+                'id': f"{bneck['id']}-core",
+                'bottleneck_ref': bneck['id'],
+                'entity_type': 'bottleneck',
+                'name': bneck['title'],
+                'codename': codename,
+                'tier': 'hazard_core',
+                'height': 95.0,
+                'base_height': 60.0,
+                'color': '#ff1744', # Glowing red
+                'opacity': 0.98
+            },
+            'geometry': {'type': 'Polygon', 'coordinates': [poly_bneck_core]}
+        })
+
+        poly_bneck_needle = create_regular_polygon(coords[0], coords[1], 5.0, sides=4, rotation_deg=45)
+        building_features.append({
+            'type': 'Feature',
+            'properties': {
+                'id': f"{bneck['id']}-needle",
+                'bottleneck_ref': bneck['id'],
+                'entity_type': 'bottleneck',
+                'name': bneck['title'],
+                'codename': codename,
+                'tier': 'hazard_needle',
+                'height': 125.0,
+                'base_height': 95.0,
+                'color': '#ff3366',
+                'opacity': 1.0
+            },
+            'geometry': {'type': 'Polygon', 'coordinates': [poly_bneck_needle]}
+        })
+
+    # 3. 3D Strategic Priorities & Challenges (Real 3D Golden Monoliths!)
+    compiled_challenges = []
+    chal_offsets = [(470.0, -180.0), (-470.0, 190.0), (480.0, 150.0), (-480.0, -170.0), (0.0, -250.0)]
+    for c_idx, chal in enumerate(spec.get('challenges', [])):
+        d_center = district_centers[chal['district_ref']]
+        off_x, off_y = chal_offsets[c_idx % len(chal_offsets)]
+        coords = meters_to_geo(off_x, d_center['dy'] + off_y)
+        codename = chal.get('codename', chal.get('code', f"PRIO-0{c_idx+1}"))
+        compiled_challenges.append({
+            'id': chal['id'],
+            'code': chal.get('code', f"PRIO-0{c_idx+1}"),
+            'codename': codename,
+            'title': chal['title'],
+            'district_ref': chal['district_ref'],
+            'type': chal.get('type', 'Strategic Priority'),
+            'target': chal.get('target', ''),
+            'coordinates': coords
+        })
+
+        # Generate 3D Golden Priority Monolith (Amber Diamond)
+        poly_chal_base = create_regular_polygon(coords[0], coords[1], 38.0, sides=4, rotation_deg=45)
+        building_features.append({
+            'type': 'Feature',
+            'properties': {
+                'id': f"{chal['id']}-base",
+                'challenge_ref': chal['id'],
+                'entity_type': 'challenge',
+                'name': chal['title'],
+                'codename': codename,
+                'tier': 'challenge_base',
+                'height': 68.0,
+                'base_height': 0.0,
+                'color': '#b38600', # Deep bronze gold
+                'opacity': 0.95
+            },
+            'geometry': {'type': 'Polygon', 'coordinates': [poly_chal_base]}
+        })
+
+        poly_chal_core = create_regular_polygon(coords[0], coords[1], 24.0, sides=4, rotation_deg=0)
+        building_features.append({
+            'type': 'Feature',
+            'properties': {
+                'id': f"{chal['id']}-core",
+                'challenge_ref': chal['id'],
+                'entity_type': 'challenge',
+                'name': chal['title'],
+                'codename': codename,
+                'tier': 'challenge_core',
+                'height': 112.0,
+                'base_height': 68.0,
+                'color': '#ffb700', # Radiant amber
+                'opacity': 0.98
+            },
+            'geometry': {'type': 'Polygon', 'coordinates': [poly_chal_core]}
+        })
+
+        poly_chal_needle = create_regular_polygon(coords[0], coords[1], 4.5, sides=4, rotation_deg=45)
+        building_features.append({
+            'type': 'Feature',
+            'properties': {
+                'id': f"{chal['id']}-needle",
+                'challenge_ref': chal['id'],
+                'entity_type': 'challenge',
+                'name': chal['title'],
+                'codename': codename,
+                'tier': 'challenge_needle',
+                'height': 142.0,
+                'base_height': 112.0,
+                'color': '#ffe082',
+                'opacity': 1.0
+            },
+            'geometry': {'type': 'Polygon', 'coordinates': [poly_chal_needle]}
+        })
+
+    # 4. Superhighways & Conduits with Midpoint Calculation
     conduit_features = []
+    compiled_conduits = []
+    spire_lookup = {s['id']: s for s in spec.get('spires', [])}
+
     for c_idx, cond in enumerate(spec.get('conduits', [])):
         p_from = spire_locations[cond['from']]
         p_to = spire_locations[cond['to']]
@@ -287,12 +485,12 @@ def compile_metropolis_data(spec):
         curve_sign = 1 if c_idx % 2 == 0 else -1
 
         ctrl1_lnglat = [
-            round(p_from['lng'] + dx * 0.33 - dy * 0.25 * curve_sign, 7),
-            round(p_from['lat'] + dy * 0.33 + dx * 0.25 * curve_sign, 7)
+            round(p_from['lng'] + dx * 0.33 - dy * 0.28 * curve_sign, 7),
+            round(p_from['lat'] + dy * 0.33 + dx * 0.28 * curve_sign, 7)
         ]
         ctrl2_lnglat = [
-            round(p_from['lng'] + dx * 0.66 + dy * 0.25 * curve_sign, 7),
-            round(p_from['lat'] + dy * 0.66 - dx * 0.25 * curve_sign, 7)
+            round(p_from['lng'] + dx * 0.66 + dy * 0.28 * curve_sign, 7),
+            round(p_from['lat'] + dy * 0.66 - dx * 0.28 * curve_sign, 7)
         ]
 
         curve_coords = bezier_curve(
@@ -303,58 +501,34 @@ def compile_metropolis_data(spec):
             steps=28
         )
 
+        midpoint = curve_coords[len(curve_coords) // 2]
+        codename = cond.get('codename', cond.get('code', f"HW-0{c_idx+1}"))
+        color = '#00f0ff' if c_idx % 2 == 0 else '#ffb700'
+
+        conduit_obj = {
+            'id': cond['id'],
+            'code': cond.get('code', f"HW-0{c_idx+1}"),
+            'codename': codename,
+            'name': cond['name'],
+            'from': cond['from'],
+            'from_name': spire_lookup.get(cond['from'], {}).get('title', cond['from']),
+            'to': cond['to'],
+            'to_name': spire_lookup.get(cond['to'], {}).get('title', cond['to']),
+            'type': cond.get('type', 'Data Stream'),
+            'bandwidth': cond.get('bandwidth', 'High Bandwidth Pipeline'),
+            'description': cond.get('description', ''),
+            'color': color,
+            'midpoint': midpoint
+        }
+        compiled_conduits.append(conduit_obj)
+
         conduit_features.append({
             'type': 'Feature',
-            'properties': {
-                'id': cond['id'],
-                'name': cond['name'],
-                'code': cond.get('code', f"HW-0{c_idx+1}"),
-                'from_spire': cond['from'],
-                'to_spire': cond['to'],
-                'type': cond.get('type', 'Data Stream'),
-                'bandwidth': cond.get('bandwidth', 'High Throughput'),
-                'description': cond.get('description', ''),
-                'color': '#00f0ff' if c_idx % 2 == 0 else '#ffb700'
-            },
+            'properties': conduit_obj,
             'geometry': {'type': 'LineString', 'coordinates': curve_coords}
         })
 
-    # Bottlenecks
-    compiled_bottlenecks = []
-    bneck_offsets = [(-480.0, -180.0), (480.0, 180.0), (-490.0, 160.0), (490.0, -170.0), (0.0, 240.0)]
-    for b_idx, bneck in enumerate(spec.get('bottlenecks', [])):
-        d_center = district_centers[bneck['district_ref']]
-        off_x, off_y = bneck_offsets[b_idx % len(bneck_offsets)]
-        coords = meters_to_geo(off_x, d_center['dy'] + off_y)
-        compiled_bottlenecks.append({
-            'id': bneck['id'],
-            'code': bneck.get('code', f"BOT-0{b_idx+1}"),
-            'title': bneck['title'],
-            'district_ref': bneck['district_ref'],
-            'nature': bneck.get('nature', 'Systemic Bottleneck'),
-            'impact': bneck.get('impact', ''),
-            'remedy': bneck.get('remedy', ''),
-            'coordinates': coords
-        })
-
-    # Challenges
-    compiled_challenges = []
-    chal_offsets = [(460.0, -180.0), (-460.0, 190.0), (470.0, 150.0), (-470.0, -170.0), (0.0, -230.0)]
-    for c_idx, chal in enumerate(spec.get('challenges', [])):
-        d_center = district_centers[chal['district_ref']]
-        off_x, off_y = chal_offsets[c_idx % len(chal_offsets)]
-        coords = meters_to_geo(off_x, d_center['dy'] + off_y)
-        compiled_challenges.append({
-            'id': chal['id'],
-            'code': chal.get('code', f"PRIO-0{c_idx+1}"),
-            'title': chal['title'],
-            'district_ref': chal['district_ref'],
-            'type': chal.get('type', 'Strategic Priority'),
-            'target': chal.get('target', ''),
-            'coordinates': coords
-        })
-
-    # Spires index
+    # 5. Spires Metadata Index for HUD & Pager
     spires_index = []
     for spire in spec.get('spires', []):
         loc = spire_locations[spire['id']]
@@ -362,6 +536,7 @@ def compile_metropolis_data(spec):
         spires_index.append({
             'id': spire['id'],
             'code': spire.get('code', 'SP-00'),
+            'codename': spire.get('codename', spire.get('code', 'SPIRE')),
             'title': spire['title'],
             'district_ref': spire['district_ref'],
             'district_name': dist['name'],
@@ -373,6 +548,7 @@ def compile_metropolis_data(spec):
         })
 
     buildings_geojson = {'type': 'FeatureCollection', 'features': building_features}
+    wireframe_geojson = {'type': 'FeatureCollection', 'features': wireframe_features}
     conduits_geojson = {'type': 'FeatureCollection', 'features': conduit_features}
 
     js_bundle = f"""/**
@@ -385,8 +561,8 @@ window.CITY_CONFIG = {json.dumps({
     'subtitle': spec['city_metadata'].get('subtitle', ''),
     'theme': spec['city_metadata'].get('theme', 'quantum_crystal'),
     'center': [round(LNG_CENTER, 5), round(LAT_CENTER, 5)],
-    'zoom': 14.8,
-    'pitch': 58,
+    'zoom': 15.0,
+    'pitch': 60,
     'bearing': -18,
     'scale_axis_label': spec['city_metadata'].get('scale_axis_label', 'Scale Axis'),
     'scale_axis_description': spec['city_metadata'].get('scale_axis_description', '')
@@ -400,9 +576,11 @@ window.BOTTLENECKS = {json.dumps(compiled_bottlenecks, indent=2)};
 
 window.CHALLENGES = {json.dumps(compiled_challenges, indent=2)};
 
-window.CONDUITS = {json.dumps(spec.get('conduits', []), indent=2)};
+window.CONDUITS = {json.dumps(compiled_conduits, indent=2)};
 
 window.BUILDINGS_GEOJSON = {json.dumps(buildings_geojson)};
+
+window.WIREFRAME_GEOJSON = {json.dumps(wireframe_geojson)};
 
 window.CONDUITS_GEOJSON = {json.dumps(conduits_geojson)};
 """
@@ -456,12 +634,11 @@ def main():
 
     print(f"[✓] Compiled {out_file}:")
     print(f"    - {stats['districts']} Districts")
-    print(f"    - {stats['building_tiers']} 3D Building Tiers")
+    print(f"    - {stats['building_tiers']} 3D Building Tiers (Spires + Hazard Radars + Priority Monoliths)")
     print(f"    - {stats['conduits']} Superhighways")
     print(f"    - {stats['bottlenecks']} Bottlenecks")
     print(f"    - {stats['challenges']} Strategic Priorities")
 
-    # If web-dir is requested, copy web template if not present
     if args.web_dir:
         os.makedirs(args.web_dir, exist_ok=True)
         repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

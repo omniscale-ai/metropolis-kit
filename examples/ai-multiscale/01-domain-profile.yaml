@@ -1,0 +1,93 @@
+# METROPOLIS-KIT: DOMAIN PROFILE
+# Stage 1 artifact — ingested from a peer-reviewed review article.
+
+domain:
+  id: "ai-multiscale-solid-state"
+  title: "AI MULTISCALE MODELLING METROPOLIS"
+  source_document: >-
+    A. Maevskiy, V. Kapitan, A. Ustyuzhanin,
+    "Artificial Intelligence for Multiscale Modeling in Solid-State Physics and Chemistry:
+    A Comprehensive Review", Advanced Intelligent Systems 8 (2026) e202501219
+  project: "I-FIM (NUS) / Constructor Knowledge Labs / Constructor University"
+  url: "https://doi.org/10.1002/aisy.202501219"
+
+metaphor:
+  spatial_topology: "Scale Ascension Corridor"
+  direction: "South to North"
+  visual_theme: "quantum_crystal"
+  theme_notes: >-
+    Cold cyan at the Kohn-Sham end of the corridor warming through green, amber and violet
+    into magenta and pale gold at the continuum end. Deliberately mirrors Figure 1 of the
+    review: electronic isosurfaces on the left, phase-field ferroelectric domains on the right.
+
+primary_axis:
+  name: "Length and Time Scale"
+  description: >-
+    The review's own scope statement defines the corridor: the lowest scale is an atomic
+    description, the focus is atomic-to-mesoscale, and continuum/FEM is explicitly left at
+    the northern city limit. The corridor therefore runs from sub-Angstrom electronic
+    structure (femtoseconds) to device-level digital twins and self-driving laboratories
+    (hours to years), spanning roughly six orders of magnitude in length and fifteen in time.
+  stages:
+    - id: "stage-electronic"
+      name: "Electronic Structure Foundry"
+      order_of_magnitude: "10^-11 - 10^-10 m / fs"
+      core_discipline: "Kohn-Sham DFT, many-body methods, Hamiltonian learning"
+    - id: "stage-atomistic"
+      name: "Interatomic Potential Works"
+      order_of_magnitude: "10^-10 m / ps"
+      core_discipline: "Machine-learned interatomic potentials, equivariant GNNs"
+    - id: "stage-vibrational"
+      name: "Vibrational & Transport Exchange"
+      order_of_magnitude: "10^-9 m / ps - ns"
+      core_discipline: "Phonons, ionic transport, thermal properties"
+    - id: "stage-coarse"
+      name: "Coarse-Graining Terraces"
+      order_of_magnitude: "10^-8 - 10^-7 m / ns - us"
+      core_discipline: "CG MD, renormalization group, quasicontinuum"
+    - id: "stage-mesoscale"
+      name: "Emergent Order Mesoscale"
+      order_of_magnitude: "10^-7 - 10^-5 m / us - ms"
+      core_discipline: "Spin textures, phase transitions, defects and fracture"
+    - id: "stage-continuum"
+      name: "Continuum & Autonomous Discovery"
+      order_of_magnitude: "10^-5 m -> device / s - years"
+      core_discipline: "Phase field, FEM, digital twins, closed-loop discovery"
+
+scientific_metrics:
+  building_height: >-
+    Scale-bridging reach — how many orders of magnitude a method demonstrably carries
+    information across, weighted by the reported accuracy at which it does so
+    (e.g. sub-meV Hamiltonians generalising from 3x3 supercells to 11,000-atom
+    magic-angle bilayers rates near the top of the corridor).
+  building_footprint: >-
+    Breadth of chemical and structural coverage — number of elements, material classes
+    and downstream tasks the method has been validated on.
+
+key_layers:
+  - id: "layer-districts"
+    name: "Scale Districts"
+  - id: "layer-spires"
+    name: "Method Families & Model Spires"
+  - id: "layer-superhighways"
+    name: "Scale-Bridging Superhighways"
+  - id: "layer-bottlenecks"
+    name: "Methodological Bottlenecks (Section 5 + per-task outlooks)"
+  - id: "layer-priorities"
+    name: "Frontier Priorities"
+
+# Non-spatial layer: the empirical backbone (Section 3.3). Carried per district
+# in the `eu_infrastructures` slot of the city spec.
+datasets_and_benchmarks:
+  - "JARVIS-DFT (NIST)"
+  - "MatNavi (NIMS)"
+  - "Materials Data Facility"
+  - "NOMAD (FAIR)"
+  - "Materials Project"
+  - "MatPES"
+  - "OQMD"
+  - "AFLOW"
+  - "Matbench Discovery / WBM"
+  - "MD17, QH9"
+  - "CoRE MOF, BW-DB"
+  - "ICSD"
