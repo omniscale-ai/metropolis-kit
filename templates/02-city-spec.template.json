@@ -4,7 +4,8 @@
     "subtitle": "Subtitle describing scope and context",
     "theme": "quantum_crystal",
     "scale_axis_label": "Primary Corridor Name",
-    "scale_axis_description": "Description of the progression along the city axis"
+    "scale_axis_description": "Description of the progression along the city axis",
+    "schema_version": "2.0"
   },
   "districts": [
     {
@@ -15,7 +16,10 @@
       "color": "#00f0ff",
       "glow": "rgba(0, 240, 255, 0.4)",
       "description": "Core activities, models, and paradigms inside this district.",
-      "eu_infrastructures": ["Flagship 1", "Facility 2"]
+      "eu_infrastructures": [
+        "Flagship 1",
+        "Facility 2"
+      ]
     }
   ],
   "spires": [
@@ -24,7 +28,7 @@
       "district_ref": "@dist-example-1",
       "title": "Spire or Model Name",
       "code": "SP-01",
-      "scale_level": 0.90,
+      "scale_level": 0.9,
       "metrics": {
         "scale": "Domain Scale",
         "acceleration": "Key Metric (e.g. 10^5x speedup or citations)",
@@ -36,13 +40,57 @@
   ],
   "bottlenecks": [
     {
-      "id": "@bneck-example-1",
-      "title": "Bottleneck Name",
+      "id": "@bneck-example-edge",
+      "title": "Constraint on a flow",
       "code": "BOT-01",
+      "codename": "ROAD WORKS",
       "district_ref": "@dist-example-1",
+      "severity": 0.8,
+      "scope": "edge",
+      "constrains": [
+        "@conduit-example-1"
+      ],
+      "effect": "slowdown",
+      "at": 0.6,
+      "delay_label": "Only numbers stated in the source",
+      "remedied_by": [
+        "@spire-example-1"
+      ],
       "nature": "Physical, Epistemic, or Computational Rate-Limiter",
-      "impact": "Detailed description of how this limits scientific progress.",
+      "impact": "How this throttles the flow it sits on.",
       "remedy": "Proposed technical or organizational solution."
+    },
+    {
+      "id": "@bneck-example-node",
+      "title": "Constraint inside a node",
+      "code": "BOT-02",
+      "codename": "SLOW STEP",
+      "district_ref": "@dist-example-1",
+      "severity": 0.7,
+      "scope": "node",
+      "constrains": [
+        "@spire-example-1"
+      ],
+      "effect": "slowdown",
+      "nature": "Rate-limiting step inside a platform",
+      "impact": "Why the spire itself processes slowly.",
+      "remedy": "What would speed it up."
+    },
+    {
+      "id": "@bneck-example-field",
+      "title": "Cross-cutting constraint",
+      "code": "BOT-03",
+      "codename": "FOG",
+      "district_ref": "@dist-example-1",
+      "severity": 0.6,
+      "scope": "field",
+      "constrains": [
+        "@dist-example-1"
+      ],
+      "effect": "noise",
+      "nature": "Systemic bias or trust problem",
+      "impact": "How it degrades everything in these districts.",
+      "remedy": "Systemic remedy."
     }
   ],
   "challenges": [
@@ -52,7 +100,13 @@
       "code": "PRIO-01",
       "district_ref": "@dist-example-1",
       "type": "Policy Mandate or Frontier Question",
-      "target": "Specific quantitative or qualitative objective to achieve."
+      "target": "Specific quantitative or qualitative objective to achieve.",
+      "advanced_by": [
+        "@spire-example-1"
+      ],
+      "blocked_by": [
+        "@bneck-example-edge"
+      ]
     }
   ],
   "conduits": [
@@ -64,7 +118,8 @@
       "to": "@spire-example-1",
       "type": "Data Stream or Material Transfer",
       "bandwidth": "Bandwidth or Flow Capacity",
-      "description": "How information or materials flow between these spires."
+      "description": "How information or materials flow between these spires.",
+      "status": "operational"
     }
   ]
 }

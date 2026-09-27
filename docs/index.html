@@ -873,6 +873,112 @@
       color: #ffffff;
       letter-spacing: 0.5px;
     }
+
+    /* ===== SCHEMA v2: CONSTRAINT PRIMITIVES ===== */
+    .layer-btn[data-layer="traffic"].active { border-color: rgba(255, 109, 0, 0.6); background: rgba(255, 109, 0, 0.12); }
+    .layer-btn[data-layer="queues"].active { border-color: rgba(255, 51, 102, 0.6); background: rgba(255, 51, 102, 0.12); }
+    .layer-btn[data-layer="weather"].active { border-color: rgba(160, 170, 200, 0.6); background: rgba(160, 170, 200, 0.12); }
+    .layer-btn.hidden-layer { display: none; }
+
+    /* Edge incident pin — like a crash / roadworks report on a road */
+    .incident-pin {
+      pointer-events: auto; cursor: pointer;
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(20, 6, 10, 0.9);
+      border: 1px solid rgba(255, 23, 68, 0.75);
+      border-radius: 6px; padding: 3px 8px 3px 4px;
+      box-shadow: 0 0 14px rgba(255, 23, 68, 0.45);
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; color: #fff;
+      transition: transform 0.2s ease;
+    }
+    .incident-pin:hover { transform: scale(1.08); }
+    .incident-icon {
+      width: 20px; height: 20px; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      background: #ff1744; font-size: 11px;
+    }
+    .incident-pin.closure .incident-icon { background: #7a0019; }
+    .delay-chip {
+      font-size: 9.5px; font-weight: 700; color: #ffd0d8;
+      background: rgba(255, 23, 68, 0.25); border-radius: 3px; padding: 1px 5px;
+    }
+
+    /* Node wait-time chips — like "usually a 4 h wait" on a place */
+    .node-chip-stack { display: flex; flex-direction: column; gap: 3px; align-items: center; pointer-events: none; }
+    .node-chip {
+      pointer-events: auto; cursor: pointer;
+      display: flex; align-items: center; gap: 5px;
+      background: rgba(30, 8, 14, 0.9);
+      border: 1px solid rgba(255, 109, 0, 0.7);
+      border-radius: 12px; padding: 2px 8px;
+      font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #ffe0cc;
+      box-shadow: 0 0 10px rgba(255, 109, 0, 0.35);
+    }
+    .node-chip:hover { filter: brightness(1.3); }
+
+    /* Field label — like a weather / air-quality alert over an area */
+    .field-label {
+      pointer-events: auto; cursor: pointer;
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(18, 22, 34, 0.82);
+      border: 1px dashed rgba(190, 200, 225, 0.6);
+      border-radius: 14px; padding: 3px 10px;
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; color: #dfe6f5;
+      backdrop-filter: blur(4px);
+    }
+    .field-label:hover { border-style: solid; }
+
+    /* Conduit badge status variants */
+    .conduit-beacon-marker.status-thin { opacity: 0.8; border-style: dashed; }
+    .conduit-beacon-marker.status-planned { border-color: #8a93a6; background: rgba(40, 44, 56, 0.85); box-shadow: none; }
+    .conduit-beacon-marker .constrained-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff1744; box-shadow: 0 0 6px #ff1744; }
+
+    /* Drawer: relations */
+    .relation-block { margin-top: 14px; }
+    .relation-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .ref-chip {
+      cursor: pointer; font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
+      padding: 4px 8px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.05); color: #fff;
+    }
+    .ref-chip:hover { background: rgba(255,255,255,0.14); }
+    .ref-chip.kind-bneck { border-color: rgba(255, 23, 68, 0.6); color: #ffb3c1; }
+    .ref-chip.kind-chal { border-color: rgba(255, 183, 0, 0.6); color: #ffe08a; }
+    .ref-chip.kind-conduit { border-color: rgba(192, 64, 255, 0.6); color: #e3b3ff; }
+    .ref-chip.kind-spire { border-color: rgba(0, 240, 255, 0.5); color: #b3fbff; }
+    .ref-chip.kind-dist { border-color: rgba(160, 170, 200, 0.5); color: #dfe6f5; }
+    .scope-banner {
+      display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700; margin-bottom: 12px;
+    }
+    .scope-tag { padding: 3px 8px; border-radius: 4px; background: rgba(255, 23, 68, 0.18); color: #ffb3c1; border: 1px solid rgba(255, 23, 68, 0.4); }
+
+    /* Route (Directions) panel */
+    .route-panel {
+      position: absolute; bottom: 74px; left: 50%; transform: translateX(-50%);
+      width: min(560px, calc(100vw - 32px)); max-height: 46vh; overflow-y: auto;
+      background: var(--bg-panel); border: 1px solid var(--bg-panel-border);
+      border-radius: 12px; padding: 14px 16px; z-index: 20;
+      backdrop-filter: blur(12px); display: none;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+    .route-panel.open { display: block; }
+    .route-form { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; }
+    .route-form select {
+      width: 100%; background: rgba(0,0,0,0.35); color: #fff; border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px; padding: 6px; font-family: var(--font-mono); font-size: 11px;
+    }
+    .route-swap { cursor: pointer; background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 6px; padding: 5px 8px; }
+    .route-summary { margin-top: 10px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+    .route-legs { list-style: none; margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+    .route-leg { font-family: var(--font-mono); font-size: 11px; color: #fff; display: flex; gap: 8px; align-items: baseline; }
+    .route-leg .leg-kind { color: var(--text-dim); min-width: 18px; }
+    .route-leg.against { color: #ffd08a; }
+    .route-incidents { margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
+    .route-incident { font-family: var(--font-mono); font-size: 11px; color: #ffb3c1; cursor: pointer; }
+    .route-incident.field { color: #dfe6f5; }
+    .route-incident.status { color: #ffd08a; }
+    .route-close { float: right; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 14px; }
   </style>
 </head>
 <body>
@@ -884,13 +990,9 @@
     <div class="hud-brand">
       <div class="hud-title-row">
         <div class="hud-logo-gem"></div>
-        <h1 class="hud-title">Materials Intelligence Metropolis</h1>
+        <h1 class="hud-title" id="hudTitle">Metropolis</h1>
       </div>
-      <div class="hud-subtitle">
-        <span>SCIANCE D1.1</span>
-        <span class="hud-tag">SCALE ASCENSION: Å TO GIGAFACTORY</span>
-        <span class="hud-tag">EU HORIZON 101293570</span>
-      </div>
+      <div class="hud-subtitle" id="hudSubtitle"></div>
     </div>
 
     <!-- LAYER VISIBILITY TOGGLES -->
@@ -910,6 +1012,18 @@
       <button class="layer-btn active" data-layer="bottlenecks" title="Toggle Physical Rate-Limiters">
         <span class="layer-dot" style="color: var(--accent-red);"></span>
         <span>Bottlenecks</span>
+      </button>
+      <button class="layer-btn active hidden-layer" data-layer="traffic" title="Congestion and incidents on superhighways (edge constraints)">
+        <span class="layer-dot" style="color: #ff6d00;"></span>
+        <span>Traffic</span>
+      </button>
+      <button class="layer-btn active hidden-layer" data-layer="queues" title="Backlogs and wait times at spires (node constraints)">
+        <span class="layer-dot" style="color: var(--accent-red);"></span>
+        <span>Queues</span>
+      </button>
+      <button class="layer-btn active hidden-layer" data-layer="weather" title="Fog, noise and blind spots over districts (field constraints)">
+        <span class="layer-dot" style="color: #c8d0e0;"></span>
+        <span>Weather</span>
       </button>
       <button class="layer-btn active" data-layer="challenges" title="Toggle EU Mandates & Frontiers">
         <span class="layer-dot" style="color: var(--accent-amber);"></span>
@@ -974,12 +1088,28 @@
         <span>🔄</span>
         <span>Auto-Orbit</span>
       </button>
+      <button id="routeBtn" class="control-action-btn" title="Directions between two spires">
+        <span>🧭</span>
+        <span>Route</span>
+      </button>
       <button id="resetCamBtn" class="control-action-btn">
         <span>🎯</span>
         <span>Overview</span>
       </button>
     </div>
   </footer>
+
+  <!-- ROUTE (DIRECTIONS) PANEL -->
+  <section id="routePanel" class="route-panel">
+    <button class="route-close" id="routeCloseBtn" title="Close route">✕</button>
+    <div class="drawer-section-title"><span>🧭</span> Directions</div>
+    <div class="route-form">
+      <select id="routeFrom"></select>
+      <button class="route-swap" id="routeSwapBtn" title="Swap">⇄</button>
+      <select id="routeTo"></select>
+    </div>
+    <div id="routeResult"></div>
+  </section>
 
   <!-- LOAD COMPILED DATASET -->
   <script src="city-data.js"></script>
@@ -995,11 +1125,32 @@
       spires: true,
       conduits: true,
       bottlenecks: true,
-      challenges: true
+      challenges: true,
+      traffic: true,
+      queues: true,
+      weather: true
     };
 
     const districtMarkers = [];
     const bottleneckMarkers = [];
+    const incidentMarkers = [];
+    const nodeMarkers = [];
+    const fieldMarkers = [];
+
+    // Schema v2: constraints drawn where they act (edge = traffic, node = queue, field = weather)
+    const BNECKS = window.BOTTLENECKS || [];
+    const SCOPED = BNECKS.filter(b => b.scope);
+    const TRAFFIC = window.TRAFFIC_GEOJSON || { type: 'FeatureCollection', features: [] };
+    const FIELDS = window.FIELDS_GEOJSON || { type: 'FeatureCollection', features: [] };
+    const EFFECT_ICON = { slowdown: '⚠️', closure: '⛔', noise: '🌫️', blind: '🌑' };
+    const EFFECT_WORD = { slowdown: 'SLOWDOWN', closure: 'CLOSURE', noise: 'NOISE', blind: 'BLIND SPOT' };
+    const SCOPE_WORD = { edge: 'ON A SUPERHIGHWAY', node: 'AT A SPIRE', field: 'OVER DISTRICTS' };
+
+    function bneckIcon(b) {
+      if (!b.scope) return '⚠️';
+      if (b.scope === 'node') return b.effect === 'closure' ? '⛔' : '⏱️';
+      return EFFECT_ICON[b.effect] || '⚠️';
+    }
     const challengeMarkers = [];
     const conduitMarkers = [];
 
@@ -1036,11 +1187,15 @@
           });
         }
 
+        initHeader();
         setupSourcesAndLayers();
         renderGroundStencilsAndMarkers();
+        renderConstraintMarkers();
         setupInteraction();
+        setupRoutePanel();
         buildLegendUI();
         buildScaleRunway();
+        startConstraintAnimations();
       });
     }
 
@@ -1090,6 +1245,19 @@
         }
       });
 
+      // 1b. Field constraints: weather-like overlays (fog / static noise / blind spot / hatching)
+      addConstraintPatterns();
+      map.addSource('fields-geo', { type: 'geojson', data: FIELDS });
+      map.addLayer({
+        id: 'fields-overlay',
+        type: 'fill',
+        source: 'fields-geo',
+        paint: {
+          'fill-pattern': ['match', ['get', 'effect'], 'noise', 'pat-noise', 'blind', 'pat-blind', 'pat-hatch'],
+          'fill-opacity': ['*', ['get', 'opacity'], ['match', ['get', 'effect'], 'blind', 0.9, 'noise', 1.2, 1.4]]
+        }
+      });
+
       // 2. Superhighways Conduits
       map.addSource('conduits-geo', {
         type: 'geojson',
@@ -1117,21 +1285,128 @@
           'line-color': ['get', 'color'],
           'line-width': 8,
           'line-blur': 5,
-          'line-opacity': 0.65
+          'line-opacity': ['match', ['get', 'status'], 'planned', 0.12, 'thin', 0.3, 0.65]
         }
       });
 
-      // Inner pulsating laser core
+      // Inner core — one layer per status, since dash patterns cannot be data-driven:
+      // operational = solid road, thin = ferry line (sparse dots), planned = road under construction
       map.addLayer({
         id: 'conduits-core',
         type: 'line',
         source: 'conduits-geo',
+        filter: ['!', ['in', ['get', 'status'], ['literal', ['thin', 'planned']]]],
         paint: {
           'line-color': '#ffffff',
           'line-width': 2.5,
           'line-dasharray': [3, 2],
           'line-opacity': 0.95
         }
+      });
+      map.addLayer({
+        id: 'conduits-core-thin',
+        type: 'line',
+        source: 'conduits-geo',
+        filter: ['==', ['get', 'status'], 'thin'],
+        layout: { 'line-cap': 'round' },
+        paint: {
+          'line-color': '#ffffff',
+          'line-width': 2.5,
+          'line-dasharray': [0.1, 3.2],
+          'line-opacity': 0.9
+        }
+      });
+      map.addLayer({
+        id: 'conduits-core-planned',
+        type: 'line',
+        source: 'conduits-geo',
+        filter: ['==', ['get', 'status'], 'planned'],
+        paint: {
+          'line-color': '#8a93a6',
+          'line-width': 3,
+          'line-dasharray': [1.5, 1.5],
+          'line-opacity': 0.85
+        }
+      });
+
+      // One-way arrows along every superhighway (flow direction from source to target)
+      map.addLayer({
+        id: 'conduits-arrows',
+        type: 'symbol',
+        source: 'conduits-geo',
+        layout: {
+          'symbol-placement': 'line',
+          'symbol-spacing': 110,
+          'icon-image': ['match', ['get', 'status'], 'planned', 'arrow-grey', 'arrow-light'],
+          'icon-size': 0.55,
+          'icon-allow-overlap': true,
+          'icon-ignore-placement': true,
+          'icon-rotation-alignment': 'map'
+        }
+      });
+
+      // 2b. Edge constraints: congestion approaching the incident, starved or closed road after it
+      map.addSource('traffic-geo', { type: 'geojson', data: TRAFFIC });
+      map.addLayer({
+        id: 'traffic-starved',
+        type: 'line',
+        source: 'traffic-geo',
+        filter: ['in', ['get', 'kind'], ['literal', ['starved', 'closed']]],
+        paint: { 'line-color': '#060a14', 'line-width': 10, 'line-opacity': 0.6 }
+      });
+      map.addLayer({
+        id: 'traffic-closed',
+        type: 'line',
+        source: 'traffic-geo',
+        filter: ['==', ['get', 'kind'], 'closed'],
+        paint: { 'line-color': '#ff1744', 'line-width': 2.5, 'line-dasharray': [0.8, 1.6], 'line-opacity': 0.9 }
+      });
+      map.addLayer({
+        id: 'traffic-queue',
+        type: 'line',
+        source: 'traffic-geo',
+        filter: ['==', ['get', 'kind'], 'queue'],
+        layout: { 'line-cap': 'round' },
+        paint: { 'line-color': ['get', 'color'], 'line-width': ['get', 'width'], 'line-blur': 1, 'line-opacity': 0.95 }
+      });
+      map.addLayer({
+        id: 'traffic-queue-crawl',
+        type: 'line',
+        source: 'traffic-geo',
+        filter: ['==', ['get', 'kind'], 'queue'],
+        paint: { 'line-color': '#1a0006', 'line-width': 2, 'line-dasharray': [0, 4, 3], 'line-opacity': 0.8 }
+      });
+
+      // Relation links (on selection) and route overlay
+      map.addSource('links-geo', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+      map.addLayer({
+        id: 'relation-links',
+        type: 'line',
+        source: 'links-geo',
+        paint: { 'line-color': ['get', 'color'], 'line-width': 2, 'line-dasharray': [2, 2], 'line-opacity': 0.9 }
+      });
+      map.addSource('route-geo', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+      map.addLayer({
+        id: 'route-casing',
+        type: 'line',
+        source: 'route-geo',
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: { 'line-color': '#7cffb2', 'line-width': 14, 'line-blur': 6, 'line-opacity': 0.35 }
+      });
+      map.addLayer({
+        id: 'route-line',
+        type: 'line',
+        source: 'route-geo',
+        filter: ['!=', ['get', 'kind'], 'walk'],
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: { 'line-color': ['match', ['get', 'kind'], 'against', '#ffd08a', '#7cffb2'], 'line-width': 5 }
+      });
+      map.addLayer({
+        id: 'route-walk',
+        type: 'line',
+        source: 'route-geo',
+        filter: ['==', ['get', 'kind'], 'walk'],
+        paint: { 'line-color': '#7cffb2', 'line-width': 3, 'line-dasharray': [0.5, 1.5] }
       });
 
       // 3. 3D Buildings & Crystals (Spires + Hazard Radars + Priority Monoliths)
@@ -1215,6 +1490,7 @@
 
       // 2. Bottleneck Hazard Radars (WITH PUNCHY 1-2 WORD CODENAMES!)
       window.BOTTLENECKS.forEach((b, idx) => {
+        if (b.scope) return; // schema v2 constraints are rendered by renderConstraintMarkers()
         const hazardEl = document.createElement('div');
         hazardEl.className = 'hazard-radar-marker';
         hazardEl.innerHTML = `
@@ -1259,10 +1535,13 @@
       window.CONDUITS.forEach((cond, idx) => {
         if (!cond.midpoint) return;
         const conduitEl = document.createElement('div');
-        conduitEl.className = 'conduit-beacon-marker';
+        conduitEl.className = `conduit-beacon-marker status-${cond.status || 'operational'}`;
+        conduitEl.title = cond.status === 'planned' ? 'Planned — not an existing flow'
+          : cond.status === 'thin' ? 'Thin — the flow exists but is weak' : cond.name;
         conduitEl.innerHTML = `
-          <span style="font-size: 11px;">⚡</span>
+          <span style="font-size: 11px;">${cond.status === 'planned' ? '🚧' : '⚡'}</span>
           <span class="conduit-beacon-text">${cond.codename}</span>
+          ${(cond.constrained_by || []).length ? '<span class="constrained-dot" title="Constrained"></span>' : ''}
         `;
         conduitEl.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -1302,7 +1581,7 @@
           const sIdx = window.SPIRES_INDEX.findIndex(s => s.id === props.spire_ref);
           if (sIdx !== -1) selectObject('spire', props.spire_ref, sIdx);
         } else if (props.bottleneck_ref) {
-          const bIdx = window.BOTTLENECKS.findIndex(b => b.id === props.bottleneck_ref);
+          const bIdx = BNECKS.findIndex(b => b.id === props.bottleneck_ref);
           if (bIdx !== -1) selectObject('bottleneck', props.bottleneck_ref, bIdx);
         } else if (props.challenge_ref) {
           const cIdx = window.CHALLENGES.findIndex(c => c.id === props.challenge_ref);
@@ -1325,6 +1604,16 @@
       };
 
       map.on('click', 'conduits-core', onConduitClick);
+      map.on('click', 'traffic-queue', (e) => {
+        const ref = e.features && e.features[0] && e.features[0].properties.bottleneck_ref;
+        if (ref) gotoRef(ref);
+      });
+
+      // Relation chips anywhere (drawer, route panel) jump to the referenced entity
+      document.addEventListener('click', (e) => {
+        const chip = e.target.closest('[data-ref]');
+        if (chip) { e.stopPropagation(); gotoRef(chip.dataset.ref); }
+      });
       map.on('click', 'conduits-hitarea', onConduitClick);
       map.on('mouseenter', 'conduits-hitarea', () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', 'conduits-hitarea', () => { map.getCanvas().style.cursor = ''; });
@@ -1392,33 +1681,46 @@
       });
     }
 
+    function setLayers(ids, visible) {
+      ids.forEach(id => { if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', visible ? 'visible' : 'none'); });
+    }
+
+    function setMarkers(list, visible) {
+      list.forEach(m => m.getElement().style.display = visible ? 'flex' : 'none');
+    }
+
+    // One combined filter, so toggling one entity type never re-shows another
+    function refreshBuildingFilter() {
+      const hidden = [];
+      if (!layerVisibility.spires) hidden.push('spire');
+      if (!layerVisibility.bottlenecks) hidden.push('bottleneck');
+      if (!layerVisibility.challenges) hidden.push('challenge');
+      if (!layerVisibility.queues) hidden.push('queue');
+      map.setFilter('buildings-3d', hidden.length ? ['!', ['in', ['get', 'entity_type'], ['literal', hidden]]] : null);
+    }
+
     function applyLayerVisibility(layerKey) {
       const isVisible = layerVisibility[layerKey];
       if (layerKey === 'districts') {
-        map.setLayoutProperty('districts-fill', 'visibility', isVisible ? 'visible' : 'none');
-        map.setLayoutProperty('districts-line', 'visibility', isVisible ? 'visible' : 'none');
-        districtMarkers.forEach(m => m.getElement().style.display = isVisible ? 'flex' : 'none');
-      } else if (layerKey === 'spires') {
-        map.setFilter('buildings-3d', isVisible ? null : ['!=', ['get', 'entity_type'], 'spire']);
+        setLayers(['districts-fill', 'districts-line'], isVisible);
+        setMarkers(districtMarkers, isVisible);
       } else if (layerKey === 'conduits') {
-        map.setLayoutProperty('conduits-glow', 'visibility', isVisible ? 'visible' : 'none');
-        map.setLayoutProperty('conduits-core', 'visibility', isVisible ? 'visible' : 'none');
-        conduitMarkers.forEach(m => m.getElement().style.display = isVisible ? 'flex' : 'none');
+        setLayers(['conduits-glow', 'conduits-core', 'conduits-core-thin', 'conduits-core-planned', 'conduits-arrows'], isVisible);
+        setMarkers(conduitMarkers, isVisible);
       } else if (layerKey === 'bottlenecks') {
-        bottleneckMarkers.forEach(m => m.getElement().style.display = isVisible ? 'flex' : 'none');
-        if (!isVisible) {
-          map.setFilter('buildings-3d', ['!=', ['get', 'entity_type'], 'bottleneck']);
-        } else {
-          map.setFilter('buildings-3d', null);
-        }
+        setMarkers(bottleneckMarkers, isVisible);
       } else if (layerKey === 'challenges') {
-        challengeMarkers.forEach(m => m.getElement().style.display = isVisible ? 'flex' : 'none');
-        if (!isVisible) {
-          map.setFilter('buildings-3d', ['!=', ['get', 'entity_type'], 'challenge']);
-        } else {
-          map.setFilter('buildings-3d', null);
-        }
+        setMarkers(challengeMarkers, isVisible);
+      } else if (layerKey === 'traffic') {
+        setLayers(['traffic-starved', 'traffic-closed', 'traffic-queue', 'traffic-queue-crawl'], isVisible);
+        setMarkers(incidentMarkers, isVisible);
+      } else if (layerKey === 'queues') {
+        setMarkers(nodeMarkers, isVisible);
+      } else if (layerKey === 'weather') {
+        setLayers(['fields-overlay'], isVisible);
+        setMarkers(fieldMarkers, isVisible);
       }
+      refreshBuildingFilter();
     }
 
     // Selection & Drawer Rendering
@@ -1465,28 +1767,57 @@
             <div class="drawer-section-title"><span>✦</span> Scientific Abstract & Methodology</div>
             <p class="drawer-body-text">${item.abstract}</p>
           </div>
+          ${relationBlock('⏱️ Constraints at this spire', item.constraints)}
+          ${relationBlock('🎯 Advances priorities', item.advances)}
+          <div class="relation-block conduit-endpoints-row">
+            <button class="conduit-endpoint-btn" id="routeFromHereBtn"><span>🧭 ROUTE FROM HERE</span><span>➔</span></button>
+            <button class="conduit-endpoint-btn" id="routeToHereBtn"><span>🧭 ROUTE TO HERE</span><span>➔</span></button>
+          </div>
         `;
+        document.getElementById('routeFromHereBtn').addEventListener('click', () => openRoute(item.id, null));
+        document.getElementById('routeToHereBtn').addEventListener('click', () => openRoute(null, item.id));
 
+        showLinks(item.coordinates, [
+          ...(item.advances || []).map(ref => ({ ref, color: '#ffb700' }))
+        ]);
         updatePager(window.SPIRES_INDEX.length, index);
         flyToObject(item.coordinates);
       } else if (type === 'bottleneck') {
-        const item = window.BOTTLENECKS[index];
+        const item = BNECKS[index];
         badge.className = 'drawer-type-badge badge-bottleneck';
-        badge.textContent = `RATE-LIMITER • ${item.code} [${item.codename}]`;
+        badge.textContent = item.scope
+          ? `CONSTRAINT • ${item.scope.toUpperCase()} • ${item.code}`
+          : `RATE-LIMITER • ${item.code} [${item.codename}]`;
         title.textContent = `${item.codename}: ${item.title}`;
         subtitle.textContent = item.nature;
+        const blocksPriorities = window.CHALLENGES.filter(c => (c.blocked_by || []).includes(item.id)).map(c => c.id);
 
         body.innerHTML = `
+          ${item.scope ? `
+          <div class="scope-banner">
+            <span class="scope-tag">${bneckIcon(item)} ${EFFECT_WORD[item.effect] || ''} ${SCOPE_WORD[item.scope]}</span>
+            <span class="scope-tag" style="background: rgba(255,255,255,0.06); color: #fff; border-color: rgba(255,255,255,0.2);">SEVERITY ${Math.round(item.severity * 100)}%</span>
+            ${item.delay_label ? `<span class="delay-chip">${item.delay_label}</span>` : ''}
+          </div>` : ''}
           <div class="hazard-box">
             <strong>Critical Impact:</strong> ${item.impact}
           </div>
+          ${relationBlock('📍 Acts on', item.constrains)}
           <div>
             <div class="drawer-section-title" style="color: var(--accent-emerald);"><span>🛡️</span> Strategic European Remedy</div>
             <div class="remedy-box">${item.remedy}</div>
           </div>
+          ${relationBlock('🩹 Remedied by', item.remedied_by)}
+          ${relationBlock('🎯 Holds back priorities', blocksPriorities)}
         `;
 
-        updatePager(window.BOTTLENECKS.length, index);
+        showLinks(item.coordinates, [
+          ...(item.anchors || []).slice(1).map(a => ({ coords: a.coordinates, color: '#ff1744' })),
+          ...(item.remedied_by || []).map(ref => ({ ref, color: '#00e599' })),
+          ...blocksPriorities.map(ref => ({ ref, color: '#ffb700' }))
+        ]);
+
+        updatePager(BNECKS.length, index);
         flyToObject(item.coordinates);
       } else if (type === 'challenge') {
         const item = window.CHALLENGES[index];
@@ -1500,7 +1831,14 @@
             <span class="metric-label">Strategic Policy Target</span>
             <span class="metric-value" style="font-size: 13.5px; line-height: 1.5; color: #fff;">${item.target}</span>
           </div>
+          ${relationBlock('🏛️ Advanced by', item.advanced_by)}
+          ${relationBlock('⚠️ Blocked by', item.blocked_by)}
         `;
+
+        showLinks(item.coordinates, [
+          ...(item.advanced_by || []).map(ref => ({ ref, color: '#ffb700' })),
+          ...(item.blocked_by || []).map(ref => ({ ref, color: '#ff1744' }))
+        ]);
 
         updatePager(window.CHALLENGES.length, index);
         flyToObject(item.coordinates);
@@ -1521,7 +1859,19 @@
               <span class="metric-label">Bandwidth / Stream</span>
               <span class="metric-value">${item.bandwidth}</span>
             </div>
+            ${item.status ? `
+            <div class="metric-card">
+              <span class="metric-label">Road Status</span>
+              <span class="metric-value" style="color: ${item.status === 'planned' ? '#8a93a6' : item.status === 'thin' ? '#ffd08a' : 'var(--accent-emerald)'};">${
+                item.status === 'planned' ? '🚧 Planned — not built yet' : item.status === 'thin' ? '⋯ Thin — weak flow' : '⚡ Operational'}</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Direction</span>
+              <span class="metric-value">${item.direction === 'south' ? '↓ Southbound (feedback)' : item.direction === 'north' ? '↑ Northbound' : '↔ Within district'}</span>
+            </div>` : ''}
           </div>
+          ${relationBlock('⚠️ Constrained by', item.constrained_by)}
+          ${relationBlock('🩹 Remedy for', item.remedies)}
           <div>
             <div class="drawer-section-title"><span>✦</span> Inter-Scale Scientific Flow</div>
             <p class="drawer-body-text">${item.description}</p>
@@ -1557,6 +1907,7 @@
           }
         }, 50);
 
+        showLinks(item.midpoint, (item.remedies || []).map(ref => ({ ref, color: '#00e599' })));
         updatePager(window.CONDUITS.length, index);
         if (item.midpoint) {
           flyToConduit(item.midpoint);
@@ -1644,7 +1995,7 @@
 
     function getActiveList(type) {
       if (type === 'spire') return window.SPIRES_INDEX;
-      if (type === 'bottleneck') return window.BOTTLENECKS;
+      if (type === 'bottleneck') return BNECKS;
       if (type === 'challenge') return window.CHALLENGES;
       if (type === 'conduit') return window.CONDUITS;
       return [];
@@ -1654,6 +2005,7 @@
       document.getElementById('detailDrawer').classList.remove('open');
       document.querySelectorAll('.spire-item, .conduit-legend-item').forEach(el => el.classList.remove('active'));
       activeSelection = null;
+      showLinks(null, []);
     }
 
     // Legend Builder (With Dedicated Superhighways Section!)
@@ -1735,6 +2087,37 @@
       });
 
       container.appendChild(conduitGroup);
+
+      // 3. Constraints and priorities (towers are gone for scoped constraints, so the index matters)
+      const addSection = (heading, sub, color, items, type) => {
+        if (!items.length) return;
+        const group = document.createElement('div');
+        group.className = 'district-group';
+        group.style.borderTop = '1px solid rgba(255, 255, 255, 0.1)';
+        group.style.paddingTop = '10px';
+        group.innerHTML = `
+          <div class="district-group-header">
+            <div class="district-label-box">
+              <div>
+                <div class="district-group-name" style="color: ${color};">${heading} (${items.length})</div>
+                <div class="district-group-scale">${sub}</div>
+              </div>
+            </div>
+          </div>`;
+        items.forEach((it, idx) => {
+          const row = document.createElement('div');
+          row.className = 'spire-item conduit-legend-item';
+          row.dataset.id = it.id;
+          row.innerHTML = `
+            <span class="spire-item-name">${type === 'bottleneck' ? bneckIcon(it) : '🎯'} ${it.codename}</span>
+            <span class="spire-item-code" style="color: ${color}; border-color: ${color}55;">${type === 'bottleneck' && it.scope ? it.scope.toUpperCase() : it.code}</span>`;
+          row.addEventListener('click', () => selectObject(type, it.id, idx));
+          group.appendChild(row);
+        });
+        container.appendChild(group);
+      };
+      addSection('⚠️ CONSTRAINTS', 'Traffic · Queues · Weather', 'var(--accent-red)', BNECKS, 'bottleneck');
+      addSection('🎯 PRIORITIES', 'Research challenges & recommendations', 'var(--accent-amber)', window.CHALLENGES, 'challenge');
     }
 
     // Scale Runway Builder
@@ -1777,6 +2160,305 @@
       isOrbiting = false;
       document.getElementById('orbitBtn').classList.remove('active');
       if (orbitAnimationId) cancelAnimationFrame(orbitAnimationId);
+    }
+
+    // ===== Header from compiled metadata =====
+    function initHeader() {
+      const cfg = window.CITY_CONFIG || {};
+      document.getElementById('hudTitle').textContent = cfg.title || 'Metropolis';
+      document.title = cfg.title || document.title;
+      const sub = document.getElementById('hudSubtitle');
+      sub.innerHTML = '';
+      [cfg.subtitle, cfg.scale_axis_label].filter(Boolean).forEach((t, i) => {
+        const span = document.createElement('span');
+        if (i > 0) span.className = 'hud-tag';
+        span.textContent = t;
+        sub.appendChild(span);
+      });
+    }
+
+    // ===== Canvas-generated icons and fill patterns =====
+    function canvasImage(w, h, paint) {
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      const g = c.getContext('2d');
+      paint(g, w, h);
+      return g.getImageData(0, 0, w, h);
+    }
+
+    function paintNoise(g, w, h) {
+      g.clearRect(0, 0, w, h);
+      for (let i = 0; i < 110; i++) {
+        const v = Math.random();
+        g.fillStyle = v > 0.85 ? 'rgba(255,60,90,0.9)' : `rgba(220,228,245,${(0.35 + Math.random() * 0.6).toFixed(2)})`;
+        g.fillRect(Math.floor(Math.random() * w), Math.floor(Math.random() * h), v > 0.7 ? 2 : 1, 1);
+      }
+    }
+
+    function addConstraintPatterns() {
+      const arrow = color => canvasImage(32, 32, (g) => {
+        g.strokeStyle = color; g.lineWidth = 5; g.lineCap = 'round'; g.lineJoin = 'round';
+        g.beginPath(); g.moveTo(10, 7); g.lineTo(22, 16); g.lineTo(10, 25); g.stroke();
+      });
+      map.addImage('arrow-light', arrow('rgba(255,255,255,0.95)'));
+      map.addImage('arrow-grey', arrow('rgba(150,158,176,0.9)'));
+      map.addImage('pat-noise', canvasImage(64, 64, paintNoise));
+      map.addImage('pat-blind', canvasImage(8, 8, (g, w, h) => { g.fillStyle = 'rgba(0,0,0,1)'; g.fillRect(0, 0, w, h); }));
+      map.addImage('pat-hatch', canvasImage(16, 16, (g) => {
+        g.strokeStyle = 'rgba(255,176,0,0.9)'; g.lineWidth = 2;
+        g.beginPath(); g.moveTo(0, 16); g.lineTo(16, 0); g.stroke();
+      }));
+    }
+
+    function startConstraintAnimations() {
+      // Stop-and-go dashes crawling along congested segments
+      const dashSeq = [[0, 4, 3], [0.5, 4, 2.5], [1, 4, 2], [1.5, 4, 1.5], [2, 4, 1], [2.5, 4, 0.5], [3, 4, 0],
+        [0, 0.5, 3, 3.5], [0, 1, 3, 3], [0, 1.5, 3, 2.5], [0, 2, 3, 2], [0, 2.5, 3, 1.5], [0, 3, 3, 1], [0, 3.5, 3, 0.5]];
+      let step = 0;
+      if (TRAFFIC.features.length) {
+        setInterval(() => {
+          if (document.hidden || !layerVisibility.traffic) return;
+          step = (step + 1) % dashSeq.length;
+          map.setPaintProperty('traffic-queue-crawl', 'line-dasharray', dashSeq[step]);
+        }, 90);
+      }
+      // Static that never settles over districts with a "noise" field
+      if (FIELDS.features.some(f => f.properties.effect === 'noise')) {
+        setInterval(() => {
+          if (document.hidden || !layerVisibility.weather) return;
+          map.updateImage('pat-noise', canvasImage(64, 64, paintNoise));
+        }, 160);
+      }
+    }
+
+    // ===== Constraint markers (schema v2) =====
+    function renderConstraintMarkers() {
+      const nodeGroups = {};
+      SCOPED.forEach(b => {
+        const idx = BNECKS.indexOf(b);
+        (b.anchors || []).forEach((a, aIdx) => {
+          if (a.kind === 'edge') {
+            const el = document.createElement('div');
+            el.className = `incident-pin ${b.effect === 'closure' ? 'closure' : ''}`;
+            el.title = `${b.title} — ${EFFECT_WORD[b.effect]}`;
+            el.innerHTML = `<span class="incident-icon">${EFFECT_ICON[b.effect] || '⚠️'}</span><span>${b.codename}</span>${
+              b.delay_label ? `<span class="delay-chip">${b.delay_label}</span>` : ''}`;
+            el.addEventListener('click', (e) => { e.stopPropagation(); selectObject('bottleneck', b.id, idx); });
+            incidentMarkers.push(new maplibregl.Marker({ element: el, pitchAlignment: 'viewport' }).setLngLat(a.coordinates).addTo(map));
+          } else if (a.kind === 'node') {
+            (nodeGroups[a.ref] = nodeGroups[a.ref] || { coords: a.coordinates, items: [] }).items.push({ b, idx });
+          } else if (a.kind === 'field' && aIdx === 0) {
+            const el = document.createElement('div');
+            el.className = 'field-label';
+            el.title = `${b.title} — over ${b.constrains.length} district(s)`;
+            el.innerHTML = `<span>${EFFECT_ICON[b.effect] || '🌫️'}</span><span>${b.codename}</span>${
+              b.delay_label ? `<span class="delay-chip">${b.delay_label}</span>` : ''}`;
+            el.addEventListener('click', (e) => { e.stopPropagation(); selectObject('bottleneck', b.id, idx); });
+            fieldMarkers.push(new maplibregl.Marker({ element: el, pitchAlignment: 'viewport' }).setLngLat(a.coordinates).addTo(map));
+          }
+        });
+      });
+      // Wait-time chips stacked under each constrained spire
+      Object.values(nodeGroups).forEach(group => {
+        const stack = document.createElement('div');
+        stack.className = 'node-chip-stack';
+        group.items.forEach(({ b, idx }) => {
+          const chip = document.createElement('div');
+          chip.className = 'node-chip';
+          chip.title = b.title;
+          chip.innerHTML = `<span>${bneckIcon(b)}</span><span>${b.codename}</span>${b.delay_label ? `<span class="delay-chip">${b.delay_label}</span>` : ''}`;
+          chip.addEventListener('click', (e) => { e.stopPropagation(); selectObject('bottleneck', b.id, idx); });
+          stack.appendChild(chip);
+        });
+        nodeMarkers.push(new maplibregl.Marker({ element: stack, anchor: 'top', offset: [0, 14], pitchAlignment: 'viewport' })
+          .setLngLat(group.coords).addTo(map));
+      });
+
+      // Layer buttons: only offer what the dataset contains
+      const has = {
+        traffic: SCOPED.some(b => b.scope === 'edge'),
+        queues: SCOPED.some(b => b.scope === 'node'),
+        weather: SCOPED.some(b => b.scope === 'field'),
+        bottlenecks: BNECKS.some(b => !b.scope)
+      };
+      Object.entries(has).forEach(([key, present]) => {
+        const btn = document.querySelector(`.layer-btn[data-layer="${key}"]`);
+        if (btn) btn.classList.toggle('hidden-layer', !present);
+      });
+    }
+
+    // ===== References between entities =====
+    function refEntity(ref) {
+      if (!ref) return null;
+      if (ref.startsWith('@spire-')) { const i = window.SPIRES_INDEX.findIndex(x => x.id === ref); return i < 0 ? null : { kind: 'spire', i, item: window.SPIRES_INDEX[i] }; }
+      if (ref.startsWith('@conduit-')) { const i = window.CONDUITS.findIndex(x => x.id === ref); return i < 0 ? null : { kind: 'conduit', i, item: window.CONDUITS[i] }; }
+      if (ref.startsWith('@bneck-')) { const i = BNECKS.findIndex(x => x.id === ref); return i < 0 ? null : { kind: 'bottleneck', i, item: BNECKS[i] }; }
+      if (ref.startsWith('@chal-')) { const i = window.CHALLENGES.findIndex(x => x.id === ref); return i < 0 ? null : { kind: 'challenge', i, item: window.CHALLENGES[i] }; }
+      if (ref.startsWith('@dist-')) { const d = window.DISTRICTS.find(x => x.id === ref); return d ? { kind: 'district', item: d } : null; }
+      return null;
+    }
+
+    function refLabel(ref) {
+      const e = refEntity(ref);
+      if (!e) return ref;
+      if (e.kind === 'district') return e.item.name;
+      if (e.kind === 'bottleneck') return `${bneckIcon(e.item)} ${e.item.codename}`;
+      if (e.kind === 'challenge') return `🎯 ${e.item.codename}`;
+      if (e.kind === 'conduit') return `${e.item.status === 'planned' ? '🚧' : '⚡'} ${e.item.codename}`;
+      return e.item.codename || e.item.title;
+    }
+
+    function refLocation(ref) {
+      const e = refEntity(ref);
+      if (!e) return null;
+      if (e.kind === 'conduit') return e.item.midpoint;
+      if (e.kind === 'district') return e.item.center;
+      return e.item.coordinates;
+    }
+
+    function gotoRef(ref) {
+      const e = refEntity(ref);
+      if (!e) return;
+      if (e.kind === 'district') flyToDistrict(ref);
+      else selectObject(e.kind, ref, e.i);
+    }
+
+    function relationBlock(heading, refs) {
+      if (!refs || !refs.length) return '';
+      const kindClass = r => r.startsWith('@bneck-') ? 'kind-bneck' : r.startsWith('@chal-') ? 'kind-chal'
+        : r.startsWith('@conduit-') ? 'kind-conduit' : r.startsWith('@spire-') ? 'kind-spire' : 'kind-dist';
+      return `<div class="relation-block">
+        <div class="drawer-section-title"><span></span>${heading}</div>
+        <div class="relation-list">${refs.map(r => `<span class="ref-chip ${kindClass(r)}" data-ref="${r}">${refLabel(r)}</span>`).join('')}</div>
+      </div>`;
+    }
+
+    function showLinks(origin, targets) {
+      const src = map && map.getSource('links-geo');
+      if (!src) return;
+      const features = [];
+      if (origin) {
+        targets.forEach(t => {
+          const to = t.coords || refLocation(t.ref);
+          if (to) features.push({ type: 'Feature', properties: { color: t.color }, geometry: { type: 'LineString', coordinates: [origin, to] } });
+        });
+      }
+      src.setData({ type: 'FeatureCollection', features });
+    }
+
+    // ===== Directions: shortest path over superhighways (+ walking inside a district) =====
+    function setupRoutePanel() {
+      const from = document.getElementById('routeFrom');
+      const to = document.getElementById('routeTo');
+      const byDistrict = window.DISTRICTS.map(d => ({ d, spires: window.SPIRES_INDEX.filter(s => s.district_ref === d.id) }));
+      [from, to].forEach(sel => {
+        sel.innerHTML = byDistrict.map(({ d, spires }) =>
+          `<optgroup label="${d.name}">${spires.map(sp => `<option value="${sp.id}">${sp.codename} — ${sp.title}</option>`).join('')}</optgroup>`).join('');
+      });
+      const first = byDistrict.find(g => g.spires.length);
+      const last = [...byDistrict].reverse().find(g => g.spires.length);
+      if (first) from.value = first.spires[0].id;
+      if (last) to.value = last.spires[last.spires.length - 1].id;
+      from.addEventListener('change', renderRoute);
+      to.addEventListener('change', renderRoute);
+      document.getElementById('routeSwapBtn').addEventListener('click', () => { const v = from.value; from.value = to.value; to.value = v; renderRoute(); });
+      document.getElementById('routeBtn').addEventListener('click', () => {
+        const panel = document.getElementById('routePanel');
+        if (panel.classList.contains('open')) closeRoute(); else openRoute(null, null);
+      });
+      document.getElementById('routeCloseBtn').addEventListener('click', closeRoute);
+    }
+
+    function openRoute(fromId, toId) {
+      if (fromId) document.getElementById('routeFrom').value = fromId;
+      if (toId) document.getElementById('routeTo').value = toId;
+      document.getElementById('routePanel').classList.add('open');
+      document.getElementById('routeBtn').classList.add('active');
+      closeDrawer();
+      renderRoute();
+    }
+
+    function closeRoute() {
+      document.getElementById('routePanel').classList.remove('open');
+      document.getElementById('routeBtn').classList.remove('active');
+      map.getSource('route-geo').setData({ type: 'FeatureCollection', features: [] });
+    }
+
+    function computeRoute(fromId, toId) {
+      const edges = window.ROUTE_GRAPH || [];
+      const dist = { [fromId]: 0 };
+      const prev = {};
+      const done = new Set();
+      while (true) {
+        let u = null;
+        for (const k in dist) if (!done.has(k) && (u === null || dist[k] < dist[u])) u = k;
+        if (u === null) return null;
+        if (u === toId) break;
+        done.add(u);
+        edges.filter(e => e.from === u).forEach(e => {
+          const nd = dist[u] + e.cost;
+          if (dist[e.to] === undefined || nd < dist[e.to]) { dist[e.to] = nd; prev[e.to] = e; }
+        });
+      }
+      const legs = [];
+      for (let v = toId; v !== fromId; v = prev[v].from) legs.unshift(prev[v]);
+      return { legs, cost: dist[toId] };
+    }
+
+    function renderRoute() {
+      const fromId = document.getElementById('routeFrom').value;
+      const toId = document.getElementById('routeTo').value;
+      const out = document.getElementById('routeResult');
+      const src = map.getSource('route-geo');
+      if (fromId === toId) { out.innerHTML = '<div class="route-summary">Pick two different spires.</div>'; src.setData({ type: 'FeatureCollection', features: [] }); return; }
+      const route = computeRoute(fromId, toId);
+      if (!route) { out.innerHTML = '<div class="route-summary">No connection between these spires — the city has no road here.</div>'; src.setData({ type: 'FeatureCollection', features: [] }); return; }
+
+      const spire = id => window.SPIRES_INDEX.find(x => x.id === id);
+      const features = [];
+      const incidents = [];
+      const seen = new Set();
+      const note = (key, html) => { if (!seen.has(key)) { seen.add(key); incidents.push(html); } };
+      const visited = [fromId, ...route.legs.map(l => l.to)];
+
+      const legsHtml = route.legs.map(leg => {
+        if (leg.kind === 'walk') {
+          features.push({ type: 'Feature', properties: { kind: 'walk' }, geometry: { type: 'LineString', coordinates: [spire(leg.from).coordinates, spire(leg.to).coordinates] } });
+          return `<li class="route-leg"><span class="leg-kind">🚶</span><span>${spire(leg.from).codename} → ${spire(leg.to).codename} <span style="color: var(--text-dim);">(same district)</span></span></li>`;
+        }
+        const cond = window.CONDUITS.find(c => c.id === leg.conduit);
+        const geom = window.CONDUITS_GEOJSON.features.find(f => f.properties.id === leg.conduit).geometry.coordinates;
+        features.push({ type: 'Feature', properties: { kind: leg.against_flow ? 'against' : 'conduit' }, geometry: { type: 'LineString', coordinates: leg.against_flow ? [...geom].reverse() : geom } });
+        (cond.constrained_by || []).forEach(ref => {
+          const b = refEntity(ref).item;
+          note(ref, `<div class="route-incident" data-ref="${ref}">${bneckIcon(b)} ${b.codename} on ${cond.codename}${b.delay_label ? ` — ${b.delay_label}` : ''}</div>`);
+        });
+        if (cond.status === 'planned') note('st-' + cond.id, `<div class="route-incident status" data-ref="${cond.id}">🚧 ${cond.codename} is only planned — this road does not exist yet</div>`);
+        if (cond.status === 'thin') note('st-' + cond.id, `<div class="route-incident status" data-ref="${cond.id}">⋯ ${cond.codename} is a thin flow</div>`);
+        return `<li class="route-leg ${leg.against_flow ? 'against' : ''}"><span class="leg-kind">${leg.against_flow ? '↺' : '⚡'}</span><span>${cond.codename}: ${spire(leg.from).codename} → ${spire(leg.to).codename}${leg.against_flow ? ' <em>(against the flow)</em>' : ''}</span></li>`;
+      }).join('');
+
+      visited.forEach(id => (spire(id).constraints || []).forEach(ref => {
+        const b = refEntity(ref).item;
+        note(ref, `<div class="route-incident" data-ref="${ref}">${bneckIcon(b)} ${b.codename} at ${spire(id).codename}${b.delay_label ? ` — ${b.delay_label}` : ''}</div>`);
+      }));
+      const districtsOnRoute = new Set(visited.map(id => spire(id).district_ref));
+      SCOPED.filter(b => b.scope === 'field' && b.constrains.some(d => districtsOnRoute.has(d))).forEach(b => {
+        note(b.id, `<div class="route-incident field" data-ref="${b.id}">${bneckIcon(b)} route passes through ${b.codename}</div>`);
+      });
+
+      const conduitLegs = route.legs.filter(l => l.kind === 'conduit').length;
+      out.innerHTML = `
+        <div class="route-summary">${conduitLegs} superhighway leg${conduitLegs === 1 ? '' : 's'} · ${route.legs.length - conduitLegs} walk · ${incidents.length} incident${incidents.length === 1 ? '' : 's'} on the way</div>
+        <ul class="route-legs">${legsHtml}</ul>
+        ${incidents.length ? `<div class="route-incidents">${incidents.join('')}</div>` : ''}`;
+      src.setData({ type: 'FeatureCollection', features });
+
+      const all = features.flatMap(f => f.geometry.coordinates);
+      const lngs = all.map(c => c[0]), lats = all.map(c => c[1]);
+      stopOrbit();
+      map.fitBounds([[Math.min(...lngs), Math.min(...lats)], [Math.max(...lngs), Math.max(...lats)]],
+        { padding: { top: 90, bottom: 300, left: 370, right: 60 }, pitch: 25, bearing: -16, duration: 1400 });
     }
 
     // Launch Map

@@ -288,7 +288,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "Equivariant GNN / local-coordinate transformer",
       "maturity": "Sub-meV across material classes"
     },
-    "abstract": "A lineage exploiting locality and equivariance to predict DFT Hamiltonians without self-consistent field iteration: DeepH's local coordinates, DeepH-E3's rigorous E(3) equivariance, DeepH-2's equivariant local-coordinate transformer, DeepH-r's basis-independent real-space potentials, and xDeepH's time-reversal symmetry for magnetic systems. Trained on 3x3 supercells (576 structures) it generalises to magic-angle twisted bilayer graphene at 1.08 degrees with 11,000+ atoms, reaching 0.12 meV MAE for monolayer graphene and 0.21 meV for MoS2, and resolves SOC-induced topological phase transitions in twisted bismuthene, Bi2Se3 and Bi2Te3."
+    "abstract": "A lineage exploiting locality and equivariance to predict DFT Hamiltonians without self-consistent field iteration: DeepH's local coordinates, DeepH-E3's rigorous E(3) equivariance, DeepH-2's equivariant local-coordinate transformer, DeepH-r's basis-independent real-space potentials, and xDeepH's time-reversal symmetry for magnetic systems. Trained on 3x3 supercells (576 structures) it generalises to magic-angle twisted bilayer graphene at 1.08 degrees with 11,000+ atoms, reaching 0.12 meV MAE for monolayer graphene and 0.21 meV for MoS2, and resolves SOC-induced topological phase transitions in twisted bismuthene, Bi2Se3 and Bi2Te3.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-hamgnn",
@@ -309,7 +311,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "55,000 Materials Project structures",
       "maturity": "5.4 meV MAE, whole periodic table"
     },
-    "abstract": "Equivariant graph network with irreducible spherical tensor representations aiming at a single Kohn-Sham Hamiltonian model valid across the periodic table. A two-step curriculum first learns real-space Hamiltonian matrices, then fine-tunes on orbital energies so that band structures come out right rather than merely the matrix. Demonstrated on 5+ element systems, twisted MoS2/WS2 heterostructures at 3.5 degrees (1,625 atoms) and metal-organic frameworks."
+    "abstract": "Equivariant graph network with irreducible spherical tensor representations aiming at a single Kohn-Sham Hamiltonian model valid across the periodic table. A two-step curriculum first learns real-space Hamiltonian matrices, then fine-tunes on orbital energies so that band structures come out right rather than merely the matrix. Demonstrated on 5+ element systems, twisted MoS2/WS2 heterostructures at 3.5 degrees (1,625 atoms) and metal-organic frameworks.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-diffdft",
@@ -330,7 +334,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "JAX / Autograd \u2014 D4FT, GradDFT, Jrystal",
       "maturity": "Emerging, hardware-parallel"
     },
-    "abstract": "Two converging lines. Differentiable programming (D4FT, GradDFT, Jrystal) recasts DFT as end-to-end stochastic optimisation over neural wave function parameters, with minibatch direct energy minimisation replacing SCF, while DEQH embeds the fixed-point character of self-consistency into implicit deep-equilibrium layers. In parallel, DM21 learns fractional-charge behaviour neurally and SyFES evolves explainable symbolic functionals such as GAS22 that outperform standard GGAs and hybrids while remaining human-readable."
+    "abstract": "Two converging lines. Differentiable programming (D4FT, GradDFT, Jrystal) recasts DFT as end-to-end stochastic optimisation over neural wave function parameters, with minibatch direct energy minimisation replacing SCF, while DEQH embeds the fixed-point character of self-consistency into implicit deep-equilibrium layers. In parallel, DM21 learns fractional-charge behaviour neurally and SyFES evolves explainable symbolic functionals such as GAS22 that outperform standard GGAs and hybrids while remaining human-readable.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-descriptor-mlip",
@@ -351,7 +357,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "QUIP, LAMMPS, ASE",
       "maturity": "Few meV/atom on carbon, iron, silicon"
     },
-    "abstract": "Hand-crafted invariant descriptors paired with tractable regressors: GAP's Gaussian process regression over SOAP, ACE's radial functions times spherical harmonics, moment tensor potentials, and UF3's cubic B-spline two- and three-body terms. GAP-20 reproduces carbon phase energetics, phonon dispersions and defect formation energies to within a few meV/atom; iron and silicon GAPs match DFT on defect migration and stress-strain. Fast to train, but historically hard to stretch across broad chemical space."
+    "abstract": "Hand-crafted invariant descriptors paired with tractable regressors: GAP's Gaussian process regression over SOAP, ACE's radial functions times spherical harmonics, moment tensor potentials, and UF3's cubic B-spline two- and three-body terms. GAP-20 reproduces carbon phase energetics, phonon dispersions and defect formation energies to within a few meV/atom; iron and silicon GAPs match DFT on defect migration and stress-strain. Fast to train, but historically hard to stretch across broad chemical space.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-universal-mlip",
@@ -372,7 +380,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "Matbench Discovery leaderboard",
       "maturity": "Foundation-model scale, GPU-parallel"
     },
-    "abstract": "The tallest spire in the corridor. NequIP introduced E(3)-equivariant geometric tensors and data-efficient training; SevenNet parallelised it and SevenNet-MF added multifidelity training that reaches good accuracy with a high-fidelity set roughly 10 percent the size of the low-fidelity one; MACE fused ACE with message passing so that many-body equivariant messages cut the number of passing iterations. CHGNet carries explicit charge and magnetic moments into complex oxides and battery materials, M3GNet and Allegro scale to millions of atoms. Collectively these universal potentials predict properties across the periodic table without retraining, ranked publicly on Matbench Discovery."
+    "abstract": "The tallest spire in the corridor. NequIP introduced E(3)-equivariant geometric tensors and data-efficient training; SevenNet parallelised it and SevenNet-MF added multifidelity training that reaches good accuracy with a high-fidelity set roughly 10 percent the size of the low-fidelity one; MACE fused ACE with message passing so that many-body equivariant messages cut the number of passing iterations. CHGNet carries explicit charge and magnetic moments into complex oxides and battery materials, M3GNet and Allegro scale to millions of atoms. Collectively these universal potentials predict properties across the periodic table without retraining, ranked publicly on Matbench Discovery.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-magnetic-mlip",
@@ -393,7 +403,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "E(3)-equivariant networks",
       "maturity": "1.67e-2 meV/uB magnetic force MAE"
     },
-    "abstract": "Potentials that take spin configurations alongside atomic positions, at the cost of a markedly higher-dimensional input space. SpinGNN splits Heisenberg edge and spin-distance edge networks to cover simple exchange and multibody spin-lattice coupling, applied to BiFeO3 phase transitions; DeepSPIN predicts energies, forces and magnetic torques; MagNet uses E(3) equivariance for CrI3 monolayers, nanotubes and moire-twisted bilayers, generalising from flat sheets to nanotubes at 0.129 meV/atom and to 4,326-atom twisted bilayers."
+    "abstract": "Potentials that take spin configurations alongside atomic positions, at the cost of a markedly higher-dimensional input space. SpinGNN splits Heisenberg edge and spin-distance edge networks to cover simple exchange and multibody spin-lattice coupling, applied to BiFeO3 phase transitions; DeepSPIN predicts energies, forces and magnetic torques; MagNet uses E(3) equivariance for CrI3 monolayers, nanotubes and moire-twisted bilayers, generalising from flat sheets to nanotubes at 0.129 meV/atom and to 4,326-atom twisted bilayers.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-phonon",
@@ -414,7 +426,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "phonopy, phono3py, ShengBTE, Phonax",
       "maturity": "Now itself a benchmark for MLIPs"
     },
-    "abstract": "Vibrational dynamics is the natural hinge between atoms and thermodynamics. MLIPs substitute for DFT in force-constant evaluation, opening higher-order phonon scattering; because most MLIPs are differentiable, packages like Phonax compute phonon properties inside the same framework. Virtual node GNNs predict full dynamical matrices whose dimension varies with the cell, giving complete dispersions directly from coordinates, and SVD compression of first-principles electron-phonon interactions reaches Pareto-optimal parametrisation from 1-2 percent of the original data."
+    "abstract": "Vibrational dynamics is the natural hinge between atoms and thermodynamics. MLIPs substitute for DFT in force-constant evaluation, opening higher-order phonon scattering; because most MLIPs are differentiable, packages like Phonax compute phonon properties inside the same framework. Virtual node GNNs predict full dynamical matrices whose dimension varies with the cell, giving complete dispersions directly from coordinates, and SVD compression of first-principles electron-phonon interactions reaches Pareto-optimal parametrisation from 1-2 percent of the original data.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-ionic",
@@ -435,7 +449,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "DeePMD, Allegro, LIFLOW, NEB / BVSE",
       "maturity": "Experimentally confirmed candidates"
     },
-    "abstract": "AIMD gives the most accurate conductivities and is unaffordable, so the district trades accuracy for reach. Active-learning DeePMD and Allegro (trained on 192-atom Li3PO4) scale to millions of atoms; LIFLOW replaces step-by-step integration with flow-matched displacement prediction over long intervals (Spearman up to 0.7). On the screening side, Sendek's logistic regression doubled expert F1 at 0.5, Laskowski's semi-supervised clustering produced 212 candidates including experimentally confirmed Li3BS3, and Maevskiy et al. ranked candidates from lithium potential-energy-surface descriptors, surfacing hydroborates absent from training and novel LiB3H8 at 82 +/- 23 mS/cm at 90 C in AIMD."
+    "abstract": "AIMD gives the most accurate conductivities and is unaffordable, so the district trades accuracy for reach. Active-learning DeePMD and Allegro (trained on 192-atom Li3PO4) scale to millions of atoms; LIFLOW replaces step-by-step integration with flow-matched displacement prediction over long intervals (Spearman up to 0.7). On the screening side, Sendek's logistic regression doubled expert F1 at 0.5, Laskowski's semi-supervised clustering produced 212 candidates including experimentally confirmed Li3BS3, and Maevskiy et al. ranked candidates from lithium potential-energy-surface descriptors, surfacing hydroborates absent from training and novel LiB3H8 at 82 +/- 23 mS/cm at 90 C in AIMD.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-thermal",
@@ -456,7 +472,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "MACE-MP-MOF0, matminer, JARVIS-DFT",
       "maturity": "4.505 J/(mol K) MAE on heat capacity"
     },
-    "abstract": "Surrogates that map elemental and local structural information onto per-atom heat capacity for nanoporous MOFs, COFs and zeolites, validated against fresh experimental measurements. Fine-tuned MACE-MP-MOF0 reproduces phonon density of states, thermal expansion and bulk moduli; transformer-plus-matminer pipelines on JARVIS-DFT improve heat capacity MAE from 5.276 to 4.505 J/(mol K); MLP models on compositional and space-group descriptors screened the ICSD for thermoelectric and heat-dissipation candidates."
+    "abstract": "Surrogates that map elemental and local structural information onto per-atom heat capacity for nanoporous MOFs, COFs and zeolites, validated against fresh experimental measurements. Fine-tuned MACE-MP-MOF0 reproduces phonon density of states, thermal expansion and bulk moduli; transformer-plus-matminer pipelines on JARVIS-DFT improve heat capacity MAE from 5.276 to 4.505 J/(mol K); MLP models on compositional and space-group descriptors screened the ICSD for thermoelectric and heat-dissipation candidates.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-cg-forcefield",
@@ -477,7 +495,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "CGnet / CGSchNet, normalizing flows",
       "maturity": "Mature in biomolecules, open in solids"
     },
-    "abstract": "All-atom systems are mapped to interacting beads and the force field acting on that reduced representation is learned. Flow matching trains a normalizing flow over the coarse-grained density and generates synthetic samples and forces, removing the need for atomistic reference forces; denoising score matching unifies distribution learning with force matching and cuts data requirements by up to two orders of magnitude. In solids, an n^3:1 graphite model with a modified Airebo potential reproduces all-atom thermal and mechanical properties, and AI-adaptive time stepping over RNN autoencoder latents removes 40 percent of redundant computation within 3 percent error."
+    "abstract": "All-atom systems are mapped to interacting beads and the force field acting on that reduced representation is learned. Flow matching trains a normalizing flow over the coarse-grained density and generates synthetic samples and forces, removing the need for atomistic reference forces; denoising score matching unifies distribution learning with force matching and cuts data requirements by up to two orders of magnitude. In solids, an n^3:1 graphite model with a modified Airebo potential reproduces all-atom thermal and mechanical properties, and AI-adaptive time stepping over RNN autoencoder latents removes 40 percent of redundant computation within 3 percent error.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-quasicontinuum",
@@ -498,7 +518,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "QC, GPP, GNN quadrature surrogates",
       "maturity": "Validated on Cu, Fe, grain boundaries"
     },
-    "abstract": "The classical bridge between atomistics and continuum: representative atoms interpolate everyone else, with summation rules approximating thermodynamic quantities from chosen lattice sites, extended to ionic crystals with long-range electrostatics. Gaussian Phase Packets evolve a multivariate Gaussian in phase space instead of individual trajectories, adding finite temperature and nonequilibrium thermomechanics. GNNs trained on accurate Monte-Carlo integration replace the numerical quadrature rules whose lack of frame indifference produced fictitious energy minima, validated on copper thermal expansion, the martensitic transition in iron, and grain boundary energies."
+    "abstract": "The classical bridge between atomistics and continuum: representative atoms interpolate everyone else, with summation rules approximating thermodynamic quantities from chosen lattice sites, extended to ionic crystals with long-range electrostatics. Gaussian Phase Packets evolve a multivariate Gaussian in phase space instead of individual trajectories, adding finite temperature and nonequilibrium thermomechanics. GNNs trained on accurate Monte-Carlo integration replace the numerical quadrature rules whose lack of frame indifference produced fictitious energy minima, validated on copper thermal expansion, the martensitic transition in iron, and grain boundary energies.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-rg-latent",
@@ -519,7 +541,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "RSMI-NE up to 256x256 lattices",
       "maturity": "Unsupervised, equilibrium and non-equilibrium"
     },
-    "abstract": "The most conceptually interesting terrace. RSMI-NE couples renormalization group theory to neural estimation of real-space mutual information, extracting order parameters directly from raw configurations without supervision: boundary filters at Tc for the ferromagnetic Ising case, staggered magnetisation for the antiferromagnetic one, columnar and plaquette operators below the BKT transition in the interacting dimer model. Bagrov's multiscale structural complexity sums squared dissimilarities between successively decimated patterns, vanishing for both trivially ordered and fully random configurations and peaking for hierarchically structured ones such as spin spirals and magnetic labyrinths; its temperature derivative locates Tc sharply. OnsagerNet and GFINNs add thermodynamically consistent latent dynamics."
+    "abstract": "The most conceptually interesting terrace. RSMI-NE couples renormalization group theory to neural estimation of real-space mutual information, extracting order parameters directly from raw configurations without supervision: boundary filters at Tc for the ferromagnetic Ising case, staggered magnetisation for the antiferromagnetic one, columnar and plaquette operators below the BKT transition in the interacting dimer model. Bagrov's multiscale structural complexity sums squared dissimilarities between successively decimated patterns, vanishing for both trivially ordered and fully random configurations and peaking for hierarchically structured ones such as spin spirals and magnetic labyrinths; its temperature derivative locates Tc sharply. OnsagerNet and GFINNs add thermodynamically consistent latent dynamics.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-spin-dynamics",
@@ -540,7 +564,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "LLG, kinetic Monte-Carlo, KPM",
       "maturity": "MSE 1.64e-5 on torque prediction"
     },
-    "abstract": "Effective local fields learned from small exact solutions, then run at mesoscale. Chiral domain coarsening on 96x96 triangular Kondo lattices shows linear domain growth rather than the Allen-Cahn square-root law, a consequence of directional anisotropy in the chiral domain walls. Deep-learning potentials trained on 30x30 exact diagonalization drive 100x100 double-exchange simulations that uncover correlation-induced freezing and arrested phase separation, and CNN surrogates for local energy change make kMC on 10^5 spins scale as O(N) per sweep instead of O(N^2)-O(N^3)."
+    "abstract": "Effective local fields learned from small exact solutions, then run at mesoscale. Chiral domain coarsening on 96x96 triangular Kondo lattices shows linear domain growth rather than the Allen-Cahn square-root law, a consequence of directional anisotropy in the chiral domain walls. Deep-learning potentials trained on 30x30 exact diagonalization drive 100x100 double-exchange simulations that uncover correlation-induced freezing and arrested phase separation, and CNN surrogates for local energy change make kMC on 10^5 spins scale as O(N) per sweep instead of O(N^2)-O(N^3).",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-phase-transitions",
@@ -561,7 +587,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "DeePMD-kit + DP-GEN, metadynamics, MTP",
       "maturity": "Reproduces experimental phase diagrams"
     },
-    "abstract": "MLIPs push both the time and length scales of phase-diagram MD. A UF3 silicon-carbon potential trained on genetic-algorithm-sampled structures predicts the peritectic decomposition of SiC; DeePMD potentials trained on 2-64-atom silicon cells drive metadynamics in 8x8x8 supercells to resolve reconstructive high-pressure transitions and their defects; active-learned moment tensor potentials plus Gaussian process regression reproduce the experimental titanium-vanadium phase diagram with uncertainties. Beyond MLIPs, symbolic regression yields an interpretable linear law for binary ionic melting temperatures dominated by cohesive energy and elastic moduli, and GNN-estimated vibrational free energies screened roughly 50,000 inorganic compounds to over 2,000 candidate solid-solid transitions."
+    "abstract": "MLIPs push both the time and length scales of phase-diagram MD. A UF3 silicon-carbon potential trained on genetic-algorithm-sampled structures predicts the peritectic decomposition of SiC; DeePMD potentials trained on 2-64-atom silicon cells drive metadynamics in 8x8x8 supercells to resolve reconstructive high-pressure transitions and their defects; active-learned moment tensor potentials plus Gaussian process regression reproduce the experimental titanium-vanadium phase diagram with uncertainties. Beyond MLIPs, symbolic regression yields an interpretable linear law for binary ionic melting temperatures dominated by cohesive energy and elastic moduli, and GNN-estimated vibrational free energies screened roughly 50,000 inorganic compounds to over 2,000 candidate solid-solid transitions.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-fracture",
@@ -582,7 +610,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "ConvLSTM, GNN stress-field models",
       "maturity": "4.9-11.0% mean error across systems"
     },
-    "abstract": "ConvLSTM models trained on 14,300 image matrices from atomistic crack-propagation MD predict crack lengths, energy release rates and fracture patterns, and generalise to unseen bicrystalline and gradient structures. GNNs map mesoscale crystalline structure to atomic stress fields and potential energy distributions with mean errors of 5.5 percent for polycrystalline graphene, 4.9 percent for porous graphene and 11.0 percent for polycrystalline aluminium, while preserving derived quantities such as mean von Mises stress and Young's modulus under varying boundary conditions."
+    "abstract": "ConvLSTM models trained on 14,300 image matrices from atomistic crack-propagation MD predict crack lengths, energy release rates and fracture patterns, and generalise to unseen bicrystalline and gradient structures. GNNs map mesoscale crystalline structure to atomic stress fields and potential energy distributions with mean errors of 5.5 percent for polycrystalline graphene, 4.9 percent for porous graphene and 11.0 percent for polycrystalline aluminium, while preserving derived quantities such as mean von Mises stress and Young's modulus under varying boundary conditions.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-hierarchical-pipeline",
@@ -603,7 +633,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "DFT + cluster expansion + MC + NN + phase field",
       "maturity": "Rare: the exemplar of >2 coupled scales"
     },
-    "abstract": "The clearest existing answer to the review's own central challenge. For LixCoO2 cathodes, DFT informs a cluster expansion, semi-grand canonical Monte-Carlo trains a deep network on the free energy landscape under active learning, and those predictions drive continuum phase-field simulation of order-disorder transitions in isolated particles and during cycling. The AGAT graph attention model plays the same game laterally, fusing microscale DFT Young's moduli for carbon nanotubes with macroscale FEM electromechanics to predict CNT/PDMS composite resistance to 20 percent strain, where adding the DFT-FEM module lifted R-squared from 0.7548 to 0.7883."
+    "abstract": "The clearest existing answer to the review's own central challenge. For LixCoO2 cathodes, DFT informs a cluster expansion, semi-grand canonical Monte-Carlo trains a deep network on the free energy landscape under active learning, and those predictions drive continuum phase-field simulation of order-disorder transitions in isolated particles and during cycling. The AGAT graph attention model plays the same game laterally, fusing microscale DFT Young's moduli for carbon nanotubes with macroscale FEM electromechanics to predict CNT/PDMS composite resistance to 20 percent strain, where adding the DFT-FEM module lifted R-squared from 0.7548 to 0.7883.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-generative-design",
@@ -624,7 +656,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "CoRE MOF, BW-DB, GCMC validation",
       "maturity": "31.69% match rate vs 0.09% baseline"
     },
-    "abstract": "Generative models that operate at two scales at once. MOFDiff diffuses over coarse-grained building blocks (6.9 blocks of 26.8 atoms on average) and full atomic structures, with over 30 percent of generated MOFs valid and novel and superior CO2 performance to BW-DB references. MOFFlow couples rigid-body dynamics of metal nodes and linkers with periodic crystal structure, predicting MOFs above 2,200 atoms per unit cell at a 31.69 percent match rate against DiffCSP's 0.09 percent. MSAIGNN decomposes crystal graphs by interaction range (0-3 A open metal sites, 3-8 A functional groups, 8-15 A pore structure), reaching R-squared 0.9423 on single-component CO2 adsorption, and genetic-algorithm workflows carry candidates all the way into simulated pressure-swing carbon-capture cycles that beat 13X zeolites and CALF-20."
+    "abstract": "Generative models that operate at two scales at once. MOFDiff diffuses over coarse-grained building blocks (6.9 blocks of 26.8 atoms on average) and full atomic structures, with over 30 percent of generated MOFs valid and novel and superior CO2 performance to BW-DB references. MOFFlow couples rigid-body dynamics of metal nodes and linkers with periodic crystal structure, predicting MOFs above 2,200 atoms per unit cell at a 31.69 percent match rate against DiffCSP's 0.09 percent. MSAIGNN decomposes crystal graphs by interaction range (0-3 A open metal sites, 3-8 A functional groups, 8-15 A pore structure), reaching R-squared 0.9423 on single-component CO2 adsorption, and genetic-algorithm workflows carry candidates all the way into simulated pressure-swing carbon-capture cycles that beat 13X zeolites and CALF-20.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-selfdriving",
@@ -645,7 +679,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "Battery digital twins, autonomous platforms",
       "maturity": "Emerging trend, largely aspirational"
     },
-    "abstract": "The corridor's unfinished northern terminus. AI systems coordinate discovery by predicting behaviour across scales, designing experiments and analysing results automatically, iterating toward target properties with minimal human intervention. Multiphysics-plus-AI battery digital twins already maintain a dynamic rule library that predicts and manages critical instability thresholds in real time. The review's own conclusion names this as the route out of the field's deepest structural weakness: almost every application it surveyed rests on computational data alone, with limited connection to experimental results."
+    "abstract": "The corridor's unfinished northern terminus. AI systems coordinate discovery by predicting behaviour across scales, designing experiments and analysing results automatically, iterating toward target properties with minimal human intervention. Multiphysics-plus-AI battery digital twins already maintain a dynamic rule library that predicts and manages critical instability thresholds in real time. The review's own conclusion names this as the route out of the field's deepest structural weakness: almost every application it surveyed rests on computational data alone, with limited connection to experimental results.",
+    "constraints": [],
+    "advances": []
   }
 ];
 
@@ -663,7 +699,13 @@ window.BOTTLENECKS = [
     "coordinates": [
       13.3927669,
       52.4927219
-    ]
+    ],
+    "scope": null,
+    "constrains": [],
+    "effect": null,
+    "delay_label": "",
+    "remedied_by": [],
+    "anchors": []
   },
   {
     "id": "@bneck-transferability",
@@ -678,7 +720,13 @@ window.BOTTLENECKS = [
     "coordinates": [
       13.4072331,
       52.5042203
-    ]
+    ],
+    "scope": null,
+    "constrains": [],
+    "effect": null,
+    "delay_label": "",
+    "remedied_by": [],
+    "anchors": []
   },
   {
     "id": "@bneck-longrange-phonon",
@@ -693,7 +741,13 @@ window.BOTTLENECKS = [
     "coordinates": [
       13.3926193,
       52.5123051
-    ]
+    ],
+    "scope": null,
+    "constrains": [],
+    "effect": null,
+    "delay_label": "",
+    "remedied_by": [],
+    "anchors": []
   },
   {
     "id": "@bneck-bead-symmetry",
@@ -708,7 +762,13 @@ window.BOTTLENECKS = [
     "coordinates": [
       13.4073807,
       52.5176051
-    ]
+    ],
+    "scope": null,
+    "constrains": [],
+    "effect": null,
+    "delay_label": "",
+    "remedied_by": [],
+    "anchors": []
   },
   {
     "id": "@bneck-one-way-coupling",
@@ -723,7 +783,13 @@ window.BOTTLENECKS = [
     "coordinates": [
       13.4,
       52.5296425
-    ]
+    ],
+    "scope": null,
+    "constrains": [],
+    "effect": null,
+    "delay_label": "",
+    "remedied_by": [],
+    "anchors": []
   },
   {
     "id": "@bneck-data-scarcity",
@@ -738,7 +804,13 @@ window.BOTTLENECKS = [
     "coordinates": [
       13.3927669,
       52.5340442
-    ]
+    ],
+    "scope": null,
+    "constrains": [],
+    "effect": null,
+    "delay_label": "",
+    "remedied_by": [],
+    "anchors": []
   }
 ];
 
@@ -752,6 +824,8 @@ window.CHALLENGES = [
     "district_ref": "@dist-electronic",
     "type": "Frontier Question",
     "target": "Move from post-hoc XAI applied to black boxes toward frameworks with transparency built in from the outset, generating explanations in real time without separate interpretation tooling \u2014 with symbolic functional discovery (SyFES, GAS22) as the existence proof that interpretability and accuracy are not in opposition.",
+    "advanced_by": [],
+    "blocked_by": [],
     "coordinates": [
       13.4069379,
       52.4927219
@@ -766,6 +840,8 @@ window.CHALLENGES = [
     "district_ref": "@dist-atomistic",
     "type": "Methodological Mandate",
     "target": "Work the full taxonomy of physical enforcement \u2014 hard constraints via equivariant architecture, soft penalty regularisers, hybrid mechanistic-ML coupling, latent coarse-grained representations, symbolic forms and physics-guided descriptors \u2014 choosing per task rather than defaulting, and accepting the flexibility cost where guaranteed consistency matters.",
+    "advanced_by": [],
+    "blocked_by": [],
     "coordinates": [
       13.3930621,
       52.5043101
@@ -780,6 +856,8 @@ window.CHALLENGES = [
     "district_ref": "@dist-vibrational",
     "type": "Frontier Question",
     "target": "Make every scale-bridging prediction carry a calibrated uncertainty, so that production-level high-throughput screening can distinguish a confident phonon dispersion from a plausible-looking wrong one, and so that active learning has a principled trigger.",
+    "advanced_by": [],
+    "blocked_by": [],
     "coordinates": [
       13.4070855,
       52.5122152
@@ -794,6 +872,8 @@ window.CHALLENGES = [
     "district_ref": "@dist-coarse",
     "type": "Theoretical Frontier",
     "target": "Integrate explicit RG machinery with ML architectures for systems near criticality, with strong electron correlations, or hosting topological order \u2014 turning the current analogy between hierarchical representation learning and coarse-graining into a formal, controllable correspondence.",
+    "advanced_by": [],
+    "blocked_by": [],
     "coordinates": [
       13.3929145,
       52.5176051
@@ -808,6 +888,8 @@ window.CHALLENGES = [
     "district_ref": "@dist-mesoscale",
     "type": "Grand Challenge",
     "target": "Integrate features from three or more distinct scales for static property prediction, and enable concurrent evolution of at least two physical scales \u2014 electronic and domain-level dynamics together \u2014 inside one robust framework rather than a chain of one-way handoffs.",
+    "advanced_by": [],
+    "blocked_by": [],
     "coordinates": [
       13.4,
       52.5251509
@@ -822,6 +904,8 @@ window.CHALLENGES = [
     "district_ref": "@dist-continuum",
     "type": "Strategic Priority",
     "target": "Build self-driving laboratories that collect data and validate models in real time, closing the loop between prediction and measurement, and pair them with open data initiatives plus transfer and meta-learning so that expensive narrow datasets stop being the binding constraint on the whole field.",
+    "advanced_by": [],
+    "blocked_by": [],
     "coordinates": [
       13.4069379,
       52.5340442
@@ -843,6 +927,10 @@ window.CONDUITS = [
     "bandwidth": "Energies, forces and stresses at DFT fidelity",
     "description": "Accelerated and differentiable DFT supplies the labelled potential energy surface that every universal potential is trained on, aggregated through MatPES, Materials Project, OQMD and AFLOW.",
     "color": "#00f0ff",
+    "status": "operational",
+    "direction": "north",
+    "constrained_by": [],
+    "remedies": [],
     "midpoint": [
       13.4023796,
       52.4983975
@@ -861,6 +949,10 @@ window.CONDUITS = [
     "bandwidth": "Second derivatives, dynamical matrices",
     "description": "MLIPs replace DFT in finite-displacement force-constant evaluation, opening higher-order phonon scattering; Hessian and small-displacement data flow back south as the training signal that fixes long-range blindness.",
     "color": "#ffb700",
+    "status": "operational",
+    "direction": "north",
+    "constrained_by": [],
+    "remedies": [],
     "midpoint": [
       13.3976559,
       52.5066573
@@ -879,6 +971,10 @@ window.CONDUITS = [
     "bandwidth": "Magnetic torques and forces to 1.67e-2 meV/uB",
     "description": "E(3)-equivariant magnetic energies and torques parameterise Landau-Lifshitz-Gilbert and kinetic Monte-Carlo simulation of chiral domains, magnon dispersion and skyrmion textures at mesoscale.",
     "color": "#00f0ff",
+    "status": "operational",
+    "direction": "north",
+    "constrained_by": [],
+    "remedies": [],
     "midpoint": [
       13.4000354,
       52.5151765
@@ -897,6 +993,10 @@ window.CONDUITS = [
     "bandwidth": "Band structures across the periodic table",
     "description": "A Hamiltonian model valid for 5+ element systems and 5,562-atom MOFs lets generative pipelines be screened on electronic properties rather than formation energy alone, at sizes conventional DFT cannot reach.",
     "color": "#ffb700",
+    "status": "operational",
+    "direction": "north",
+    "constrained_by": [],
+    "remedies": [],
     "midpoint": [
       13.4006167,
       52.5130144
@@ -915,9 +1015,13 @@ window.CONDUITS = [
     "bandwidth": "3x3 supercells -> 11,000+ atom moire cells",
     "description": "Trained on small nontwisted supercells, xDeepH predicts magnetic Hamiltonians for moire-twisted bilayer CrI3 at 4,336 atoms and captures skyrmion-induced flat band removal \u2014 a jump of three orders of magnitude in system size on the strength of locality plus symmetry alone.",
     "color": "#00f0ff",
+    "status": "operational",
+    "direction": "north",
+    "constrained_by": [],
+    "remedies": [],
     "midpoint": [
-      13.3952763,
-      52.5110133
+      13.3943048,
+      52.5086603
     ]
   },
   {
@@ -933,9 +1037,13 @@ window.CONDUITS = [
     "bandwidth": "n^3:1 atom-to-bead mapping",
     "description": "All-atom trajectories are force-matched onto coarse-grained beads; flow matching and denoising score matching cut the reference-force requirement by up to two orders of magnitude.",
     "color": "#ffb700",
+    "status": "operational",
+    "direction": "north",
+    "constrained_by": [],
+    "remedies": [],
     "midpoint": [
-      13.3961871,
-      52.5087245
+      13.3940619,
+      52.5146213
     ]
   },
   {
@@ -951,6 +1059,10 @@ window.CONDUITS = [
     "bandwidth": "Phase-space ensembles, not trajectories",
     "description": "Coarse-grained ensembles feed quasicontinuum summation rules and Gaussian phase packet statistics, with GNN surrogates replacing the numerical quadrature whose lack of frame indifference produced fictitious energy minima.",
     "color": "#00f0ff",
+    "status": "operational",
+    "direction": "local",
+    "constrained_by": [],
+    "remedies": [],
     "midpoint": [
       13.3976205,
       52.5190897
@@ -969,6 +1081,10 @@ window.CONDUITS = [
     "bandwidth": "Tc from single configuration snapshots",
     "description": "RSMI-NE and multiscale structural complexity pull order parameters straight out of raw real-space configurations, distinguishing magnetic phases where conventional structure-factor analysis fails and locating critical temperatures without prior knowledge of the order parameter.",
     "color": "#ffb700",
+    "status": "operational",
+    "direction": "north",
+    "constrained_by": [],
+    "remedies": [],
     "midpoint": [
       13.4023796,
       52.5231909
@@ -987,6 +1103,10 @@ window.CONDUITS = [
     "bandwidth": "Learned free energy landscapes over order parameters",
     "description": "Cluster expansion plus semi-grand canonical Monte-Carlo trains a network on the free energy landscape under active learning; those predictions become the driving thermodynamics of continuum phase-field simulation.",
     "color": "#00f0ff",
+    "status": "operational",
+    "direction": "north",
+    "constrained_by": [],
+    "remedies": [],
     "midpoint": [
       13.3976559,
       52.5314507
@@ -1005,9 +1125,13 @@ window.CONDUITS = [
     "bandwidth": "Heat capacity, thermal expansion, bulk moduli",
     "description": "Surrogate thermal properties for materials too large for direct DFT become the constitutive inputs of continuum thermomechanical models.",
     "color": "#ffb700",
+    "status": "operational",
+    "direction": "north",
+    "constrained_by": [],
+    "remedies": [],
     "midpoint": [
-      13.3993287,
-      52.5241838
+      13.4021081,
+      52.5212008
     ]
   },
   {
@@ -1023,9 +1147,13 @@ window.CONDUITS = [
     "bandwidth": "Atomic stress fields, crack morphologies",
     "description": "GNN-predicted von Mises and tensile stress fields and ConvLSTM crack patterns upscale into FEM and electromechanical composite models, as in the DFT-FEM fusion that lifted CNT/PDMS resistance prediction from 0.7548 to 0.7883 R-squared.",
     "color": "#00f0ff",
+    "status": "operational",
+    "direction": "north",
+    "constrained_by": [],
+    "remedies": [],
     "midpoint": [
-      13.4006888,
-      52.5304799
+      13.3993788,
+      52.5330578
     ]
   },
   {
@@ -1041,9 +1169,13 @@ window.CONDUITS = [
     "bandwidth": "Ranked superionic candidates, conductivity estimates",
     "description": "Descriptor-ranked superionic candidates and MLIP conductivity estimates drive battery digital twins and closed-loop electrolyte search \u2014 the path that produced experimentally confirmed Li3BS3 and novel LiB3H8.",
     "color": "#ffb700",
+    "status": "operational",
+    "direction": "north",
+    "constrained_by": [],
+    "remedies": [],
     "midpoint": [
-      13.402755,
-      52.5211759
+      13.403205,
+      52.5173582
     ]
   },
   {
@@ -1059,9 +1191,13 @@ window.CONDUITS = [
     "bandwidth": "Uncertainty-triggered DFT and experimental labels",
     "description": "The one conduit that runs back down the corridor. On-the-fly learning invokes expensive DFT only when uncertainty exceeds threshold, and autonomous laboratories would close the same loop with physical measurements \u2014 the bidirectional exchange whose absence the review names as its central structural limitation.",
     "color": "#00f0ff",
+    "status": "operational",
+    "direction": "south",
+    "constrained_by": [],
+    "remedies": [],
     "midpoint": [
-      13.4017085,
-      52.5180834
+      13.4054233,
+      52.5248909
     ]
   }
 ];
@@ -1070,4 +1206,12 @@ window.BUILDINGS_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "
 
 window.WIREFRAME_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"color": "#00f0ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.4946083], [13.3957356, 52.4948878], [13.3952763, 52.4950036], [13.394817, 52.4948878], [13.3946268, 52.4946083], [13.394817, 52.4943288], [13.3952763, 52.494213], [13.3957356, 52.4943288], [13.3959258, 52.4946083]]}}, {"type": "Feature", "properties": {"color": "#00f0ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.4947183], [13.3954571, 52.4948739], [13.3950955, 52.4948739], [13.3948399, 52.4947183], [13.3948399, 52.4944983], [13.3950955, 52.4943427], [13.3954571, 52.4943427], [13.3957127, 52.4944983], [13.3957127, 52.4947183]]}}, {"type": "Feature", "properties": {"color": "#00f0ff"}, "geometry": {"type": "LineString", "coordinates": [[13.4006495, 52.4939795], [13.4003248, 52.4943218], [13.3996752, 52.4943218], [13.3993505, 52.4939795], [13.3996752, 52.4936372], [13.4003248, 52.4936372], [13.4006495, 52.4939795]]}}, {"type": "Feature", "properties": {"color": "#00f0ff"}, "geometry": {"type": "LineString", "coordinates": [[13.4004364, 52.4940895], [13.4000617, 52.4942645], [13.3996252, 52.4941545], [13.3995636, 52.4938695], [13.3999383, 52.4936945], [13.4003748, 52.4938045], [13.4004364, 52.4940895]]}}, {"type": "Feature", "properties": {"color": "#00f0ff"}, "geometry": {"type": "LineString", "coordinates": [[13.4053732, 52.4946083], [13.405183, 52.4948878], [13.4047237, 52.4950036], [13.4042644, 52.4948878], [13.4040742, 52.4946083], [13.4042644, 52.4943288], [13.4047237, 52.494213], [13.405183, 52.4943288], [13.4053732, 52.4946083]]}}, {"type": "Feature", "properties": {"color": "#00f0ff"}, "geometry": {"type": "LineString", "coordinates": [[13.4051601, 52.4947183], [13.4049045, 52.4948739], [13.4045429, 52.4948739], [13.4042873, 52.4947183], [13.4042873, 52.4944983], [13.4045429, 52.4943427], [13.4049045, 52.4943427], [13.4051601, 52.4944983], [13.4051601, 52.4947183]]}}, {"type": "Feature", "properties": {"color": "#00e599"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.5028728], [13.3957356, 52.5031523], [13.3952763, 52.5032681], [13.394817, 52.5031523], [13.3946268, 52.5028728], [13.394817, 52.5025933], [13.3952763, 52.5024775], [13.3957356, 52.5025933], [13.3959258, 52.5028728]]}}, {"type": "Feature", "properties": {"color": "#00e599"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.5029828], [13.3954571, 52.5031384], [13.3950955, 52.5031384], [13.3948399, 52.5029828], [13.3948399, 52.5027628], [13.3950955, 52.5026072], [13.3954571, 52.5026072], [13.3957127, 52.5027628], [13.3957127, 52.5029828]]}}, {"type": "Feature", "properties": {"color": "#00e599"}, "geometry": {"type": "LineString", "coordinates": [[13.4006495, 52.502244], [13.4003248, 52.5025863], [13.3996752, 52.5025863], [13.3993505, 52.502244], [13.3996752, 52.5019017], [13.4003248, 52.5019017], [13.4006495, 52.502244]]}}, {"type": "Feature", "properties": {"color": "#00e599"}, "geometry": {"type": "LineString", "coordinates": [[13.4004364, 52.502354], [13.4000617, 52.502529], [13.3996252, 52.502419], [13.3995636, 52.502134], [13.3999383, 52.501959], [13.4003748, 52.502069], [13.4004364, 52.502354]]}}, {"type": "Feature", "properties": {"color": "#00e599"}, "geometry": {"type": "LineString", "coordinates": [[13.4053732, 52.5028728], [13.405183, 52.5031523], [13.4047237, 52.5032681], [13.4042644, 52.5031523], [13.4040742, 52.5028728], [13.4042644, 52.5025933], [13.4047237, 52.5024775], [13.405183, 52.5025933], [13.4053732, 52.5028728]]}}, {"type": "Feature", "properties": {"color": "#00e599"}, "geometry": {"type": "LineString", "coordinates": [[13.4051601, 52.5029828], [13.4049045, 52.5031384], [13.4045429, 52.5031384], [13.4042873, 52.5029828], [13.4042873, 52.5027628], [13.4045429, 52.5026072], [13.4049045, 52.5026072], [13.4051601, 52.5027628], [13.4051601, 52.5029828]]}}, {"type": "Feature", "properties": {"color": "#ffb700"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.5111373], [13.3957356, 52.5114168], [13.3952763, 52.5115326], [13.394817, 52.5114168], [13.3946268, 52.5111373], [13.394817, 52.5108578], [13.3952763, 52.510742], [13.3957356, 52.5108578], [13.3959258, 52.5111373]]}}, {"type": "Feature", "properties": {"color": "#ffb700"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.5112473], [13.3954571, 52.5114029], [13.3950955, 52.5114029], [13.3948399, 52.5112473], [13.3948399, 52.5110273], [13.3950955, 52.5108717], [13.3954571, 52.5108717], [13.3957127, 52.5110273], [13.3957127, 52.5112473]]}}, {"type": "Feature", "properties": {"color": "#ffb700"}, "geometry": {"type": "LineString", "coordinates": [[13.4006495, 52.5105084], [13.4003248, 52.5108507], [13.3996752, 52.5108507], [13.3993505, 52.5105084], [13.3996752, 52.5101661], [13.4003248, 52.5101661], [13.4006495, 52.5105084]]}}, {"type": "Feature", "properties": {"color": "#ffb700"}, "geometry": {"type": "LineString", "coordinates": [[13.4004364, 52.5106184], [13.4000617, 52.5107934], [13.3996252, 52.5106834], [13.3995636, 52.5103984], [13.3999383, 52.5102234], [13.4003748, 52.5103334], [13.4004364, 52.5106184]]}}, {"type": "Feature", "properties": {"color": "#ffb700"}, "geometry": {"type": "LineString", "coordinates": [[13.4053732, 52.5111373], [13.405183, 52.5114168], [13.4047237, 52.5115326], [13.4042644, 52.5114168], [13.4040742, 52.5111373], [13.4042644, 52.5108578], [13.4047237, 52.510742], [13.405183, 52.5108578], [13.4053732, 52.5111373]]}}, {"type": "Feature", "properties": {"color": "#ffb700"}, "geometry": {"type": "LineString", "coordinates": [[13.4051601, 52.5112473], [13.4049045, 52.5114029], [13.4045429, 52.5114029], [13.4042873, 52.5112473], [13.4042873, 52.5110273], [13.4045429, 52.5108717], [13.4049045, 52.5108717], [13.4051601, 52.5110273], [13.4051601, 52.5112473]]}}, {"type": "Feature", "properties": {"color": "#a06bff"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.5194017], [13.3957356, 52.5196812], [13.3952763, 52.519797], [13.394817, 52.5196812], [13.3946268, 52.5194017], [13.394817, 52.5191222], [13.3952763, 52.5190064], [13.3957356, 52.5191222], [13.3959258, 52.5194017]]}}, {"type": "Feature", "properties": {"color": "#a06bff"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.5195117], [13.3954571, 52.5196673], [13.3950955, 52.5196673], [13.3948399, 52.5195117], [13.3948399, 52.5192917], [13.3950955, 52.5191361], [13.3954571, 52.5191361], [13.3957127, 52.5192917], [13.3957127, 52.5195117]]}}, {"type": "Feature", "properties": {"color": "#a06bff"}, "geometry": {"type": "LineString", "coordinates": [[13.4006495, 52.5187729], [13.4003248, 52.5191152], [13.3996752, 52.5191152], [13.3993505, 52.5187729], [13.3996752, 52.5184306], [13.4003248, 52.5184306], [13.4006495, 52.5187729]]}}, {"type": "Feature", "properties": {"color": "#a06bff"}, "geometry": {"type": "LineString", "coordinates": [[13.4004364, 52.5188829], [13.4000617, 52.5190579], [13.3996252, 52.5189479], [13.3995636, 52.5186629], [13.3999383, 52.5184879], [13.4003748, 52.5185979], [13.4004364, 52.5188829]]}}, {"type": "Feature", "properties": {"color": "#a06bff"}, "geometry": {"type": "LineString", "coordinates": [[13.4053732, 52.5194017], [13.405183, 52.5196812], [13.4047237, 52.519797], [13.4042644, 52.5196812], [13.4040742, 52.5194017], [13.4042644, 52.5191222], [13.4047237, 52.5190064], [13.405183, 52.5191222], [13.4053732, 52.5194017]]}}, {"type": "Feature", "properties": {"color": "#a06bff"}, "geometry": {"type": "LineString", "coordinates": [[13.4051601, 52.5195117], [13.4049045, 52.5196673], [13.4045429, 52.5196673], [13.4042873, 52.5195117], [13.4042873, 52.5192917], [13.4045429, 52.5191361], [13.4049045, 52.5191361], [13.4051601, 52.5192917], [13.4051601, 52.5195117]]}}, {"type": "Feature", "properties": {"color": "#ff4fa3"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.5276662], [13.3957356, 52.5279457], [13.3952763, 52.5280615], [13.394817, 52.5279457], [13.3946268, 52.5276662], [13.394817, 52.5273867], [13.3952763, 52.5272709], [13.3957356, 52.5273867], [13.3959258, 52.5276662]]}}, {"type": "Feature", "properties": {"color": "#ff4fa3"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.5277762], [13.3954571, 52.5279318], [13.3950955, 52.5279318], [13.3948399, 52.5277762], [13.3948399, 52.5275562], [13.3950955, 52.5274006], [13.3954571, 52.5274006], [13.3957127, 52.5275562], [13.3957127, 52.5277762]]}}, {"type": "Feature", "properties": {"color": "#ff4fa3"}, "geometry": {"type": "LineString", "coordinates": [[13.4006495, 52.5270374], [13.4003248, 52.5273797], [13.3996752, 52.5273797], [13.3993505, 52.5270374], [13.3996752, 52.5266951], [13.4003248, 52.5266951], [13.4006495, 52.5270374]]}}, {"type": "Feature", "properties": {"color": "#ff4fa3"}, "geometry": {"type": "LineString", "coordinates": [[13.4004364, 52.5271474], [13.4000617, 52.5273224], [13.3996252, 52.5272124], [13.3995636, 52.5269274], [13.3999383, 52.5267524], [13.4003748, 52.5268624], [13.4004364, 52.5271474]]}}, {"type": "Feature", "properties": {"color": "#ff4fa3"}, "geometry": {"type": "LineString", "coordinates": [[13.4053732, 52.5276662], [13.405183, 52.5279457], [13.4047237, 52.5280615], [13.4042644, 52.5279457], [13.4040742, 52.5276662], [13.4042644, 52.5273867], [13.4047237, 52.5272709], [13.405183, 52.5273867], [13.4053732, 52.5276662]]}}, {"type": "Feature", "properties": {"color": "#ff4fa3"}, "geometry": {"type": "LineString", "coordinates": [[13.4051601, 52.5277762], [13.4049045, 52.5279318], [13.4045429, 52.5279318], [13.4042873, 52.5277762], [13.4042873, 52.5275562], [13.4045429, 52.5274006], [13.4049045, 52.5274006], [13.4051601, 52.5275562], [13.4051601, 52.5277762]]}}, {"type": "Feature", "properties": {"color": "#ffe9a8"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.5359307], [13.3957356, 52.5362102], [13.3952763, 52.536326], [13.394817, 52.5362102], [13.3946268, 52.5359307], [13.394817, 52.5356512], [13.3952763, 52.5355354], [13.3957356, 52.5356512], [13.3959258, 52.5359307]]}}, {"type": "Feature", "properties": {"color": "#ffe9a8"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.5360407], [13.3954571, 52.5361963], [13.3950955, 52.5361963], [13.3948399, 52.5360407], [13.3948399, 52.5358207], [13.3950955, 52.5356651], [13.3954571, 52.5356651], [13.3957127, 52.5358207], [13.3957127, 52.5360407]]}}, {"type": "Feature", "properties": {"color": "#ffe9a8"}, "geometry": {"type": "LineString", "coordinates": [[13.4006495, 52.5353018], [13.4003248, 52.5356441], [13.3996752, 52.5356441], [13.3993505, 52.5353018], [13.3996752, 52.5349595], [13.4003248, 52.5349595], [13.4006495, 52.5353018]]}}, {"type": "Feature", "properties": {"color": "#ffe9a8"}, "geometry": {"type": "LineString", "coordinates": [[13.4004364, 52.5354118], [13.4000617, 52.5355868], [13.3996252, 52.5354768], [13.3995636, 52.5351918], [13.3999383, 52.5350168], [13.4003748, 52.5351268], [13.4004364, 52.5354118]]}}, {"type": "Feature", "properties": {"color": "#ffe9a8"}, "geometry": {"type": "LineString", "coordinates": [[13.4053732, 52.5359307], [13.405183, 52.5362102], [13.4047237, 52.536326], [13.4042644, 52.5362102], [13.4040742, 52.5359307], [13.4042644, 52.5356512], [13.4047237, 52.5355354], [13.405183, 52.5356512], [13.4053732, 52.5359307]]}}, {"type": "Feature", "properties": {"color": "#ffe9a8"}, "geometry": {"type": "LineString", "coordinates": [[13.4051601, 52.5360407], [13.4049045, 52.5361963], [13.4045429, 52.5361963], [13.4042873, 52.5360407], [13.4042873, 52.5358207], [13.4045429, 52.5356651], [13.4049045, 52.5356651], [13.4051601, 52.5358207], [13.4051601, 52.5360407]]}}]};
 
-window.CONDUITS_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"id": "@conduit-ab-initio-feed", "code": "HW-01", "codename": "DFT FEED", "name": "Ab Initio Ground-Truth Feed", "from": "@spire-diffdft", "from_name": "Differentiable DFT & Learned Functionals", "to": "@spire-universal-mlip", "to_name": "Universal Equivariant Potentials", "type": "Electronic Structure Stream", "bandwidth": "Energies, forces and stresses at DFT fidelity", "description": "Accelerated and differentiable DFT supplies the labelled potential energy surface that every universal potential is trained on, aggregated through MatPES, Materials Project, OQMD and AFLOW.", "color": "#00f0ff", "midpoint": [13.4023796, 52.4983975]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.4946083], [13.4043516, 52.4947514], [13.404025, 52.4949227], [13.4037405, 52.4951201], [13.4034945, 52.4953414], [13.4032835, 52.4955844], [13.4031041, 52.4958471], [13.4029525, 52.4961273], [13.4028255, 52.4964228], [13.4027194, 52.4967315], [13.4026307, 52.4970512], [13.4025558, 52.4973798], [13.4024914, 52.4977152], [13.4024338, 52.4980551], [13.4023796, 52.4983975], [13.4023252, 52.4987402], [13.402267, 52.499081], [13.4022017, 52.4994178], [13.4021256, 52.4997484], [13.4020353, 52.5000708], [13.4019272, 52.5003827], [13.4017978, 52.500682], [13.4016435, 52.5009666], [13.401461, 52.5012342], [13.4012466, 52.5014829], [13.4009968, 52.5017103], [13.4007081, 52.5019144], [13.400377, 52.502093], [13.4, 52.502244]]}}, {"type": "Feature", "properties": {"id": "@conduit-force-constants", "code": "HW-02", "codename": "HESSIAN LINE", "name": "Force-Constant & Hessian Line", "from": "@spire-universal-mlip", "from_name": "Universal Equivariant Potentials", "to": "@spire-phonon", "to_name": "Phonon & Electron-Phonon Engines", "type": "Bidirectional Derivative Exchange", "bandwidth": "Second derivatives, dynamical matrices", "description": "MLIPs replace DFT in finite-displacement force-constant evaluation, opening higher-order phonon scattering; Hessian and small-displacement data flow back south as the training signal that fixes long-range blindness.", "color": "#ffb700", "midpoint": [13.3976559, 52.5066573]}, "geometry": {"type": "LineString", "coordinates": [[13.4, 52.502244], [13.4000719, 52.5026853], [13.4000906, 52.5030985], [13.4000604, 52.5034857], [13.3999852, 52.5038491], [13.3998691, 52.5041909], [13.3997162, 52.5045133], [13.3995305, 52.5048185], [13.3993161, 52.5051086], [13.3990772, 52.505386], [13.3988177, 52.5056527], [13.3985418, 52.505911], [13.3982534, 52.5061631], [13.3979568, 52.5064111], [13.3976559, 52.5066573], [13.3973548, 52.5069038], [13.3970576, 52.5071528], [13.3967683, 52.5074066], [13.3964911, 52.5076673], [13.39623, 52.5079371], [13.3959891, 52.5082182], [13.3957724, 52.5085128], [13.395584, 52.5088231], [13.395428, 52.5091513], [13.3953085, 52.5094995], [13.3952295, 52.5098701], [13.395195, 52.5102651], [13.3952093, 52.5106868], [13.3952763, 52.5111373]]}}, {"type": "Feature", "properties": {"id": "@conduit-spin-lattice", "code": "HW-03", "codename": "SPIN-LATTICE", "name": "Spin-Lattice Coupling Channel", "from": "@spire-magnetic-mlip", "from_name": "Spin-Lattice & Magnetic MLIPs", "to": "@spire-spin-dynamics", "to_name": "Spin Texture & Magnetic Dynamics", "type": "Magnetic Force Transfer", "bandwidth": "Magnetic torques and forces to 1.67e-2 meV/uB", "description": "E(3)-equivariant magnetic energies and torques parameterise Landau-Lifshitz-Gilbert and kinetic Monte-Carlo simulation of chiral domains, magnon dispersion and skyrmion textures at mesoscale.", "color": "#00f0ff", "midpoint": [13.4000354, 52.5151765]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.5028728], [13.4037237, 52.5034957], [13.4028716, 52.504175], [13.4021561, 52.5049065], [13.4015657, 52.5056859], [13.4010891, 52.506509], [13.4007149, 52.5073715], [13.4004315, 52.508269], [13.4002277, 52.5091975], [13.4000919, 52.5101524], [13.4000129, 52.5111297], [13.3999791, 52.5121251], [13.3999793, 52.5131341], [13.4000018, 52.5141527], [13.4000354, 52.5151765], [13.4000687, 52.5162012], [13.4000902, 52.5172227], [13.4000885, 52.5182365], [13.4000522, 52.5192384], [13.3999699, 52.5202243], [13.3998302, 52.5211897], [13.3996216, 52.5221305], [13.3993329, 52.5230423], [13.3989525, 52.5239209], [13.398469, 52.524762], [13.397871, 52.5255614], [13.3971472, 52.5263147], [13.3962861, 52.5270177], [13.3952763, 52.5276662]]}}, {"type": "Feature", "properties": {"id": "@conduit-hamiltonian-screening", "code": "HW-04", "codename": "HAMILTONIAN", "name": "Universal Hamiltonian Screening Bridge", "from": "@spire-hamgnn", "from_name": "HamGNN Universal Kohn-Sham Model", "to": "@spire-generative-design", "to_name": "Generative Mesostructured Design", "type": "Electronic Property Filter", "bandwidth": "Band structures across the periodic table", "description": "A Hamiltonian model valid for 5+ element systems and 5,562-atom MOFs lets generative pipelines be screened on electronic properties rather than formation energy alone, at sizes conventional DFT cannot reach.", "color": "#ffb700", "midpoint": [13.4006167, 52.5130144]}, "geometry": {"type": "LineString", "coordinates": [[13.4, 52.4939795], [13.40111, 52.4954406], [13.4019733, 52.4969017], [13.402609, 52.4983631], [13.4030359, 52.4998249], [13.4032731, 52.5012871], [13.4033395, 52.5027498], [13.4032541, 52.5042132], [13.4030359, 52.5056775], [13.4027039, 52.5071426], [13.4022769, 52.5086087], [13.4017741, 52.510076], [13.4012144, 52.5115445], [13.4006167, 52.5130144], [13.4, 52.5144857], [13.3993833, 52.5159586], [13.3987856, 52.5174332], [13.3982259, 52.5189096], [13.3977231, 52.520388], [13.3972961, 52.5218683], [13.3969641, 52.5233509], [13.3967459, 52.5248356], [13.3966605, 52.5263228], [13.3967269, 52.5278124], [13.3969641, 52.5293046], [13.397391, 52.5307996], [13.3980267, 52.5322973], [13.39889, 52.533798], [13.4, 52.5353018]]}}, {"type": "Feature", "properties": {"id": "@conduit-superstructure", "code": "HW-05", "codename": "MOIRE RAMP", "name": "Twisted Superstructure Ramp", "from": "@spire-deeph", "from_name": "DeepH Family & xDeepH", "to": "@spire-spin-dynamics", "to_name": "Spin Texture & Magnetic Dynamics", "type": "Equivariant Generalisation", "bandwidth": "3x3 supercells -> 11,000+ atom moire cells", "description": "Trained on small nontwisted supercells, xDeepH predicts magnetic Hamiltonians for moire-twisted bilayer CrI3 at 4,336 atoms and captures skyrmion-induced flat band removal \u2014 a jump of three orders of magnitude in system size on the strength of locality plus symmetry alone.", "color": "#00f0ff", "midpoint": [13.3952763, 52.5110133]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.4946083], [13.3943883, 52.4957771], [13.3936976, 52.4969461], [13.3931891, 52.4981152], [13.3928476, 52.4992846], [13.3926578, 52.5004543], [13.3926047, 52.5016245], [13.392673, 52.5027953], [13.3928476, 52.5039667], [13.3931132, 52.5051388], [13.3934547, 52.5063117], [13.393857, 52.5074855], [13.3943048, 52.5086603], [13.394783, 52.5098362], [13.3952763, 52.5110133], [13.3957696, 52.5121916], [13.3962478, 52.5133713], [13.3966956, 52.5145524], [13.3970979, 52.5157351], [13.3974394, 52.5169194], [13.397705, 52.5181054], [13.3978796, 52.5192932], [13.3979479, 52.520483], [13.3978948, 52.5216747], [13.397705, 52.5228685], [13.3973635, 52.5240644], [13.396855, 52.5252626], [13.3961643, 52.5264632], [13.3952763, 52.5276662]]}}, {"type": "Feature", "properties": {"id": "@conduit-bead-mapping", "code": "HW-06", "codename": "BEAD DESCENT", "name": "Bead Mapping Descent", "from": "@spire-descriptor-mlip", "from_name": "Explicit-Descriptor Potentials", "to": "@spire-cg-forcefield", "to_name": "Learned Coarse-Grained Force Fields", "type": "Degree-of-Freedom Reduction", "bandwidth": "n^3:1 atom-to-bead mapping", "description": "All-atom trajectories are force-matched onto coarse-grained beads; flow matching and denoising score matching cut the reference-force requirement by up to two orders of magnitude.", "color": "#ffb700", "midpoint": [13.3961871, 52.5087245]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.5028728], [13.3957203, 52.5034572], [13.3960656, 52.5040417], [13.3963199, 52.5046262], [13.3964907, 52.5052109], [13.3965855, 52.5057958], [13.3966121, 52.5063809], [13.396578, 52.5069663], [13.3964907, 52.507552], [13.3963578, 52.508138], [13.3961871, 52.5087245], [13.3959859, 52.5093114], [13.395762, 52.5098988], [13.395523, 52.5104867], [13.3952763, 52.5110753], [13.3950296, 52.5116644], [13.3947906, 52.5122543], [13.3945667, 52.5128448], [13.3943655, 52.5134362], [13.3941948, 52.5140283], [13.3940619, 52.5146213], [13.3939746, 52.5152152], [13.3939405, 52.5158101], [13.3939671, 52.516406], [13.3940619, 52.5170028], [13.3942327, 52.5176008], [13.394487, 52.5181999], [13.3948323, 52.5188002], [13.3952763, 52.5194017]]}}, {"type": "Feature", "properties": {"id": "@conduit-representative-atoms", "code": "HW-07", "codename": "ATOM REDUCTION", "name": "Representative-Atom Reduction", "from": "@spire-cg-forcefield", "from_name": "Learned Coarse-Grained Force Fields", "to": "@spire-quasicontinuum", "to_name": "Quasicontinuum & Gaussian Phase Packets", "type": "Statistical Upscaling", "bandwidth": "Phase-space ensembles, not trajectories", "description": "Coarse-grained ensembles feed quasicontinuum summation rules and Gaussian phase packet statistics, with GNN surrogates replacing the numerical quadrature whose lack of frame indifference produced fictitious energy minima.", "color": "#00f0ff", "midpoint": [13.3976205, 52.5190897]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.5194017], [13.3954602, 52.5195064], [13.3956404, 52.5195828], [13.3958171, 52.5196332], [13.3959907, 52.5196598], [13.3961615, 52.5196647], [13.3963297, 52.51965], [13.3964957, 52.519618], [13.3966597, 52.5195707], [13.3968222, 52.5195105], [13.3969833, 52.5194394], [13.3971434, 52.5193596], [13.3973027, 52.5192732], [13.3974616, 52.5191825], [13.3976205, 52.5190897], [13.3977794, 52.5189968], [13.3979389, 52.518906], [13.3980992, 52.5188195], [13.3982605, 52.5187396], [13.3984232, 52.5186682], [13.3985877, 52.5186077], [13.3987541, 52.5185602], [13.3989228, 52.5185278], [13.3990941, 52.5185127], [13.3992683, 52.5185171], [13.3994456, 52.5185432], [13.3996265, 52.518593], [13.3998112, 52.5186689], [13.4, 52.5187729]]}}, {"type": "Feature", "properties": {"id": "@conduit-order-parameter", "code": "HW-08", "codename": "ORDER PARAMETER", "name": "Order-Parameter Extraction Loop", "from": "@spire-rg-latent", "from_name": "RG-Inspired Latent Representations", "to": "@spire-phase-transitions", "to_name": "Phase Transition Cartography", "type": "Unsupervised Collective Variable Discovery", "bandwidth": "Tc from single configuration snapshots", "description": "RSMI-NE and multiscale structural complexity pull order parameters straight out of raw real-space configurations, distinguishing magnetic phases where conventional structure-factor analysis fails and locating critical temperatures without prior knowledge of the order parameter.", "color": "#ffb700", "midpoint": [13.4023796, 52.5231909]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.5194017], [13.4047618, 52.5197986], [13.4047543, 52.5201673], [13.4047047, 52.52051], [13.4046165, 52.5208289], [13.4044932, 52.5211262], [13.4043382, 52.5214041], [13.4041552, 52.5216647], [13.4039475, 52.5219103], [13.4037186, 52.5221431], [13.4034721, 52.5223652], [13.4032115, 52.5225789], [13.4029402, 52.5227862], [13.4026617, 52.5229895], [13.4023796, 52.5231909], [13.4020973, 52.5233926], [13.4018182, 52.5235967], [13.401546, 52.5238056], [13.4012841, 52.5240213], [13.401036, 52.524246], [13.4008052, 52.524482], [13.4005951, 52.5247314], [13.4004094, 52.5249965], [13.4002513, 52.5252793], [13.4001246, 52.5255822], [13.4000326, 52.5259072], [13.3999788, 52.5262566], [13.3999668, 52.5266326], [13.4, 52.5270374]]}}, {"type": "Feature", "properties": {"id": "@conduit-free-energy", "code": "HW-09", "codename": "FREE-ENERGY", "name": "Free-Energy Handoff to Continuum", "from": "@spire-phase-transitions", "from_name": "Phase Transition Cartography", "to": "@spire-hierarchical-pipeline", "to_name": "Hierarchical Scale-Bridging Pipelines", "type": "Thermodynamic Upscaling", "bandwidth": "Learned free energy landscapes over order parameters", "description": "Cluster expansion plus semi-grand canonical Monte-Carlo trains a network on the free energy landscape under active learning; those predictions become the driving thermodynamics of continuum phase-field simulation.", "color": "#00f0ff", "midpoint": [13.3976559, 52.5314507]}, "geometry": {"type": "LineString", "coordinates": [[13.4, 52.5270374], [13.3995941, 52.527225], [13.3992413, 52.5274407], [13.3989374, 52.5276826], [13.3986784, 52.5279484], [13.3984602, 52.528236], [13.3982787, 52.5285432], [13.3981298, 52.5288679], [13.3980094, 52.529208], [13.3979134, 52.5295613], [13.3978377, 52.5299256], [13.3977782, 52.5302989], [13.3977308, 52.5306789], [13.3976914, 52.5310636], [13.3976559, 52.5314507], [13.3976202, 52.5318382], [13.3975803, 52.5322239], [13.397532, 52.5326056], [13.3974712, 52.5329813], [13.3973939, 52.5333487], [13.3972959, 52.5337057], [13.3971731, 52.5340502], [13.3970215, 52.53438], [13.3968369, 52.534693], [13.3966152, 52.5349871], [13.3963525, 52.53526], [13.3960445, 52.5355097], [13.3956871, 52.535734], [13.3952763, 52.5359307]]}}, {"type": "Feature", "properties": {"id": "@conduit-thermal-uplink", "code": "HW-10", "codename": "THERMAL UPLINK", "name": "Thermal Property Uplink", "from": "@spire-thermal", "from_name": "Thermal Property Surrogates", "to": "@spire-hierarchical-pipeline", "to_name": "Hierarchical Scale-Bridging Pipelines", "type": "Constitutive Parameterisation", "bandwidth": "Heat capacity, thermal expansion, bulk moduli", "description": "Surrogate thermal properties for materials too large for direct DFT become the constitutive inputs of continuum thermomechanical models.", "color": "#ffb700", "midpoint": [13.3993287, 52.5241838]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.5111373], [13.4050557, 52.5122677], [13.4052396, 52.5133418], [13.4052869, 52.514364], [13.4052088, 52.5153386], [13.4050169, 52.5162702], [13.4047223, 52.517163], [13.4043365, 52.5180215], [13.4038708, 52.5188502], [13.4033366, 52.5196533], [13.4027452, 52.5204354], [13.4021081, 52.5212008], [13.4014365, 52.521954], [13.4007418, 52.5226992], [13.4000354, 52.523441], [13.3993287, 52.5241838], [13.3986329, 52.5249319], [13.3979595, 52.5256898], [13.3973199, 52.5264618], [13.3967252, 52.5272525], [13.3961871, 52.528066], [13.3957167, 52.528907], [13.3953254, 52.5297798], [13.3950247, 52.5306888], [13.3948259, 52.5316383], [13.3947402, 52.5326329], [13.3947792, 52.5336769], [13.3949541, 52.5347747], [13.3952763, 52.5359307]]}}, {"type": "Feature", "properties": {"id": "@conduit-stress-feedback", "code": "HW-11", "codename": "STRESS FEEDBACK", "name": "Mesoscale Stress Feedback", "from": "@spire-fracture", "from_name": "Defect, Stress & Fracture Mesostructure", "to": "@spire-hierarchical-pipeline", "to_name": "Hierarchical Scale-Bridging Pipelines", "type": "Mechanical Upscaling", "bandwidth": "Atomic stress fields, crack morphologies", "description": "GNN-predicted von Mises and tensile stress fields and ConvLSTM crack patterns upscale into FEM and electromechanical composite models, as in the DFT-FEM fusion that lifted CNT/PDMS resistance prediction from 0.7548 to 0.7883 R-squared.", "color": "#00f0ff", "midpoint": [13.4006888, 52.5304799]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.5276662], [13.4041677, 52.5277046], [13.4036609, 52.5277995], [13.4031997, 52.5279464], [13.4027801, 52.5281412], [13.4023984, 52.5283794], [13.4020507, 52.5286568], [13.4017332, 52.528969], [13.401442, 52.5293117], [13.4011735, 52.5296806], [13.4009237, 52.5300715], [13.4006888, 52.5304799], [13.400465, 52.5309016], [13.4002485, 52.5313322], [13.4000354, 52.5317674], [13.399822, 52.532203], [13.3996044, 52.5326346], [13.3993788, 52.5330578], [13.3991414, 52.5334685], [13.3988883, 52.5338622], [13.3986158, 52.5342346], [13.39832, 52.5345814], [13.3979971, 52.5348984], [13.3976432, 52.5351811], [13.3972546, 52.5354253], [13.3968274, 52.5356267], [13.3963579, 52.535781], [13.3958421, 52.5358837], [13.3952763, 52.5359307]]}}, {"type": "Feature", "properties": {"id": "@conduit-transport-twin", "code": "HW-12", "codename": "DIGITAL TWIN", "name": "Transport Digital Twin Line", "from": "@spire-ionic", "from_name": "Ionic Transport & Superionic Screening", "to": "@spire-selfdriving", "to_name": "Self-Driving Labs & Digital Twins", "type": "Digital-to-Physical Screening Pipeline", "bandwidth": "Ranked superionic candidates, conductivity estimates", "description": "Descriptor-ranked superionic candidates and MLIP conductivity estimates drive battery digital twins and closed-loop electrolyte search \u2014 the path that produced experimentally confirmed Li3BS3 and novel LiB3H8.", "color": "#ffb700", "midpoint": [13.402755, 52.5211759]}, "geometry": {"type": "LineString", "coordinates": [[13.4, 52.5105084], [13.4008499, 52.5112804], [13.4015481, 52.5120806], [13.4021062, 52.512907], [13.402536, 52.5137575], [13.402849, 52.51463], [13.4030571, 52.5155223], [13.4031719, 52.5164324], [13.403205, 52.5173582], [13.4031682, 52.5182975], [13.4030732, 52.5192483], [13.4029315, 52.5202085], [13.402755, 52.5211759], [13.4025553, 52.5221485], [13.4023442, 52.5231242], [13.4021331, 52.5241009], [13.401934, 52.5250764], [13.4017584, 52.5260487], [13.401618, 52.5270157], [13.4015246, 52.5279753], [13.4014898, 52.5289253], [13.4015253, 52.5298637], [13.4016427, 52.5307884], [13.4018539, 52.5316973], [13.4021704, 52.5325882], [13.4026039, 52.5334591], [13.4031662, 52.5343079], [13.4038689, 52.5351325], [13.4047237, 52.5359307]]}}, {"type": "Feature", "properties": {"id": "@conduit-active-return", "code": "HW-13", "codename": "ACTIVE RETURN", "name": "Active-Learning Return Conduit", "from": "@spire-selfdriving", "from_name": "Self-Driving Labs & Digital Twins", "to": "@spire-universal-mlip", "to_name": "Universal Equivariant Potentials", "type": "Northbound-to-Southbound Feedback", "bandwidth": "Uncertainty-triggered DFT and experimental labels", "description": "The one conduit that runs back down the corridor. On-the-fly learning invokes expensive DFT only when uncertainty exceeds threshold, and autonomous laboratories would close the same loop with physical measurements \u2014 the bidirectional exchange whose absence the review names as its central structural limitation.", "color": "#00f0ff", "midpoint": [13.4017085, 52.5180834]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.5359307], [13.4054616, 52.5346127], [13.4059984, 52.5333229], [13.4063495, 52.5320589], [13.4065305, 52.5308184], [13.4065567, 52.5295993], [13.4064436, 52.5283993], [13.4062067, 52.527216], [13.4058614, 52.5260473], [13.4054233, 52.5248909], [13.4049076, 52.5237444], [13.40433, 52.5226058], [13.4037058, 52.5214726], [13.4030505, 52.5203427], [13.4023796, 52.5192137], [13.4017085, 52.5180834], [13.4010527, 52.5169496], [13.4004276, 52.51581], [13.3998487, 52.5146623], [13.3993314, 52.5135043], [13.3988912, 52.5123337], [13.3985436, 52.5111482], [13.398304, 52.5099456], [13.3981879, 52.5087236], [13.3982106, 52.50748], [13.3983878, 52.5062125], [13.3987347, 52.5049189], [13.399267, 52.5035968], [13.4, 52.502244]]}}]};
+window.CONDUITS_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"id": "@conduit-ab-initio-feed", "code": "HW-01", "codename": "DFT FEED", "name": "Ab Initio Ground-Truth Feed", "from": "@spire-diffdft", "from_name": "Differentiable DFT & Learned Functionals", "to": "@spire-universal-mlip", "to_name": "Universal Equivariant Potentials", "type": "Electronic Structure Stream", "bandwidth": "Energies, forces and stresses at DFT fidelity", "description": "Accelerated and differentiable DFT supplies the labelled potential energy surface that every universal potential is trained on, aggregated through MatPES, Materials Project, OQMD and AFLOW.", "color": "#00f0ff", "status": "operational", "direction": "north", "constrained_by": [], "remedies": [], "midpoint": [13.4023796, 52.4983975]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.4946083], [13.4043516, 52.4947514], [13.404025, 52.4949227], [13.4037405, 52.4951201], [13.4034945, 52.4953414], [13.4032835, 52.4955844], [13.4031041, 52.4958471], [13.4029525, 52.4961273], [13.4028255, 52.4964228], [13.4027194, 52.4967315], [13.4026307, 52.4970512], [13.4025558, 52.4973798], [13.4024914, 52.4977152], [13.4024338, 52.4980551], [13.4023796, 52.4983975], [13.4023252, 52.4987402], [13.402267, 52.499081], [13.4022017, 52.4994178], [13.4021256, 52.4997484], [13.4020353, 52.5000708], [13.4019272, 52.5003827], [13.4017978, 52.500682], [13.4016435, 52.5009666], [13.401461, 52.5012342], [13.4012466, 52.5014829], [13.4009968, 52.5017103], [13.4007081, 52.5019144], [13.400377, 52.502093], [13.4, 52.502244]]}}, {"type": "Feature", "properties": {"id": "@conduit-force-constants", "code": "HW-02", "codename": "HESSIAN LINE", "name": "Force-Constant & Hessian Line", "from": "@spire-universal-mlip", "from_name": "Universal Equivariant Potentials", "to": "@spire-phonon", "to_name": "Phonon & Electron-Phonon Engines", "type": "Bidirectional Derivative Exchange", "bandwidth": "Second derivatives, dynamical matrices", "description": "MLIPs replace DFT in finite-displacement force-constant evaluation, opening higher-order phonon scattering; Hessian and small-displacement data flow back south as the training signal that fixes long-range blindness.", "color": "#ffb700", "status": "operational", "direction": "north", "constrained_by": [], "remedies": [], "midpoint": [13.3976559, 52.5066573]}, "geometry": {"type": "LineString", "coordinates": [[13.4, 52.502244], [13.4000719, 52.5026853], [13.4000906, 52.5030985], [13.4000604, 52.5034857], [13.3999852, 52.5038491], [13.3998691, 52.5041909], [13.3997162, 52.5045133], [13.3995305, 52.5048185], [13.3993161, 52.5051086], [13.3990772, 52.505386], [13.3988177, 52.5056527], [13.3985418, 52.505911], [13.3982534, 52.5061631], [13.3979568, 52.5064111], [13.3976559, 52.5066573], [13.3973548, 52.5069038], [13.3970576, 52.5071528], [13.3967683, 52.5074066], [13.3964911, 52.5076673], [13.39623, 52.5079371], [13.3959891, 52.5082182], [13.3957724, 52.5085128], [13.395584, 52.5088231], [13.395428, 52.5091513], [13.3953085, 52.5094995], [13.3952295, 52.5098701], [13.395195, 52.5102651], [13.3952093, 52.5106868], [13.3952763, 52.5111373]]}}, {"type": "Feature", "properties": {"id": "@conduit-spin-lattice", "code": "HW-03", "codename": "SPIN-LATTICE", "name": "Spin-Lattice Coupling Channel", "from": "@spire-magnetic-mlip", "from_name": "Spin-Lattice & Magnetic MLIPs", "to": "@spire-spin-dynamics", "to_name": "Spin Texture & Magnetic Dynamics", "type": "Magnetic Force Transfer", "bandwidth": "Magnetic torques and forces to 1.67e-2 meV/uB", "description": "E(3)-equivariant magnetic energies and torques parameterise Landau-Lifshitz-Gilbert and kinetic Monte-Carlo simulation of chiral domains, magnon dispersion and skyrmion textures at mesoscale.", "color": "#00f0ff", "status": "operational", "direction": "north", "constrained_by": [], "remedies": [], "midpoint": [13.4000354, 52.5151765]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.5028728], [13.4037237, 52.5034957], [13.4028716, 52.504175], [13.4021561, 52.5049065], [13.4015657, 52.5056859], [13.4010891, 52.506509], [13.4007149, 52.5073715], [13.4004315, 52.508269], [13.4002277, 52.5091975], [13.4000919, 52.5101524], [13.4000129, 52.5111297], [13.3999791, 52.5121251], [13.3999793, 52.5131341], [13.4000018, 52.5141527], [13.4000354, 52.5151765], [13.4000687, 52.5162012], [13.4000902, 52.5172227], [13.4000885, 52.5182365], [13.4000522, 52.5192384], [13.3999699, 52.5202243], [13.3998302, 52.5211897], [13.3996216, 52.5221305], [13.3993329, 52.5230423], [13.3989525, 52.5239209], [13.398469, 52.524762], [13.397871, 52.5255614], [13.3971472, 52.5263147], [13.3962861, 52.5270177], [13.3952763, 52.5276662]]}}, {"type": "Feature", "properties": {"id": "@conduit-hamiltonian-screening", "code": "HW-04", "codename": "HAMILTONIAN", "name": "Universal Hamiltonian Screening Bridge", "from": "@spire-hamgnn", "from_name": "HamGNN Universal Kohn-Sham Model", "to": "@spire-generative-design", "to_name": "Generative Mesostructured Design", "type": "Electronic Property Filter", "bandwidth": "Band structures across the periodic table", "description": "A Hamiltonian model valid for 5+ element systems and 5,562-atom MOFs lets generative pipelines be screened on electronic properties rather than formation energy alone, at sizes conventional DFT cannot reach.", "color": "#ffb700", "status": "operational", "direction": "north", "constrained_by": [], "remedies": [], "midpoint": [13.4006167, 52.5130144]}, "geometry": {"type": "LineString", "coordinates": [[13.4, 52.4939795], [13.40111, 52.4954406], [13.4019733, 52.4969017], [13.402609, 52.4983631], [13.4030359, 52.4998249], [13.4032731, 52.5012871], [13.4033395, 52.5027498], [13.4032541, 52.5042132], [13.4030359, 52.5056775], [13.4027039, 52.5071426], [13.4022769, 52.5086087], [13.4017741, 52.510076], [13.4012144, 52.5115445], [13.4006167, 52.5130144], [13.4, 52.5144857], [13.3993833, 52.5159586], [13.3987856, 52.5174332], [13.3982259, 52.5189096], [13.3977231, 52.520388], [13.3972961, 52.5218683], [13.3969641, 52.5233509], [13.3967459, 52.5248356], [13.3966605, 52.5263228], [13.3967269, 52.5278124], [13.3969641, 52.5293046], [13.397391, 52.5307996], [13.3980267, 52.5322973], [13.39889, 52.533798], [13.4, 52.5353018]]}}, {"type": "Feature", "properties": {"id": "@conduit-superstructure", "code": "HW-05", "codename": "MOIRE RAMP", "name": "Twisted Superstructure Ramp", "from": "@spire-deeph", "from_name": "DeepH Family & xDeepH", "to": "@spire-spin-dynamics", "to_name": "Spin Texture & Magnetic Dynamics", "type": "Equivariant Generalisation", "bandwidth": "3x3 supercells -> 11,000+ atom moire cells", "description": "Trained on small nontwisted supercells, xDeepH predicts magnetic Hamiltonians for moire-twisted bilayer CrI3 at 4,336 atoms and captures skyrmion-induced flat band removal \u2014 a jump of three orders of magnitude in system size on the strength of locality plus symmetry alone.", "color": "#00f0ff", "status": "operational", "direction": "north", "constrained_by": [], "remedies": [], "midpoint": [13.3943048, 52.5086603]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.4946083], [13.3943883, 52.4957771], [13.3936976, 52.4969461], [13.3931891, 52.4981152], [13.3928476, 52.4992846], [13.3926578, 52.5004543], [13.3926047, 52.5016245], [13.392673, 52.5027953], [13.3928476, 52.5039667], [13.3931132, 52.5051388], [13.3934547, 52.5063117], [13.393857, 52.5074855], [13.3943048, 52.5086603], [13.394783, 52.5098362], [13.3952763, 52.5110133], [13.3957696, 52.5121916], [13.3962478, 52.5133713], [13.3966956, 52.5145524], [13.3970979, 52.5157351], [13.3974394, 52.5169194], [13.397705, 52.5181054], [13.3978796, 52.5192932], [13.3979479, 52.520483], [13.3978948, 52.5216747], [13.397705, 52.5228685], [13.3973635, 52.5240644], [13.396855, 52.5252626], [13.3961643, 52.5264632], [13.3952763, 52.5276662]]}}, {"type": "Feature", "properties": {"id": "@conduit-bead-mapping", "code": "HW-06", "codename": "BEAD DESCENT", "name": "Bead Mapping Descent", "from": "@spire-descriptor-mlip", "from_name": "Explicit-Descriptor Potentials", "to": "@spire-cg-forcefield", "to_name": "Learned Coarse-Grained Force Fields", "type": "Degree-of-Freedom Reduction", "bandwidth": "n^3:1 atom-to-bead mapping", "description": "All-atom trajectories are force-matched onto coarse-grained beads; flow matching and denoising score matching cut the reference-force requirement by up to two orders of magnitude.", "color": "#ffb700", "status": "operational", "direction": "north", "constrained_by": [], "remedies": [], "midpoint": [13.3940619, 52.5146213]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.5028728], [13.3957203, 52.5034572], [13.3960656, 52.5040417], [13.3963199, 52.5046262], [13.3964907, 52.5052109], [13.3965855, 52.5057958], [13.3966121, 52.5063809], [13.396578, 52.5069663], [13.3964907, 52.507552], [13.3963578, 52.508138], [13.3961871, 52.5087245], [13.3959859, 52.5093114], [13.395762, 52.5098988], [13.395523, 52.5104867], [13.3952763, 52.5110753], [13.3950296, 52.5116644], [13.3947906, 52.5122543], [13.3945667, 52.5128448], [13.3943655, 52.5134362], [13.3941948, 52.5140283], [13.3940619, 52.5146213], [13.3939746, 52.5152152], [13.3939405, 52.5158101], [13.3939671, 52.516406], [13.3940619, 52.5170028], [13.3942327, 52.5176008], [13.394487, 52.5181999], [13.3948323, 52.5188002], [13.3952763, 52.5194017]]}}, {"type": "Feature", "properties": {"id": "@conduit-representative-atoms", "code": "HW-07", "codename": "ATOM REDUCTION", "name": "Representative-Atom Reduction", "from": "@spire-cg-forcefield", "from_name": "Learned Coarse-Grained Force Fields", "to": "@spire-quasicontinuum", "to_name": "Quasicontinuum & Gaussian Phase Packets", "type": "Statistical Upscaling", "bandwidth": "Phase-space ensembles, not trajectories", "description": "Coarse-grained ensembles feed quasicontinuum summation rules and Gaussian phase packet statistics, with GNN surrogates replacing the numerical quadrature whose lack of frame indifference produced fictitious energy minima.", "color": "#00f0ff", "status": "operational", "direction": "local", "constrained_by": [], "remedies": [], "midpoint": [13.3976205, 52.5190897]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.5194017], [13.3954602, 52.5195064], [13.3956404, 52.5195828], [13.3958171, 52.5196332], [13.3959907, 52.5196598], [13.3961615, 52.5196647], [13.3963297, 52.51965], [13.3964957, 52.519618], [13.3966597, 52.5195707], [13.3968222, 52.5195105], [13.3969833, 52.5194394], [13.3971434, 52.5193596], [13.3973027, 52.5192732], [13.3974616, 52.5191825], [13.3976205, 52.5190897], [13.3977794, 52.5189968], [13.3979389, 52.518906], [13.3980992, 52.5188195], [13.3982605, 52.5187396], [13.3984232, 52.5186682], [13.3985877, 52.5186077], [13.3987541, 52.5185602], [13.3989228, 52.5185278], [13.3990941, 52.5185127], [13.3992683, 52.5185171], [13.3994456, 52.5185432], [13.3996265, 52.518593], [13.3998112, 52.5186689], [13.4, 52.5187729]]}}, {"type": "Feature", "properties": {"id": "@conduit-order-parameter", "code": "HW-08", "codename": "ORDER PARAMETER", "name": "Order-Parameter Extraction Loop", "from": "@spire-rg-latent", "from_name": "RG-Inspired Latent Representations", "to": "@spire-phase-transitions", "to_name": "Phase Transition Cartography", "type": "Unsupervised Collective Variable Discovery", "bandwidth": "Tc from single configuration snapshots", "description": "RSMI-NE and multiscale structural complexity pull order parameters straight out of raw real-space configurations, distinguishing magnetic phases where conventional structure-factor analysis fails and locating critical temperatures without prior knowledge of the order parameter.", "color": "#ffb700", "status": "operational", "direction": "north", "constrained_by": [], "remedies": [], "midpoint": [13.4023796, 52.5231909]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.5194017], [13.4047618, 52.5197986], [13.4047543, 52.5201673], [13.4047047, 52.52051], [13.4046165, 52.5208289], [13.4044932, 52.5211262], [13.4043382, 52.5214041], [13.4041552, 52.5216647], [13.4039475, 52.5219103], [13.4037186, 52.5221431], [13.4034721, 52.5223652], [13.4032115, 52.5225789], [13.4029402, 52.5227862], [13.4026617, 52.5229895], [13.4023796, 52.5231909], [13.4020973, 52.5233926], [13.4018182, 52.5235967], [13.401546, 52.5238056], [13.4012841, 52.5240213], [13.401036, 52.524246], [13.4008052, 52.524482], [13.4005951, 52.5247314], [13.4004094, 52.5249965], [13.4002513, 52.5252793], [13.4001246, 52.5255822], [13.4000326, 52.5259072], [13.3999788, 52.5262566], [13.3999668, 52.5266326], [13.4, 52.5270374]]}}, {"type": "Feature", "properties": {"id": "@conduit-free-energy", "code": "HW-09", "codename": "FREE-ENERGY", "name": "Free-Energy Handoff to Continuum", "from": "@spire-phase-transitions", "from_name": "Phase Transition Cartography", "to": "@spire-hierarchical-pipeline", "to_name": "Hierarchical Scale-Bridging Pipelines", "type": "Thermodynamic Upscaling", "bandwidth": "Learned free energy landscapes over order parameters", "description": "Cluster expansion plus semi-grand canonical Monte-Carlo trains a network on the free energy landscape under active learning; those predictions become the driving thermodynamics of continuum phase-field simulation.", "color": "#00f0ff", "status": "operational", "direction": "north", "constrained_by": [], "remedies": [], "midpoint": [13.3976559, 52.5314507]}, "geometry": {"type": "LineString", "coordinates": [[13.4, 52.5270374], [13.3995941, 52.527225], [13.3992413, 52.5274407], [13.3989374, 52.5276826], [13.3986784, 52.5279484], [13.3984602, 52.528236], [13.3982787, 52.5285432], [13.3981298, 52.5288679], [13.3980094, 52.529208], [13.3979134, 52.5295613], [13.3978377, 52.5299256], [13.3977782, 52.5302989], [13.3977308, 52.5306789], [13.3976914, 52.5310636], [13.3976559, 52.5314507], [13.3976202, 52.5318382], [13.3975803, 52.5322239], [13.397532, 52.5326056], [13.3974712, 52.5329813], [13.3973939, 52.5333487], [13.3972959, 52.5337057], [13.3971731, 52.5340502], [13.3970215, 52.53438], [13.3968369, 52.534693], [13.3966152, 52.5349871], [13.3963525, 52.53526], [13.3960445, 52.5355097], [13.3956871, 52.535734], [13.3952763, 52.5359307]]}}, {"type": "Feature", "properties": {"id": "@conduit-thermal-uplink", "code": "HW-10", "codename": "THERMAL UPLINK", "name": "Thermal Property Uplink", "from": "@spire-thermal", "from_name": "Thermal Property Surrogates", "to": "@spire-hierarchical-pipeline", "to_name": "Hierarchical Scale-Bridging Pipelines", "type": "Constitutive Parameterisation", "bandwidth": "Heat capacity, thermal expansion, bulk moduli", "description": "Surrogate thermal properties for materials too large for direct DFT become the constitutive inputs of continuum thermomechanical models.", "color": "#ffb700", "status": "operational", "direction": "north", "constrained_by": [], "remedies": [], "midpoint": [13.4021081, 52.5212008]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.5111373], [13.4050557, 52.5122677], [13.4052396, 52.5133418], [13.4052869, 52.514364], [13.4052088, 52.5153386], [13.4050169, 52.5162702], [13.4047223, 52.517163], [13.4043365, 52.5180215], [13.4038708, 52.5188502], [13.4033366, 52.5196533], [13.4027452, 52.5204354], [13.4021081, 52.5212008], [13.4014365, 52.521954], [13.4007418, 52.5226992], [13.4000354, 52.523441], [13.3993287, 52.5241838], [13.3986329, 52.5249319], [13.3979595, 52.5256898], [13.3973199, 52.5264618], [13.3967252, 52.5272525], [13.3961871, 52.528066], [13.3957167, 52.528907], [13.3953254, 52.5297798], [13.3950247, 52.5306888], [13.3948259, 52.5316383], [13.3947402, 52.5326329], [13.3947792, 52.5336769], [13.3949541, 52.5347747], [13.3952763, 52.5359307]]}}, {"type": "Feature", "properties": {"id": "@conduit-stress-feedback", "code": "HW-11", "codename": "STRESS FEEDBACK", "name": "Mesoscale Stress Feedback", "from": "@spire-fracture", "from_name": "Defect, Stress & Fracture Mesostructure", "to": "@spire-hierarchical-pipeline", "to_name": "Hierarchical Scale-Bridging Pipelines", "type": "Mechanical Upscaling", "bandwidth": "Atomic stress fields, crack morphologies", "description": "GNN-predicted von Mises and tensile stress fields and ConvLSTM crack patterns upscale into FEM and electromechanical composite models, as in the DFT-FEM fusion that lifted CNT/PDMS resistance prediction from 0.7548 to 0.7883 R-squared.", "color": "#00f0ff", "status": "operational", "direction": "north", "constrained_by": [], "remedies": [], "midpoint": [13.3993788, 52.5330578]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.5276662], [13.4041677, 52.5277046], [13.4036609, 52.5277995], [13.4031997, 52.5279464], [13.4027801, 52.5281412], [13.4023984, 52.5283794], [13.4020507, 52.5286568], [13.4017332, 52.528969], [13.401442, 52.5293117], [13.4011735, 52.5296806], [13.4009237, 52.5300715], [13.4006888, 52.5304799], [13.400465, 52.5309016], [13.4002485, 52.5313322], [13.4000354, 52.5317674], [13.399822, 52.532203], [13.3996044, 52.5326346], [13.3993788, 52.5330578], [13.3991414, 52.5334685], [13.3988883, 52.5338622], [13.3986158, 52.5342346], [13.39832, 52.5345814], [13.3979971, 52.5348984], [13.3976432, 52.5351811], [13.3972546, 52.5354253], [13.3968274, 52.5356267], [13.3963579, 52.535781], [13.3958421, 52.5358837], [13.3952763, 52.5359307]]}}, {"type": "Feature", "properties": {"id": "@conduit-transport-twin", "code": "HW-12", "codename": "DIGITAL TWIN", "name": "Transport Digital Twin Line", "from": "@spire-ionic", "from_name": "Ionic Transport & Superionic Screening", "to": "@spire-selfdriving", "to_name": "Self-Driving Labs & Digital Twins", "type": "Digital-to-Physical Screening Pipeline", "bandwidth": "Ranked superionic candidates, conductivity estimates", "description": "Descriptor-ranked superionic candidates and MLIP conductivity estimates drive battery digital twins and closed-loop electrolyte search \u2014 the path that produced experimentally confirmed Li3BS3 and novel LiB3H8.", "color": "#ffb700", "status": "operational", "direction": "north", "constrained_by": [], "remedies": [], "midpoint": [13.403205, 52.5173582]}, "geometry": {"type": "LineString", "coordinates": [[13.4, 52.5105084], [13.4008499, 52.5112804], [13.4015481, 52.5120806], [13.4021062, 52.512907], [13.402536, 52.5137575], [13.402849, 52.51463], [13.4030571, 52.5155223], [13.4031719, 52.5164324], [13.403205, 52.5173582], [13.4031682, 52.5182975], [13.4030732, 52.5192483], [13.4029315, 52.5202085], [13.402755, 52.5211759], [13.4025553, 52.5221485], [13.4023442, 52.5231242], [13.4021331, 52.5241009], [13.401934, 52.5250764], [13.4017584, 52.5260487], [13.401618, 52.5270157], [13.4015246, 52.5279753], [13.4014898, 52.5289253], [13.4015253, 52.5298637], [13.4016427, 52.5307884], [13.4018539, 52.5316973], [13.4021704, 52.5325882], [13.4026039, 52.5334591], [13.4031662, 52.5343079], [13.4038689, 52.5351325], [13.4047237, 52.5359307]]}}, {"type": "Feature", "properties": {"id": "@conduit-active-return", "code": "HW-13", "codename": "ACTIVE RETURN", "name": "Active-Learning Return Conduit", "from": "@spire-selfdriving", "from_name": "Self-Driving Labs & Digital Twins", "to": "@spire-universal-mlip", "to_name": "Universal Equivariant Potentials", "type": "Northbound-to-Southbound Feedback", "bandwidth": "Uncertainty-triggered DFT and experimental labels", "description": "The one conduit that runs back down the corridor. On-the-fly learning invokes expensive DFT only when uncertainty exceeds threshold, and autonomous laboratories would close the same loop with physical measurements \u2014 the bidirectional exchange whose absence the review names as its central structural limitation.", "color": "#00f0ff", "status": "operational", "direction": "south", "constrained_by": [], "remedies": [], "midpoint": [13.4054233, 52.5248909]}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.5359307], [13.4054616, 52.5346127], [13.4059984, 52.5333229], [13.4063495, 52.5320589], [13.4065305, 52.5308184], [13.4065567, 52.5295993], [13.4064436, 52.5283993], [13.4062067, 52.527216], [13.4058614, 52.5260473], [13.4054233, 52.5248909], [13.4049076, 52.5237444], [13.40433, 52.5226058], [13.4037058, 52.5214726], [13.4030505, 52.5203427], [13.4023796, 52.5192137], [13.4017085, 52.5180834], [13.4010527, 52.5169496], [13.4004276, 52.51581], [13.3998487, 52.5146623], [13.3993314, 52.5135043], [13.3988912, 52.5123337], [13.3985436, 52.5111482], [13.398304, 52.5099456], [13.3981879, 52.5087236], [13.3982106, 52.50748], [13.3983878, 52.5062125], [13.3987347, 52.5049189], [13.399267, 52.5035968], [13.4, 52.502244]]}}]};
+
+window.SCHEMA_VERSION = "1.0";
+
+window.TRAFFIC_GEOJSON = {"type": "FeatureCollection", "features": []};
+
+window.FIELDS_GEOJSON = {"type": "FeatureCollection", "features": []};
+
+window.ROUTE_GRAPH = [{"from": "@spire-diffdft", "to": "@spire-universal-mlip", "kind": "conduit", "conduit": "@conduit-ab-initio-feed", "cost": 1.0}, {"from": "@spire-universal-mlip", "to": "@spire-diffdft", "kind": "conduit", "conduit": "@conduit-ab-initio-feed", "against_flow": true, "cost": 3.0}, {"from": "@spire-universal-mlip", "to": "@spire-phonon", "kind": "conduit", "conduit": "@conduit-force-constants", "cost": 1.0}, {"from": "@spire-phonon", "to": "@spire-universal-mlip", "kind": "conduit", "conduit": "@conduit-force-constants", "against_flow": true, "cost": 3.0}, {"from": "@spire-magnetic-mlip", "to": "@spire-spin-dynamics", "kind": "conduit", "conduit": "@conduit-spin-lattice", "cost": 1.0}, {"from": "@spire-spin-dynamics", "to": "@spire-magnetic-mlip", "kind": "conduit", "conduit": "@conduit-spin-lattice", "against_flow": true, "cost": 3.0}, {"from": "@spire-hamgnn", "to": "@spire-generative-design", "kind": "conduit", "conduit": "@conduit-hamiltonian-screening", "cost": 1.0}, {"from": "@spire-generative-design", "to": "@spire-hamgnn", "kind": "conduit", "conduit": "@conduit-hamiltonian-screening", "against_flow": true, "cost": 3.0}, {"from": "@spire-deeph", "to": "@spire-spin-dynamics", "kind": "conduit", "conduit": "@conduit-superstructure", "cost": 1.0}, {"from": "@spire-spin-dynamics", "to": "@spire-deeph", "kind": "conduit", "conduit": "@conduit-superstructure", "against_flow": true, "cost": 3.0}, {"from": "@spire-descriptor-mlip", "to": "@spire-cg-forcefield", "kind": "conduit", "conduit": "@conduit-bead-mapping", "cost": 1.0}, {"from": "@spire-cg-forcefield", "to": "@spire-descriptor-mlip", "kind": "conduit", "conduit": "@conduit-bead-mapping", "against_flow": true, "cost": 3.0}, {"from": "@spire-cg-forcefield", "to": "@spire-quasicontinuum", "kind": "conduit", "conduit": "@conduit-representative-atoms", "cost": 1.0}, {"from": "@spire-quasicontinuum", "to": "@spire-cg-forcefield", "kind": "conduit", "conduit": "@conduit-representative-atoms", "against_flow": true, "cost": 3.0}, {"from": "@spire-rg-latent", "to": "@spire-phase-transitions", "kind": "conduit", "conduit": "@conduit-order-parameter", "cost": 1.0}, {"from": "@spire-phase-transitions", "to": "@spire-rg-latent", "kind": "conduit", "conduit": "@conduit-order-parameter", "against_flow": true, "cost": 3.0}, {"from": "@spire-phase-transitions", "to": "@spire-hierarchical-pipeline", "kind": "conduit", "conduit": "@conduit-free-energy", "cost": 1.0}, {"from": "@spire-hierarchical-pipeline", "to": "@spire-phase-transitions", "kind": "conduit", "conduit": "@conduit-free-energy", "against_flow": true, "cost": 3.0}, {"from": "@spire-thermal", "to": "@spire-hierarchical-pipeline", "kind": "conduit", "conduit": "@conduit-thermal-uplink", "cost": 1.0}, {"from": "@spire-hierarchical-pipeline", "to": "@spire-thermal", "kind": "conduit", "conduit": "@conduit-thermal-uplink", "against_flow": true, "cost": 3.0}, {"from": "@spire-fracture", "to": "@spire-hierarchical-pipeline", "kind": "conduit", "conduit": "@conduit-stress-feedback", "cost": 1.0}, {"from": "@spire-hierarchical-pipeline", "to": "@spire-fracture", "kind": "conduit", "conduit": "@conduit-stress-feedback", "against_flow": true, "cost": 3.0}, {"from": "@spire-ionic", "to": "@spire-selfdriving", "kind": "conduit", "conduit": "@conduit-transport-twin", "cost": 1.0}, {"from": "@spire-selfdriving", "to": "@spire-ionic", "kind": "conduit", "conduit": "@conduit-transport-twin", "against_flow": true, "cost": 3.0}, {"from": "@spire-selfdriving", "to": "@spire-universal-mlip", "kind": "conduit", "conduit": "@conduit-active-return", "cost": 1.0}, {"from": "@spire-universal-mlip", "to": "@spire-selfdriving", "kind": "conduit", "conduit": "@conduit-active-return", "against_flow": true, "cost": 3.0}, {"from": "@spire-deeph", "to": "@spire-hamgnn", "kind": "walk", "cost": 0.6}, {"from": "@spire-deeph", "to": "@spire-diffdft", "kind": "walk", "cost": 0.6}, {"from": "@spire-hamgnn", "to": "@spire-deeph", "kind": "walk", "cost": 0.6}, {"from": "@spire-hamgnn", "to": "@spire-diffdft", "kind": "walk", "cost": 0.6}, {"from": "@spire-diffdft", "to": "@spire-deeph", "kind": "walk", "cost": 0.6}, {"from": "@spire-diffdft", "to": "@spire-hamgnn", "kind": "walk", "cost": 0.6}, {"from": "@spire-descriptor-mlip", "to": "@spire-universal-mlip", "kind": "walk", "cost": 0.6}, {"from": "@spire-descriptor-mlip", "to": "@spire-magnetic-mlip", "kind": "walk", "cost": 0.6}, {"from": "@spire-universal-mlip", "to": "@spire-descriptor-mlip", "kind": "walk", "cost": 0.6}, {"from": "@spire-universal-mlip", "to": "@spire-magnetic-mlip", "kind": "walk", "cost": 0.6}, {"from": "@spire-magnetic-mlip", "to": "@spire-descriptor-mlip", "kind": "walk", "cost": 0.6}, {"from": "@spire-magnetic-mlip", "to": "@spire-universal-mlip", "kind": "walk", "cost": 0.6}, {"from": "@spire-phonon", "to": "@spire-ionic", "kind": "walk", "cost": 0.6}, {"from": "@spire-phonon", "to": "@spire-thermal", "kind": "walk", "cost": 0.6}, {"from": "@spire-ionic", "to": "@spire-phonon", "kind": "walk", "cost": 0.6}, {"from": "@spire-ionic", "to": "@spire-thermal", "kind": "walk", "cost": 0.6}, {"from": "@spire-thermal", "to": "@spire-phonon", "kind": "walk", "cost": 0.6}, {"from": "@spire-thermal", "to": "@spire-ionic", "kind": "walk", "cost": 0.6}, {"from": "@spire-cg-forcefield", "to": "@spire-quasicontinuum", "kind": "walk", "cost": 0.6}, {"from": "@spire-cg-forcefield", "to": "@spire-rg-latent", "kind": "walk", "cost": 0.6}, {"from": "@spire-quasicontinuum", "to": "@spire-cg-forcefield", "kind": "walk", "cost": 0.6}, {"from": "@spire-quasicontinuum", "to": "@spire-rg-latent", "kind": "walk", "cost": 0.6}, {"from": "@spire-rg-latent", "to": "@spire-cg-forcefield", "kind": "walk", "cost": 0.6}, {"from": "@spire-rg-latent", "to": "@spire-quasicontinuum", "kind": "walk", "cost": 0.6}, {"from": "@spire-spin-dynamics", "to": "@spire-phase-transitions", "kind": "walk", "cost": 0.6}, {"from": "@spire-spin-dynamics", "to": "@spire-fracture", "kind": "walk", "cost": 0.6}, {"from": "@spire-phase-transitions", "to": "@spire-spin-dynamics", "kind": "walk", "cost": 0.6}, {"from": "@spire-phase-transitions", "to": "@spire-fracture", "kind": "walk", "cost": 0.6}, {"from": "@spire-fracture", "to": "@spire-spin-dynamics", "kind": "walk", "cost": 0.6}, {"from": "@spire-fracture", "to": "@spire-phase-transitions", "kind": "walk", "cost": 0.6}, {"from": "@spire-hierarchical-pipeline", "to": "@spire-generative-design", "kind": "walk", "cost": 0.6}, {"from": "@spire-hierarchical-pipeline", "to": "@spire-selfdriving", "kind": "walk", "cost": 0.6}, {"from": "@spire-generative-design", "to": "@spire-hierarchical-pipeline", "kind": "walk", "cost": 0.6}, {"from": "@spire-generative-design", "to": "@spire-selfdriving", "kind": "walk", "cost": 0.6}, {"from": "@spire-selfdriving", "to": "@spire-hierarchical-pipeline", "kind": "walk", "cost": 0.6}, {"from": "@spire-selfdriving", "to": "@spire-generative-design", "kind": "walk", "cost": 0.6}];

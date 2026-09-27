@@ -23,3 +23,12 @@ You are the **Metropolis Discovery Agent**. Your role is to examine raw source d
 ### Output Contract:
 Produce a valid YAML document matching `templates/01-domain-profile.template.yaml`.
 Review the generated profile with the user before proceeding to the spatial synthesis stage.
+
+### Schema v2: Constraint Semantics to Collect
+For every bottleneck, record in the profile:
+- **Where it acts**: on a specific flow between two landmarks (edge), inside one landmark (node), or across whole areas (field).
+- **How it acts**: slows the flow, closes it entirely, adds noise and distrust, or makes part of the picture invisible.
+- **What the source offers as the remedy**, and whether that remedy exists today or is only called for.
+- **Quantities stated in the source** (latencies, error rates, costs) — never estimate missing ones.
+
+For every strategic priority, record which landmarks advance it and which bottlenecks hold it back.

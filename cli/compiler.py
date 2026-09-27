@@ -49,23 +49,26 @@ def geo_distance_m(a, b):
     """Approximate ground distance in metres between two [lng, lat] points near the city centre."""
     return math.hypot((a[0] - b[0]) / DEG_LNG_PER_METER, (a[1] - b[1]) / DEG_LAT_PER_METER)
 
-def place_conduit_badge(curve_coords, placed):
-    """Picks the point on the curve for a conduit badge: the apex if it is clear of
-    already-placed badges, otherwise the nearest point along the curve that is,
-    falling back to the most isolated point."""
-    mid = len(curve_coords) // 2
-    candidates = [mid]
-    for step in range(1, mid - 3):
-        candidates += [mid - step, mid + step]
-    best, best_clearance = curve_coords[mid], -1.0
+def place_on_curve(curve_coords, placed, preferred_idx=None, min_sep=BADGE_MIN_SEPARATION_M):
+    """Picks a point on the curve for a marker: the preferred index (default: the apex)
+    if it is clear of already-placed markers, otherwise the nearest point along the
+    curve that is, falling back to the most isolated point. Returns (point, index)."""
+    last = len(curve_coords) - 1
+    start = last // 2 if preferred_idx is None else max(2, min(last - 2, preferred_idx))
+    candidates = [start]
+    for step in range(1, last):
+        for idx in (start - step, start + step):
+            if 2 <= idx <= last - 2:
+                candidates.append(idx)
+    best, best_idx, best_clearance = curve_coords[start], start, -1.0
     for idx in candidates:
         pt = curve_coords[idx]
         clearance = min((geo_distance_m(pt, q) for q in placed), default=float('inf'))
-        if clearance >= BADGE_MIN_SEPARATION_M:
-            return pt
+        if clearance >= min_sep:
+            return pt, idx
         if clearance > best_clearance:
-            best, best_clearance = pt, clearance
-    return best
+            best, best_idx, best_clearance = pt, idx, clearance
+    return best, best_idx
 
 def meters_to_geo(dx_meters, dy_meters, base_lng=LNG_CENTER, base_lat=LAT_CENTER):
     """Convert delta (x, y) in meters to geodetic (lng, lat)."""
@@ -165,8 +168,108 @@ def validate_spec(spec):
             errors.append(f"Conduit {cid} 'from' references unknown spire {cond.get('from')}")
         if cond.get('to') not in spire_ids:
             errors.append(f"Conduit {cid} 'to' references unknown spire {cond.get('to')}")
+        if cond.get('status', 'operational') not in CONDUIT_STATUSES:
+            errors.append(f"Conduit {cid} has unknown status '{cond.get('status')}' (expected one of {', '.join(CONDUIT_STATUSES)})")
 
+    errors.extend(validate_v2_semantics(spec, district_ids, spire_ids))
     return errors
+
+# --- Schema v2: constraint semantics ---------------------------------------
+CONDUIT_STATUSES = ('operational', 'thin', 'planned')
+SCOPE_TARGET_PREFIX = {'edge': '@conduit-', 'node': '@spire-', 'field': '@dist-'}
+SCOPE_EFFECTS = {
+    'edge': ('slowdown', 'closure'),
+    'node': ('slowdown', 'closure'),
+    'field': ('slowdown', 'noise', 'blind'),
+}
+REMEDY_PREFIXES = ('@conduit-', '@spire-', '@chal-')
+
+def validate_v2_semantics(spec, district_ids, spire_ids):
+    """Hard errors for the optional schema-v2 fields (scope/constrains/effect/at/remedied_by,
+    advanced_by/blocked_by). Specs without these fields are unaffected."""
+    errors = []
+    conduit_ids = {c.get('id') for c in spec.get('conduits', [])}
+    chal_ids = {c.get('id') for c in spec.get('challenges', [])}
+    bneck_ids = {b.get('id') for b in spec.get('bottlenecks', [])}
+    known = {'@conduit-': conduit_ids, '@spire-': set(spire_ids), '@dist-': set(district_ids), '@chal-': chal_ids}
+
+    def resolves(ref):
+        return any(ref.startswith(pfx) and ref in ids for pfx, ids in known.items())
+
+    for b in spec.get('bottlenecks', []):
+        bid = b.get('id', '')
+        scope = b.get('scope')
+        if scope is None:
+            for field in ('constrains', 'effect', 'at'):
+                if field in b:
+                    errors.append(f"Bottleneck {bid} sets '{field}' but has no 'scope'")
+            continue
+        if scope not in SCOPE_TARGET_PREFIX:
+            errors.append(f"Bottleneck {bid} has unknown scope '{scope}' (expected edge | node | field)")
+            continue
+        targets = b.get('constrains') or []
+        if not targets:
+            errors.append(f"Bottleneck {bid} (scope {scope}) must list at least one 'constrains' target")
+        prefix = SCOPE_TARGET_PREFIX[scope]
+        for ref in targets:
+            if not ref.startswith(prefix):
+                errors.append(f"Bottleneck {bid} (scope {scope}) can only constrain {prefix}* refs, got {ref}")
+            elif not resolves(ref):
+                errors.append(f"Bottleneck {bid} constrains unknown {ref}")
+        effect = b.get('effect', 'slowdown')
+        if effect not in SCOPE_EFFECTS[scope]:
+            errors.append(f"Bottleneck {bid}: effect '{effect}' is not valid for scope {scope} (allowed: {', '.join(SCOPE_EFFECTS[scope])})")
+        if 'at' in b:
+            if scope != 'edge':
+                errors.append(f"Bottleneck {bid}: 'at' is only meaningful for scope edge")
+            elif not isinstance(b['at'], (int, float)) or not 0.0 <= b['at'] <= 1.0:
+                errors.append(f"Bottleneck {bid}: 'at' must be a number in 0..1")
+        for ref in b.get('remedied_by', []):
+            if not ref.startswith(REMEDY_PREFIXES) or not resolves(ref):
+                errors.append(f"Bottleneck {bid} remedied_by unknown or unsupported ref {ref}")
+
+    for c in spec.get('challenges', []):
+        cid = c.get('id', '')
+        for ref in c.get('advanced_by', []):
+            if ref not in spire_ids:
+                errors.append(f"Challenge {cid} advanced_by unknown spire {ref}")
+        for ref in c.get('blocked_by', []):
+            if ref not in bneck_ids:
+                errors.append(f"Challenge {cid} blocked_by unknown bottleneck {ref}")
+    return errors
+
+def lint_spec(spec):
+    """Non-fatal warnings about schema-v2 semantics that are valid but probably unintended."""
+    warnings = []
+    bnecks = spec.get('bottlenecks', [])
+    spires = {s['id']: s for s in spec.get('spires', [])}
+    conduits = {c['id']: c for c in spec.get('conduits', [])}
+    scoped = [b for b in bnecks if b.get('scope')]
+    if scoped and len(scoped) < len(bnecks):
+        for b in bnecks:
+            if not b.get('scope'):
+                warnings.append(f"Bottleneck {b['id']} has no scope; it is drawn as a legacy tower")
+    referenced = set()
+    for b in scoped:
+        referenced.update(b.get('constrains', []))
+        referenced.update(b.get('remedied_by', []))
+        for ref in b.get('constrains', []):
+            if ref in b.get('remedied_by', []):
+                warnings.append(f"Bottleneck {b['id']} both constrains and is remedied by {ref}")
+        if b['scope'] == 'edge':
+            endpoint_districts = set()
+            for ref in b.get('constrains', []):
+                cond = conduits.get(ref)
+                if cond:
+                    for end in (cond['from'], cond['to']):
+                        if end in spires:
+                            endpoint_districts.add(spires[end]['district_ref'])
+            if endpoint_districts and b['district_ref'] not in endpoint_districts:
+                warnings.append(f"Bottleneck {b['id']} (edge) lives in {b['district_ref']}, away from the conduits it constrains")
+    for cid, cond in conduits.items():
+        if cond.get('status') == 'planned' and cid not in referenced:
+            warnings.append(f"Conduit {cid} is 'planned' but no bottleneck explains or is remedied by it")
+    return warnings
 
 def compile_metropolis_data(spec):
     """Compiles the spec into GeoJSON features and metadata structures."""
@@ -217,7 +320,9 @@ def compile_metropolis_data(spec):
         spire_offsets = [
             (-320.0, 30.0, 8),
             (0.0, -40.0, 6),
-            (320.0, 30.0, 8)
+            (320.0, 30.0, 8),
+            (0.0, 230.0, 6),
+            (-160.0, -230.0, 6)
         ]
 
         for s_idx, spire in enumerate(dist_spires):
@@ -373,8 +478,19 @@ def compile_metropolis_data(spec):
             'nature': bneck.get('nature', 'Physical Rate-Limiter'),
             'impact': bneck.get('impact', ''),
             'remedy': bneck.get('remedy', ''),
-            'coordinates': coords
+            'coordinates': coords,
+            'scope': bneck.get('scope'),
+            'constrains': bneck.get('constrains', []),
+            'effect': bneck.get('effect', 'slowdown') if bneck.get('scope') else None,
+            'delay_label': bneck.get('delay_label', ''),
+            'remedied_by': bneck.get('remedied_by', []),
+            'anchors': []
         })
+
+        # Schema v2: scoped constraints are drawn on the roads, nodes and zones they
+        # affect (section 4b), not as a standalone tower.
+        if bneck.get('scope'):
+            continue
 
         # Generate 3D Hazard Citadel (Red Hexagonal Obelisk)
         poly_bneck_base = create_regular_polygon(coords[0], coords[1], 42.0, sides=6, rotation_deg=0)
@@ -456,6 +572,8 @@ def compile_metropolis_data(spec):
             'district_ref': chal['district_ref'],
             'type': chal.get('type', 'Strategic Priority'),
             'target': chal.get('target', ''),
+            'advanced_by': chal.get('advanced_by', []),
+            'blocked_by': chal.get('blocked_by', []),
             'coordinates': coords
         })
 
@@ -514,12 +632,13 @@ def compile_metropolis_data(spec):
             'geometry': {'type': 'Polygon', 'coordinates': [poly_chal_needle]}
         })
 
-    # 4. Superhighways & Conduits with Midpoint Calculation
+    # 4. Superhighways & Conduits
     conduit_features = []
     compiled_conduits = []
     spire_lookup = {s['id']: s for s in spec.get('spires', [])}
+    district_order = {d['id']: d.get('order', i + 1) for i, d in enumerate(sorted_districts)}
+    conduit_curves = {}
 
-    placed_badges = []
     for c_idx, cond in enumerate(spec.get('conduits', [])):
         p_from = spire_locations[cond['from']]
         p_to = spire_locations[cond['to']]
@@ -536,7 +655,7 @@ def compile_metropolis_data(spec):
             round(p_from['lat'] + dy * 0.66 - dx * 0.28 * curve_sign, 7)
         ]
 
-        curve_coords = bezier_curve(
+        conduit_curves[cond['id']] = bezier_curve(
             [p_from['lng'], p_from['lat']],
             ctrl1_lnglat,
             ctrl2_lnglat,
@@ -544,10 +663,38 @@ def compile_metropolis_data(spec):
             steps=28
         )
 
-        midpoint = place_conduit_badge(curve_coords, placed_badges)
-        placed_badges.append(midpoint)
+    # 4a. Edge-scope incident pins are placed first: their position along the arc is
+    # semantic (`at`), whereas conduit badges only need to stay out of the way.
+    bneck_by_id = {b['id']: b for b in compiled_bottlenecks}
+    # Markers keep clear of spires and priority monoliths as well as of each other
+    obstacles = [[loc['lng'], loc['lat']] for loc in spire_locations.values()] + \
+                [c['coordinates'] for c in compiled_challenges] + \
+                [b['coordinates'] for b in compiled_bottlenecks if not b.get('scope')]
+    placed_markers = []
+    edge_incidents = {}  # conduit id -> [(bottleneck, curve index)]
+    for bneck in spec.get('bottlenecks', []):
+        if bneck.get('scope') != 'edge':
+            continue
+        for ref in bneck.get('constrains', []):
+            curve = conduit_curves[ref]
+            preferred = round(float(bneck.get('at', 0.62)) * (len(curve) - 1))
+            pt, idx = place_on_curve(curve, placed_markers + obstacles, preferred, min_sep=160.0)
+            placed_markers.append(pt)
+            edge_incidents.setdefault(ref, []).append((bneck, idx))
+            bneck_by_id[bneck['id']]['anchors'].append({'kind': 'edge', 'ref': ref, 'coordinates': pt})
+
+    for c_idx, cond in enumerate(spec.get('conduits', [])):
+        curve_coords = conduit_curves[cond['id']]
+        midpoint, _ = place_on_curve(curve_coords, placed_markers + obstacles)
+        placed_markers.append(midpoint)
         codename = cond.get('codename', cond.get('code', f"HW-0{c_idx+1}"))
+        status = cond.get('status', 'operational')
         color = '#00f0ff' if c_idx % 2 == 0 else '#ffb700'
+        if status == 'planned':
+            color = '#8a93a6'
+        from_order = district_order.get(spire_lookup[cond['from']]['district_ref'], 0)
+        to_order = district_order.get(spire_lookup[cond['to']]['district_ref'], 0)
+        direction = 'north' if to_order > from_order else 'south' if to_order < from_order else 'local'
 
         conduit_obj = {
             'id': cond['id'],
@@ -562,6 +709,10 @@ def compile_metropolis_data(spec):
             'bandwidth': cond.get('bandwidth', 'High Bandwidth Pipeline'),
             'description': cond.get('description', ''),
             'color': color,
+            'status': status,
+            'direction': direction,
+            'constrained_by': [b['id'] for b, _ in edge_incidents.get(cond['id'], [])],
+            'remedies': [b['id'] for b in spec.get('bottlenecks', []) if cond['id'] in b.get('remedied_by', [])],
             'midpoint': midpoint
         }
         compiled_conduits.append(conduit_obj)
@@ -571,6 +722,130 @@ def compile_metropolis_data(spec):
             'properties': conduit_obj,
             'geometry': {'type': 'LineString', 'coordinates': curve_coords}
         })
+
+    # 4b. Constraint primitives (schema v2)
+    traffic_features = []  # edge: congestion before the incident, starved or closed after it
+    queue_features = []    # node: backlog cubes piled around the constrained spire
+    field_features = []    # field: weather-like overlays over whole districts
+
+    for cond_id, incidents in edge_incidents.items():
+        curve = conduit_curves[cond_id]
+        last = len(curve) - 1
+        for bneck, idx in incidents:
+            severity = float(bneck.get('severity', 0.8))
+            queue_len = max(3, round(4 + severity * 7))
+            q_start = max(0, idx - queue_len)
+            # Three graded pieces: amber -> orange -> red as traffic nears the incident
+            bounds = [q_start + round((idx - q_start) * k / 3) for k in range(4)]
+            for piece, (a, b) in enumerate(zip(bounds, bounds[1:])):
+                if b <= a:
+                    continue
+                traffic_features.append({
+                    'type': 'Feature',
+                    'properties': {
+                        'kind': 'queue', 'conduit_ref': cond_id, 'bottleneck_ref': bneck['id'],
+                        'color': ['#ffb000', '#ff6d00', '#ff1744'][piece],
+                        'width': round(4.0 + severity * 3.0, 1)
+                    },
+                    'geometry': {'type': 'LineString', 'coordinates': curve[a:b + 1]}
+                })
+            after_kind = 'closed' if bneck.get('effect') == 'closure' else 'starved'
+            traffic_features.append({
+                'type': 'Feature',
+                'properties': {'kind': after_kind, 'conduit_ref': cond_id, 'bottleneck_ref': bneck['id'],
+                               'color': '#ff1744', 'width': 4.0},
+                'geometry': {'type': 'LineString', 'coordinates': curve[idx:last + 1]}
+            })
+
+    node_counts = {}
+    for bneck in spec.get('bottlenecks', []):
+        if bneck.get('scope') != 'node':
+            continue
+        severity = float(bneck.get('severity', 0.8))
+        for ref in bneck.get('constrains', []):
+            loc = spire_locations[ref]
+            slot = node_counts.get(ref, 0)
+            node_counts[ref] = slot + 1
+            bneck_by_id[bneck['id']]['anchors'].append(
+                {'kind': 'node', 'ref': ref, 'slot': slot, 'coordinates': [loc['lng'], loc['lat']]})
+            # Backlog of waiting candidates: an arc of small cubes in front of the spire.
+            # Each further bottleneck on the same spire takes the next sector round.
+            n_cubes = round(4 + severity * 10)
+            sector_start = 200.0 + slot * 150.0
+            for k in range(n_cubes):
+                ring = k % 2
+                ang = math.radians(sector_start + (k // 2) * (110.0 / max(1, n_cubes // 2)))
+                r = 82.0 + ring * 22.0
+                cx, cy = loc['lng'] + math.cos(ang) * r * DEG_LNG_PER_METER, loc['lat'] + math.sin(ang) * r * DEG_LAT_PER_METER
+                h = round(6.0 + ((k * 7) % 5) * 3.0 + severity * 8.0, 1)
+                queue_features.append({
+                    'type': 'Feature',
+                    'properties': {
+                        'id': f"{bneck['id']}-q{ref}-{k}", 'entity_type': 'queue', 'bottleneck_ref': bneck['id'],
+                        'height': h, 'base_height': 0.0,
+                        'color': '#ff1744' if k % 3 else '#ff6d00'
+                    },
+                    'geometry': {'type': 'Polygon', 'coordinates': [create_rectangle(cx, cy, 13.0, 13.0)]}
+                })
+            if bneck.get('effect') == 'closure':
+                collar = create_regular_polygon(loc['lng'], loc['lat'], 70.0, sides=24)
+                hole = create_regular_polygon(loc['lng'], loc['lat'], 62.0, sides=24)[::-1]
+                queue_features.append({
+                    'type': 'Feature',
+                    'properties': {'id': f"{bneck['id']}-collar-{ref}", 'entity_type': 'queue',
+                                   'bottleneck_ref': bneck['id'], 'height': 26.0, 'base_height': 14.0,
+                                   'color': '#ff1744'},
+                    'geometry': {'type': 'Polygon', 'coordinates': [collar, hole]}
+                })
+
+    field_label_slots = [(330.0, 285.0), (-330.0, 285.0), (0.0, 300.0)]
+    field_slot_used = {}
+    for bneck in spec.get('bottlenecks', []):
+        if bneck.get('scope') != 'field':
+            continue
+        severity = float(bneck.get('severity', 0.8))
+        for ref in bneck.get('constrains', []):
+            d = district_centers[ref]
+            # Soft edge: three nested insets, densest in the middle
+            for ring, inset in enumerate((0.0, 45.0, 100.0)):
+                field_features.append({
+                    'type': 'Feature',
+                    'properties': {'bottleneck_ref': bneck['id'], 'effect': bneck.get('effect', 'slowdown'),
+                                   'ring': ring, 'opacity': round((0.10 + severity * 0.12) * (0.6 + ring * 0.35), 3)},
+                    'geometry': {'type': 'Polygon', 'coordinates': [create_rectangle(
+                        d['lng'], d['lat'], DISTRICT_WIDTH - 2 * inset, DISTRICT_HEIGHT - 2 * inset)]}
+                })
+        home = bneck['district_ref'] if bneck['district_ref'] in bneck.get('constrains', []) else bneck['constrains'][0]
+        slot = field_slot_used.get(home, 0)
+        field_slot_used[home] = slot + 1
+        off_x, off_y = field_label_slots[slot % len(field_label_slots)]
+        label_pt = meters_to_geo(off_x, district_centers[home]['dy'] + off_y)
+        bneck_by_id[bneck['id']]['anchors'].insert(0, {'kind': 'field', 'ref': home, 'coordinates': label_pt})
+        for ref in bneck['constrains']:
+            if ref != home:
+                bneck_by_id[bneck['id']]['anchors'].append(
+                    {'kind': 'field', 'ref': ref, 'coordinates': [district_centers[ref]['lng'], district_centers[ref]['lat']]})
+
+    for b in compiled_bottlenecks:
+        if b['anchors']:
+            b['coordinates'] = b['anchors'][0]['coordinates']
+
+    # 4c. Routing graph: conduits in both directions (against the flow costs more) plus
+    # "walking" links between spires of the same district.
+    route_edges = []
+    for cond in compiled_conduits:
+        penalty = sum(float(bneck_by_id[b]['severity']) for b in cond['constrained_by'])
+        base = {'operational': 1.0, 'thin': 1.6, 'planned': 3.0}[cond['status']]
+        route_edges.append({'from': cond['from'], 'to': cond['to'], 'kind': 'conduit', 'conduit': cond['id'],
+                            'cost': round(base + penalty, 2)})
+        route_edges.append({'from': cond['to'], 'to': cond['from'], 'kind': 'conduit', 'conduit': cond['id'],
+                            'against_flow': True, 'cost': round(base + penalty + 2.0, 2)})
+    for dist in sorted_districts:
+        members = [sid for sid, loc in spire_locations.items() if loc['district_ref'] == dist['id']]
+        for a in members:
+            for b in members:
+                if a != b:
+                    route_edges.append({'from': a, 'to': b, 'kind': 'walk', 'cost': 0.6})
 
     # 5. Spires Metadata Index for HUD & Pager
     spires_index = []
@@ -588,10 +863,13 @@ def compile_metropolis_data(spec):
             'color': dist['color'],
             'coordinates': [loc['lng'], loc['lat']],
             'metrics': spire.get('metrics', {}),
-            'abstract': spire.get('abstract', '')
+            'abstract': spire.get('abstract', ''),
+            'constraints': [b['id'] for b in compiled_bottlenecks
+                            if b.get('scope') == 'node' and spire['id'] in b.get('constrains', [])],
+            'advances': [c['id'] for c in compiled_challenges if spire['id'] in c.get('advanced_by', [])]
         })
 
-    buildings_geojson = {'type': 'FeatureCollection', 'features': building_features}
+    buildings_geojson = {'type': 'FeatureCollection', 'features': building_features + queue_features}
     wireframe_geojson = {'type': 'FeatureCollection', 'features': wireframe_features}
     conduits_geojson = {'type': 'FeatureCollection', 'features': conduit_features}
 
@@ -627,13 +905,23 @@ window.BUILDINGS_GEOJSON = {json.dumps(buildings_geojson)};
 window.WIREFRAME_GEOJSON = {json.dumps(wireframe_geojson)};
 
 window.CONDUITS_GEOJSON = {json.dumps(conduits_geojson)};
+
+window.SCHEMA_VERSION = {json.dumps(spec.get('city_metadata', {}).get('schema_version', '1.0'))};
+
+window.TRAFFIC_GEOJSON = {json.dumps({'type': 'FeatureCollection', 'features': traffic_features})};
+
+window.FIELDS_GEOJSON = {json.dumps({'type': 'FeatureCollection', 'features': field_features})};
+
+window.ROUTE_GRAPH = {json.dumps(route_edges)};
 """
     return js_bundle, {
         'districts': len(compiled_districts),
         'building_tiers': len(building_features),
         'conduits': len(conduit_features),
         'bottlenecks': len(compiled_bottlenecks),
-        'challenges': len(compiled_challenges)
+        'challenges': len(compiled_challenges),
+        'scoped': {scope: sum(1 for b in compiled_bottlenecks if b.get('scope') == scope)
+                   for scope in ('edge', 'node', 'field')}
     }
 
 def main():
@@ -661,6 +949,8 @@ def main():
         sys.exit(1)
 
     print("[+] Specification validation passed cleanly.")
+    for warning in lint_spec(spec):
+        print(f"    [warn] {warning}")
     if args.validate_only:
         sys.exit(0)
 
@@ -678,9 +968,10 @@ def main():
 
     print(f"[✓] Compiled {out_file}:")
     print(f"    - {stats['districts']} Districts")
-    print(f"    - {stats['building_tiers']} 3D Building Tiers (Spires + Hazard Radars + Priority Monoliths)")
+    print(f"    - {stats['building_tiers']} 3D Building Tiers (Spires, Priority Monoliths, legacy Hazard Towers, Queues)")
     print(f"    - {stats['conduits']} Superhighways")
-    print(f"    - {stats['bottlenecks']} Bottlenecks")
+    scoped = stats['scoped']
+    print(f"    - {stats['bottlenecks']} Bottlenecks (edge {scoped['edge']} · node {scoped['node']} · field {scoped['field']})")
     print(f"    - {stats['challenges']} Strategic Priorities")
 
     if args.web_dir:

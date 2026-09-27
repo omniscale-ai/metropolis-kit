@@ -24,11 +24,11 @@ The kit is fully deployed to GitHub, zero-dependency in Python, and contains thr
    - **Compiled:** 126 3D building tiers. Served by default in `docs/` on port **8080**.
 
 2. **Materials Intelligence Metropolis** (`examples/sciance-materials/` & vault `2026-SCIANCE/city-map`):
-   - **Source:** Horizon Europe SCIANCE Deliverable D1.1 (Task 1.1 Landscape Report), Materials Science chapter, draft v0.4 (`matsci-2026-09-27.docx`). Re-analysed from scratch against this version; claims absent from the source (CRMA "100%", Chips Act, "70% scrap", "500k patents/day", CDM Hub) were removed.
+   - **Source:** Horizon Europe SCIANCE Deliverable D1.1, Materials Science chapter, revision v3 (`matsci-2026-09-27_v3.docx`, not committed). v3 added the validation hierarchy, the PSPP cross-cutting topic (MatWerk NFDI), realistic material states (bulk vs surfaces/interfaces), predictive synthesizability, benchmark-split critique and agentic SDLs.
    - **Corridor:** The chapter's integrated workflow — Modelling → Design → Characterisation → Closed-Loop → Lab-to-Fab Production.
-   - **Height semantics:** spire `scale_level` = maturity as graded by the report (Routine 0.88–0.98 · Specialist 0.74–0.86 · Emerging 0.58–0.72; contested claims such as MatterGen SUN novelty and A-Lab phase ID sit low). Bottleneck `severity` / priority `impact_scale` = recurrence across themes and whether the Conclusion or Recommendations name it.
-   - **Entities:** 15 spires, 8 bottlenecks, 7 priorities, 10 superhighways (3 southbound: FAILURE LOG, GROUND TRUTH, SSBD GUARDRAIL — feedback paths the report asks for but finds largely missing).
-   - **Compiled:** 120 3D building tiers. Served on port **8088**.
+   - **Schema:** first showcase on **schema v2** (constraints drawn where they act — see below).
+   - **Entities:** 16 spires, 9 constraints (4 edge · 2 node · 3 field), 9 priorities, 11 superhighways (2 planned: FAILURE LOG, IN-SILICO LOOP; 3 thin).
+   - Served on port **8088**.
 
 3. **MIND-MATTER Cyber-Physical Roadmap** (`examples/mind-matter/`):
    - **Source:** DeepTech neuromorphic roadmap (ARIA / Horizon Europe).
@@ -61,6 +61,20 @@ The kit is fully deployed to GitHub, zero-dependency in Python, and contains thr
    - **Priorities:** $H = 85\text{ m} + (\text{impact\_scale} \times 105\text{ m})$ (127m to 190m, amber diamond monoliths).
 
 ---
+
+5. **Schema v2 — constraints drawn where they act (navigation-map metaphors):**
+   - Bottleneck `scope`: `edge` (traffic congestion + incident pin on a superhighway), `node` (queue of backlog cubes + wait-time chip at a spire), `field` (weather overlay over districts). `effect`: slowdown / closure / noise / blind.
+   - `delay_label` (numbers only from the source), `remedied_by`; conduit `status` (operational / thin = ferry line / planned = road under construction); challenge `advanced_by` / `blocked_by`.
+   - Scoped constraints have **no towers**. v1 specs without `scope` keep legacy hazard towers (ai-multiscale, mind-matter not yet migrated).
+   - Compiler derives reverse links, direction, traffic segments, queue cubes, field overlays, `ROUTE_GRAPH`; places incident pins first, then conduit badges clear of pins, spires and priorities.
+   - Viewer: Traffic / Queues / Weather toggles, one-way arrows, relation links on selection, clickable relation chips, legend sections for constraints and priorities, **🧭 Route** panel (Dijkstra over conduits, walking inside a district, against-flow legs penalised) listing incidents on the way. Header now reads title/subtitle from the compiled spec.
+
+## 🔭 Planned Next (agreed, not implemented)
+
+- **`evidence`** on every entity: `{ "section": "7.4.4", "refs": ["Leeman 2024"] }`, shown in the drawer — traceability to the source.
+- **`cycle_profile`** on spires: per-stage durations of a design–make–test loop for a "popular times" histogram; only where the source gives numbers.
+- Possibly a **validation rung** field on spires, following the v3 validation hierarchy (candidate → … → scale-up).
+- Migrate ai-multiscale and mind-matter to schema v2.
 
 ## 🌐 Active Servers & Commands
 

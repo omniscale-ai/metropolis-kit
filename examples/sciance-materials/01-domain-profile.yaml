@@ -1,12 +1,12 @@
 # METROPOLIS-KIT: DOMAIN PROFILE
-# Reference: SCIANCE D1.1 (Task 1.1), Chapter "Materials science" — draft v0.4 (matsci-2026-09-27.docx)
+# Reference: SCIANCE D1.1 (Task 1.1), Chapter "Materials science" — revision v3 (matsci-2026-09-27_v3.docx)
 # Generated via Metropolis-Kit Discovery Phase (studio-kit-sdlc inspired)
 
 domain:
   id: "sciance-d1.1-materials-science"
   title: "AI IN MATERIALS SCIENCE: THE QUANTUM-TO-INDUSTRY METROPOLIS"
   source_document: "SCIANCE D1.1 — State of the art for scientific research using AI for each pilot scientific area, Chapter: Materials science"
-  source_version: "Draft v0.4 (consolidated revision), file dated 2026-09-27"
+  source_version: "Chapter revision v3 (after D1.1 draft v0.4), file matsci-2026-09-27_v3.docx"
   chapter_authors: "Andrey Ustyuzhanin (CU); contributor Vitalii Kapitan (NUS)"
   project: "Horizon Europe SCIANCE (101293570)"
   url: "https://www.sciance.eu"
@@ -53,6 +53,12 @@ scientific_metrics:
     Emerging/proof-of-concept), adjusted upward for pan-European infrastructure weight.
     scale_level bands: Routine 0.88–0.98 · Specialist 0.74–0.86 · Emerging/PoC 0.58–0.72.
     Contested claims (e.g. SUN novelty, automated phase identification) sit at the bottom of their band.
+  validation_hierarchy: >
+    New in v3: the chapter separates maturity into axes (AI method, workflow, experimental validation,
+    platform, material) and ranks discovery claims on a ladder — computational candidate → predicted
+    stability/property → verified novelty → predicted synthesis feasibility → successful synthesis →
+    structural & phase verification → experimental property validation → independent validation →
+    device / scale-up demonstration. Spire maturity strings now name the rung where relevant.
   bottleneck_severity: "0–1; how many of the five themes the barrier recurs in, and whether the chapter's Conclusion lists it as a common/structural barrier"
   priority_impact_scale: "0–1; breadth of the challenge across themes and whether it is an explicit strategic recommendation"
   district_hues:
@@ -71,6 +77,7 @@ districts:
       - "Predicted substitutional disorder: Alexandria 37–43%, ICSD 35%, GNoME 80–84%"
       - "NOMAD: 13M+ entries from 50+ atomistic codes"
       - "Equivariance alone does not guarantee conservative forces (only F = −∇E, as in NequIP/MACE)"
+      - "v3: largely restricted to ideal bulk crystals at 0 K; surfaces, interfaces, disorder, amorphous phases and finite-T free energies decide batteries and catalysis"
   - id: "@dist-design"
     theme: "Intelligent Materials Design"
     key_facts:
@@ -79,6 +86,7 @@ districts:
       - "P1 symmetry bias in generative crystal models"
       - "Polymer spaces > 10^30 candidates; polymers, soft matter and membranes at infancy / PoC"
       - "BATTERY 2030+ target: 5–10× discovery acceleration"
+      - "v3: predictive synthesis & synthesizability named as its own research challenge"
   - id: "@dist-char"
     theme: "Data-Driven Materials Characterisation"
     key_facts:
@@ -87,6 +95,8 @@ districts:
       - "Materials Project 178k materials; JARVIS 80k+; experimental data remains scarce"
       - "Proprietary formats (GMS, Velox) vs open NeXus / HDF5 / USID; TANGO at ALBA"
       - "Emerging: Large Spectroscopy Models, TEM-GPT agents"
+      - "v3: cross-cutting PSPP topic (processing → microstructure → property → performance) with CALPHAD, phase-field, ICME; MatWerk NFDI for microstructure/mesoscale data"
+      - "v3: random train/test splits overestimate performance; need OOD, time-split, prospective and cross-instrument validation"
   - id: "@dist-closedloop"
     theme: "Closed-Loop Experiment Acceleration"
     key_facts:
@@ -95,6 +105,7 @@ districts:
       - "Microfluidic intensification: 100–1,200 samples/hr; 10-D space of 98M points (mobile robotic chemist)"
       - "232-min GC batch; ~3.9% hardware exception rate; A-Lab phase ID later questioned (Leeman 2024)"
       - "Proprietary silos & non-standard hardware interfaces = single greatest SDL bottleneck (consensus)"
+      - "v3: shift from rigid loops to agentic SDLs/MAPs; next step is feeding simulation/MLIP data into them — blocked by bulk-vs-interface mismatch"
   - id: "@dist-fab"
     theme: "AI for Responsible and Scalable Production"
     key_facts:
@@ -104,31 +115,40 @@ districts:
       - "Synthetic microscopy images indistinguishable to experts; 20–30% analytical error rates; MAIF"
       - "SDL hardware > $1M per platform → federated access needed"
 
+# Schema v2: every constraint declares where it acts (edge = on a flow, node = inside a spire, field = over districts)
 bottlenecks:
-  - { id: "@bneck-dark-data", district: "@dist-quantum", severity: 0.95, note: "Common Challenge #1; appears in all five themes" }
-  - { id: "@bneck-ood", district: "@dist-quantum", severity: 0.85, note: "Common Challenge #2; OOD fragility + scarce hybrid/CCSD(T) PES data" }
-  - { id: "@bneck-novelty-mirage", district: "@dist-design", severity: 0.75, note: "New in v0.4: SUN / disorder caveats" }
-  - { id: "@bneck-vendor-lock", district: "@dist-char", severity: 0.70 }
-  - { id: "@bneck-physical-throttle", district: "@dist-closedloop", severity: 0.80, note: "232-min GC, fouling, powders, ~3.9% exceptions" }
-  - { id: "@bneck-middleware", district: "@dist-closedloop", severity: 0.90, note: "Structural Barrier #1 (OPC-UA / LADS adoption)" }
-  - { id: "@bneck-lab-to-fab", district: "@dist-fab", severity: 0.85 }
-  - { id: "@bneck-synthetic-fraud", district: "@dist-fab", severity: 0.65 }
+  - { id: "@bneck-dark-data",         scope: field, constrains: [quantum, design],          effect: blind,    severity: 0.95, remedied_by: FAILURE LOG }
+  - { id: "@bneck-ood",               scope: field, constrains: [quantum, design, char],    effect: noise,    severity: 0.85, remedied_by: GROUND TRUTH, note: "v3 adds benchmark-split critique" }
+  - { id: "@bneck-bulk-bias",         scope: edge,  constrains: [IN-SILICO LOOP],           effect: closure,  severity: 0.80, remedied_by: REAL STATES, note: "New in v3" }
+  - { id: "@bneck-novelty-mirage",    scope: edge,  constrains: [RECIPE DISPATCH],          effect: slowdown, severity: 0.75, delay: "80–84% predicted disorder (GNoME)" }
+  - { id: "@bneck-vendor-lock",       scope: edge,  constrains: [OPERANDO LOOP, GROUND TRUTH], effect: slowdown, severity: 0.70, remedied_by: NEXUS SCHEMA }
+  - { id: "@bneck-physical-throttle", scope: node,  constrains: [A-LAB, FLOW REACTOR],      effect: slowdown, severity: 0.80, delay: "232 min/batch · ~3.9% faults" }
+  - { id: "@bneck-middleware",        scope: node,  constrains: [A-LAB, BIG-MAP],           effect: slowdown, severity: 0.90 }
+  - { id: "@bneck-lab-to-fab",        scope: edge,  constrains: [SCALE-UP],                 effect: slowdown, severity: 0.85, remedied_by: AP-LAB }
+  - { id: "@bneck-synthetic-fraud",   scope: field, constrains: [char, fab],                effect: noise,    severity: 0.65, delay: "20–30% analytical error rate" }
+
+conduit_status:
+  planned: [FAILURE LOG, IN-SILICO LOOP]
+  thin: [GROUND TRUTH, SSBD GUARDRAIL, RECIPE DISPATCH]
 
 challenges:
-  - { id: "@chal-mev-polymorphs", district: "@dist-quantum", impact_scale: 0.70 }
-  - { id: "@chal-sim-to-real", district: "@dist-char", impact_scale: 0.75 }
-  - { id: "@chal-activity-cliffs", district: "@dist-design", impact_scale: 0.65 }
-  - { id: "@chal-pacing-problem", district: "@dist-fab", impact_scale: 0.70 }
-  - { id: "@chal-sovereign-fm", district: "@dist-quantum", impact_scale: 0.90, note: "Strategic recommendation; GenAI4EU call" }
-  - { id: "@chal-level5", district: "@dist-closedloop", impact_scale: 0.60 }
-  - { id: "@chal-cloud-labs", district: "@dist-closedloop", impact_scale: 0.85, note: "Strategic recommendation #1" }
+  - { id: "@chal-mev-polymorphs",   district: "@dist-quantum",    impact_scale: 0.70 }
+  - { id: "@chal-sim-to-real",      district: "@dist-char",       impact_scale: 0.75 }
+  - { id: "@chal-activity-cliffs",  district: "@dist-design",     impact_scale: 0.65 }
+  - { id: "@chal-pacing-problem",   district: "@dist-fab",        impact_scale: 0.70 }
+  - { id: "@chal-sovereign-fm",     district: "@dist-quantum",    impact_scale: 0.90, note: "Strategic recommendation; GenAI4EU call" }
+  - { id: "@chal-level5",           district: "@dist-closedloop", impact_scale: 0.60, note: "v3: agentic SDLs" }
+  - { id: "@chal-cloud-labs",       district: "@dist-closedloop", impact_scale: 0.85, note: "Strategic recommendation #1" }
+  - { id: "@chal-realistic-states", district: "@dist-quantum",    impact_scale: 0.85, note: "New in v3" }
+  - { id: "@chal-synthesizability", district: "@dist-design",     impact_scale: 0.85, note: "New in v3" }
 
 superhighways:
   northbound: "Data → potentials → generated candidates → robotic synthesis → pilot scale (the chapter's integrated workflow)"
   southbound: >
     Three return paths the chapter calls for but describes as largely missing or emerging:
     failed-synthesis logs back into FAIR repositories, characterisation ground truth back into
-    potentials, and SSbD/PFAS constraints back into generative design.
+    potentials, and SSbD/PFAS constraints back into generative design. v3 adds a fourth planned
+    link, simulation data into agentic SDLs (IN-SILICO LOOP), closed by the bulk-vs-interface mismatch.
 
 key_layers:
   - id: "layer-districts"

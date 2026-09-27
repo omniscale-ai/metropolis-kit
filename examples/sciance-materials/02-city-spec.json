@@ -1,10 +1,11 @@
 {
   "city_metadata": {
     "title": "MATERIALS INTELLIGENCE METROPOLIS",
-    "subtitle": "SCIANCE D1.1 · Materials Science chapter (draft v0.4): AI across the European materials lifecycle",
+    "subtitle": "SCIANCE D1.1 · Materials Science chapter (rev. v3): AI across the European materials lifecycle",
     "theme": "quantum_crystal",
     "scale_axis_label": "Scale Ascension: From Atom to Fab",
-    "scale_axis_description": "South-to-North corridor following the chapter's integrated workflow: atomistic modelling and generative design propose candidates, characterisation and autonomous labs synthesise and validate them, production frameworks test manufacturability, safety and compliance. Spire height encodes the maturity the report assigns."
+    "scale_axis_description": "South-to-North corridor following the chapter's integrated workflow: atomistic modelling and generative design propose candidates, characterisation and autonomous labs synthesise and validate them, production frameworks test manufacturability, safety and compliance. Spire height encodes the maturity the report assigns. Constraints are drawn where they act: congestion on superhighways, queues at spires, weather over districts.",
+    "schema_version": "2.0"
   },
   "districts": [
     {
@@ -14,8 +15,17 @@
       "order": 1,
       "color": "#00f0ff",
       "glow": "rgba(0, 240, 255, 0.4)",
-      "description": "Machine-learning interatomic potentials bridge DFT accuracy and classical-force-field speed, reaching device-scale models with hundreds of thousands to millions of atoms. Local (SOAP, ACE), graph and equivariant (NequIP, MACE) architectures, universal foundation potentials, and Bayesian/ensemble UQ. Database screening is routine; custom potentials for defects remain specialist work.",
-      "eu_infrastructures": ["EMMC", "NOMAD CoE", "FAIRmat (NFDI)", "AiiDA", "EuroHPC", "SuperMUC-NG (LRZ)", "DAEMON COST CA22154", "ERC HERO"]
+      "description": "Machine-learning interatomic potentials bridge DFT accuracy and classical-force-field speed, reaching device-scale models with hundreds of thousands to millions of atoms; complementary methods learn properties, Hamiltonians and electron densities directly, and the same paradigms recur in mesoscale and continuum surrogates. Database screening is routine; custom potentials for defects remain specialist work. The report stresses that the field is still largely restricted to ideal bulk crystals, while devices are governed by surfaces, interfaces and microstructure.",
+      "eu_infrastructures": [
+        "EMMC",
+        "NOMAD CoE",
+        "FAIRmat (NFDI)",
+        "AiiDA",
+        "EuroHPC",
+        "SuperMUC-NG (LRZ)",
+        "DAEMON COST CA22154",
+        "ERC HERO"
+      ]
     },
     {
       "id": "@dist-design",
@@ -25,7 +35,13 @@
       "color": "#00e599",
       "glow": "rgba(0, 229, 153, 0.4)",
       "description": "Inverse property-to-structure design with diffusion models, VAEs and GANs over crystals, polymers, porous frameworks and membranes; crystal GNNs (ALIGNN, MEGNet, M3GNet); materials LLMs (MatSciBERT, polyBERT, SteelBERT). Computational screening of inorganic crystals is mature; polymers, soft matter and membranes are at the proof-of-concept stage, and prediction-to-synthesis remains open.",
-      "eu_infrastructures": ["BATTERY 2030+", "GenAI4EU (HORIZON-CL4-INDUSTRY-2025-01-DIGITAL-61)", "GT4SD / IBM Research Europe", "ERC CoDe4Bio", "EuroHPC"]
+      "eu_infrastructures": [
+        "BATTERY 2030+",
+        "GenAI4EU (HORIZON-CL4-INDUSTRY-2025-01-DIGITAL-61)",
+        "GT4SD / IBM Research Europe",
+        "ERC CoDe4Bio",
+        "EuroHPC"
+      ]
     },
     {
       "id": "@dist-char",
@@ -34,8 +50,20 @@
       "order": 3,
       "color": "#ffb700",
       "glow": "rgba(255, 183, 0, 0.4)",
-      "description": "Pixelated detectors in S/TEM and 4D-STEM, atom probe tomography and synchrotron beamlines produce GB/s–TB/s streams. CNNs, GANs and self-supervised denoisers restore low-dose images, map defects and reconstruct tomograms; PCA/NMF unmixing is routine; spectrum–structure–property models and TEM-GPT agents are emerging. Edge nodes at detectors close real-time feedback loops.",
-      "eu_infrastructures": ["ESRF", "DESY", "ALBA (TANGO)", "ILL", "ESS", "ESTEEM3", "e-DREAM", "IMPRESS", "InCAEM", "LEAPS / LENS"]
+      "description": "Pixelated detectors in S/TEM and 4D-STEM, atom probe tomography and synchrotron beamlines produce GB/s–TB/s streams. CNNs, GANs and self-supervised denoisers restore low-dose images, map defects and reconstruct tomograms; PCA/NMF unmixing is routine; spectrum–structure–property models and TEM-GPT agents are emerging. Edge nodes at detectors close real-time feedback loops. The chapter's cross-cutting processing–microstructure–property–performance (PSPP) topic lives at this scale: processing history sets phase fractions, grains, texture, porosity and residual stress, which in turn set macroscopic behaviour.",
+      "eu_infrastructures": [
+        "ESRF",
+        "DESY",
+        "ALBA (TANGO)",
+        "ILL",
+        "ESS",
+        "ESTEEM3",
+        "e-DREAM",
+        "IMPRESS",
+        "InCAEM",
+        "LEAPS / LENS",
+        "MatWerk (NFDI)"
+      ]
     },
     {
       "id": "@dist-closedloop",
@@ -44,8 +72,17 @@
       "order": 4,
       "color": "#c040ff",
       "glow": "rgba(192, 64, 255, 0.4)",
-      "description": "Self-Driving Laboratories and Materials Acceleration Platforms run Design-Make-Test-Analyze loops with Bayesian optimisation, GP emulators, RL agents (AlphaFlow) and LLM agents (ChemCrow, Coscientist). Reported gains: 10–100× lower chemical and energy use and 5–20× acceleration. Narrow liquid-phase loops are mature; Level-4 general platforms are still custom research systems, and Level 5 has not been reached.",
-      "eu_infrastructures": ["BIG-MAP (BATTERY 2030+)", "SwissCAT+", "Materials 2030 / IAM4EU", "MaterialDigital (PMD)", "GC-MAC", "DIADEM", "ESFRI", "Clean Sky 2 JU"]
+      "description": "Self-Driving Laboratories and Materials Acceleration Platforms run Design-Make-Test-Analyze loops with Bayesian optimisation, GP emulators, RL agents (AlphaFlow) and LLM agents (ChemCrow, Coscientist). Reported gains: 10–100× lower chemical and energy use and 5–20× acceleration. Narrow liquid-phase loops are mature; Level-4 general platforms are still custom research systems, and Level 5 has not been reached. The field is moving from rigid, fixed-protocol loops toward agentic SDLs whose planning agents adapt campaigns on the fly.",
+      "eu_infrastructures": [
+        "BIG-MAP (BATTERY 2030+)",
+        "SwissCAT+",
+        "Materials 2030 / IAM4EU",
+        "MaterialDigital (PMD)",
+        "GC-MAC",
+        "DIADEM",
+        "ESFRI",
+        "Clean Sky 2 JU"
+      ]
     },
     {
       "id": "@dist-fab",
@@ -55,7 +92,13 @@
       "color": "#3a86ff",
       "glow": "rgba(58, 134, 255, 0.4)",
       "description": "Closing the lab-to-fab gap: autonomous pilot-scale platforms and Device Acceleration Platforms carry processability, cost and application benchmarks into early discovery; Safe and Sustainable by Design tools screen toxicity and guide PFAS substitution; human-centred Industry 5.0 manufacturing with AI-monitored additive manufacturing. Lab-to-fab and AI-assisted risk governance are at an early stage.",
-      "eu_infrastructures": ["Chemicals Strategy for Sustainability", "Zero-Pollution Action Plan", "Net-Zero Industry Act", "Industry 5.0 / Digital Decade 2030", "GenAI4EU (PFAS substitution)"]
+      "eu_infrastructures": [
+        "Chemicals Strategy for Sustainability",
+        "Zero-Pollution Action Plan",
+        "Net-Zero Industry Act",
+        "Industry 5.0 / Digital Decade 2030",
+        "GenAI4EU (PFAS substitution)"
+      ]
     }
   ],
   "spires": [
@@ -85,7 +128,7 @@
         "scale": "10^-10 m (Relaxed & off-equilibrium structures)",
         "acceleration": "5.8M structures · 175k on hull · 14M sAlex25 configs",
         "infrastructure": "ICAMS Bochum / SuperMUC-NG / ERC HERO",
-        "maturity": "Routine screening; 37–43% predicted disorder (ICSD 35%)"
+        "maturity": "Routine screening · evidence rung: predicted stability"
       },
       "abstract": "Open DFT database of 5.8 million structures, 175 thousand of them on the convex hull, with the sAlex25 subsample of 14 million out-of-equilibrium configurations carrying forces and stresses for potential training. Multi-stage generative workflows built on it reach up to 99% success within 100 meV/atom of the hull; the report stresses that this is a computational stability metric, not experimental success. Its predicted substitutional-disorder rate (37–43%) is close to the experimental ICSD (35%), compared with 80–84% for GNoME. Known artefacts include PAW convergence problems for Eu, Gd, Yb and Lu and a substitution bias toward oxides and hydrides."
     },
@@ -102,7 +145,7 @@
         "infrastructure": "GPU clusters / EuroHPC",
         "maturity": "Foundation models emerging; custom fitting is specialist"
       },
-      "abstract": "Local MLIPs (SOAP, ACE), message-passing graph MLIPs, and equivariant architectures (NequIP, MACE) favoured for data efficiency, plus universal foundation potentials M3GNet, CHGNet, ORB-v2 and GRACE-2 that give out-of-the-box accuracy across chemistries. The report adds an explicit caveat: equivariance does not guarantee energy conservation, and forces are conservative only when computed as F = −∇E. Open frontiers are long-range electrostatics, magnetism and spin, and fine-tuning on out-of-equilibrium data, which remains specialist work."
+      "abstract": "Local MLIPs (SOAP, ACE), message-passing graph MLIPs, and equivariant architectures (NequIP, MACE) favoured for data efficiency, plus universal foundation potentials M3GNet, CHGNet, ORB-v2 and GRACE-2 that give out-of-the-box accuracy across chemistries. The report adds an explicit caveat: equivariance does not guarantee energy conservation, and forces are conservative only when computed as F = −∇E. Open frontiers are long-range electrostatics, magnetism and spin, and fine-tuning on out-of-equilibrium data, which remains specialist work. The chapter adds that these models remain largely limited to bulk, simple crystalline structures: finite-temperature free energies, disorder, amorphous phases, surfaces and interfaces are where batteries and catalysis are decided, and where quantum-mechanical training data is scarcest."
     },
     {
       "id": "@spire-gnome",
@@ -115,9 +158,9 @@
         "scale": "10^-9 m (Inorganic crystals, ≥5 elements)",
         "acceleration": "2.2M structures · 10× catalogue of stable materials",
         "infrastructure": "Google DeepMind / Materials Project",
-        "maturity": "Mature computational screening; 80–84% predicted disorder"
+        "maturity": "Mature screening workflow · evidence rung: predicted stability"
       },
-      "abstract": "Graph networks for materials exploration expanded the catalogue of stable inorganic materials by an order of magnitude, to 2.2 million structures, pushing into multi-element 'unknown unknowns' beyond human intuition. The report reads this as a sign that computational structure prediction is mature and scalable, not as experimental discovery. Many of the multi-element compounds may be disordered versions of known phases rather than new ordered ones, and synthesizability, kinetic accessibility and property validation remain open."
+      "abstract": "Graph networks for materials exploration expanded the catalogue of stable inorganic materials by an order of magnitude, to 2.2 million structures, pushing into multi-element 'unknown unknowns' beyond human intuition. The report reads this as a sign that computational structure prediction is mature and scalable, not as experimental discovery. Many of the multi-element compounds may be disordered versions of known phases rather than new ordered ones, and synthesizability, kinetic accessibility and property validation remain open. The chapter now ranks discovery by a validation hierarchy — computational candidate, predicted stability, verified novelty, predicted synthesis feasibility, successful synthesis, phase verification, property validation, independent validation, application or scale-up — and GNoME's catalogue sits on the second rung."
     },
     {
       "id": "@spire-mattergen",
@@ -130,7 +173,7 @@
         "scale": "10^-9 m (Periodic unit cell)",
         "acceleration": "SUN structures 10× closer to local minima",
         "infrastructure": "GenAI4EU / open diffusion toolkits",
-        "maturity": "Emerging; SUN novelty contested"
+        "maturity": "Emerging · evidence rung: novelty not verified"
       },
       "abstract": "Diffusion models that reverse a corruption process to generate periodic crystals conditioned on target properties, producing stable, unique and new (SUN) materials about ten times closer to local energy minima than earlier generators. The report now qualifies SUN as database-matching novelty: a re-analysis showed that MatterGen's TaCr2O6 example is a known disordered rutile phase already in the training data (Juelsholt 2026). Generative crystal models also over-produce low-symmetry P1 structures."
     },
@@ -195,6 +238,21 @@
       "abstract": "Edge computers attached to detectors handle low-latency preprocessing, automatic region-of-interest selection and autonomous optics alignment, choosing measurement points with Bayesian active learning or reinforcement learning. Europe's synchrotron and neutron sources produce petabyte-scale ground truth for training and validating materials AI. Integration with standard control systems, such as TANGO at ALBA, opens these experiments to non-experts. The limits are distribution shift across detectors and calibrations, and the energy cost of large multimodal models."
     },
     {
+      "id": "@spire-pspp",
+      "district_ref": "@dist-char",
+      "title": "PSPP & ICME Microstructure Modelling",
+      "code": "CHR-04",
+      "codename": "PSPP ICME",
+      "scale_level": 0.7,
+      "metrics": {
+        "scale": "10^-6 – 10^-3 m (Grains, phases, residual stress)",
+        "acceleration": "Processing treated as a design variable",
+        "infrastructure": "MatWerk (NFDI) / CALPHAD / phase-field",
+        "maturity": "Established frameworks; AI coupling emerging"
+      },
+      "abstract": "A cross-cutting topic added in the chapter's latest revision: AI-enabled modelling of processing–microstructure–property–performance relationships. Composition and nominal crystal structure do not fix engineering performance; thermal treatment, cooling rate, deformation, sintering, deposition and additive-manufacturing parameters set phase fractions, grain morphology, texture, precipitates, porosity, defects and residual stress. The report asks for processing to be treated as a central design variable, coupled with CALPHAD, phase-field, crystal plasticity and ICME, and points to the MatWerk NFDI consortium as the data infrastructure for the microstructure and mesoscale level, where descriptors remain sparse compared with atomistic data."
+    },
+    {
       "id": "@spire-alab",
       "district_ref": "@dist-closedloop",
       "title": "A-Lab & Level-4 SDL Platforms",
@@ -205,7 +263,7 @@
         "scale": "10^-2 m (Powder synthesis bench)",
         "acceleration": "24/7 · 168 samples/week",
         "infrastructure": "A-Lab / SwissCAT+ / AMANDA",
-        "maturity": "Level-4 proof-of-concept; phase ID questioned"
+        "maturity": "Level-4 PoC · synthesis attempted, phase verification contested"
       },
       "abstract": "Broad Level-4 platforms such as A-Lab, SwissCAT+ and AMANDA combine literature parsing, robotic dosing and calcination, and CNN-based XRD phase identification into closed synthesis loops. They remain custom research systems, not turnkey instruments. The report records that a later analysis found A-Lab's automated phase identification largely unsuccessful (Leeman 2024), and it names the prediction-to-synthesis link as the key open problem."
     },
@@ -222,7 +280,7 @@
         "infrastructure": "BATTERY 2030+ / IAM4EU / LEAPS–LENS",
         "maturity": "European flagship MAP"
       },
-      "abstract": "Europe's flagship Materials Acceleration Platform for batteries. It pairs multiscale modelling with closed-loop robotics through the Battery Interface Genome and the BattINFO ontology under a chemistry-neutral roadmap. Its target is a 5–10× faster discovery rate and a shared European data infrastructure for autonomous research, with high-throughput results checked at LEAPS synchrotron and LENS neutron facilities. The Materials 2030 roadmap extends the model into IAM4EU, a network linking national acceleration platforms."
+      "abstract": "Europe's flagship Materials Acceleration Platform for batteries. It pairs multiscale modelling with closed-loop robotics through the Battery Interface Genome and the BattINFO ontology under a chemistry-neutral roadmap. Its target is a 5–10× faster discovery rate and a shared European data infrastructure for autonomous research, with high-throughput results checked at LEAPS synchrotron and LENS neutron facilities. The Materials 2030 roadmap extends the model into IAM4EU, a network linking national acceleration platforms. It is also the natural landing point for the chapter's 'next conceptual step': feeding simulations and MLIP predictions directly into agentic acceleration platforms."
     },
     {
       "id": "@spire-flow-sdl",
@@ -250,7 +308,7 @@
         "scale": "mg → kg batches",
         "acceleration": "~50,000 tests per batch",
         "infrastructure": "Island-structured pilot platforms",
-        "maturity": "Emerging / proof-of-concept"
+        "maturity": "Emerging · evidence rung: scale-up demonstration"
       },
       "abstract": "Autonomous pilot-scale workstations with agent control that combine local industrial datasets, in-line process monitoring and application benchmarks such as PCR Ct values, carrying milligram-scale results to kilogram batches. Device Acceleration Platforms extend self-driving labs into device fabrication and long-term stability testing, so that processability is measured from the start. The report treats this as the leading blueprint for closing the lab-to-fab gap, but still at an early stage."
     },
@@ -287,92 +345,177 @@
   ],
   "bottlenecks": [
     {
-      "id": "@bneck-dark-data",
       "title": "Dark Data: Negative-Result Reporting Bias",
       "code": "BOT-01",
       "codename": "DARK DATA",
       "district_ref": "@dist-quantum",
       "severity": 0.95,
+      "scope": "field",
+      "constrains": [
+        "@dist-quantum",
+        "@dist-design"
+      ],
+      "effect": "blind",
+      "remedied_by": [
+        "@conduit-failure-log"
+      ],
       "nature": "Epistemic — systematically skewed training sets",
       "impact": "Failed experiments and 'dark reactions' are almost never published, so literature-derived datasets are unbalanced in every theme. This distorts parameter spaces, raises false-positive rates in predictive screening, and limits what models trained on the literature can learn. The Conclusion lists it first among the common challenges.",
-      "remedy": "A cultural shift in which clean, well-annotated data, including negative results, counts as much as a publication; FAIR deposition with standard metadata (NOMAD Metainfo, SOPs, machine-readable handbooks); continuous in-situ logging in closed-loop campaigns."
+      "remedy": "A cultural shift in which clean, well-annotated data, including negative results, counts as much as a publication; FAIR deposition with standard metadata (NOMAD Metainfo, SOPs, machine-readable handbooks); continuous in-situ logging in closed-loop campaigns.",
+      "id": "@bneck-dark-data"
     },
     {
-      "id": "@bneck-ood",
       "title": "Out-of-Distribution Fragility & PES Data Scarcity",
       "code": "BOT-02",
       "codename": "OOD FRAGILITY",
       "district_ref": "@dist-quantum",
       "severity": 0.85,
+      "scope": "field",
+      "constrains": [
+        "@dist-quantum",
+        "@dist-design",
+        "@dist-char"
+      ],
+      "effect": "noise",
+      "remedied_by": [
+        "@conduit-ground-truth"
+      ],
       "nature": "Epistemic — generalisation gap",
-      "impact": "Models become unreliable on atomic environments, elements, out-of-equilibrium states or experimental noise absent from training. High-fidelity meta-GGA, hybrid and CCSD(T) potential-energy data is scarce, with CCSD(T) limited to small cells. Inconsistent convergence settings across codes add further noise, and deep models give no explicit physical guarantees.",
-      "remedy": "Separate aleatoric from epistemic uncertainty with Bayesian and ensemble UQ; use uncertainty-driven active learning to sample new configurations; build physical conservation laws and invariants into architectures; validate externally before any regulatory or safety-critical use."
+      "impact": "Models become unreliable on atomic environments, elements, out-of-equilibrium states or experimental noise absent from training. High-fidelity meta-GGA, hybrid and CCSD(T) potential-energy data is scarce, with CCSD(T) limited to small cells. The chapter adds that evaluation hides the problem: random train/test splits overestimate performance because near-identical compositions land on both sides, and a model tested on one instrument says little about the next.",
+      "remedy": "Chemically or structurally separated, time-split and prospective benchmarks instead of random cross-validation; robustness tests across instruments, laboratories, operators and sample batches; aleatoric/epistemic UQ and uncertainty-driven active learning; physical invariants built into architectures.",
+      "id": "@bneck-ood"
     },
     {
-      "id": "@bneck-novelty-mirage",
+      "title": "Bulk Bias: Crystals Modelled, Interfaces Measured",
+      "code": "BOT-09",
+      "codename": "BULK BIAS",
+      "district_ref": "@dist-quantum",
+      "severity": 0.8,
+      "scope": "edge",
+      "constrains": [
+        "@conduit-insilico-sdl"
+      ],
+      "effect": "closure",
+      "at": 0.45,
+      "remedied_by": [
+        "@chal-realistic-states"
+      ],
+      "nature": "Epistemic — scale and state mismatch",
+      "impact": "Training data is skewed toward ideal bulk crystals at 0 K, while the performance data now arriving at scale from SDLs and MAPs is dominated by surfaces and interfaces. Bulk-level predictions meet interface-level measurements, so battery and catalysis properties cannot yet be predicted reliably from atomic-scale quantum data, contrary to what is often claimed. Mesoscale and continuum descriptors are sparser still.",
+      "remedy": "Model realistic material states — finite-temperature free energies, configurational disorder, amorphous phases, defects, surfaces and interfaces — and separate thermodynamic ground-state stability from kinetic persistence and experimental realisability before coupling simulations into agentic labs.",
+      "id": "@bneck-bulk-bias"
+    },
+    {
       "title": "The Novelty Mirage: Disorder & Symmetry Bias",
       "code": "BOT-03",
       "codename": "NOVELTY MIRAGE",
       "district_ref": "@dist-design",
       "severity": 0.75,
+      "scope": "edge",
+      "constrains": [
+        "@conduit-recipe-dispatch"
+      ],
+      "effect": "slowdown",
+      "at": 0.4,
+      "delay_label": "80–84% predicted disorder (GNoME)",
       "nature": "Epistemic — database-matching vs experimental novelty",
       "impact": "'New' generated crystals are often disordered forms of known phases. GNoME's predicted substitutional-disorder rate is 80–84%, against 35% in the experimental ICSD, and MatterGen's showcase TaCr2O6 turned out to be a known disordered rutile. Diffusion models also over-produce P1 structures. The result is catalogues that look large on paper but contain few genuinely new phases.",
-      "remedy": "Disorder-aware structure matching, independent crystallographic and experimental verification before novelty claims, symmetry-aware generation, and Virtual Forward Synthesis to remove candidates that cannot be synthesized."
+      "remedy": "Disorder-aware structure matching, independent crystallographic and experimental verification before novelty claims, symmetry-aware generation, and Virtual Forward Synthesis to remove candidates that cannot be synthesized.",
+      "id": "@bneck-novelty-mirage"
     },
     {
-      "id": "@bneck-vendor-lock",
       "title": "Proprietary Instrument Formats & Vendor Lock-In",
       "code": "BOT-04",
       "codename": "VENDOR LOCK",
       "district_ref": "@dist-char",
       "severity": 0.7,
+      "scope": "edge",
+      "constrains": [
+        "@conduit-operando-loop",
+        "@conduit-ground-truth"
+      ],
+      "effect": "slowdown",
+      "at": 0.3,
+      "remedied_by": [
+        "@conduit-nexus-schema"
+      ],
       "nature": "Structural — closed data formats",
       "impact": "Instrument-specific formats such as GMS and Velox, together with black-box vendor analysis platforms, drop essential context and block universal AI workflows. Open libraries (AtomAI, RamanSPy) are hard to maintain across hardware generations, and cross-facility analytics stop at the file boundary.",
-      "remedy": "Mandate open NeXus, HDF5 and USID structures with semantic ontologies (for example FAIRmat's NeXus APT work), standard control interfaces such as TANGO, and DOIs for datasets and workflows."
+      "remedy": "Mandate open NeXus, HDF5 and USID structures with semantic ontologies (for example FAIRmat's NeXus APT work), standard control interfaces such as TANGO, and DOIs for datasets and workflows.",
+      "id": "@bneck-vendor-lock"
     },
     {
-      "id": "@bneck-physical-throttle",
       "title": "Physical Throttle: 232-min GC & ~3.9% Robot Exceptions",
       "code": "BOT-05",
       "codename": "232-MIN GC",
       "district_ref": "@dist-closedloop",
       "severity": 0.8,
+      "scope": "node",
+      "constrains": [
+        "@spire-alab",
+        "@spire-flow-sdl"
+      ],
+      "effect": "slowdown",
+      "delay_label": "232 min/batch · ~3.9% faults",
       "nature": "Physical — analytical & mechanical rate-limiters",
       "impact": "Closed loops move only as fast as their slowest analytical step: online gas chromatography takes up to 232 minutes per batch. Sample transport latency, microfluidic clogging and fouling, manual powder preparation, and a ~3.9% hardware exception rate during robotic handling interrupt unattended 24/7 campaigns.",
-      "remedy": "Faster in-line characterisation, microfluidic process intensification, robust automated preparation of solid samples (dosing, calcination, XRD/XRF mounting), and exception handling built into orchestration."
+      "remedy": "Faster in-line characterisation, microfluidic process intensification, robust automated preparation of solid samples (dosing, calcination, XRD/XRF mounting), and exception handling built into orchestration.",
+      "id": "@bneck-physical-throttle"
     },
     {
-      "id": "@bneck-middleware",
       "title": "Middleware Silos: Missing Open Hardware Standards",
       "code": "BOT-06",
       "codename": "MIDDLEWARE SILOS",
       "district_ref": "@dist-closedloop",
       "severity": 0.9,
+      "scope": "node",
+      "constrains": [
+        "@spire-alab",
+        "@spire-bigmap"
+      ],
+      "effect": "slowdown",
+      "delay_label": "custom middleware per device",
       "nature": "Structural — the single greatest SDL bottleneck",
       "impact": "Open standards exist (OPC UA, with its LADS companion specification for laboratory devices), but vendors have adopted them only partly, legacy systems persist, and there is no semantic harmonisation. Every combination of robot arm, reactor and analyser therefore needs custom middleware (ChemOS, Helao, FINALES), producing fragmented stacks that limit full closed-loop control across distributed MAPs. The Conclusion calls this the primary technical hurdle.",
-      "remedy": "Accelerate adoption of OPC-UA/LADS and SiLA2; standard procedure languages (χDL); JSON-LD/RDF experiment metadata; tighter links to higher-level SDL orchestration."
+      "remedy": "Accelerate adoption of OPC-UA/LADS and SiLA2; standard procedure languages (χDL); JSON-LD/RDF experiment metadata; tighter links to higher-level SDL orchestration.",
+      "id": "@bneck-middleware"
     },
     {
-      "id": "@bneck-lab-to-fab",
       "title": "The Lab-to-Fab Gap & Industrial Data Scarcity",
       "code": "BOT-07",
       "codename": "LAB-TO-FAB GAP",
       "district_ref": "@dist-fab",
       "severity": 0.85,
+      "scope": "edge",
+      "constrains": [
+        "@conduit-scale-up"
+      ],
+      "effect": "slowdown",
+      "remedied_by": [
+        "@spire-aplab"
+      ],
       "nature": "Translational — lab optima vs manufacturable space",
       "impact": "Models trained on academic DFT metrics ignore solvent toxicity, raw-material scarcity and process tolerances, so they return 'optimal' materials that are impractical or too expensive at scale. Yields become inconsistent during scale-up, and the industrial datasets that map manufacturable regions stay proprietary.",
-      "remedy": "Optimise performance and manufacturability together from the first iteration; use application-oriented benchmarks such as PCR Ct; validate on autonomous pilot-scale platforms and DAPs before mass production."
+      "remedy": "Optimise performance and manufacturability together from the first iteration; use application-oriented benchmarks such as PCR Ct; validate on autonomous pilot-scale platforms and DAPs before mass production.",
+      "id": "@bneck-lab-to-fab"
     },
     {
-      "id": "@bneck-synthetic-fraud",
       "title": "Synthetic Data Fraud & Provenance Erosion",
       "code": "BOT-08",
       "codename": "SYNTHETIC FRAUD",
       "district_ref": "@dist-fab",
       "severity": 0.65,
+      "scope": "field",
+      "constrains": [
+        "@dist-char",
+        "@dist-fab"
+      ],
+      "effect": "noise",
+      "delay_label": "20–30% analytical error rate",
       "nature": "Integrity — undetectable generated evidence",
       "impact": "AI-generated microscopy images and manipulated code can no longer be told apart from real data by experts, and the report cites analytical error rates of 20–30% in published literature. This contaminates the evidence that industrial adoption and regulation depend on.",
-      "remedy": "Standard raw-instrument data structures (Minimal Arrangement of Instrument Files, MAIF), automated AI fraud detection, and audited raw-to-processed data trails before industrial deployment."
+      "remedy": "Standard raw-instrument data structures (Minimal Arrangement of Instrument Files, MAIF), automated AI fraud detection, and audited raw-to-processed data trails before industrial deployment.",
+      "id": "@bneck-synthetic-fraud"
     }
   ],
   "challenges": [
@@ -384,7 +527,14 @@
       "district_ref": "@dist-quantum",
       "impact_scale": 0.7,
       "type": "Frontier Question",
-      "target": "Resolve meV-per-atom energy differences between polymorphs while keeping the speed needed for microsecond simulations; capture rare events and transition states with uncertainty-driven sampling; add long-range electrostatics, magnetism and spin without the full cost of equivariant models."
+      "target": "Resolve meV-per-atom energy differences between polymorphs while keeping the speed needed for microsecond simulations; capture rare events and transition states with uncertainty-driven sampling; add long-range electrostatics, magnetism and spin without the full cost of equivariant models.",
+      "advanced_by": [
+        "@spire-umlip",
+        "@spire-alexandria"
+      ],
+      "blocked_by": [
+        "@bneck-ood"
+      ]
     },
     {
       "id": "@chal-sim-to-real",
@@ -394,7 +544,15 @@
       "district_ref": "@dist-char",
       "impact_scale": 0.75,
       "type": "Methodological Challenge",
-      "target": "Make models trained on DFT spectra and kinematic diffraction work on real samples despite noise, drift, beam damage and processing history, using self-supervised denoising, transfer learning and physics-guided explainable AI that experimentalists can trust."
+      "target": "Make models trained on DFT spectra and kinematic diffraction work on real samples despite noise, drift, beam damage and processing history, using self-supervised denoising, transfer learning and physics-guided explainable AI that experimentalists can trust.",
+      "advanced_by": [
+        "@spire-4dstem",
+        "@spire-beamline-edge"
+      ],
+      "blocked_by": [
+        "@bneck-vendor-lock",
+        "@bneck-ood"
+      ]
     },
     {
       "id": "@chal-activity-cliffs",
@@ -404,7 +562,14 @@
       "district_ref": "@dist-design",
       "impact_scale": 0.65,
       "type": "Frontier Question",
-      "target": "Detect non-linear property jumps, where a small atomic or molecular change shifts yield strength, dielectric breakdown or Tc sharply, instead of statistical models smoothing over narrow peaks; move from correlation to physics-informed causal models of synthesis and stability."
+      "target": "Detect non-linear property jumps, where a small atomic or molecular change shifts yield strength, dielectric breakdown or Tc sharply, instead of statistical models smoothing over narrow peaks; move from correlation to physics-informed causal models of synthesis and stability.",
+      "advanced_by": [
+        "@spire-gnome",
+        "@spire-polymer"
+      ],
+      "blocked_by": [
+        "@bneck-dark-data"
+      ]
     },
     {
       "id": "@chal-pacing-problem",
@@ -414,7 +579,13 @@
       "district_ref": "@dist-fab",
       "impact_scale": 0.7,
       "type": "European Policy Mandate",
-      "target": "Use AI horizon scanning and early risk identification so that environmental, health and industrial viability is assessed before materials reach the market, in line with the Chemicals Strategy for Sustainability, the Zero-Pollution Action Plan and GenAI4EU's PFAS-substitution focus."
+      "target": "Use AI horizon scanning and early risk identification so that environmental, health and industrial viability is assessed before materials reach the market, in line with the Chemicals Strategy for Sustainability, the Zero-Pollution Action Plan and GenAI4EU's PFAS-substitution focus.",
+      "advanced_by": [
+        "@spire-ssbd"
+      ],
+      "blocked_by": [
+        "@bneck-synthetic-fraud"
+      ]
     },
     {
       "id": "@chal-sovereign-fm",
@@ -424,7 +595,15 @@
       "district_ref": "@dist-quantum",
       "impact_scale": 0.9,
       "type": "Strategic Recommendation",
-      "target": "European open-source foundation models for chemistry and materials, trained on verified high-fidelity data curated through NOMAD, FAIRmat and AiiDA and funded through the GenAI4EU call HORIZON-CL4-INDUSTRY-2025-01-DIGITAL-61, covering PFAS alternatives, high-capacity batteries and photovoltaics."
+      "target": "European open-source foundation models for chemistry and materials, trained on verified high-fidelity data curated through NOMAD, FAIRmat and AiiDA and funded through the GenAI4EU call HORIZON-CL4-INDUSTRY-2025-01-DIGITAL-61, covering PFAS alternatives, high-capacity batteries and photovoltaics.",
+      "advanced_by": [
+        "@spire-nomad",
+        "@spire-alexandria",
+        "@spire-umlip"
+      ],
+      "blocked_by": [
+        "@bneck-dark-data"
+      ]
     },
     {
       "id": "@chal-level5",
@@ -434,7 +613,17 @@
       "district_ref": "@dist-closedloop",
       "impact_scale": 0.6,
       "type": "Frontier Question",
-      "target": "Replace 'blind' Bayesian optimisation with agents that combine LLM reasoning (ChemCrow, Coscientist) and physics-informed models, moving from narrow Level 2–4 loops toward an autonomous AI researcher capable of self-guided hypothesis generation, a goal the report says has not been reached."
+      "target": "Replace rigid fixed-protocol loops and 'blind' Bayesian optimisation with agentic SDLs whose planners adapt campaigns on the fly and reason with LLM tools (ChemCrow, Coscientist) and physics-informed models, with simulation data in the same decision layer; the report says true Level-5 autonomy has not been reached.",
+      "advanced_by": [
+        "@spire-alab",
+        "@spire-bigmap",
+        "@spire-flow-sdl"
+      ],
+      "blocked_by": [
+        "@bneck-physical-throttle",
+        "@bneck-middleware",
+        "@bneck-bulk-bias"
+      ]
     },
     {
       "id": "@chal-cloud-labs",
@@ -444,7 +633,50 @@
       "district_ref": "@dist-closedloop",
       "impact_scale": 0.85,
       "type": "Strategic Recommendation",
-      "target": "Open up platforms costing over $1M each through shared European user facilities run like HPC centres, with remote cloud-lab access, OPTIMADE/NeXus/USID/HDF5 schemas and interdisciplinary doctoral training, while managing IIoT cybersecurity, dual-use and AI-invention patentability risks."
+      "target": "Open up platforms costing over $1M each through shared European user facilities run like HPC centres, with remote cloud-lab access, OPTIMADE/NeXus/USID/HDF5 schemas and interdisciplinary doctoral training, while managing IIoT cybersecurity, dual-use and AI-invention patentability risks.",
+      "advanced_by": [
+        "@spire-alab",
+        "@spire-bigmap"
+      ],
+      "blocked_by": [
+        "@bneck-middleware"
+      ]
+    },
+    {
+      "id": "@chal-realistic-states",
+      "title": "Realistic Material States Beyond the 0 K Bulk Crystal",
+      "code": "PRIO-08",
+      "codename": "REAL STATES",
+      "district_ref": "@dist-quantum",
+      "impact_scale": 0.85,
+      "type": "Frontier Question",
+      "target": "Model finite-temperature free energies, configurational disorder, amorphous phases, defects, surfaces and interfaces, and distinguish ground-state stability from kinetic persistence and experimental realisability, so that surface- and interface-governed applications such as batteries and catalysis become predictable.",
+      "advanced_by": [
+        "@spire-umlip",
+        "@spire-pspp"
+      ],
+      "blocked_by": [
+        "@bneck-bulk-bias",
+        "@bneck-ood"
+      ]
+    },
+    {
+      "id": "@chal-synthesizability",
+      "title": "Predictive Synthesis & Synthesizability",
+      "code": "PRIO-09",
+      "codename": "SYNTH ROUTES",
+      "district_ref": "@dist-design",
+      "impact_scale": 0.85,
+      "type": "Frontier Question",
+      "target": "Establish that a predicted inorganic material can actually be made: synthesis-feasibility prediction, precursor and reaction-route selection, prediction of conditions and outcomes, and experimental validation that records failed attempts. A stable generated structure is not a discovered material.",
+      "advanced_by": [
+        "@spire-alab",
+        "@spire-polymer"
+      ],
+      "blocked_by": [
+        "@bneck-novelty-mirage",
+        "@bneck-dark-data"
+      ]
     }
   ],
   "conduits": [
@@ -457,7 +689,8 @@
       "to": "@spire-umlip",
       "type": "Training Data Stream",
       "bandwidth": "14M sAlex25 configurations with forces & stresses",
-      "description": "Relaxation trajectories and out-of-equilibrium configurations from Alexandria train and fine-tune universal potentials (for example GRACE-2). The report singles out this out-of-equilibrium data as the scarce input that determines how well a potential transfers."
+      "description": "Relaxation trajectories and out-of-equilibrium configurations from Alexandria train and fine-tune universal potentials (for example GRACE-2). The report singles out this out-of-equilibrium data as the scarce input that determines how well a potential transfers.",
+      "status": "operational"
     },
     {
       "id": "@conduit-stability-screen",
@@ -468,7 +701,8 @@
       "to": "@spire-gnome",
       "type": "Model-to-Model Evaluation",
       "bandwidth": "Billions of ML-accelerated structure evaluations",
-      "description": "Universal potentials replace DFT relaxations when filtering generated candidates against the convex hull, which is what made GNoME-scale catalogues possible on EuroHPC-class compute. The same pipeline carries forward any bias the potential has on out-of-distribution chemistries."
+      "description": "Universal potentials replace DFT relaxations when filtering generated candidates against the convex hull, which is what made GNoME-scale catalogues possible on EuroHPC-class compute. The same pipeline carries forward any bias the potential has on out-of-distribution chemistries.",
+      "status": "operational"
     },
     {
       "id": "@conduit-recipe-dispatch",
@@ -479,7 +713,8 @@
       "to": "@spire-alab",
       "type": "Digital-to-Physical Handover",
       "bandwidth": "Candidate structures + LLM-extracted synthesis recipes",
-      "description": "Generated candidates are paired with recipes mined from literature by NLP tools (ChemDataExtractor and LLM agents) and translated into robot-executable procedures. The report calls this prediction-to-synthesis workflow emerging: synthesizability, kinetic accessibility and verified novelty are unresolved at this junction."
+      "description": "Generated candidates are paired with recipes mined from literature by NLP tools (ChemDataExtractor and LLM agents) and translated into robot-executable procedures. The report calls this prediction-to-synthesis workflow emerging: synthesizability, kinetic accessibility and verified novelty are unresolved at this junction.",
+      "status": "thin"
     },
     {
       "id": "@conduit-operando-loop",
@@ -490,7 +725,8 @@
       "to": "@spire-bigmap",
       "type": "In-Situ / Operando Telemetry",
       "bandwidth": "GB/s synchrotron & neutron streams",
-      "description": "BATTERY 2030+ requires high-throughput battery discovery to be validated at LEAPS synchrotrons and LENS neutron sources. Edge preprocessing at the beamline turns these streams into feedback that acceleration platforms can use."
+      "description": "BATTERY 2030+ requires high-throughput battery discovery to be validated at LEAPS synchrotrons and LENS neutron sources. Edge preprocessing at the beamline turns these streams into feedback that acceleration platforms can use.",
+      "status": "operational"
     },
     {
       "id": "@conduit-scale-up",
@@ -501,7 +737,8 @@
       "to": "@spire-aplab",
       "type": "Process Scaling Handover",
       "bandwidth": "Recipes + in-line process data, ~50,000 tests/batch",
-      "description": "Lab-optimised recipes pass to autonomous pilot-scale platforms that re-optimise them against local industrial data and application benchmarks. This is the step where the report says yield inconsistencies and unpredictable behaviour appear, and where the lab-to-fab gap is either closed or exposed."
+      "description": "Lab-optimised recipes pass to autonomous pilot-scale platforms that re-optimise them against local industrial data and application benchmarks. This is the step where the report says yield inconsistencies and unpredictable behaviour appear, and where the lab-to-fab gap is either closed or exposed.",
+      "status": "operational"
     },
     {
       "id": "@conduit-4d-print",
@@ -512,7 +749,8 @@
       "to": "@spire-am-twin",
       "type": "Material-to-Process Transfer",
       "bandwidth": "Stimuli-responsive polymer designs + recovery kinetics",
-      "description": "Shape-memory polymers designed for 4D printing and soft robotics feed digital-twin-controlled additive manufacturing of adaptive metamaterials. Linking nanosecond MD to hour-scale shape-memory recovery is the open multiscale problem on this route."
+      "description": "Shape-memory polymers designed for 4D printing and soft robotics feed digital-twin-controlled additive manufacturing of adaptive metamaterials. Linking nanosecond MD to hour-scale shape-memory recovery is the open multiscale problem on this route.",
+      "status": "operational"
     },
     {
       "id": "@conduit-nexus-schema",
@@ -523,7 +761,8 @@
       "to": "@spire-apt",
       "type": "Standards & Metadata Flow",
       "bandwidth": "Semantic ontologies for post-processing",
-      "description": "FAIRmat, which maintains NOMAD, is implementing NeXus ontologies to standardise atom-probe post-processing. It is a working example of the FAIR stack reaching characterisation, which the report recommends extending to all beamlines and microscopes."
+      "description": "FAIRmat, which maintains NOMAD, is implementing NeXus ontologies to standardise atom-probe post-processing. It is a working example of the FAIR stack reaching characterisation, which the report recommends extending to all beamlines and microscopes.",
+      "status": "operational"
     },
     {
       "id": "@conduit-failure-log",
@@ -534,7 +773,8 @@
       "to": "@spire-nomad",
       "type": "Southbound Feedback (largely missing)",
       "bandwidth": "Failed-synthesis logs & in-situ records",
-      "description": "The remedy for dark data drawn as a pipe: failed syntheses and continuous in-situ logs from autonomous labs flow back into FAIR repositories. The report treats this as a needed cultural change, not an existing flow, which is why it runs against the corridor."
+      "description": "The remedy for dark data drawn as a pipe: failed syntheses and continuous in-situ logs from autonomous labs flow back into FAIR repositories. The report treats this as a needed cultural change, not an existing flow, which is why it runs against the corridor.",
+      "status": "planned"
     },
     {
       "id": "@conduit-ground-truth",
@@ -545,7 +785,8 @@
       "to": "@spire-umlip",
       "type": "Southbound Validation Feed",
       "bandwidth": "Defect maps, atom-column positions, spectra",
-      "description": "Experimental microscopy and beamline data supply the ground truth needed to validate potentials trained on DFT alone. The simulation-to-real gap and the scarcity of gold-standard experimental data keep this return path thin."
+      "description": "Experimental microscopy and beamline data supply the ground truth needed to validate potentials trained on DFT alone. The simulation-to-real gap and the scarcity of gold-standard experimental data keep this return path thin.",
+      "status": "thin"
     },
     {
       "id": "@conduit-ssbd-guardrail",
@@ -556,7 +797,20 @@
       "to": "@spire-mattergen",
       "type": "Southbound Constraint Injection",
       "bandwidth": "Toxicity endpoints, PFAS restrictions, lifecycle criteria",
-      "description": "Safe and Sustainable by Design asks for risks to be identified 'at the earliest stages of material innovation', so the production district sends its constraints back to the generators. GenAI4EU's PFAS-substitution call funds exactly this reverse link."
+      "description": "Safe and Sustainable by Design asks for risks to be identified 'at the earliest stages of material innovation', so the production district sends its constraints back to the generators. GenAI4EU's PFAS-substitution call funds exactly this reverse link.",
+      "status": "thin"
+    },
+    {
+      "id": "@conduit-insilico-sdl",
+      "name": "Simulation Data into Agentic SDLs",
+      "code": "HW-11",
+      "codename": "IN-SILICO LOOP",
+      "from": "@spire-umlip",
+      "to": "@spire-bigmap",
+      "status": "planned",
+      "type": "Planned Integration (next conceptual step)",
+      "bandwidth": "MLIP predictions & simulations inside the planning layer",
+      "description": "The chapter names this as the key next step: computational data fed directly into agentic SDLs and MAPs, so that in-silico and in-lab evidence share one decision layer instead of being separate stages. It is drawn as a road under construction because the report also explains why it cannot open yet: SDLs measure surface- and interface-governed properties, while AI modelling at best extrapolates bulk."
     }
   ]
 }

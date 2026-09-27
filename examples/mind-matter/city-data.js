@@ -221,7 +221,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "Cryogenic Probe Stations",
       "maturity": "Validated Milestone"
     },
-    "abstract": "Conclusively settled the mechanism debate, proving Space-Charge-Limited Current (SCLC) exponent m=2.71 and isolating the 20% contact barrier modulation threshold."
+    "abstract": "Conclusively settled the mechanism debate, proving Space-Charge-Limited Current (SCLC) exponent m=2.71 and isolating the 20% contact barrier modulation threshold.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-agent-orchestrator",
@@ -242,7 +244,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "Lab Automation Framework",
       "maturity": "Operational Prototype"
     },
-    "abstract": "Autonomous agent proposing targeted experimental sweeps, orchestrating physical measurement instruments, and eliminating human confirmation bias."
+    "abstract": "Autonomous agent proposing targeted experimental sweeps, orchestrating physical measurement instruments, and eliminating human confirmation bias.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-crossbar-engine",
@@ -263,7 +267,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "Neuromorphic Testbench",
       "maturity": "Demo Unit"
     },
-    "abstract": "In-memory analog matrix acceleration utilizing conductance states of 2D memristive devices, performing single-cycle analog vector dot products."
+    "abstract": "In-memory analog matrix acceleration utilizing conductance states of 2D memristive devices, performing single-cycle analog vector dot products.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-vdw-stacker",
@@ -284,7 +290,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "Inert Atmosphere Glovebox",
       "maturity": "Lab Prototype"
     },
-    "abstract": "Robotic pick-and-place assembly of pristine 2D atomic monolayers with controlled twist angle and sub-nanometer interface cleanliness."
+    "abstract": "Robotic pick-and-place assembly of pristine 2D atomic monolayers with controlled twist angle and sub-nanometer interface cleanliness.",
+    "constraints": [],
+    "advances": []
   },
   {
     "id": "@spire-wafer-foundry",
@@ -305,7 +313,9 @@ window.SPIRES_INDEX = [
       "infrastructure": "Cleanroom Pilot Line",
       "maturity": "Pilot Testing"
     },
-    "abstract": "Integration of 2D memristive selector arrays onto industrial CMOS wafer back-end metallization layers."
+    "abstract": "Integration of 2D memristive selector arrays onto industrial CMOS wafer back-end metallization layers.",
+    "constraints": [],
+    "advances": []
   }
 ];
 
@@ -323,7 +333,13 @@ window.BOTTLENECKS = [
     "coordinates": [
       13.3927669,
       52.4968541
-    ]
+    ],
+    "scope": null,
+    "constrains": [],
+    "effect": null,
+    "delay_label": "",
+    "remedied_by": [],
+    "anchors": []
   },
   {
     "id": "@bneck-sparse-data",
@@ -338,7 +354,13 @@ window.BOTTLENECKS = [
     "coordinates": [
       13.4072331,
       52.5083525
-    ]
+    ],
+    "scope": null,
+    "constrains": [],
+    "effect": null,
+    "delay_label": "",
+    "remedied_by": [],
+    "anchors": []
   },
   {
     "id": "@bneck-metadata-loss",
@@ -353,7 +375,13 @@ window.BOTTLENECKS = [
     "coordinates": [
       13.3926193,
       52.5247018
-    ]
+    ],
+    "scope": null,
+    "constrains": [],
+    "effect": null,
+    "delay_label": "",
+    "remedied_by": [],
+    "anchors": []
   }
 ];
 
@@ -367,6 +395,8 @@ window.CHALLENGES = [
     "district_ref": "@dist-agents",
     "type": "Methodological Challenge",
     "target": "Develop rigorous double-blind benchmarks to prove the AI agent was the true cause of discovery, rather than a well-equipped human using the same tools.",
+    "advanced_by": [],
+    "blocked_by": [],
     "coordinates": [
       13.4069379,
       52.5051186
@@ -381,6 +411,8 @@ window.CHALLENGES = [
     "district_ref": "@dist-foundry",
     "type": "Industrial Milestone",
     "target": "Achieve wafer-scale uniformity of 2D film conductance with defect density under 1 defect per square micron.",
+    "advanced_by": [],
+    "blocked_by": [],
     "coordinates": [
       13.3930621,
       52.5332357
@@ -402,6 +434,10 @@ window.CONDUITS = [
     "bandwidth": "SCLC Verification Priors",
     "description": "Transfers verified physical transport models into the agent's prior distribution to avoid degenerate parameter sweeps.",
     "color": "#00f0ff",
+    "status": "operational",
+    "direction": "north",
+    "constrained_by": [],
+    "remedies": [],
     "midpoint": [
       13.3952763,
       52.5028418
@@ -420,6 +456,10 @@ window.CONDUITS = [
     "bandwidth": "Real-Time Conductance States",
     "description": "Dispatches optimized device biasing and pulse-width modulation sequences into the neuromorphic crossbar.",
     "color": "#ffb700",
+    "status": "operational",
+    "direction": "north",
+    "constrained_by": [],
+    "remedies": [],
     "midpoint": [
       13.3952763,
       52.5111063
@@ -431,4 +471,12 @@ window.BUILDINGS_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "
 
 window.WIREFRAME_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"color": "#00e676"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.4987406], [13.3957356, 52.4990201], [13.3952763, 52.4991359], [13.394817, 52.4990201], [13.3946268, 52.4987406], [13.394817, 52.4984611], [13.3952763, 52.4983453], [13.3957356, 52.4984611], [13.3959258, 52.4987406]]}}, {"type": "Feature", "properties": {"color": "#00e676"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.4988506], [13.3954571, 52.4990062], [13.3950955, 52.4990062], [13.3948399, 52.4988506], [13.3948399, 52.4986306], [13.3950955, 52.498475], [13.3954571, 52.498475], [13.3957127, 52.4986306], [13.3957127, 52.4988506]]}}, {"type": "Feature", "properties": {"color": "#00f0ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.507005], [13.3957356, 52.5072845], [13.3952763, 52.5074003], [13.394817, 52.5072845], [13.3946268, 52.507005], [13.394817, 52.5067255], [13.3952763, 52.5066097], [13.3957356, 52.5067255], [13.3959258, 52.507005]]}}, {"type": "Feature", "properties": {"color": "#00f0ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.507115], [13.3954571, 52.5072706], [13.3950955, 52.5072706], [13.3948399, 52.507115], [13.3948399, 52.506895], [13.3950955, 52.5067394], [13.3954571, 52.5067394], [13.3957127, 52.506895], [13.3957127, 52.507115]]}}, {"type": "Feature", "properties": {"color": "#ffb700"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.5152695], [13.3957356, 52.515549], [13.3952763, 52.5156648], [13.394817, 52.515549], [13.3946268, 52.5152695], [13.394817, 52.51499], [13.3952763, 52.5148742], [13.3957356, 52.51499], [13.3959258, 52.5152695]]}}, {"type": "Feature", "properties": {"color": "#ffb700"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.5153795], [13.3954571, 52.5155351], [13.3950955, 52.5155351], [13.3948399, 52.5153795], [13.3948399, 52.5151595], [13.3950955, 52.5150039], [13.3954571, 52.5150039], [13.3957127, 52.5151595], [13.3957127, 52.5153795]]}}, {"type": "Feature", "properties": {"color": "#c040ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.523534], [13.3957356, 52.5238135], [13.3952763, 52.5239293], [13.394817, 52.5238135], [13.3946268, 52.523534], [13.394817, 52.5232545], [13.3952763, 52.5231387], [13.3957356, 52.5232545], [13.3959258, 52.523534]]}}, {"type": "Feature", "properties": {"color": "#c040ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.523644], [13.3954571, 52.5237996], [13.3950955, 52.5237996], [13.3948399, 52.523644], [13.3948399, 52.523424], [13.3950955, 52.5232684], [13.3954571, 52.5232684], [13.3957127, 52.523424], [13.3957127, 52.523644]]}}, {"type": "Feature", "properties": {"color": "#3a86ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3959258, 52.5317984], [13.3957356, 52.5320779], [13.3952763, 52.5321937], [13.394817, 52.5320779], [13.3946268, 52.5317984], [13.394817, 52.5315189], [13.3952763, 52.5314031], [13.3957356, 52.5315189], [13.3959258, 52.5317984]]}}, {"type": "Feature", "properties": {"color": "#3a86ff"}, "geometry": {"type": "LineString", "coordinates": [[13.3957127, 52.5319084], [13.3954571, 52.532064], [13.3950955, 52.532064], [13.3948399, 52.5319084], [13.3948399, 52.5316884], [13.3950955, 52.5315328], [13.3954571, 52.5315328], [13.3957127, 52.5316884], [13.3957127, 52.5319084]]}}]};
 
-window.CONDUITS_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"id": "@conduit-physics-to-agent", "code": "HW-01", "codename": "HW-01", "name": "Physics Transport Prior Conduit", "from": "@spire-transport-h0", "from_name": "SCLC Null-Hypothesis Spire", "to": "@spire-agent-orchestrator", "to_name": "Agentic Experiment Designer", "type": "Statistical Prior Stream", "bandwidth": "SCLC Verification Priors", "description": "Transfers verified physical transport models into the agent's prior distribution to avoid degenerate parameter sweeps.", "color": "#00f0ff", "midpoint": [13.3952763, 52.5028418]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.4987406], [13.3950543, 52.4990328], [13.3948816, 52.4993251], [13.3947545, 52.4996173], [13.3946691, 52.4999097], [13.3946217, 52.5002021], [13.3946084, 52.5004947], [13.3946255, 52.5007873], [13.3946691, 52.5010802], [13.3947355, 52.5013732], [13.3948209, 52.5016664], [13.3949215, 52.5019599], [13.3950334, 52.5022536], [13.395153, 52.5025476], [13.3952763, 52.5028418], [13.3953996, 52.5031364], [13.3955192, 52.5034313], [13.3956311, 52.5037266], [13.3957317, 52.5040223], [13.3958171, 52.5043183], [13.3958835, 52.5046148], [13.3959271, 52.5049118], [13.3959442, 52.5052092], [13.3959309, 52.5055071], [13.3958835, 52.5058056], [13.3957981, 52.5061046], [13.395671, 52.5064041], [13.3954983, 52.5067043], [13.3952763, 52.507005]]}}, {"type": "Feature", "properties": {"id": "@conduit-agent-to-crossbar", "code": "HW-02", "codename": "HW-02", "name": "Crossbar Synthesis Dispatch", "from": "@spire-agent-orchestrator", "from_name": "Agentic Experiment Designer", "to": "@spire-crossbar-engine", "to_name": "Analog Crossbar Accelerator", "type": "Analog Calibration Stream", "bandwidth": "Real-Time Conductance States", "description": "Dispatches optimized device biasing and pulse-width modulation sequences into the neuromorphic crossbar.", "color": "#ffb700", "midpoint": [13.3952763, 52.5111063]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.507005], [13.3954983, 52.5072972], [13.395671, 52.5075895], [13.3957981, 52.5078817], [13.3958835, 52.5081741], [13.3959309, 52.5084665], [13.3959442, 52.5087591], [13.3959271, 52.5090518], [13.3958835, 52.5093446], [13.3958171, 52.5096376], [13.3957317, 52.5099309], [13.3956311, 52.5102243], [13.3955192, 52.510518], [13.3953996, 52.510812], [13.3952763, 52.5111063], [13.395153, 52.5114009], [13.3950334, 52.5116958], [13.3949215, 52.5119911], [13.3948209, 52.5122867], [13.3947355, 52.5125828], [13.3946691, 52.5128793], [13.3946255, 52.5131763], [13.3946084, 52.5134737], [13.3946217, 52.5137716], [13.3946691, 52.5140701], [13.3947545, 52.5143691], [13.3948816, 52.5146686], [13.3950543, 52.5149688], [13.3952763, 52.5152695]]}}]};
+window.CONDUITS_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"id": "@conduit-physics-to-agent", "code": "HW-01", "codename": "HW-01", "name": "Physics Transport Prior Conduit", "from": "@spire-transport-h0", "from_name": "SCLC Null-Hypothesis Spire", "to": "@spire-agent-orchestrator", "to_name": "Agentic Experiment Designer", "type": "Statistical Prior Stream", "bandwidth": "SCLC Verification Priors", "description": "Transfers verified physical transport models into the agent's prior distribution to avoid degenerate parameter sweeps.", "color": "#00f0ff", "status": "operational", "direction": "north", "constrained_by": [], "remedies": [], "midpoint": [13.3952763, 52.5028418]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.4987406], [13.3950543, 52.4990328], [13.3948816, 52.4993251], [13.3947545, 52.4996173], [13.3946691, 52.4999097], [13.3946217, 52.5002021], [13.3946084, 52.5004947], [13.3946255, 52.5007873], [13.3946691, 52.5010802], [13.3947355, 52.5013732], [13.3948209, 52.5016664], [13.3949215, 52.5019599], [13.3950334, 52.5022536], [13.395153, 52.5025476], [13.3952763, 52.5028418], [13.3953996, 52.5031364], [13.3955192, 52.5034313], [13.3956311, 52.5037266], [13.3957317, 52.5040223], [13.3958171, 52.5043183], [13.3958835, 52.5046148], [13.3959271, 52.5049118], [13.3959442, 52.5052092], [13.3959309, 52.5055071], [13.3958835, 52.5058056], [13.3957981, 52.5061046], [13.395671, 52.5064041], [13.3954983, 52.5067043], [13.3952763, 52.507005]]}}, {"type": "Feature", "properties": {"id": "@conduit-agent-to-crossbar", "code": "HW-02", "codename": "HW-02", "name": "Crossbar Synthesis Dispatch", "from": "@spire-agent-orchestrator", "from_name": "Agentic Experiment Designer", "to": "@spire-crossbar-engine", "to_name": "Analog Crossbar Accelerator", "type": "Analog Calibration Stream", "bandwidth": "Real-Time Conductance States", "description": "Dispatches optimized device biasing and pulse-width modulation sequences into the neuromorphic crossbar.", "color": "#ffb700", "status": "operational", "direction": "north", "constrained_by": [], "remedies": [], "midpoint": [13.3952763, 52.5111063]}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.507005], [13.3954983, 52.5072972], [13.395671, 52.5075895], [13.3957981, 52.5078817], [13.3958835, 52.5081741], [13.3959309, 52.5084665], [13.3959442, 52.5087591], [13.3959271, 52.5090518], [13.3958835, 52.5093446], [13.3958171, 52.5096376], [13.3957317, 52.5099309], [13.3956311, 52.5102243], [13.3955192, 52.510518], [13.3953996, 52.510812], [13.3952763, 52.5111063], [13.395153, 52.5114009], [13.3950334, 52.5116958], [13.3949215, 52.5119911], [13.3948209, 52.5122867], [13.3947355, 52.5125828], [13.3946691, 52.5128793], [13.3946255, 52.5131763], [13.3946084, 52.5134737], [13.3946217, 52.5137716], [13.3946691, 52.5140701], [13.3947545, 52.5143691], [13.3948816, 52.5146686], [13.3950543, 52.5149688], [13.3952763, 52.5152695]]}}]};
+
+window.SCHEMA_VERSION = "1.0";
+
+window.TRAFFIC_GEOJSON = {"type": "FeatureCollection", "features": []};
+
+window.FIELDS_GEOJSON = {"type": "FeatureCollection", "features": []};
+
+window.ROUTE_GRAPH = [{"from": "@spire-transport-h0", "to": "@spire-agent-orchestrator", "kind": "conduit", "conduit": "@conduit-physics-to-agent", "cost": 1.0}, {"from": "@spire-agent-orchestrator", "to": "@spire-transport-h0", "kind": "conduit", "conduit": "@conduit-physics-to-agent", "against_flow": true, "cost": 3.0}, {"from": "@spire-agent-orchestrator", "to": "@spire-crossbar-engine", "kind": "conduit", "conduit": "@conduit-agent-to-crossbar", "cost": 1.0}, {"from": "@spire-crossbar-engine", "to": "@spire-agent-orchestrator", "kind": "conduit", "conduit": "@conduit-agent-to-crossbar", "against_flow": true, "cost": 3.0}];
