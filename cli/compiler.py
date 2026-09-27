@@ -43,6 +43,30 @@ def adjust_color(hex_str, sat_mult=1.0, light_mult=1.0):
     except Exception:
         return hex_str
 
+BADGE_MIN_SEPARATION_M = 220.0
+
+def geo_distance_m(a, b):
+    """Approximate ground distance in metres between two [lng, lat] points near the city centre."""
+    return math.hypot((a[0] - b[0]) / DEG_LNG_PER_METER, (a[1] - b[1]) / DEG_LAT_PER_METER)
+
+def place_conduit_badge(curve_coords, placed):
+    """Picks the point on the curve for a conduit badge: the apex if it is clear of
+    already-placed badges, otherwise the nearest point along the curve that is,
+    falling back to the most isolated point."""
+    mid = len(curve_coords) // 2
+    candidates = [mid]
+    for step in range(1, mid - 3):
+        candidates += [mid - step, mid + step]
+    best, best_clearance = curve_coords[mid], -1.0
+    for idx in candidates:
+        pt = curve_coords[idx]
+        clearance = min((geo_distance_m(pt, q) for q in placed), default=float('inf'))
+        if clearance >= BADGE_MIN_SEPARATION_M:
+            return pt
+        if clearance > best_clearance:
+            best, best_clearance = pt, clearance
+    return best
+
 def meters_to_geo(dx_meters, dy_meters, base_lng=LNG_CENTER, base_lat=LAT_CENTER):
     """Convert delta (x, y) in meters to geodetic (lng, lat)."""
     return [
@@ -495,6 +519,7 @@ def compile_metropolis_data(spec):
     compiled_conduits = []
     spire_lookup = {s['id']: s for s in spec.get('spires', [])}
 
+    placed_badges = []
     for c_idx, cond in enumerate(spec.get('conduits', [])):
         p_from = spire_locations[cond['from']]
         p_to = spire_locations[cond['to']]
@@ -519,7 +544,8 @@ def compile_metropolis_data(spec):
             steps=28
         )
 
-        midpoint = curve_coords[len(curve_coords) // 2]
+        midpoint = place_conduit_badge(curve_coords, placed_badges)
+        placed_badges.append(midpoint)
         codename = cond.get('codename', cond.get('code', f"HW-0{c_idx+1}"))
         color = '#00f0ff' if c_idx % 2 == 0 else '#ffb700'
 

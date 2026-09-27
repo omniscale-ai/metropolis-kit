@@ -733,12 +733,17 @@
     .district-ground-stencil {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
+      align-items: flex-start;
+      justify-content: flex-end;
+      pointer-events: auto;
+      cursor: pointer;
       user-select: none;
-      text-align: center;
-      transition: opacity 0.3s ease;
+      text-align: left;
+      transition: opacity 0.3s ease, filter 0.2s ease;
+    }
+
+    .district-ground-stencil:hover {
+      filter: brightness(1.35);
     }
 
     .district-ground-stencil .stencil-title {
@@ -759,50 +764,6 @@
       text-transform: uppercase;
       opacity: 0.7;
       margin-top: 4px;
-    }
-
-    .district-beacon-marker {
-      pointer-events: auto;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(10, 16, 32, 0.85);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--accent-cyan);
-      padding: 4px 10px;
-      border-radius: 20px;
-      box-shadow: 0 0 16px rgba(0, 240, 255, 0.3);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .district-beacon-marker:hover {
-      transform: scale(1.08);
-      background: rgba(15, 24, 48, 0.95);
-      box-shadow: 0 0 24px rgba(0, 240, 255, 0.6);
-    }
-
-    .beacon-pulse-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent-cyan);
-      box-shadow: 0 0 8px var(--accent-cyan);
-      animation: beaconPulse 2s infinite;
-    }
-
-    @keyframes beaconPulse {
-      0% { transform: scale(0.9); opacity: 0.7; }
-      50% { transform: scale(1.3); opacity: 1; }
-      100% { transform: scale(0.9); opacity: 0.7; }
-    }
-
-    .district-beacon-text {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 700;
-      color: #ffffff;
-      letter-spacing: 0.5px;
     }
 
     /* PUNCHY CODENAME MARKERS (NO MORE BLAND CODES!) */
@@ -1220,40 +1181,36 @@
     function renderGroundStencilsAndMarkers() {
       // 1. Districts
       window.DISTRICTS.forEach(d => {
-        // Ground Stencil
+        // Ground Stencil — anchored inside the district's south-west corner, clickable
         const stencilEl = document.createElement('div');
         stencilEl.className = 'district-ground-stencil';
+        stencilEl.title = d.name;
         stencilEl.innerHTML = `
           <div class="stencil-title" style="color: ${d.color};">${d.name}</div>
           <div class="stencil-tag" style="color: ${d.color};">${d.scale_label}</div>
         `;
-
-        const stencilMarker = new maplibregl.Marker({
-          element: stencilEl,
-          pitchAlignment: 'map',
-          rotationAlignment: 'map'
-        }).setLngLat(d.center).addTo(map);
-
-        districtMarkers.push(stencilMarker);
-
-        // Floating Beacon
-        const beaconEl = document.createElement('div');
-        beaconEl.className = 'district-beacon-marker';
-        beaconEl.innerHTML = `
-          <div class="beacon-pulse-dot" style="background: ${d.color}; box-shadow: 0 0 10px ${d.color};"></div>
-          <div class="district-beacon-text">${d.scale_label}</div>
-        `;
-        beaconEl.addEventListener('click', (e) => {
+        stencilEl.addEventListener('click', (e) => {
           e.stopPropagation();
           flyToDistrict(d.id);
         });
 
-        const beaconMarker = new maplibregl.Marker({
-          element: beaconEl,
-          pitchAlignment: 'viewport'
-        }).setLngLat(d.center).addTo(map);
+        const lngs = d.bounds.map(p => p[0]);
+        const lats = d.bounds.map(p => p[1]);
+        const minLng = Math.min(...lngs), maxLng = Math.max(...lngs);
+        const minLat = Math.min(...lats), maxLat = Math.max(...lats);
+        const cornerInset = 0.03; // fraction of district size kept clear of the dashed border
 
-        districtMarkers.push(beaconMarker);
+        const stencilMarker = new maplibregl.Marker({
+          element: stencilEl,
+          anchor: 'bottom-left',
+          pitchAlignment: 'map',
+          rotationAlignment: 'map'
+        }).setLngLat([
+          minLng + (maxLng - minLng) * cornerInset,
+          minLat + (maxLat - minLat) * cornerInset
+        ]).addTo(map);
+
+        districtMarkers.push(stencilMarker);
       });
 
       // 2. Bottleneck Hazard Radars (WITH PUNCHY 1-2 WORD CODENAMES!)
