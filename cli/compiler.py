@@ -45,6 +45,11 @@ def adjust_color(hex_str, sat_mult=1.0, light_mult=1.0):
 
 BADGE_MIN_SEPARATION_M = 220.0
 
+# Field constraints: tape colours are kept clear of the district accent hues
+FIELD_PALETTE = ['#e8ecf5', '#ff4d9d', '#8c9eff', '#ff8a50', '#b2ff59', '#ffd740']
+FIELD_TAPE_INSET_M = 14.0
+FIELD_TAPE_SPACING_M = 16.0
+
 def geo_distance_m(a, b):
     """Approximate ground distance in metres between two [lng, lat] points near the city centre."""
     return math.hypot((a[0] - b[0]) / DEG_LNG_PER_METER, (a[1] - b[1]) / DEG_LAT_PER_METER)
@@ -726,7 +731,7 @@ def compile_metropolis_data(spec):
     # 4b. Constraint primitives (schema v2)
     traffic_features = []  # edge: congestion before the incident, starved or closed after it
     queue_features = []    # node: backlog cubes piled around the constrained spire
-    field_features = []    # field: weather-like overlays over whole districts
+    field_features = []    # field: coloured tapes along the borders of affected districts
 
     for cond_id, incidents in edge_incidents.items():
         curve = conduit_curves[cond_id]
@@ -798,33 +803,37 @@ def compile_metropolis_data(spec):
                     'geometry': {'type': 'Polygon', 'coordinates': [collar, hole]}
                 })
 
-    field_label_slots = [(330.0, 285.0), (-330.0, 285.0), (0.0, 300.0)]
-    field_slot_used = {}
-    for bneck in spec.get('bottlenecks', []):
-        if bneck.get('scope') != 'field':
-            continue
-        severity = float(bneck.get('severity', 0.8))
+    # Field constraints: one coloured "hazard tape" per constraint running along the inside of
+    # each district border it covers (parallel tapes when several apply), plus a forecast
+    # row of clickable icons in the district's north-west corner. Static by design.
+    district_fields = {d['id']: [] for d in sorted_districts}
+    field_bnecks = [b for b in spec.get('bottlenecks', []) if b.get('scope') == 'field']
+    for f_idx, bneck in enumerate(field_bnecks):
+        color = FIELD_PALETTE[f_idx % len(FIELD_PALETTE)]
+        bneck_by_id[bneck['id']]['color'] = color
         for ref in bneck.get('constrains', []):
+            lane = len(district_fields[ref])
+            district_fields[ref].append(bneck['id'])
             d = district_centers[ref]
-            # Soft edge: three nested insets, densest in the middle
-            for ring, inset in enumerate((0.0, 45.0, 100.0)):
-                field_features.append({
-                    'type': 'Feature',
-                    'properties': {'bottleneck_ref': bneck['id'], 'effect': bneck.get('effect', 'slowdown'),
-                                   'ring': ring, 'opacity': round((0.10 + severity * 0.12) * (0.6 + ring * 0.35), 3)},
-                    'geometry': {'type': 'Polygon', 'coordinates': [create_rectangle(
-                        d['lng'], d['lat'], DISTRICT_WIDTH - 2 * inset, DISTRICT_HEIGHT - 2 * inset)]}
-                })
-        home = bneck['district_ref'] if bneck['district_ref'] in bneck.get('constrains', []) else bneck['constrains'][0]
-        slot = field_slot_used.get(home, 0)
-        field_slot_used[home] = slot + 1
-        off_x, off_y = field_label_slots[slot % len(field_label_slots)]
-        label_pt = meters_to_geo(off_x, district_centers[home]['dy'] + off_y)
-        bneck_by_id[bneck['id']]['anchors'].insert(0, {'kind': 'field', 'ref': home, 'coordinates': label_pt})
-        for ref in bneck['constrains']:
-            if ref != home:
-                bneck_by_id[bneck['id']]['anchors'].append(
-                    {'kind': 'field', 'ref': ref, 'coordinates': [district_centers[ref]['lng'], district_centers[ref]['lat']]})
+            inset = FIELD_TAPE_INSET_M + lane * FIELD_TAPE_SPACING_M
+            field_features.append({
+                'type': 'Feature',
+                'properties': {'bottleneck_ref': bneck['id'], 'district_ref': ref, 'lane': lane,
+                               'effect': bneck.get('effect', 'slowdown'), 'color': color},
+                'geometry': {'type': 'LineString', 'coordinates': create_rectangle(
+                    d['lng'], d['lat'], DISTRICT_WIDTH - 2 * inset, DISTRICT_HEIGHT - 2 * inset)}
+            })
+    for dist in compiled_districts:
+        dist['fields'] = district_fields.get(dist['id'], [])
+        # Forecast row anchor: inside the north-west corner (the south-west one holds the name)
+        dist['forecast_anchor'] = meters_to_geo(-DISTRICT_WIDTH / 2 + 30.0,
+                                                district_centers[dist['id']]['dy'] + DISTRICT_HEIGHT / 2 - 30.0)
+    for bneck in field_bnecks:
+        home = bneck['district_ref'] if bneck['district_ref'] in bneck['constrains'] else bneck['constrains'][0]
+        ordered = [home] + [r for r in bneck['constrains'] if r != home]
+        for ref in ordered:
+            dist = next(x for x in compiled_districts if x['id'] == ref)
+            bneck_by_id[bneck['id']]['anchors'].append({'kind': 'field', 'ref': ref, 'coordinates': dist['forecast_anchor']})
 
     for b in compiled_bottlenecks:
         if b['anchors']:

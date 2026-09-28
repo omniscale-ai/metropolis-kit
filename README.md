@@ -88,7 +88,7 @@ Borrowing the visual language of navigation maps, a bottleneck is no longer a fr
 | :--- | :--- | :--- | :--- |
 | `edge` | `@conduit-*` | `slowdown` · `closure` | Traffic: amber→red congestion approaching an incident pin, starved or closed road after it |
 | `node` | `@spire-*` | `slowdown` · `closure` | Queue: backlog cubes and a wait-time chip at the spire, a red collar when closed |
-| `field` | `@dist-*` | `slowdown` · `noise` · `blind` | Weather: hatching, live static or darkness over whole districts |
+| `field` | `@dist-*` | `slowdown` · `noise` · `blind` | Weather: a coloured hazard tape along the border of every district it covers (colour = which problem, stroke = effect) plus a forecast row of clickable chips in the district corner; selecting one spotlights its coverage |
 
 Further v2 fields: `delay_label` (numbers from the source only), `remedied_by`, conduit `status` (`operational` · `thin` = ferry line · `planned` = road under construction), challenge `advanced_by` / `blocked_by`. The compiler derives reverse links, flow direction (one-way arrows), traffic segments and a routing graph; the viewer adds **Traffic / Queues / Weather** layer toggles, relation links on selection, and a **🧭 Route** panel that lists every incident between two spires. All v2 fields are optional: v1 specs still render with legacy hazard towers.
 
@@ -135,7 +135,7 @@ python -m cli.compiler --spec my-spec.json --web-dir dist/ --serve 8080
 *Based on the Materials Science chapter of Horizon Europe SCIANCE Deliverable D1.1 (Task 1.1 landscape report, chapter revision v3). First showcase on schema v2.*
 - **Axis**: The report's own integrated workflow — atomistic modelling → generative design → characterisation → closed-loop labs → lab-to-fab production. Spire height encodes the maturity the report assigns.
 - **Features**: NOMAD·FAIRmat·AiiDA, Alexandria/sAlex25, universal MLIPs, GNoME, MatterGen, 4D-STEM & APT ML, PSPP/ICME microstructure modelling, BIG-MAP, A-Lab, AP-Lab, AM digital twins, SSbD/PFAS.
-- **Constraints, drawn where they act**: congestion and incident pins on superhighways (novelty mirage, vendor lock-in, lab-to-fab gap, the bulk-vs-interface closure of the planned IN-SILICO LOOP); queues at spires (232-min GC & ~3.9% robot faults, middleware silos); weather over districts (dark data, OOD fragility, synthetic data fraud).
+- **Constraints, drawn where they act**: congestion and incident pins on superhighways (novelty mirage, vendor lock-in, lab-to-fab gap, the bulk-vs-interface closure of the planned IN-SILICO LOOP); queues at spires (232-min GC & ~3.9% robot faults, middleware silos); border tapes and forecast chips on districts (dark data, OOD fragility, synthetic data fraud).
 - **Signature detail**: 4 of 11 superhighways are feedback or planned roads the report asks for but finds missing — and the Route panel shows every incident between an atom-scale spire and the pilot line.
 
 ### 2. MIND-MATTER Cyber-Physical Roadmap ([`examples/mind-matter/`](examples/mind-matter/))

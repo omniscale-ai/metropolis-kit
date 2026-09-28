@@ -62,6 +62,14 @@ window.DISTRICTS = [
         13.3918812,
         52.4954168
       ]
+    ],
+    "fields": [
+      "@bneck-dark-data",
+      "@bneck-ood"
+    ],
+    "forecast_anchor": [
+      13.3923241,
+      52.5012558
     ]
   },
   {
@@ -104,6 +112,14 @@ window.DISTRICTS = [
         13.3918812,
         52.5036812
       ]
+    ],
+    "fields": [
+      "@bneck-dark-data",
+      "@bneck-ood"
+    ],
+    "forecast_anchor": [
+      13.3923241,
+      52.5095203
     ]
   },
   {
@@ -152,6 +168,14 @@ window.DISTRICTS = [
         13.3918812,
         52.5119457
       ]
+    ],
+    "fields": [
+      "@bneck-ood",
+      "@bneck-synthetic-fraud"
+    ],
+    "forecast_anchor": [
+      13.3923241,
+      52.5177848
     ]
   },
   {
@@ -197,6 +221,11 @@ window.DISTRICTS = [
         13.3918812,
         52.5202102
       ]
+    ],
+    "fields": [],
+    "forecast_anchor": [
+      13.3923241,
+      52.5260492
     ]
   },
   {
@@ -239,6 +268,13 @@ window.DISTRICTS = [
         13.3918812,
         52.5284746
       ]
+    ],
+    "fields": [
+      "@bneck-synthetic-fraud"
+    ],
+    "forecast_anchor": [
+      13.3923241,
+      52.5343137
     ]
   }
 ];
@@ -664,8 +700,8 @@ window.BOTTLENECKS = [
     "impact": "Failed experiments and 'dark reactions' are almost never published, so literature-derived datasets are unbalanced in every theme. This distorts parameter spaces, raises false-positive rates in predictive screening, and limits what models trained on the literature can learn. The Conclusion lists it first among the common challenges.",
     "remedy": "A cultural shift in which clean, well-annotated data, including negative results, counts as much as a publication; FAIR deposition with standard metadata (NOMAD Metainfo, SOPs, machine-readable handbooks); continuous in-situ logging in closed-loop campaigns.",
     "coordinates": [
-      13.4048713,
-      52.5010313
+      13.3923241,
+      52.5012558
     ],
     "scope": "field",
     "constrains": [
@@ -682,19 +718,20 @@ window.BOTTLENECKS = [
         "kind": "field",
         "ref": "@dist-quantum",
         "coordinates": [
-          13.4048713,
-          52.5010313
+          13.3923241,
+          52.5012558
         ]
       },
       {
         "kind": "field",
         "ref": "@dist-design",
         "coordinates": [
-          13.4,
-          52.5067355
+          13.3923241,
+          52.5095203
         ]
       }
-    ]
+    ],
+    "color": "#e8ecf5"
   },
   {
     "id": "@bneck-ood",
@@ -707,8 +744,8 @@ window.BOTTLENECKS = [
     "impact": "Models become unreliable on atomic environments, elements, out-of-equilibrium states or experimental noise absent from training. High-fidelity meta-GGA, hybrid and CCSD(T) potential-energy data is scarce, with CCSD(T) limited to small cells. The chapter adds that evaluation hides the problem: random train/test splits overestimate performance because near-identical compositions land on both sides, and a model tested on one instrument says little about the next.",
     "remedy": "Chemically or structurally separated, time-split and prospective benchmarks instead of random cross-validation; robustness tests across instruments, laboratories, operators and sample batches; aleatoric/epistemic UQ and uncertainty-driven active learning; physical invariants built into architectures.",
     "coordinates": [
-      13.3951287,
-      52.5010313
+      13.3923241,
+      52.5012558
     ],
     "scope": "field",
     "constrains": [
@@ -726,27 +763,28 @@ window.BOTTLENECKS = [
         "kind": "field",
         "ref": "@dist-quantum",
         "coordinates": [
-          13.3951287,
-          52.5010313
+          13.3923241,
+          52.5012558
         ]
       },
       {
         "kind": "field",
         "ref": "@dist-design",
         "coordinates": [
-          13.4,
-          52.5067355
+          13.3923241,
+          52.5095203
         ]
       },
       {
         "kind": "field",
         "ref": "@dist-char",
         "coordinates": [
-          13.4,
-          52.515
+          13.3923241,
+          52.5177848
         ]
       }
-    ]
+    ],
+    "color": "#ff4d9d"
   },
   {
     "id": "@bneck-bulk-bias",
@@ -988,8 +1026,8 @@ window.BOTTLENECKS = [
     "impact": "AI-generated microscopy images and manipulated code can no longer be told apart from real data by experts, and the report cites analytical error rates of 20\u201330% in published literature. This contaminates the evidence that industrial adoption and regulation depend on.",
     "remedy": "Standard raw-instrument data structures (Minimal Arrangement of Instrument Files, MAIF), automated AI fraud detection, and audited raw-to-processed data trails before industrial deployment.",
     "coordinates": [
-      13.4048713,
-      52.5340891
+      13.3923241,
+      52.5343137
     ],
     "scope": "field",
     "constrains": [
@@ -1004,19 +1042,20 @@ window.BOTTLENECKS = [
         "kind": "field",
         "ref": "@dist-fab",
         "coordinates": [
-          13.4048713,
-          52.5340891
+          13.3923241,
+          52.5343137
         ]
       },
       {
         "kind": "field",
         "ref": "@dist-char",
         "coordinates": [
-          13.4,
-          52.515
+          13.3923241,
+          52.5177848
         ]
       }
-    ]
+    ],
+    "color": "#8c9eff"
   }
 ];
 
@@ -1489,6 +1528,6 @@ window.SCHEMA_VERSION = "2.0";
 
 window.TRAFFIC_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"kind": "queue", "conduit_ref": "@conduit-insilico-sdl", "bottleneck_ref": "@bneck-bulk-bias", "color": "#ffb000", "width": 6.4}, "geometry": {"type": "LineString", "coordinates": [[13.4026969, 52.5010058], [13.4022801, 52.5018118], [13.4019743, 52.5026397], [13.4017682, 52.5034875]]}}, {"type": "Feature", "properties": {"kind": "queue", "conduit_ref": "@conduit-insilico-sdl", "bottleneck_ref": "@bneck-bulk-bias", "color": "#ff6d00", "width": 6.4}, "geometry": {"type": "LineString", "coordinates": [[13.4017682, 52.5034875], [13.4016509, 52.5043531], [13.4016111, 52.5052343], [13.4016378, 52.506129], [13.4017199, 52.5070352]]}}, {"type": "Feature", "properties": {"kind": "queue", "conduit_ref": "@conduit-insilico-sdl", "bottleneck_ref": "@bneck-bulk-bias", "color": "#ff1744", "width": 6.4}, "geometry": {"type": "LineString", "coordinates": [[13.4017199, 52.5070352], [13.4018462, 52.5079507], [13.4020056, 52.5088734], [13.4021871, 52.5098013]]}}, {"type": "Feature", "properties": {"kind": "closed", "conduit_ref": "@conduit-insilico-sdl", "bottleneck_ref": "@bneck-bulk-bias", "color": "#ff1744", "width": 4.0}, "geometry": {"type": "LineString", "coordinates": [[13.4021871, 52.5098013], [13.4023795, 52.5107322], [13.4025718, 52.511664], [13.4027527, 52.5125947], [13.4029113, 52.5135221], [13.4030364, 52.514444], [13.4031168, 52.5153585], [13.4031415, 52.5162635], [13.4030994, 52.5171567], [13.4029793, 52.5180361], [13.4027702, 52.5188996], [13.4024609, 52.5197451], [13.4020404, 52.5205705], [13.4014974, 52.5213737], [13.400821, 52.5221526], [13.4, 52.5229051]]}}, {"type": "Feature", "properties": {"kind": "queue", "conduit_ref": "@conduit-recipe-dispatch", "bottleneck_ref": "@bneck-novelty-mirage", "color": "#ffb000", "width": 6.2}, "geometry": {"type": "LineString", "coordinates": [[13.3988466, 52.507364], [13.3984156, 52.5078981], [13.3980712, 52.5084562], [13.3978056, 52.5090363]]}}, {"type": "Feature", "properties": {"kind": "queue", "conduit_ref": "@conduit-recipe-dispatch", "bottleneck_ref": "@bneck-novelty-mirage", "color": "#ff6d00", "width": 6.2}, "geometry": {"type": "LineString", "coordinates": [[13.3978056, 52.5090363], [13.3976108, 52.509636], [13.397479, 52.5102534], [13.3974022, 52.5108863]]}}, {"type": "Feature", "properties": {"kind": "queue", "conduit_ref": "@conduit-recipe-dispatch", "bottleneck_ref": "@bneck-novelty-mirage", "color": "#ff1744", "width": 6.2}, "geometry": {"type": "LineString", "coordinates": [[13.3974022, 52.5108863], [13.3973726, 52.5115327], [13.3973822, 52.5121902], [13.3974233, 52.5128569]]}}, {"type": "Feature", "properties": {"kind": "starved", "conduit_ref": "@conduit-recipe-dispatch", "bottleneck_ref": "@bneck-novelty-mirage", "color": "#ff1744", "width": 4.0}, "geometry": {"type": "LineString", "coordinates": [[13.3974233, 52.5128569], [13.3974878, 52.5135307], [13.397568, 52.5142093], [13.3976559, 52.5148907], [13.3977435, 52.5155728], [13.3978231, 52.5162534], [13.3978868, 52.5169305], [13.3979266, 52.5176018], [13.3979346, 52.5182653], [13.397903, 52.5189188], [13.3978239, 52.5195602], [13.3976893, 52.5201875], [13.3974915, 52.5207984], [13.3972224, 52.5213909], [13.3968743, 52.5219628], [13.3964391, 52.5225121], [13.3959091, 52.5230365], [13.3952763, 52.523534]]}}, {"type": "Feature", "properties": {"kind": "queue", "conduit_ref": "@conduit-operando-loop", "bottleneck_ref": "@bneck-vendor-lock", "color": "#ffb000", "width": 6.1}, "geometry": {"type": "LineString", "coordinates": [[13.4047237, 52.5152695], [13.4047618, 52.5156664], [13.4047543, 52.5160351], [13.4047047, 52.5163778]]}}, {"type": "Feature", "properties": {"kind": "queue", "conduit_ref": "@conduit-operando-loop", "bottleneck_ref": "@bneck-vendor-lock", "color": "#ff6d00", "width": 6.1}, "geometry": {"type": "LineString", "coordinates": [[13.4047047, 52.5163778], [13.4046165, 52.5166967], [13.4044931, 52.516994]]}}, {"type": "Feature", "properties": {"kind": "queue", "conduit_ref": "@conduit-operando-loop", "bottleneck_ref": "@bneck-vendor-lock", "color": "#ff1744", "width": 6.1}, "geometry": {"type": "LineString", "coordinates": [[13.4044931, 52.516994], [13.4043382, 52.5172719], [13.4041551, 52.5175325], [13.4039474, 52.5177781]]}}, {"type": "Feature", "properties": {"kind": "starved", "conduit_ref": "@conduit-operando-loop", "bottleneck_ref": "@bneck-vendor-lock", "color": "#ff1744", "width": 4.0}, "geometry": {"type": "LineString", "coordinates": [[13.4039474, 52.5177781], [13.4037186, 52.5180109], [13.4034721, 52.518233], [13.4032115, 52.5184467], [13.4029402, 52.518654], [13.4026617, 52.5188573], [13.4023795, 52.5190587], [13.4020972, 52.5192604], [13.4018182, 52.5194645], [13.401546, 52.5196733], [13.4012841, 52.519889], [13.401036, 52.5201138], [13.4008052, 52.5203498], [13.4005951, 52.5205992], [13.4004093, 52.5208642], [13.4002513, 52.5211471], [13.4001246, 52.5214499], [13.4000326, 52.5217749], [13.3999788, 52.5221244], [13.3999668, 52.5225003], [13.4, 52.5229051]]}}, {"type": "Feature", "properties": {"kind": "queue", "conduit_ref": "@conduit-ground-truth", "bottleneck_ref": "@bneck-vendor-lock", "color": "#ffb000", "width": 6.1}, "geometry": {"type": "LineString", "coordinates": [[13.3952763, 52.5152695], [13.3960543, 52.5149389], [13.3967337, 52.5145518], [13.3973221, 52.5141125]]}}, {"type": "Feature", "properties": {"kind": "queue", "conduit_ref": "@conduit-ground-truth", "bottleneck_ref": "@bneck-vendor-lock", "color": "#ff6d00", "width": 6.1}, "geometry": {"type": "LineString", "coordinates": [[13.3973221, 52.5141125], [13.3978271, 52.5136254], [13.3982562, 52.5130948]]}}, {"type": "Feature", "properties": {"kind": "queue", "conduit_ref": "@conduit-ground-truth", "bottleneck_ref": "@bneck-vendor-lock", "color": "#ff1744", "width": 6.1}, "geometry": {"type": "LineString", "coordinates": [[13.3982562, 52.5130948], [13.3986172, 52.5125249], [13.3989176, 52.51192], [13.3991651, 52.5112844]]}}, {"type": "Feature", "properties": {"kind": "starved", "conduit_ref": "@conduit-ground-truth", "bottleneck_ref": "@bneck-vendor-lock", "color": "#ff1744", "width": 4.0}, "geometry": {"type": "LineString", "coordinates": [[13.3991651, 52.5112844], [13.3993673, 52.5106225], [13.3995317, 52.5099384], [13.399666, 52.5092365], [13.3997779, 52.5085212], [13.3998748, 52.5077966], [13.3999646, 52.507067], [13.4000546, 52.5063369], [13.4001527, 52.5056104], [13.4002664, 52.5048919], [13.4004032, 52.5041856], [13.4005709, 52.5034958], [13.400777, 52.5028269], [13.4010292, 52.5021831], [13.401335, 52.5015687], [13.4017022, 52.500988], [13.4021382, 52.5004454], [13.4026508, 52.499945], [13.4032475, 52.4994912], [13.4039359, 52.4990883], [13.4047237, 52.4987406]]}}, {"type": "Feature", "properties": {"kind": "queue", "conduit_ref": "@conduit-scale-up", "bottleneck_ref": "@bneck-lab-to-fab", "color": "#ffb000", "width": 6.5}, "geometry": {"type": "LineString", "coordinates": [[13.4017332, 52.5248368], [13.401442, 52.5251795], [13.4011735, 52.5255484], [13.4009237, 52.5259393]]}}, {"type": "Feature", "properties": {"kind": "queue", "conduit_ref": "@conduit-scale-up", "bottleneck_ref": "@bneck-lab-to-fab", "color": "#ff6d00", "width": 6.5}, "geometry": {"type": "LineString", "coordinates": [[13.4009237, 52.5259393], [13.4006888, 52.5263477], [13.400465, 52.5267694], [13.4002485, 52.5272], [13.4000354, 52.5276352]]}}, {"type": "Feature", "properties": {"kind": "queue", "conduit_ref": "@conduit-scale-up", "bottleneck_ref": "@bneck-lab-to-fab", "color": "#ff1744", "width": 6.5}, "geometry": {"type": "LineString", "coordinates": [[13.4000354, 52.5276352], [13.399822, 52.5280708], [13.3996044, 52.5285024], [13.3993788, 52.5289256]]}}, {"type": "Feature", "properties": {"kind": "starved", "conduit_ref": "@conduit-scale-up", "bottleneck_ref": "@bneck-lab-to-fab", "color": "#ff1744", "width": 4.0}, "geometry": {"type": "LineString", "coordinates": [[13.3993788, 52.5289256], [13.3991414, 52.5293362], [13.3988883, 52.5297299], [13.3986158, 52.5301023], [13.3983199, 52.5304492], [13.397997, 52.5307661], [13.3976432, 52.5310489], [13.3972546, 52.5312931], [13.3968274, 52.5314945], [13.3963579, 52.5316487], [13.3958421, 52.5317514], [13.3952763, 52.5317984]]}}]};
 
-window.FIELDS_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"bottleneck_ref": "@bneck-dark-data", "effect": "blind", "ring": 0, "opacity": 0.128}, "geometry": {"type": "Polygon", "coordinates": [[[13.3918812, 52.4954168], [13.4081188, 52.4954168], [13.4081188, 52.5015254], [13.3918812, 52.5015254], [13.3918812, 52.4954168]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-dark-data", "effect": "blind", "ring": 1, "opacity": 0.203}, "geometry": {"type": "Polygon", "coordinates": [[[13.3925455, 52.4958211], [13.4074545, 52.4958211], [13.4074545, 52.5011211], [13.3925455, 52.5011211], [13.3925455, 52.4958211]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-dark-data", "effect": "blind", "ring": 2, "opacity": 0.278}, "geometry": {"type": "Polygon", "coordinates": [[[13.3933574, 52.4963152], [13.4066426, 52.4963152], [13.4066426, 52.500627], [13.3933574, 52.500627], [13.3933574, 52.4963152]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-dark-data", "effect": "blind", "ring": 0, "opacity": 0.128}, "geometry": {"type": "Polygon", "coordinates": [[[13.3918812, 52.5036812], [13.4081188, 52.5036812], [13.4081188, 52.5097898], [13.3918812, 52.5097898], [13.3918812, 52.5036812]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-dark-data", "effect": "blind", "ring": 1, "opacity": 0.203}, "geometry": {"type": "Polygon", "coordinates": [[[13.3925455, 52.5040855], [13.4074545, 52.5040855], [13.4074545, 52.5093855], [13.3925455, 52.5093855], [13.3925455, 52.5040855]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-dark-data", "effect": "blind", "ring": 2, "opacity": 0.278}, "geometry": {"type": "Polygon", "coordinates": [[[13.3933574, 52.5045796], [13.4066426, 52.5045796], [13.4066426, 52.5088914], [13.3933574, 52.5088914], [13.3933574, 52.5045796]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-ood", "effect": "noise", "ring": 0, "opacity": 0.121}, "geometry": {"type": "Polygon", "coordinates": [[[13.3918812, 52.4954168], [13.4081188, 52.4954168], [13.4081188, 52.5015254], [13.3918812, 52.5015254], [13.3918812, 52.4954168]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-ood", "effect": "noise", "ring": 1, "opacity": 0.192}, "geometry": {"type": "Polygon", "coordinates": [[[13.3925455, 52.4958211], [13.4074545, 52.4958211], [13.4074545, 52.5011211], [13.3925455, 52.5011211], [13.3925455, 52.4958211]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-ood", "effect": "noise", "ring": 2, "opacity": 0.263}, "geometry": {"type": "Polygon", "coordinates": [[[13.3933574, 52.4963152], [13.4066426, 52.4963152], [13.4066426, 52.500627], [13.3933574, 52.500627], [13.3933574, 52.4963152]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-ood", "effect": "noise", "ring": 0, "opacity": 0.121}, "geometry": {"type": "Polygon", "coordinates": [[[13.3918812, 52.5036812], [13.4081188, 52.5036812], [13.4081188, 52.5097898], [13.3918812, 52.5097898], [13.3918812, 52.5036812]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-ood", "effect": "noise", "ring": 1, "opacity": 0.192}, "geometry": {"type": "Polygon", "coordinates": [[[13.3925455, 52.5040855], [13.4074545, 52.5040855], [13.4074545, 52.5093855], [13.3925455, 52.5093855], [13.3925455, 52.5040855]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-ood", "effect": "noise", "ring": 2, "opacity": 0.263}, "geometry": {"type": "Polygon", "coordinates": [[[13.3933574, 52.5045796], [13.4066426, 52.5045796], [13.4066426, 52.5088914], [13.3933574, 52.5088914], [13.3933574, 52.5045796]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-ood", "effect": "noise", "ring": 0, "opacity": 0.121}, "geometry": {"type": "Polygon", "coordinates": [[[13.3918812, 52.5119457], [13.4081188, 52.5119457], [13.4081188, 52.5180543], [13.3918812, 52.5180543], [13.3918812, 52.5119457]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-ood", "effect": "noise", "ring": 1, "opacity": 0.192}, "geometry": {"type": "Polygon", "coordinates": [[[13.3925455, 52.51235], [13.4074545, 52.51235], [13.4074545, 52.51765], [13.3925455, 52.51765], [13.3925455, 52.51235]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-ood", "effect": "noise", "ring": 2, "opacity": 0.263}, "geometry": {"type": "Polygon", "coordinates": [[[13.3933574, 52.5128441], [13.4066426, 52.5128441], [13.4066426, 52.5171559], [13.3933574, 52.5171559], [13.3933574, 52.5128441]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-synthetic-fraud", "effect": "noise", "ring": 0, "opacity": 0.107}, "geometry": {"type": "Polygon", "coordinates": [[[13.3918812, 52.5119457], [13.4081188, 52.5119457], [13.4081188, 52.5180543], [13.3918812, 52.5180543], [13.3918812, 52.5119457]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-synthetic-fraud", "effect": "noise", "ring": 1, "opacity": 0.169}, "geometry": {"type": "Polygon", "coordinates": [[[13.3925455, 52.51235], [13.4074545, 52.51235], [13.4074545, 52.51765], [13.3925455, 52.51765], [13.3925455, 52.51235]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-synthetic-fraud", "effect": "noise", "ring": 2, "opacity": 0.231}, "geometry": {"type": "Polygon", "coordinates": [[[13.3933574, 52.5128441], [13.4066426, 52.5128441], [13.4066426, 52.5171559], [13.3933574, 52.5171559], [13.3933574, 52.5128441]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-synthetic-fraud", "effect": "noise", "ring": 0, "opacity": 0.107}, "geometry": {"type": "Polygon", "coordinates": [[[13.3918812, 52.5284746], [13.4081188, 52.5284746], [13.4081188, 52.5345832], [13.3918812, 52.5345832], [13.3918812, 52.5284746]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-synthetic-fraud", "effect": "noise", "ring": 1, "opacity": 0.169}, "geometry": {"type": "Polygon", "coordinates": [[[13.3925455, 52.5288789], [13.4074545, 52.5288789], [13.4074545, 52.5341789], [13.3925455, 52.5341789], [13.3925455, 52.5288789]]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-synthetic-fraud", "effect": "noise", "ring": 2, "opacity": 0.231}, "geometry": {"type": "Polygon", "coordinates": [[[13.3933574, 52.529373], [13.4066426, 52.529373], [13.4066426, 52.5336848], [13.3933574, 52.5336848], [13.3933574, 52.529373]]]}}]};
+window.FIELDS_GEOJSON = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"bottleneck_ref": "@bneck-dark-data", "district_ref": "@dist-quantum", "lane": 0, "effect": "blind", "color": "#e8ecf5"}, "geometry": {"type": "LineString", "coordinates": [[13.3920879, 52.4955426], [13.4079121, 52.4955426], [13.4079121, 52.5013996], [13.3920879, 52.5013996], [13.3920879, 52.4955426]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-dark-data", "district_ref": "@dist-design", "lane": 0, "effect": "blind", "color": "#e8ecf5"}, "geometry": {"type": "LineString", "coordinates": [[13.3920879, 52.503807], [13.4079121, 52.503807], [13.4079121, 52.509664], [13.3920879, 52.509664], [13.3920879, 52.503807]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-ood", "district_ref": "@dist-quantum", "lane": 1, "effect": "noise", "color": "#ff4d9d"}, "geometry": {"type": "LineString", "coordinates": [[13.3923241, 52.4956863], [13.4076759, 52.4956863], [13.4076759, 52.5012559], [13.3923241, 52.5012559], [13.3923241, 52.4956863]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-ood", "district_ref": "@dist-design", "lane": 1, "effect": "noise", "color": "#ff4d9d"}, "geometry": {"type": "LineString", "coordinates": [[13.3923241, 52.5039507], [13.4076759, 52.5039507], [13.4076759, 52.5095203], [13.3923241, 52.5095203], [13.3923241, 52.5039507]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-ood", "district_ref": "@dist-char", "lane": 0, "effect": "noise", "color": "#ff4d9d"}, "geometry": {"type": "LineString", "coordinates": [[13.3920879, 52.5120715], [13.4079121, 52.5120715], [13.4079121, 52.5179285], [13.3920879, 52.5179285], [13.3920879, 52.5120715]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-synthetic-fraud", "district_ref": "@dist-char", "lane": 1, "effect": "noise", "color": "#8c9eff"}, "geometry": {"type": "LineString", "coordinates": [[13.3923241, 52.5122152], [13.4076759, 52.5122152], [13.4076759, 52.5177848], [13.3923241, 52.5177848], [13.3923241, 52.5122152]]}}, {"type": "Feature", "properties": {"bottleneck_ref": "@bneck-synthetic-fraud", "district_ref": "@dist-fab", "lane": 0, "effect": "noise", "color": "#8c9eff"}, "geometry": {"type": "LineString", "coordinates": [[13.3920879, 52.5286004], [13.4079121, 52.5286004], [13.4079121, 52.5344574], [13.3920879, 52.5344574], [13.3920879, 52.5286004]]}}]};
 
 window.ROUTE_GRAPH = [{"from": "@spire-alexandria", "to": "@spire-umlip", "kind": "conduit", "conduit": "@conduit-salex-training", "cost": 1.0}, {"from": "@spire-umlip", "to": "@spire-alexandria", "kind": "conduit", "conduit": "@conduit-salex-training", "against_flow": true, "cost": 3.0}, {"from": "@spire-umlip", "to": "@spire-gnome", "kind": "conduit", "conduit": "@conduit-stability-screen", "cost": 1.0}, {"from": "@spire-gnome", "to": "@spire-umlip", "kind": "conduit", "conduit": "@conduit-stability-screen", "against_flow": true, "cost": 3.0}, {"from": "@spire-mattergen", "to": "@spire-alab", "kind": "conduit", "conduit": "@conduit-recipe-dispatch", "cost": 2.35}, {"from": "@spire-alab", "to": "@spire-mattergen", "kind": "conduit", "conduit": "@conduit-recipe-dispatch", "against_flow": true, "cost": 4.35}, {"from": "@spire-beamline-edge", "to": "@spire-bigmap", "kind": "conduit", "conduit": "@conduit-operando-loop", "cost": 1.7}, {"from": "@spire-bigmap", "to": "@spire-beamline-edge", "kind": "conduit", "conduit": "@conduit-operando-loop", "against_flow": true, "cost": 3.7}, {"from": "@spire-flow-sdl", "to": "@spire-aplab", "kind": "conduit", "conduit": "@conduit-scale-up", "cost": 1.85}, {"from": "@spire-aplab", "to": "@spire-flow-sdl", "kind": "conduit", "conduit": "@conduit-scale-up", "against_flow": true, "cost": 3.85}, {"from": "@spire-polymer", "to": "@spire-am-twin", "kind": "conduit", "conduit": "@conduit-4d-print", "cost": 1.0}, {"from": "@spire-am-twin", "to": "@spire-polymer", "kind": "conduit", "conduit": "@conduit-4d-print", "against_flow": true, "cost": 3.0}, {"from": "@spire-nomad", "to": "@spire-apt", "kind": "conduit", "conduit": "@conduit-nexus-schema", "cost": 1.0}, {"from": "@spire-apt", "to": "@spire-nomad", "kind": "conduit", "conduit": "@conduit-nexus-schema", "against_flow": true, "cost": 3.0}, {"from": "@spire-alab", "to": "@spire-nomad", "kind": "conduit", "conduit": "@conduit-failure-log", "cost": 3.0}, {"from": "@spire-nomad", "to": "@spire-alab", "kind": "conduit", "conduit": "@conduit-failure-log", "against_flow": true, "cost": 5.0}, {"from": "@spire-4dstem", "to": "@spire-umlip", "kind": "conduit", "conduit": "@conduit-ground-truth", "cost": 2.3}, {"from": "@spire-umlip", "to": "@spire-4dstem", "kind": "conduit", "conduit": "@conduit-ground-truth", "against_flow": true, "cost": 4.3}, {"from": "@spire-ssbd", "to": "@spire-mattergen", "kind": "conduit", "conduit": "@conduit-ssbd-guardrail", "cost": 1.6}, {"from": "@spire-mattergen", "to": "@spire-ssbd", "kind": "conduit", "conduit": "@conduit-ssbd-guardrail", "against_flow": true, "cost": 3.6}, {"from": "@spire-umlip", "to": "@spire-bigmap", "kind": "conduit", "conduit": "@conduit-insilico-sdl", "cost": 3.8}, {"from": "@spire-bigmap", "to": "@spire-umlip", "kind": "conduit", "conduit": "@conduit-insilico-sdl", "against_flow": true, "cost": 5.8}, {"from": "@spire-nomad", "to": "@spire-alexandria", "kind": "walk", "cost": 0.6}, {"from": "@spire-nomad", "to": "@spire-umlip", "kind": "walk", "cost": 0.6}, {"from": "@spire-alexandria", "to": "@spire-nomad", "kind": "walk", "cost": 0.6}, {"from": "@spire-alexandria", "to": "@spire-umlip", "kind": "walk", "cost": 0.6}, {"from": "@spire-umlip", "to": "@spire-nomad", "kind": "walk", "cost": 0.6}, {"from": "@spire-umlip", "to": "@spire-alexandria", "kind": "walk", "cost": 0.6}, {"from": "@spire-gnome", "to": "@spire-mattergen", "kind": "walk", "cost": 0.6}, {"from": "@spire-gnome", "to": "@spire-polymer", "kind": "walk", "cost": 0.6}, {"from": "@spire-mattergen", "to": "@spire-gnome", "kind": "walk", "cost": 0.6}, {"from": "@spire-mattergen", "to": "@spire-polymer", "kind": "walk", "cost": 0.6}, {"from": "@spire-polymer", "to": "@spire-gnome", "kind": "walk", "cost": 0.6}, {"from": "@spire-polymer", "to": "@spire-mattergen", "kind": "walk", "cost": 0.6}, {"from": "@spire-4dstem", "to": "@spire-apt", "kind": "walk", "cost": 0.6}, {"from": "@spire-4dstem", "to": "@spire-beamline-edge", "kind": "walk", "cost": 0.6}, {"from": "@spire-4dstem", "to": "@spire-pspp", "kind": "walk", "cost": 0.6}, {"from": "@spire-apt", "to": "@spire-4dstem", "kind": "walk", "cost": 0.6}, {"from": "@spire-apt", "to": "@spire-beamline-edge", "kind": "walk", "cost": 0.6}, {"from": "@spire-apt", "to": "@spire-pspp", "kind": "walk", "cost": 0.6}, {"from": "@spire-beamline-edge", "to": "@spire-4dstem", "kind": "walk", "cost": 0.6}, {"from": "@spire-beamline-edge", "to": "@spire-apt", "kind": "walk", "cost": 0.6}, {"from": "@spire-beamline-edge", "to": "@spire-pspp", "kind": "walk", "cost": 0.6}, {"from": "@spire-pspp", "to": "@spire-4dstem", "kind": "walk", "cost": 0.6}, {"from": "@spire-pspp", "to": "@spire-apt", "kind": "walk", "cost": 0.6}, {"from": "@spire-pspp", "to": "@spire-beamline-edge", "kind": "walk", "cost": 0.6}, {"from": "@spire-alab", "to": "@spire-bigmap", "kind": "walk", "cost": 0.6}, {"from": "@spire-alab", "to": "@spire-flow-sdl", "kind": "walk", "cost": 0.6}, {"from": "@spire-bigmap", "to": "@spire-alab", "kind": "walk", "cost": 0.6}, {"from": "@spire-bigmap", "to": "@spire-flow-sdl", "kind": "walk", "cost": 0.6}, {"from": "@spire-flow-sdl", "to": "@spire-alab", "kind": "walk", "cost": 0.6}, {"from": "@spire-flow-sdl", "to": "@spire-bigmap", "kind": "walk", "cost": 0.6}, {"from": "@spire-aplab", "to": "@spire-am-twin", "kind": "walk", "cost": 0.6}, {"from": "@spire-aplab", "to": "@spire-ssbd", "kind": "walk", "cost": 0.6}, {"from": "@spire-am-twin", "to": "@spire-aplab", "kind": "walk", "cost": 0.6}, {"from": "@spire-am-twin", "to": "@spire-ssbd", "kind": "walk", "cost": 0.6}, {"from": "@spire-ssbd", "to": "@spire-aplab", "kind": "walk", "cost": 0.6}, {"from": "@spire-ssbd", "to": "@spire-am-twin", "kind": "walk", "cost": 0.6}];

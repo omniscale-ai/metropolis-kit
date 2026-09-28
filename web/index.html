@@ -916,17 +916,23 @@
     }
     .node-chip:hover { filter: brightness(1.3); }
 
-    /* Field label — like a weather / air-quality alert over an area */
-    .field-label {
+
+    /* Field forecast row — one chip per constraint acting on the district */
+    .forecast-row { display: flex; flex-wrap: wrap; gap: 4px; max-width: 360px; pointer-events: none; }
+    .forecast-chip {
       pointer-events: auto; cursor: pointer;
-      display: flex; align-items: center; gap: 6px;
-      background: rgba(18, 22, 34, 0.82);
-      border: 1px dashed rgba(190, 200, 225, 0.6);
-      border-radius: 14px; padding: 3px 10px;
-      font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; color: #dfe6f5;
-      backdrop-filter: blur(4px);
+      display: flex; align-items: center; gap: 5px;
+      background: rgba(12, 16, 28, 0.88);
+      border: 1px solid; border-radius: 12px; padding: 2px 8px 2px 4px;
+      font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #e8ecf5;
+      transition: opacity 0.2s ease, transform 0.2s ease;
     }
-    .field-label:hover { border-style: solid; }
+    .forecast-chip:hover { transform: scale(1.06); }
+    .forecast-chip.dim { opacity: 0.3; }
+    .forecast-chip.lit { box-shadow: 0 0 12px var(--tape, rgba(255,255,255,0.5)); }
+    .tape-swatch { width: 16px; height: 0; border-top: 3px solid var(--tape); display: inline-block; }
+    .tape-swatch.tape-noise { border-top-style: dotted; }
+    .tape-swatch.tape-slowdown { border-top-style: dashed; }
 
     /* Conduit badge status variants */
     .conduit-beacon-marker.status-thin { opacity: 0.8; border-style: dashed; }
@@ -1245,17 +1251,27 @@
         }
       });
 
-      // 1b. Field constraints: weather-like overlays (fog / static noise / blind spot / hatching)
+      // 1b. Field constraints: one coloured tape per constraint along the border of each district
+      // it covers. Colour = which problem, stroke = effect (solid blind · dotted noise · dashed slowdown).
       addConstraintPatterns();
       map.addSource('fields-geo', { type: 'geojson', data: FIELDS });
+      [['blind', null], ['noise', [0.1, 2]], ['slowdown', [4, 2]]].forEach(([effect, dash]) => {
+        const paint = { 'line-color': ['get', 'color'], 'line-width': 3, 'line-opacity': 0.85 };
+        if (dash) paint['line-dasharray'] = dash;
+        map.addLayer({
+          id: `fields-tape-${effect}`,
+          type: 'line',
+          source: 'fields-geo',
+          filter: ['==', ['get', 'effect'], effect],
+          layout: { 'line-cap': dash && dash[0] < 1 ? 'round' : 'butt' },
+          paint
+        });
+      });
       map.addLayer({
-        id: 'fields-overlay',
-        type: 'fill',
+        id: 'fields-tape-hit',
+        type: 'line',
         source: 'fields-geo',
-        paint: {
-          'fill-pattern': ['match', ['get', 'effect'], 'noise', 'pat-noise', 'blind', 'pat-blind', 'pat-hatch'],
-          'fill-opacity': ['*', ['get', 'opacity'], ['match', ['get', 'effect'], 'blind', 0.9, 'noise', 1.2, 1.4]]
-        }
+        paint: { 'line-color': '#000000', 'line-width': 16, 'line-opacity': 0.001 }
       });
 
       // 2. Superhighways Conduits
@@ -1604,6 +1620,12 @@
       };
 
       map.on('click', 'conduits-core', onConduitClick);
+      map.on('click', 'fields-tape-hit', (e) => {
+        const ref = e.features && e.features[0] && e.features[0].properties.bottleneck_ref;
+        if (ref) gotoRef(ref);
+      });
+      map.on('mouseenter', 'fields-tape-hit', () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', 'fields-tape-hit', () => { map.getCanvas().style.cursor = ''; });
       map.on('click', 'traffic-queue', (e) => {
         const ref = e.features && e.features[0] && e.features[0].properties.bottleneck_ref;
         if (ref) gotoRef(ref);
@@ -1717,7 +1739,7 @@
       } else if (layerKey === 'queues') {
         setMarkers(nodeMarkers, isVisible);
       } else if (layerKey === 'weather') {
-        setLayers(['fields-overlay'], isVisible);
+        setLayers(['fields-tape-blind', 'fields-tape-noise', 'fields-tape-slowdown', 'fields-tape-hit'], isVisible);
         setMarkers(fieldMarkers, isVisible);
       }
       refreshBuildingFilter();
@@ -1726,6 +1748,8 @@
     // Selection & Drawer Rendering
     function selectObject(type, id, index) {
       activeSelection = { type, id, index };
+      const selected = type === 'bottleneck' ? BNECKS[index] : null;
+      highlightField(selected && selected.scope === 'field' ? id : null);
       const drawer = document.getElementById('detailDrawer');
       const badge = document.getElementById('drawerTypeBadge');
       const title = document.getElementById('drawerTitle');
@@ -1796,6 +1820,7 @@
           ${item.scope ? `
           <div class="scope-banner">
             <span class="scope-tag">${bneckIcon(item)} ${EFFECT_WORD[item.effect] || ''} ${SCOPE_WORD[item.scope]}</span>
+            ${item.color ? `<span class="scope-tag" style="background: rgba(255,255,255,0.05); color: #fff; border-color: ${item.color};"><span class="tape-swatch tape-${item.effect}" style="--tape: ${item.color};"></span> BORDER TAPE</span>` : ''}
             <span class="scope-tag" style="background: rgba(255,255,255,0.06); color: #fff; border-color: rgba(255,255,255,0.2);">SEVERITY ${Math.round(item.severity * 100)}%</span>
             ${item.delay_label ? `<span class="delay-chip">${item.delay_label}</span>` : ''}
           </div>` : ''}
@@ -2006,6 +2031,7 @@
       document.querySelectorAll('.spire-item, .conduit-legend-item').forEach(el => el.classList.remove('active'));
       activeSelection = null;
       showLinks(null, []);
+      highlightField(null);
     }
 
     // Legend Builder (With Dedicated Superhighways Section!)
@@ -2108,6 +2134,7 @@
           const row = document.createElement('div');
           row.className = 'spire-item conduit-legend-item';
           row.dataset.id = it.id;
+          if (it.color) row.style.borderLeft = `3px solid ${it.color}`;
           row.innerHTML = `
             <span class="spire-item-name">${type === 'bottleneck' ? bneckIcon(it) : '🎯'} ${it.codename}</span>
             <span class="spire-item-code" style="color: ${color}; border-color: ${color}55;">${type === 'bottleneck' && it.scope ? it.scope.toUpperCase() : it.code}</span>`;
@@ -2186,15 +2213,6 @@
       return g.getImageData(0, 0, w, h);
     }
 
-    function paintNoise(g, w, h) {
-      g.clearRect(0, 0, w, h);
-      for (let i = 0; i < 110; i++) {
-        const v = Math.random();
-        g.fillStyle = v > 0.85 ? 'rgba(255,60,90,0.9)' : `rgba(220,228,245,${(0.35 + Math.random() * 0.6).toFixed(2)})`;
-        g.fillRect(Math.floor(Math.random() * w), Math.floor(Math.random() * h), v > 0.7 ? 2 : 1, 1);
-      }
-    }
-
     function addConstraintPatterns() {
       const arrow = color => canvasImage(32, 32, (g) => {
         g.strokeStyle = color; g.lineWidth = 5; g.lineCap = 'round'; g.lineJoin = 'round';
@@ -2202,12 +2220,6 @@
       });
       map.addImage('arrow-light', arrow('rgba(255,255,255,0.95)'));
       map.addImage('arrow-grey', arrow('rgba(150,158,176,0.9)'));
-      map.addImage('pat-noise', canvasImage(64, 64, paintNoise));
-      map.addImage('pat-blind', canvasImage(8, 8, (g, w, h) => { g.fillStyle = 'rgba(0,0,0,1)'; g.fillRect(0, 0, w, h); }));
-      map.addImage('pat-hatch', canvasImage(16, 16, (g) => {
-        g.strokeStyle = 'rgba(255,176,0,0.9)'; g.lineWidth = 2;
-        g.beginPath(); g.moveTo(0, 16); g.lineTo(16, 0); g.stroke();
-      }));
     }
 
     function startConstraintAnimations() {
@@ -2221,13 +2233,6 @@
           step = (step + 1) % dashSeq.length;
           map.setPaintProperty('traffic-queue-crawl', 'line-dasharray', dashSeq[step]);
         }, 90);
-      }
-      // Static that never settles over districts with a "noise" field
-      if (FIELDS.features.some(f => f.properties.effect === 'noise')) {
-        setInterval(() => {
-          if (document.hidden || !layerVisibility.weather) return;
-          map.updateImage('pat-noise', canvasImage(64, 64, paintNoise));
-        }, 160);
       }
     }
 
@@ -2247,17 +2252,31 @@
             incidentMarkers.push(new maplibregl.Marker({ element: el, pitchAlignment: 'viewport' }).setLngLat(a.coordinates).addTo(map));
           } else if (a.kind === 'node') {
             (nodeGroups[a.ref] = nodeGroups[a.ref] || { coords: a.coordinates, items: [] }).items.push({ b, idx });
-          } else if (a.kind === 'field' && aIdx === 0) {
-            const el = document.createElement('div');
-            el.className = 'field-label';
-            el.title = `${b.title} — over ${b.constrains.length} district(s)`;
-            el.innerHTML = `<span>${EFFECT_ICON[b.effect] || '🌫️'}</span><span>${b.codename}</span>${
-              b.delay_label ? `<span class="delay-chip">${b.delay_label}</span>` : ''}`;
-            el.addEventListener('click', (e) => { e.stopPropagation(); selectObject('bottleneck', b.id, idx); });
-            fieldMarkers.push(new maplibregl.Marker({ element: el, pitchAlignment: 'viewport' }).setLngLat(a.coordinates).addTo(map));
           }
         });
       });
+      // Forecast row: one clickable chip per field constraint acting on the district
+      window.DISTRICTS.forEach(d => {
+        if (!d.fields || !d.fields.length) return;
+        const row = document.createElement('div');
+        row.className = 'forecast-row';
+        d.fields.forEach(ref => {
+          const idx = BNECKS.findIndex(x => x.id === ref);
+          const b = BNECKS[idx];
+          const chip = document.createElement('div');
+          chip.className = 'forecast-chip';
+          chip.dataset.bneck = b.id;
+          chip.style.borderColor = b.color;
+          chip.style.setProperty('--tape', b.color);
+          chip.title = `${b.title} — ${EFFECT_WORD[b.effect]} over ${b.constrains.length} district(s)`;
+          chip.innerHTML = `<span class="tape-swatch tape-${b.effect}" style="--tape: ${b.color};"></span><span>${EFFECT_ICON[b.effect]}</span><span>${b.codename}</span>`;
+          chip.addEventListener('click', (e) => { e.stopPropagation(); selectObject('bottleneck', b.id, idx); });
+          row.appendChild(chip);
+        });
+        fieldMarkers.push(new maplibregl.Marker({ element: row, anchor: 'top-left', pitchAlignment: 'viewport' })
+          .setLngLat(d.forecast_anchor).addTo(map));
+      });
+
       // Wait-time chips stacked under each constrained spire
       Object.values(nodeGroups).forEach(group => {
         const stack = document.createElement('div');
@@ -2331,6 +2350,20 @@
         <div class="drawer-section-title"><span></span>${heading}</div>
         <div class="relation-list">${refs.map(r => `<span class="ref-chip ${kindClass(r)}" data-ref="${r}">${refLabel(r)}</span>`).join('')}</div>
       </div>`;
+    }
+
+    // Spotlight one field constraint: its tapes and chips stay bright, the rest fade back
+    function highlightField(id) {
+      if (!map || !map.getLayer('fields-tape-blind')) return;
+      const match = ['==', ['get', 'bottleneck_ref'], id || ''];
+      ['blind', 'noise', 'slowdown'].forEach(effect => {
+        map.setPaintProperty(`fields-tape-${effect}`, 'line-opacity', id ? ['case', match, 1, 0.15] : 0.85);
+        map.setPaintProperty(`fields-tape-${effect}`, 'line-width', id ? ['case', match, 5, 2] : 3);
+      });
+      document.querySelectorAll('.forecast-chip').forEach(chip => {
+        chip.classList.toggle('dim', !!id && chip.dataset.bneck !== id);
+        chip.classList.toggle('lit', !!id && chip.dataset.bneck === id);
+      });
     }
 
     function showLinks(origin, targets) {

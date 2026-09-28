@@ -63,7 +63,7 @@ The kit is fully deployed to GitHub, zero-dependency in Python, and contains thr
 ---
 
 5. **Schema v2 — constraints drawn where they act (navigation-map metaphors):**
-   - Bottleneck `scope`: `edge` (traffic congestion + incident pin on a superhighway), `node` (queue of backlog cubes + wait-time chip at a spire), `field` (weather overlay over districts). `effect`: slowdown / closure / noise / blind.
+   - Bottleneck `scope`: `edge` (traffic congestion + incident pin on a superhighway), `node` (queue of backlog cubes + wait-time chip at a spire), `field` (coloured border tape per constraint + forecast chips in the district's NW corner, spotlight on selection; static, no animated fill). `effect`: slowdown / closure / noise / blind.
    - `delay_label` (numbers only from the source), `remedied_by`; conduit `status` (operational / thin = ferry line / planned = road under construction); challenge `advanced_by` / `blocked_by`.
    - Scoped constraints have **no towers**. v1 specs without `scope` keep legacy hazard towers (ai-multiscale, mind-matter not yet migrated).
    - Compiler derives reverse links, direction, traffic segments, queue cubes, field overlays, `ROUTE_GRAPH`; places incident pins first, then conduit badges clear of pins, spires and priorities.
