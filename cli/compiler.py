@@ -45,10 +45,20 @@ def adjust_color(hex_str, sat_mult=1.0, light_mult=1.0):
 
 BADGE_MIN_SEPARATION_M = 220.0
 
+# Vertical exaggeration applied to all 3D buildings (1 / 1.5 keeps the skyline readable)
+BUILDING_HEIGHT_SCALE = 1.0 / 1.5
+
 # Field constraints: tape colours are kept clear of the district accent hues
 FIELD_PALETTE = ['#e8ecf5', '#ff4d9d', '#8c9eff', '#ff8a50', '#b2ff59', '#ffd740']
 FIELD_TAPE_INSET_M = 14.0
 FIELD_TAPE_SPACING_M = 16.0
+
+# Priorities: ground target + hovering pin, in pale gold (amber belongs to a district hue)
+PRIORITY_COLOR = '#ffe9a8'
+PRIORITY_BEAM_COLOR = '#fff6d6'
+PRIORITY_RING_RADII = (22.0, 40.0, 58.0)
+PRIORITY_ARC_RADIUS = 74.0
+PRIORITY_ARC_GAP_DEG = 10.0
 
 def geo_distance_m(a, b):
     """Approximate ground distance in metres between two [lng, lat] points near the city centre."""
@@ -554,6 +564,7 @@ def compile_metropolis_data(spec):
 
     # 3. 3D Strategic Priorities & Challenges (Dynamic height based on impact_scale!)
     compiled_challenges = []
+    target_features = []
     chal_offsets = [(470.0, -180.0), (-470.0, 190.0), (480.0, 150.0), (-480.0, -170.0), (0.0, -250.0)]
     for c_idx, chal in enumerate(spec.get('challenges', [])):
         d_center = district_centers[chal['district_ref']]
@@ -582,60 +593,70 @@ def compile_metropolis_data(spec):
             'coordinates': coords
         })
 
-        # Generate 3D Golden Priority Monolith (Amber Diamond)
-        poly_chal_base = create_regular_polygon(coords[0], coords[1], 38.0, sides=4, rotation_deg=45)
-        building_features.append({
+        # Priority = destination: a target painted on the ground and a gem-shaped pin hovering
+        # above it on a thin light beam (pin height = impact_scale). No solid body, so priorities
+        # never read as another spire.
+        # Stepped octahedron: widths grow to the girdle and shrink again (bottom -> top)
+        pin_top = chal_total_h
+        pin_steps = [(8.0, 7.0), (8.0, 13.0), (7.0, 19.0), (8.0, 13.0), (7.0, 7.0)]  # (tier height, radius)
+        pin_bottom = pin_top - sum(h for h, _ in pin_steps)
+        solids = [('beam', 0.0, pin_bottom, 2.2, 8, PRIORITY_BEAM_COLOR)]
+        level = pin_bottom
+        for step_idx, (tier_h, radius) in enumerate(pin_steps):
+            solids.append((f'pin_{step_idx}', level, level + tier_h, radius, 4, PRIORITY_COLOR))
+            level += tier_h
+        for tier, lo, hi, radius, sides, color in solids:
+            building_features.append({
+                'type': 'Feature',
+                'properties': {
+                    'id': f"{chal['id']}-{tier}",
+                    'challenge_ref': chal['id'],
+                    'entity_type': 'challenge',
+                    'name': chal['title'],
+                    'codename': codename,
+                    'tier': f"challenge_{tier}",
+                    'height': round(hi, 1),
+                    'base_height': round(lo, 1),
+                    'color': color
+                },
+                'geometry': {'type': 'Polygon', 'coordinates': [
+                    create_regular_polygon(coords[0], coords[1], radius, sides=sides, rotation_deg=45 if sides == 4 else 0)]}
+            })
+
+        # Ground target: bullseye rings and a centre dot
+        for ring_r in PRIORITY_RING_RADII:
+            target_features.append({
+                'type': 'Feature',
+                'properties': {'kind': 'ring', 'challenge_ref': chal['id']},
+                'geometry': {'type': 'LineString', 'coordinates': create_regular_polygon(coords[0], coords[1], ring_r, sides=48)}
+            })
+        target_features.append({
             'type': 'Feature',
-            'properties': {
-                'id': f"{chal['id']}-base",
-                'challenge_ref': chal['id'],
-                'entity_type': 'challenge',
-                'name': chal['title'],
-                'codename': codename,
-                'tier': 'challenge_base',
-                'height': base_h,
-                'base_height': 0.0,
-                'color': '#b38600',
-                'opacity': 0.95
-            },
-            'geometry': {'type': 'Polygon', 'coordinates': [poly_chal_base]}
+            'properties': {'kind': 'dot', 'challenge_ref': chal['id']},
+            'geometry': {'type': 'Polygon', 'coordinates': [create_regular_polygon(coords[0], coords[1], 7.0, sides=24)]}
         })
 
-        poly_chal_core = create_regular_polygon(coords[0], coords[1], 24.0, sides=4, rotation_deg=0)
-        building_features.append({
-            'type': 'Feature',
-            'properties': {
-                'id': f"{chal['id']}-core",
-                'challenge_ref': chal['id'],
-                'entity_type': 'challenge',
-                'name': chal['title'],
-                'codename': codename,
-                'tier': 'challenge_core',
-                'height': core_h,
-                'base_height': base_h,
-                'color': '#ffb700',
-                'opacity': 0.98
-            },
-            'geometry': {'type': 'Polygon', 'coordinates': [poly_chal_core]}
-        })
-
-        poly_chal_needle = create_regular_polygon(coords[0], coords[1], 4.5, sides=4, rotation_deg=45)
-        building_features.append({
-            'type': 'Feature',
-            'properties': {
-                'id': f"{chal['id']}-needle",
-                'challenge_ref': chal['id'],
-                'entity_type': 'challenge',
-                'name': chal['title'],
-                'codename': codename,
-                'tier': 'challenge_needle',
-                'height': needle_h,
-                'base_height': core_h,
-                'color': '#ffe082',
-                'opacity': 1.0
-            },
-            'geometry': {'type': 'Polygon', 'coordinates': [poly_chal_needle]}
-        })
+        # Outer ring split into arcs: green per spire that advances the priority, red per
+        # constraint that holds it back. Counts come straight from the spec.
+        forces = [(ref, 'advance') for ref in chal.get('advanced_by', [])] + \
+                 [(ref, 'block') for ref in chal.get('blocked_by', [])]
+        if forces:
+            span = 360.0 / len(forces)
+            for f_idx, (ref, force) in enumerate(forces):
+                start = 90.0 + f_idx * span + PRIORITY_ARC_GAP_DEG / 2
+                end = start + span - PRIORITY_ARC_GAP_DEG
+                steps = max(4, int((end - start) / 6))
+                arc = []
+                for k in range(steps + 1):
+                    ang = math.radians(start + (end - start) * k / steps)
+                    arc.append([round(coords[0] + math.cos(ang) * PRIORITY_ARC_RADIUS * DEG_LNG_PER_METER, 7),
+                                round(coords[1] + math.sin(ang) * PRIORITY_ARC_RADIUS * DEG_LAT_PER_METER, 7)])
+                target_features.append({
+                    'type': 'Feature',
+                    'properties': {'kind': 'arc', 'force': force, 'ref': ref, 'challenge_ref': chal['id'],
+                                   'color': '#00e599' if force == 'advance' else '#ff1744'},
+                    'geometry': {'type': 'LineString', 'coordinates': arc}
+                })
 
     # 4. Superhighways & Conduits
     conduit_features = []
@@ -878,6 +899,11 @@ def compile_metropolis_data(spec):
             'advances': [c['id'] for c in compiled_challenges if spire['id'] in c.get('advanced_by', [])]
         })
 
+    # One global vertical scale for every extrusion (spires, pins, queues, legacy towers)
+    for feat in building_features + queue_features:
+        props = feat['properties']
+        props['height'] = round(props['height'] * BUILDING_HEIGHT_SCALE, 1)
+        props['base_height'] = round(props['base_height'] * BUILDING_HEIGHT_SCALE, 1)
     buildings_geojson = {'type': 'FeatureCollection', 'features': building_features + queue_features}
     wireframe_geojson = {'type': 'FeatureCollection', 'features': wireframe_features}
     conduits_geojson = {'type': 'FeatureCollection', 'features': conduit_features}
@@ -922,6 +948,8 @@ window.TRAFFIC_GEOJSON = {json.dumps({'type': 'FeatureCollection', 'features': t
 window.FIELDS_GEOJSON = {json.dumps({'type': 'FeatureCollection', 'features': field_features})};
 
 window.ROUTE_GRAPH = {json.dumps(route_edges)};
+
+window.TARGETS_GEOJSON = {json.dumps({'type': 'FeatureCollection', 'features': target_features})};
 """
     return js_bundle, {
         'districts': len(compiled_districts),
@@ -977,7 +1005,7 @@ def main():
 
     print(f"[✓] Compiled {out_file}:")
     print(f"    - {stats['districts']} Districts")
-    print(f"    - {stats['building_tiers']} 3D Building Tiers (Spires, Priority Monoliths, legacy Hazard Towers, Queues)")
+    print(f"    - {stats['building_tiers']} 3D Building Tiers (Spires, Priority Pins, legacy Hazard Towers, Queues)")
     print(f"    - {stats['conduits']} Superhighways")
     scoped = stats['scoped']
     print(f"    - {stats['bottlenecks']} Bottlenecks (edge {scoped['edge']} · node {scoped['node']} · field {scoped['field']})")

@@ -23,6 +23,7 @@
       --accent-violet: #c040ff;
       --accent-cobalt: #3a86ff;
       --accent-red: #ff3366;
+      --priority-gold: #ffe9a8;
       --text-main: #f0f4fc;
       --text-muted: #8a9bb8;
       --text-dim: #4d5d78;
@@ -815,26 +816,26 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      background: rgba(255, 183, 0, 0.22);
-      border: 1px solid var(--accent-amber);
+      background: rgba(40, 34, 14, 0.82);
+      border: 1px solid var(--priority-gold);
       padding: 4px 9px;
       border-radius: 6px;
-      box-shadow: 0 0 16px rgba(255, 183, 0, 0.5);
+      box-shadow: 0 0 14px rgba(255, 233, 168, 0.35);
       transition: transform 0.2s, background 0.2s;
     }
 
     .challenge-beacon-marker:hover {
       transform: scale(1.12);
-      background: rgba(255, 183, 0, 0.4);
-      box-shadow: 0 0 24px rgba(255, 183, 0, 0.8);
+      background: rgba(70, 60, 24, 0.92);
+      box-shadow: 0 0 22px rgba(255, 233, 168, 0.7);
     }
 
     .challenge-gem {
       width: 7px;
       height: 7px;
-      background: var(--accent-amber);
+      background: var(--priority-gold);
       transform: rotate(45deg);
-      box-shadow: 0 0 10px var(--accent-amber);
+      box-shadow: 0 0 10px var(--priority-gold);
     }
 
     .challenge-text {
@@ -1274,6 +1275,38 @@
         paint: { 'line-color': '#000000', 'line-width': 16, 'line-opacity': 0.001 }
       });
 
+      // 1c. Priorities: ground target (bullseye) with arcs of support (green) and blockage (red)
+      map.addSource('targets-geo', { type: 'geojson', data: window.TARGETS_GEOJSON || { type: 'FeatureCollection', features: [] } });
+      map.addLayer({
+        id: 'targets-dot',
+        type: 'fill',
+        source: 'targets-geo',
+        filter: ['==', ['get', 'kind'], 'dot'],
+        paint: { 'fill-color': '#ffe9a8', 'fill-opacity': 0.9 }
+      });
+      map.addLayer({
+        id: 'targets-rings',
+        type: 'line',
+        source: 'targets-geo',
+        filter: ['==', ['get', 'kind'], 'ring'],
+        paint: { 'line-color': '#ffe9a8', 'line-width': 1.6, 'line-opacity': 0.75 }
+      });
+      map.addLayer({
+        id: 'targets-arcs',
+        type: 'line',
+        source: 'targets-geo',
+        filter: ['==', ['get', 'kind'], 'arc'],
+        layout: { 'line-cap': 'round' },
+        paint: { 'line-color': ['get', 'color'], 'line-width': 4, 'line-opacity': 0.9 }
+      });
+      map.addLayer({
+        id: 'targets-arcs-hit',
+        type: 'line',
+        source: 'targets-geo',
+        filter: ['==', ['get', 'kind'], 'arc'],
+        paint: { 'line-color': '#000000', 'line-width': 14, 'line-opacity': 0.001 }
+      });
+
       // 2. Superhighways Conduits
       map.addSource('conduits-geo', {
         type: 'geojson',
@@ -1541,6 +1574,8 @@
 
         const marker = new maplibregl.Marker({
           element: chalEl,
+          anchor: 'left',
+          offset: [22, 0],
           pitchAlignment: 'viewport'
         }).setLngLat(c.coordinates).addTo(map);
 
@@ -1620,6 +1655,12 @@
       };
 
       map.on('click', 'conduits-core', onConduitClick);
+      map.on('click', 'targets-arcs-hit', (e) => {
+        const ref = e.features && e.features[0] && e.features[0].properties.ref;
+        if (ref) gotoRef(ref);
+      });
+      map.on('mouseenter', 'targets-arcs-hit', () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', 'targets-arcs-hit', () => { map.getCanvas().style.cursor = ''; });
       map.on('click', 'fields-tape-hit', (e) => {
         const ref = e.features && e.features[0] && e.features[0].properties.bottleneck_ref;
         if (ref) gotoRef(ref);
@@ -1733,6 +1774,7 @@
         setMarkers(bottleneckMarkers, isVisible);
       } else if (layerKey === 'challenges') {
         setMarkers(challengeMarkers, isVisible);
+        setLayers(['targets-dot', 'targets-rings', 'targets-arcs', 'targets-arcs-hit'], isVisible);
       } else if (layerKey === 'traffic') {
         setLayers(['traffic-starved', 'traffic-closed', 'traffic-queue', 'traffic-queue-crawl'], isVisible);
         setMarkers(incidentMarkers, isVisible);
@@ -1802,7 +1844,7 @@
         document.getElementById('routeToHereBtn').addEventListener('click', () => openRoute(null, item.id));
 
         showLinks(item.coordinates, [
-          ...(item.advances || []).map(ref => ({ ref, color: '#ffb700' }))
+          ...(item.advances || []).map(ref => ({ ref, color: '#ffe9a8' }))
         ]);
         updatePager(window.SPIRES_INDEX.length, index);
         flyToObject(item.coordinates);
@@ -1839,7 +1881,7 @@
         showLinks(item.coordinates, [
           ...(item.anchors || []).slice(1).map(a => ({ coords: a.coordinates, color: '#ff1744' })),
           ...(item.remedied_by || []).map(ref => ({ ref, color: '#00e599' })),
-          ...blocksPriorities.map(ref => ({ ref, color: '#ffb700' }))
+          ...blocksPriorities.map(ref => ({ ref, color: '#ffe9a8' }))
         ]);
 
         updatePager(BNECKS.length, index);
@@ -1861,7 +1903,7 @@
         `;
 
         showLinks(item.coordinates, [
-          ...(item.advanced_by || []).map(ref => ({ ref, color: '#ffb700' })),
+          ...(item.advanced_by || []).map(ref => ({ ref, color: '#ffe9a8' })),
           ...(item.blocked_by || []).map(ref => ({ ref, color: '#ff1744' }))
         ]);
 

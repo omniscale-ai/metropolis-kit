@@ -75,7 +75,7 @@ Open **`http://localhost:8080`** in your browser to explore the 3D Metropolis!
 | **Scale Districts** | Sub-disciplines, research themes, or work packages | Neon-bordered ground zones with LOD-fading beacons |
 | **Spires & Crystals** | Foundational AI models, datasets, or facilities | Multi-tiered faceted crystals (pedestal, lower prism, mid-shaft, crown, needle) |
 | **Hazard Radars** | Physical rate-limiters & dark data bottlenecks | Pulsating crimson radars with impact descriptions & European remedies |
-| **Strategic Priorities** | Policy mandates (CRMA, Chips Act, Net-Zero) | Prismatic amber diamond beacons with horizon targets |
+| **Strategic Priorities** | Policy mandates, research frontiers, recommendations | Destination: a pale-gold bullseye on the ground and a gem pin hovering on a light beam (height = impact); the outer ring splits into green arcs (spires that advance it) and red arcs (constraints that block it) |
 | **Superhighways** | High-throughput data, recipe, or material pipelines | Smooth 3D Bezier neon cables with animated photon pulses |
 
 ---

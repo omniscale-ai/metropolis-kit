@@ -55,10 +55,10 @@ The kit is fully deployed to GitHub, zero-dependency in Python, and contains thr
    - Dedicated directory section in the Left Legend: `⚡ SUPERHIGHWAYS (N)`.
    - Interactive Detail Drawer with `SOURCE [Fly ➔]` and `TARGET [Fly ➔]` camera jump buttons.
 
-4. **Dynamic 3D Height Calculation:**
+4. **Dynamic 3D Height Calculation** (all heights below are then multiplied by `BUILDING_HEIGHT_SCALE` = 1/1.5 in `cli/compiler.py`):
    - **Spires:** $H = 100\text{ m} + (\text{scale\_level} \times 110\text{ m})$ (120m to 210m, +32m needle).
    - **Bottlenecks:** $H = 75\text{ m} + (\text{severity} \times 95\text{ m})$ (113m to 170m, crimson hexagonal towers).
-   - **Priorities:** $H = 85\text{ m} + (\text{impact\_scale} \times 105\text{ m})$ (127m to 190m, amber diamond monoliths).
+   - **Priorities:** $H = 85\text{ m} + (\text{impact\_scale} \times 105\text{ m})$ (127m to 190m): top of a pale-gold stepped-octahedron pin on a thin beam above a ground bullseye; outer ring = green arcs per `advanced_by` spire, red arcs per `blocked_by` constraint (arcs clickable).
 
 ---
 
