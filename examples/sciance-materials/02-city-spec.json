@@ -4,7 +4,7 @@
     "subtitle": "SCIANCE D1.1 · Materials Science chapter (rev. v3): AI across the European materials lifecycle",
     "theme": "quantum_crystal",
     "scale_axis_label": "Scale Ascension: From Atom to Fab",
-    "scale_axis_description": "South-to-North corridor following the chapter's integrated workflow: atomistic modelling and generative design propose candidates, characterisation and autonomous labs synthesise and validate them, production frameworks test manufacturability, safety and compliance. Spire height encodes the maturity the report assigns. Constraints are drawn where they act: congestion on superhighways, queues at spires, weather over districts.",
+    "scale_axis_description": "South-to-North corridor following the chapter's integrated workflow: atomistic modelling and generative design propose candidates, characterisation and autonomous labs synthesise and validate them, production frameworks test manufacturability, safety and compliance. Spire height encodes the maturity the report assigns. Constraints are drawn where they act: congestion on highways, queues at spires, weather over districts.",
     "schema_version": "2.0"
   },
   "districts": [

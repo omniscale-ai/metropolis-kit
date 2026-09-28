@@ -29,7 +29,7 @@ Bottlenecks are not free-standing towers. Every bottleneck declares **where it a
 
 | `scope` | `constrains` lists | Allowed `effect` | Drawn as |
 | :--- | :--- | :--- | :--- |
-| `edge` | `@conduit-*` | `slowdown`, `closure` | Traffic congestion before an incident pin on the superhighway |
+| `edge` | `@conduit-*` | `slowdown`, `closure` | Traffic congestion before an incident pin on the highway |
 | `node` | `@spire-*` | `slowdown`, `closure` | A queue of backlog cubes and a wait-time chip at the spire |
 | `field` | `@dist-*` (one or more) | `slowdown`, `noise`, `blind` | Weather over whole districts (hatching, static, darkness) |
 
@@ -39,5 +39,5 @@ Rules:
 3. `at` (0..1, edge only) places the incident along the arc; default 0.62.
 4. `delay_label` is a short chip. **Only use numbers stated in the source.** Omit it rather than invent one.
 5. `remedied_by` points to the conduit, spire or challenge that the source presents as the fix.
-6. Conduits take `status`: `operational` (default), `thin` (exists but weak or emerging), `planned` (the source asks for it but it does not exist). Every `planned` conduit should be explained by a bottleneck, as its target or its remedy.
+6. Conduits take `status`, which sets the road type in the viewer: `operational` (default, ⚡ highway), `thin` (⛴️ ferry — the flow exists but is weak, emerging or episodic), `planned` (🚧 planned road — the source asks for it but it does not exist). Every `planned` conduit should be explained by a bottleneck, as its target or its remedy; an edge bottleneck on a planned road is drawn as the barrier that keeps it from being built.
 7. Challenges take `advanced_by` (spires that move them forward) and `blocked_by` (bottlenecks that hold them back).

@@ -76,7 +76,7 @@ Open **`http://localhost:8080`** in your browser to explore the 3D Metropolis!
 | **Spires & Crystals** | Foundational AI models, datasets, or facilities | Multi-tiered faceted crystals (pedestal, lower prism, mid-shaft, crown, needle) |
 | **Hazard Radars** | Physical rate-limiters & dark data bottlenecks | Pulsating crimson radars with impact descriptions & European remedies |
 | **Strategic Priorities** | Policy mandates, research frontiers, recommendations | Destination: a pale-gold bullseye on the ground and a gem pin hovering on a light beam (height = impact); the outer ring splits into green arcs (spires that advance it) and red arcs (constraints that block it) |
-| **Superhighways** | High-throughput data, recipe, or material pipelines | Smooth 3D Bezier neon cables with animated photon pulses |
+| **Highways** | Data, model, recipe or material flows between spires | Bezier roads with one-way arrows: ⚡ highways, ⛴️ ferries (weak flows), 🚧 planned roads |
 
 ---
 
@@ -90,7 +90,7 @@ Borrowing the visual language of navigation maps, a bottleneck is no longer a fr
 | `node` | `@spire-*` | `slowdown` · `closure` | Queue: backlog cubes and a wait-time chip at the spire, a red collar when closed |
 | `field` | `@dist-*` | `slowdown` · `noise` · `blind` | Weather: a coloured hazard tape along the border of every district it covers (colour = which problem, stroke = effect) plus a forecast row of clickable chips in the district corner; selecting one spotlights its coverage |
 
-Further v2 fields: `delay_label` (numbers from the source only), `remedied_by`, conduit `status` (`operational` · `thin` = ferry line · `planned` = road under construction), challenge `advanced_by` / `blocked_by`. The compiler derives reverse links, flow direction (one-way arrows), traffic segments and a routing graph; the viewer adds **Traffic / Queues / Weather** layer toggles, relation links on selection, and a **🧭 Route** panel that lists every incident between two spires. All v2 fields are optional: v1 specs still render with legacy hazard towers.
+Further v2 fields: `delay_label` (numbers from the source only), `remedied_by`, conduit `status`, challenge `advanced_by` / `blocked_by`. A conduit's status sets its road type: `operational` = ⚡ highway, `thin` = ⛴️ ferry (weak or episodic flow, dotted line), `planned` = 🚧 planned road (called for, not built; grey dashes). An edge constraint on a planned road is drawn as a ⛔ barrier — the reason it is not built — instead of traffic, and the router skips planned roads unless *include planned roads* is ticked. The compiler derives reverse links, flow direction (one-way arrows), traffic segments and a routing graph; the viewer adds **Traffic / Queues / Weather** layer toggles, relation links on selection, and a **🧭 Route** panel that lists every incident between two spires. All v2 fields are optional: v1 specs still render with legacy hazard towers.
 
 ---
 
@@ -135,8 +135,8 @@ python -m cli.compiler --spec my-spec.json --web-dir dist/ --serve 8080
 *Based on the Materials Science chapter of Horizon Europe SCIANCE Deliverable D1.1 (Task 1.1 landscape report, chapter revision v3). First showcase on schema v2.*
 - **Axis**: The report's own integrated workflow — atomistic modelling → generative design → characterisation → closed-loop labs → lab-to-fab production. Spire height encodes the maturity the report assigns.
 - **Features**: NOMAD·FAIRmat·AiiDA, Alexandria/sAlex25, universal MLIPs, GNoME, MatterGen, 4D-STEM & APT ML, PSPP/ICME microstructure modelling, BIG-MAP, A-Lab, AP-Lab, AM digital twins, SSbD/PFAS.
-- **Constraints, drawn where they act**: congestion and incident pins on superhighways (novelty mirage, vendor lock-in, lab-to-fab gap, the bulk-vs-interface closure of the planned IN-SILICO LOOP); queues at spires (232-min GC & ~3.9% robot faults, middleware silos); border tapes and forecast chips on districts (dark data, OOD fragility, synthetic data fraud).
-- **Signature detail**: 4 of 11 superhighways are feedback or planned roads the report asks for but finds missing — and the Route panel shows every incident between an atom-scale spire and the pilot line.
+- **Constraints, drawn where they act**: congestion and incident pins on highways (novelty mirage, vendor lock-in, lab-to-fab gap, the bulk-vs-interface closure of the planned IN-SILICO LOOP); queues at spires (232-min GC & ~3.9% robot faults, middleware silos); border tapes and forecast chips on districts (dark data, OOD fragility, synthetic data fraud).
+- **Signature detail**: 4 of 11 highways are feedback or planned roads the report asks for but finds missing — and the Route panel shows every incident between an atom-scale spire and the pilot line.
 
 ### 2. MIND-MATTER Cyber-Physical Roadmap ([`examples/mind-matter/`](examples/mind-matter/))
 *Based on a DeepTech ARIA / Horizon Europe neuromorphic materials roadmap.*
@@ -151,7 +151,7 @@ python -m cli.compiler --spec my-spec.json --web-dir dist/ --serve 8080
 - **Axis**: Scale Ascension from sub-Ångström Kohn–Sham electronic structure (fs) to device-level digital twins and self-driving laboratories.
 - **Features**: DeepH/xDeepH, HamGNN, differentiable DFT (D4FT, GradDFT, Jrystal), NequIP/MACE/SevenNet/CHGNet, Phonax, RSMI-NE & multiscale structural complexity, quasicontinuum & Gaussian Phase Packets, MOFDiff/MOFFlow, the Li$_x$CoO$_2$ four-scale pipeline.
 - **Bottlenecks**: Benchmark-only validation (MD17/QH9), MLIP overstabilisation of local minima, long-range blindness in GNN phonons, bead mapping vs crystalline symmetry, one-way hierarchical coupling, computational-only ground truth.
-- **Signature detail**: 12 superhighways run northbound and exactly 1 runs back south — the review's finding on the near-absence of bidirectional scale coupling, rendered as geometry.
+- **Signature detail**: 12 highways run northbound and exactly 1 runs back south — the review's finding on the near-absence of bidirectional scale coupling, rendered as geometry.
 
 ---
 

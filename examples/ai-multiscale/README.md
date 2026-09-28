@@ -28,7 +28,7 @@ South-to-North across six districts, roughly six orders of magnitude in length a
   demonstrated — not citation count and not speedup. The tallest spires are therefore the
   universal equivariant potentials and the DeepH family, both of which carry information
   across three-plus orders of magnitude at sub-meV or few-meV/atom fidelity.
-- **Conduits are the argument.** Twelve superhighways run northbound, and exactly one —
+- **Conduits are the argument.** Twelve highways run northbound, and exactly one —
   `HW-13`, the Active-Learning Return Conduit — runs back south. That asymmetry is the
   review's Section 5.1 finding rendered as geometry: almost every implementation surveyed is
   hierarchical, with very limited bidirectional exchange.
@@ -53,4 +53,4 @@ python -m cli.compiler --spec examples/ai-multiscale/02-city-spec.json --validat
 python -m cli.compiler --spec examples/ai-multiscale/02-city-spec.json --web-dir dist/ --serve 8080
 ```
 
-Output: 6 districts · 18 spires (90 3D tiers) · 13 superhighways · 6 bottlenecks · 6 priorities.
+Output: 6 districts · 18 spires (90 3D tiers) · 13 highways · 6 bottlenecks · 6 priorities.

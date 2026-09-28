@@ -27,9 +27,9 @@ deliberately short, while the NOMAD/FAIRmat/AiiDA stack is the tallest tower in 
   Synthetic data fraud (MAIF).
 - **7 Priorities**: meV polymorph accuracy, Sim-to-real, Activity cliffs, Regulatory pacing problem,
   Sovereign foundation models (GenAI4EU), Level-5 autonomy, Federated cloud labs.
-- **10 Superhighways**: 7 northbound along the workflow, plus **3 southbound return paths** (failure logs →
-  NOMAD, characterisation ground truth → MLIPs, SSbD constraints → generative design). The report asks for these
-  feedback paths but describes them as largely missing.
+- **11 Highways**: 6 ⚡ highways along the workflow, 3 ⛴️ ferries (weak or episodic flows: RECIPE DISPATCH, GROUND TRUTH,
+  SSBD GUARDRAIL) and 2 🚧 planned roads the report calls for but finds missing (FAILURE LOG; IN-SILICO LOOP, held back by the
+  ⛔ BULK BIAS barrier).
 
 ### Compilation
 ```bash

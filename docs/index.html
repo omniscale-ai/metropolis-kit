@@ -182,7 +182,7 @@
       box-shadow: 0 0 14px rgba(192, 64, 255, 0.3);
     }
 
-    /* LEFT COLLAPSIBLE SPIRE & SUPERHIGHWAY LEGEND */
+    /* LEFT COLLAPSIBLE SPIRE & HIGHWAY LEGEND */
     .spire-legend-card {
       position: absolute;
       top: 90px;
@@ -731,56 +731,6 @@
     }
 
     /* MAP MARKERS & STENCILS */
-    /* Zero-size anchor on the ground; the inner block is scaled in JS so its size is fixed
-       in metres (painted on the district) rather than in screen pixels */
-    .district-ground-stencil {
-      width: 0;
-      height: 0;
-      position: relative;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .district-ground-stencil .stencil-inner {
-      position: absolute;
-      left: 0;
-      top: 0;
-      transform-origin: 0 0;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      white-space: nowrap;
-      pointer-events: auto;
-      cursor: pointer;
-      user-select: none;
-      text-align: left;
-      transition: filter 0.2s ease;
-    }
-
-    .district-ground-stencil .stencil-inner:hover {
-      filter: brightness(1.35);
-    }
-
-    .district-ground-stencil .stencil-title {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      text-shadow: 0 0 18px currentColor, 0 0 35px currentColor;
-      opacity: 0.85;
-    }
-
-    .district-ground-stencil .stencil-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11.5px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      opacity: 0.7;
-      margin-top: 4px;
-    }
-
     /* PUNCHY CODENAME MARKERS (NO MORE BLAND CODES!) */
     .hazard-radar-marker {
       pointer-events: auto;
@@ -913,6 +863,9 @@
       background: #ff1744; font-size: 11px;
     }
     .incident-pin.closure .incident-icon { background: #7a0019; }
+    .incident-pin.barrier { border-color: #8a93a6; background: rgba(28, 30, 38, 0.92); box-shadow: 0 0 10px rgba(138, 147, 166, 0.35); }
+    .incident-pin.barrier .incident-icon { background: #3a3f4d; }
+    .incident-pin.barrier .delay-chip { background: rgba(138, 147, 166, 0.25); color: #dfe3ec; }
     .delay-chip {
       font-size: 9.5px; font-weight: 700; color: #ffd0d8;
       background: rgba(255, 23, 68, 0.25); border-radius: 3px; padding: 1px 5px;
@@ -990,6 +943,8 @@
       border-radius: 6px; padding: 6px; font-family: var(--font-mono); font-size: 11px;
     }
     .route-swap { cursor: pointer; background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 6px; padding: 5px 8px; }
+    .route-option { display: block; margin-top: 8px; font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); cursor: pointer; }
+    .route-option input { vertical-align: middle; margin-right: 6px; }
     .route-summary { margin-top: 10px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
     .route-legs { list-style: none; margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
     .route-leg { font-family: var(--font-mono); font-size: 11px; color: #fff; display: flex; gap: 8px; align-items: baseline; }
@@ -1026,15 +981,15 @@
         <span class="layer-dot" style="color: var(--accent-emerald);"></span>
         <span>Spires</span>
       </button>
-      <button class="layer-btn active" data-layer="conduits" title="Toggle Inter-Scale Superhighways">
+      <button class="layer-btn active" data-layer="conduits" title="Toggle highways, ferries and planned roads">
         <span class="layer-dot" style="color: var(--accent-violet);"></span>
-        <span>Superhighways</span>
+        <span>Highways</span>
       </button>
       <button class="layer-btn active" data-layer="bottlenecks" title="Toggle Physical Rate-Limiters">
         <span class="layer-dot" style="color: var(--accent-red);"></span>
         <span>Bottlenecks</span>
       </button>
-      <button class="layer-btn active hidden-layer" data-layer="traffic" title="Congestion and incidents on superhighways (edge constraints)">
+      <button class="layer-btn active hidden-layer" data-layer="traffic" title="Congestion and incidents on highways (edge constraints)">
         <span class="layer-dot" style="color: #ff6d00;"></span>
         <span>Traffic</span>
       </button>
@@ -1058,7 +1013,7 @@
     <span>🧭 METROPOLIS INDEX ▶</span>
   </button>
 
-  <!-- LEFT COLLAPSIBLE SPIRE & SUPERHIGHWAY LEGEND -->
+  <!-- LEFT COLLAPSIBLE SPIRE & HIGHWAY LEGEND -->
   <aside id="spireLegendCard" class="spire-legend-card">
     <div class="legend-header">
       <div class="legend-title">
@@ -1129,6 +1084,7 @@
       <button class="route-swap" id="routeSwapBtn" title="Swap">⇄</button>
       <select id="routeTo"></select>
     </div>
+    <label class="route-option"><input type="checkbox" id="routeIncludePlanned"> include planned roads 🚧 (as if they were built)</label>
     <div id="routeResult"></div>
   </section>
 
@@ -1153,23 +1109,75 @@
     };
 
     const districtMarkers = [];
-    const districtStencils = [];
-    const STENCIL_INSET_M = 20;          // from the district's west edge
-    const STENCIL_GAP_M = 16;            // below the district's south edge
-    const STENCIL_MAX_WIDTH = 0.92;      // share of the district width the name may use
-    const STENCIL_MAX_HEIGHT_M = 110;    // both lines together; the strip between districts is 240 m
+    // District names are painted on the ground as textures (canvas -> image source), so WebGL
+    // projects them with the same camera as the districts and they never drift off the edge.
+    const districtNames = [];            // { id, bbox: [minLng, minLat, maxLng, maxLat] }
+    const NAME_INSET_M = 20;             // from the district's west edge
+    const NAME_GAP_M = 16;               // below the district's south edge
+    const NAME_MAX_WIDTH = 0.92;         // share of the district width the name may use
+    const NAME_MAX_HEIGHT_M = 110;       // both lines together; the strip between districts is 240 m
+    let districtNameHover = false;
 
-    // Scale each district name so it measures a fixed number of metres on the ground
-    function fitDistrictStencils() {
-      const zoom = map.getZoom();
-      districtStencils.forEach(({ inner, lat, widthM }) => {
-        const metresPerPx = 40075016.686 * Math.cos(lat * Math.PI / 180) / (512 * Math.pow(2, zoom));
-        const natW = inner.offsetWidth, natH = inner.offsetHeight;
-        if (!natW || !natH) return;
-        const scale = Math.min((widthM - 2 * STENCIL_INSET_M) * STENCIL_MAX_WIDTH / (natW * metresPerPx),
-                               STENCIL_MAX_HEIGHT_M / (natH * metresPerPx));
-        inner.style.transform = `scale(${scale.toFixed(4)})`;
+    function drawSpacedText(g, text, x, y, spacing) {
+      for (const ch of text) {
+        g.fillText(ch, x, y);
+        x += g.measureText(ch).width + spacing;
+      }
+    }
+
+    function spacedWidth(g, text, spacing) {
+      let w = 0;
+      for (const ch of text) w += g.measureText(ch).width + spacing;
+      return w - spacing;
+    }
+
+    function drawDistrictName(d) {
+      const TITLE = '800 96px "JetBrains Mono", monospace', TAG = '600 68px "JetBrains Mono", monospace';
+      const title = d.name.toUpperCase(), tag = (d.scale_label || '').toUpperCase();
+      const pad = 60;
+      const probe = document.createElement('canvas').getContext('2d');
+      probe.font = TITLE; const titleW = spacedWidth(probe, title, 24);
+      probe.font = TAG; const tagW = spacedWidth(probe, tag, 12);
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.min(4096, Math.ceil(Math.max(titleW, tagW) + 2 * pad));
+      canvas.height = Math.ceil(96 * 1.15 + 12 + 68 * 1.15 + 2 * pad);
+      const g = canvas.getContext('2d');
+      g.textBaseline = 'top';
+      g.fillStyle = d.color;
+      g.shadowColor = d.color;
+      g.font = TITLE;
+      g.globalAlpha = 0.85;
+      [70, 28].forEach(blur => { g.shadowBlur = blur; drawSpacedText(g, title, pad, pad, 24); });
+      g.font = TAG;
+      g.globalAlpha = 0.7;
+      g.shadowBlur = 16;
+      drawSpacedText(g, tag, pad, pad + 96 * 1.15 + 12, 12);
+      return canvas;
+    }
+
+    function addDistrictNames() {
+      window.DISTRICTS.forEach((d, i) => {
+        const canvas = drawDistrictName(d);
+        const lngs = d.bounds.map(p => p[0]);
+        const lats = d.bounds.map(p => p[1]);
+        const minLng = Math.min(...lngs), maxLng = Math.max(...lngs), minLat = Math.min(...lats);
+        const mPerDegLng = 111320 * Math.cos(d.center[1] * Math.PI / 180);
+        const widthM = (maxLng - minLng) * mPerDegLng;
+        const metresPerPx = Math.min((widthM - 2 * NAME_INSET_M) * NAME_MAX_WIDTH / canvas.width, NAME_MAX_HEIGHT_M / canvas.height);
+        const west = minLng + NAME_INSET_M / mPerDegLng;
+        const east = west + canvas.width * metresPerPx / mPerDegLng;
+        const north = minLat - NAME_GAP_M / 111320;
+        const south = north - canvas.height * metresPerPx / 111320;
+        const id = `district-name-${i}`;
+        map.addSource(id, { type: 'image', url: canvas.toDataURL('image/png'), coordinates: [[west, north], [east, north], [east, south], [west, south]] });
+        map.addLayer({ id, type: 'raster', source: id, paint: { 'raster-opacity': 0.95, 'raster-fade-duration': 0 } }, 'fields-tape-blind');
+        districtNames.push({ id: d.id, layer: id, bbox: [west, south, east, north] });
       });
+    }
+
+    function districtNameAt(lngLat) {
+      if (!layerVisibility.districts) return null;
+      return districtNames.find(n => lngLat.lng >= n.bbox[0] && lngLat.lng <= n.bbox[2] && lngLat.lat >= n.bbox[1] && lngLat.lat <= n.bbox[3]) || null;
     }
     const bottleneckMarkers = [];
     const incidentMarkers = [];
@@ -1183,7 +1191,14 @@
     const FIELDS = window.FIELDS_GEOJSON || { type: 'FeatureCollection', features: [] };
     const EFFECT_ICON = { slowdown: '⚠️', closure: '⛔', noise: '🌫️', blind: '🌑' };
     const EFFECT_WORD = { slowdown: 'SLOWDOWN', closure: 'CLOSURE', noise: 'NOISE', blind: 'BLIND SPOT' };
-    const SCOPE_WORD = { edge: 'ON A SUPERHIGHWAY', node: 'AT A SPIRE', field: 'OVER DISTRICTS' };
+    const SCOPE_WORD = { edge: 'ON A HIGHWAY', node: 'AT A SPIRE', field: 'OVER DISTRICTS' };
+    // Road types by conduit status: a highway, a ferry (weak or episodic flow), a road not built yet
+    const ROAD = {
+      operational: { word: 'HIGHWAY', icon: '⚡', title: 'Highway — established flow' },
+      thin: { word: 'FERRY', icon: '⛴️', title: 'Ferry — weak or episodic flow' },
+      planned: { word: 'PLANNED ROAD', icon: '🚧', title: 'Planned road — called for, not built yet' }
+    };
+    const roadOf = c => ROAD[c.status] || ROAD.operational;
 
     function bneckIcon(b) {
       if (!b.scope) return '⚠️';
@@ -1339,7 +1354,13 @@
         paint: { 'line-color': '#000000', 'line-width': 14, 'line-opacity': 0.001 }
       });
 
-      // 2. Superhighways Conduits
+      // District names painted on the ground (after the webfont is available)
+      const fontsReady = document.fonts && document.fonts.load
+        ? Promise.all([document.fonts.load('800 96px "JetBrains Mono"'), document.fonts.load('600 68px "JetBrains Mono"')]).catch(() => null)
+        : Promise.resolve();
+      fontsReady.then(addDistrictNames);
+
+      // 2. Highways (conduits)
       map.addSource('conduits-geo', {
         type: 'geojson',
         data: window.CONDUITS_GEOJSON
@@ -1410,7 +1431,7 @@
         }
       });
 
-      // One-way arrows along every superhighway (flow direction from source to target)
+      // One-way arrows along every road (flow direction from source to target)
       map.addLayer({
         id: 'conduits-arrows',
         type: 'symbol',
@@ -1535,50 +1556,6 @@
 
     // Ground Runways, Beacons, and Punchy Codename Markers
     function renderGroundStencilsAndMarkers() {
-      // 1. Districts
-      window.DISTRICTS.forEach(d => {
-        // Ground Stencil — painted just outside the district's south edge, in the empty strip
-        // between districts, like a street name along a block. Its size is set in metres
-        // (see fitDistrictStencils), so it stays in place at every zoom.
-        const stencilEl = document.createElement('div');
-        stencilEl.className = 'district-ground-stencil';
-        const inner = document.createElement('div');
-        inner.className = 'stencil-inner';
-        inner.title = d.name;
-        inner.innerHTML = `
-          <div class="stencil-title" style="color: ${d.color};">${d.name}</div>
-          <div class="stencil-tag" style="color: ${d.color};">${d.scale_label}</div>
-        `;
-        inner.addEventListener('click', (e) => {
-          e.stopPropagation();
-          flyToDistrict(d.id);
-        });
-        stencilEl.appendChild(inner);
-
-        const lngs = d.bounds.map(p => p[0]);
-        const lats = d.bounds.map(p => p[1]);
-        const minLng = Math.min(...lngs), maxLng = Math.max(...lngs);
-        const minLat = Math.min(...lats), maxLat = Math.max(...lats);
-        const mPerDegLng = 111320 * Math.cos(d.center[1] * Math.PI / 180);
-        const widthM = (maxLng - minLng) * mPerDegLng;
-
-        const stencilMarker = new maplibregl.Marker({
-          element: stencilEl,
-          anchor: 'top-left',
-          pitchAlignment: 'map',
-          rotationAlignment: 'map'
-        }).setLngLat([
-          minLng + STENCIL_INSET_M / mPerDegLng,
-          minLat - STENCIL_GAP_M / 111320
-        ]).addTo(map);
-
-        districtMarkers.push(stencilMarker);
-        districtStencils.push({ inner, lat: d.center[1], widthM });
-      });
-      fitDistrictStencils();
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitDistrictStencils);
-      map.on('zoom', fitDistrictStencils);
-
       // 2. Bottleneck Hazard Radars (WITH PUNCHY 1-2 WORD CODENAMES!)
       window.BOTTLENECKS.forEach((b, idx) => {
         if (b.scope) return; // schema v2 constraints are rendered by renderConstraintMarkers()
@@ -1624,15 +1601,14 @@
         challengeMarkers.push(marker);
       });
 
-      // 4. Clickable Floating Conduit Badges at Apex of Each Superhighway!
+      // 4. Clickable road badges (highway / ferry / planned road)
       window.CONDUITS.forEach((cond, idx) => {
         if (!cond.midpoint) return;
         const conduitEl = document.createElement('div');
         conduitEl.className = `conduit-beacon-marker status-${cond.status || 'operational'}`;
-        conduitEl.title = cond.status === 'planned' ? 'Planned — not an existing flow'
-          : cond.status === 'thin' ? 'Thin — the flow exists but is weak' : cond.name;
+        conduitEl.title = `${roadOf(cond).title}: ${cond.name}`;
         conduitEl.innerHTML = `
-          <span style="font-size: 11px;">${cond.status === 'planned' ? '🚧' : '⚡'}</span>
+          <span style="font-size: 11px;">${roadOf(cond).icon}</span>
           <span class="conduit-beacon-text">${cond.codename}</span>
           ${(cond.constrained_by || []).length ? '<span class="constrained-dot" title="Constrained"></span>' : ''}
         `;
@@ -1647,18 +1623,6 @@
         }).setLngLat(cond.midpoint).addTo(map);
 
         conduitMarkers.push(marker);
-      });
-
-      // LOD Fading for Ground Stencils during deep zoom
-      map.on('zoom', () => {
-        const zoom = map.getZoom();
-        const stencils = document.querySelectorAll('.district-ground-stencil');
-        if (zoom > 16.3) {
-          const opacity = Math.max(0, 1 - (zoom - 16.3) * 1.5);
-          stencils.forEach(s => s.style.opacity = opacity.toFixed(2));
-        } else {
-          stencils.forEach(s => s.style.opacity = '0.85');
-        }
       });
     }
 
@@ -1712,6 +1676,18 @@
       map.on('click', 'traffic-queue', (e) => {
         const ref = e.features && e.features[0] && e.features[0].properties.bottleneck_ref;
         if (ref) gotoRef(ref);
+      });
+
+      const interactiveLayers = ['buildings-3d', 'conduits-hitarea', 'fields-tape-hit', 'targets-arcs-hit', 'traffic-queue'];
+      const nothingElseAt = (point) => !map.queryRenderedFeatures(point, { layers: interactiveLayers.filter(l => map.getLayer(l)) }).length;
+      map.on('click', (e) => {
+        const name = districtNameAt(e.lngLat);
+        if (name && nothingElseAt(e.point)) flyToDistrict(name.id);
+      });
+      map.on('mousemove', (e) => {
+        const over = !!districtNameAt(e.lngLat) && nothingElseAt(e.point);
+        if (over) { map.getCanvas().style.cursor = 'pointer'; districtNameHover = true; }
+        else if (districtNameHover) { map.getCanvas().style.cursor = ''; districtNameHover = false; }
       });
 
       // Relation chips anywhere (drawer, route panel) jump to the referenced entity
@@ -1807,7 +1783,7 @@
     function applyLayerVisibility(layerKey) {
       const isVisible = layerVisibility[layerKey];
       if (layerKey === 'districts') {
-        setLayers(['districts-fill', 'districts-line'], isVisible);
+        setLayers(['districts-fill', 'districts-line', ...districtNames.map(n => n.layer)], isVisible);
         setMarkers(districtMarkers, isVisible);
       } else if (layerKey === 'spires') {
         setLayers(['buildings-wireframe'], isVisible);
@@ -1906,6 +1882,7 @@
           ${item.scope ? `
           <div class="scope-banner">
             <span class="scope-tag">${bneckIcon(item)} ${EFFECT_WORD[item.effect] || ''} ${SCOPE_WORD[item.scope]}</span>
+            ${(item.anchors || []).some(a => a.barrier) ? '<span class="scope-tag">⛔ BLOCKS A PLANNED ROAD</span>' : ''}
             ${item.color ? `<span class="scope-tag" style="background: rgba(255,255,255,0.05); color: #fff; border-color: ${item.color};"><span class="tape-swatch tape-${item.effect}" style="--tape: ${item.color};"></span> BORDER TAPE</span>` : ''}
             <span class="scope-tag" style="background: rgba(255,255,255,0.06); color: #fff; border-color: rgba(255,255,255,0.2);">SEVERITY ${Math.round(item.severity * 100)}%</span>
             ${item.delay_label ? `<span class="delay-chip">${item.delay_label}</span>` : ''}
@@ -1956,7 +1933,7 @@
       } else if (type === 'conduit') {
         const item = window.CONDUITS[index];
         badge.className = 'drawer-type-badge badge-conduit';
-        badge.textContent = `SUPERHIGHWAY • ${item.code} [${item.codename}]`;
+        badge.textContent = `${roadOf(item).word} • ${item.code} [${item.codename}]`;
         title.textContent = `${item.codename}: ${item.name}`;
         subtitle.textContent = `${item.from_name} ➔ ${item.to_name}`;
 
@@ -1973,15 +1950,14 @@
             ${item.status ? `
             <div class="metric-card">
               <span class="metric-label">Road Status</span>
-              <span class="metric-value" style="color: ${item.status === 'planned' ? '#8a93a6' : item.status === 'thin' ? '#ffd08a' : 'var(--accent-emerald)'};">${
-                item.status === 'planned' ? '🚧 Planned — not built yet' : item.status === 'thin' ? '⋯ Thin — weak flow' : '⚡ Operational'}</span>
+              <span class="metric-value" style="color: ${item.status === 'planned' ? '#8a93a6' : item.status === 'thin' ? '#ffd08a' : 'var(--accent-emerald)'};">${roadOf(item).icon} ${roadOf(item).title}</span>
             </div>
             <div class="metric-card">
               <span class="metric-label">Direction</span>
               <span class="metric-value">${item.direction === 'south' ? '↓ Southbound (feedback)' : item.direction === 'north' ? '↑ Northbound' : '↔ Within district'}</span>
             </div>` : ''}
           </div>
-          ${relationBlock('⚠️ Constrained by', item.constrained_by)}
+          ${relationBlock(item.status === 'planned' ? '⛔ Not built because of' : '⚠️ Constrained by', item.constrained_by)}
           ${relationBlock('🩹 Remedy for', item.remedies)}
           <div>
             <div class="drawer-section-title"><span>✦</span> Inter-Scale Scientific Flow</div>
@@ -2120,7 +2096,7 @@
       highlightField(null);
     }
 
-    // Legend Builder (With Dedicated Superhighways Section!)
+    // Legend Builder (districts & spires, highways, constraints, priorities)
     function buildLegendUI() {
       const container = document.getElementById('legendDistrictList');
       container.innerHTML = '';
@@ -2165,7 +2141,7 @@
         container.appendChild(group);
       });
 
-      // 2. Superhighways Directory Section
+      // 2. Highways Directory Section
       const conduitGroup = document.createElement('div');
       conduitGroup.className = 'district-group';
       conduitGroup.style.borderTop = '1px solid rgba(255, 255, 255, 0.1)';
@@ -2177,25 +2153,38 @@
         <div class="district-label-box">
           <span style="font-size: 14px;">⚡</span>
           <div>
-            <div class="district-group-name" style="color: var(--accent-violet);">SUPERHIGHWAYS (${window.CONDUITS.length})</div>
-            <div class="district-group-scale">Inter-Scale Pipelines</div>
+            <div class="district-group-name" style="color: var(--accent-violet);">HIGHWAYS (${window.CONDUITS.length})</div>
+            <div class="district-group-scale">Highways · Ferries · Planned roads</div>
           </div>
         </div>
       `;
       conduitGroup.appendChild(conduitHeader);
 
-      window.CONDUITS.forEach((cond, idx) => {
+      const roadOrder = ['operational', 'thin', 'planned'];
+      const byRoad = roadOrder.map(st => window.CONDUITS.map((c, idx) => ({ c, idx })).filter(({ c }) => (c.status || 'operational') === st));
+      const showSubheads = byRoad.filter(list => list.length).length > 1;
+      byRoad.forEach((list, r) => {
+        if (!list.length) return;
+        if (showSubheads) {
+          const sub = document.createElement('div');
+          sub.className = 'district-group-scale';
+          sub.style.margin = '6px 0 2px 4px';
+          sub.textContent = `${ROAD[roadOrder[r]].icon} ${ROAD[roadOrder[r]].word}S (${list.length})`.replace('FERRYS', 'FERRIES');
+          conduitGroup.appendChild(sub);
+        }
+        list.forEach(({ c: cond, idx }) => {
         const cItem = document.createElement('div');
         cItem.className = 'spire-item conduit-legend-item';
         cItem.dataset.id = cond.id;
         cItem.innerHTML = `
-          <span class="spire-item-name">${cond.codename}</span>
+          <span class="spire-item-name">${roadOf(cond).icon} ${cond.codename}</span>
           <span class="spire-item-code" style="color: var(--accent-violet); border-color: rgba(192, 64, 255, 0.3);">${cond.code}</span>
         `;
         cItem.addEventListener('click', () => {
           selectObject('conduit', cond.id, idx);
         });
         conduitGroup.appendChild(cItem);
+        });
       });
 
       container.appendChild(conduitGroup);
@@ -2330,10 +2319,17 @@
         (b.anchors || []).forEach((a, aIdx) => {
           if (a.kind === 'edge') {
             const el = document.createElement('div');
-            el.className = `incident-pin ${b.effect === 'closure' ? 'closure' : ''}`;
-            el.title = `${b.title} — ${EFFECT_WORD[b.effect]}`;
-            el.innerHTML = `<span class="incident-icon">${EFFECT_ICON[b.effect] || '⚠️'}</span><span>${b.codename}</span>${
-              b.delay_label ? `<span class="delay-chip">${b.delay_label}</span>` : ''}`;
+            if (a.barrier) {
+              // A planned road: the constraint is the barrier that keeps it from being built
+              el.className = 'incident-pin barrier';
+              el.title = `${b.title} — why this road is not built`;
+              el.innerHTML = `<span class="incident-icon">⛔</span><span>${b.codename}</span><span class="delay-chip">blocks construction</span>`;
+            } else {
+              el.className = `incident-pin ${b.effect === 'closure' ? 'closure' : ''}`;
+              el.title = `${b.title} — ${EFFECT_WORD[b.effect]}`;
+              el.innerHTML = `<span class="incident-icon">${EFFECT_ICON[b.effect] || '⚠️'}</span><span>${b.codename}</span>${
+                b.delay_label ? `<span class="delay-chip">${b.delay_label}</span>` : ''}`;
+            }
             el.addEventListener('click', (e) => { e.stopPropagation(); selectObject('bottleneck', b.id, idx); });
             incidentMarkers.push(new maplibregl.Marker({ element: el, pitchAlignment: 'viewport' }).setLngLat(a.coordinates).addTo(map));
           } else if (a.kind === 'node') {
@@ -2409,7 +2405,7 @@
       if (e.kind === 'district') return e.item.name;
       if (e.kind === 'bottleneck') return `${bneckIcon(e.item)} ${e.item.codename}`;
       if (e.kind === 'challenge') return `🎯 ${e.item.codename}`;
-      if (e.kind === 'conduit') return `${e.item.status === 'planned' ? '🚧' : '⚡'} ${e.item.codename}`;
+      if (e.kind === 'conduit') return `${roadOf(e.item).icon} ${e.item.codename}`;
       return e.item.codename || e.item.title;
     }
 
@@ -2465,7 +2461,7 @@
       src.setData({ type: 'FeatureCollection', features });
     }
 
-    // ===== Directions: shortest path over superhighways (+ walking inside a district) =====
+    // ===== Directions: shortest path over highways and ferries (+ walking inside a district) =====
     function setupRoutePanel() {
       const from = document.getElementById('routeFrom');
       const to = document.getElementById('routeTo');
@@ -2479,6 +2475,7 @@
       if (first) from.value = first.spires[0].id;
       if (last) to.value = last.spires[last.spires.length - 1].id;
       from.addEventListener('change', renderRoute);
+      document.getElementById('routeIncludePlanned').addEventListener('change', renderRoute);
       to.addEventListener('change', renderRoute);
       document.getElementById('routeSwapBtn').addEventListener('click', () => { const v = from.value; from.value = to.value; to.value = v; renderRoute(); });
       document.getElementById('routeBtn').addEventListener('click', () => {
@@ -2503,8 +2500,9 @@
       map.getSource('route-geo').setData({ type: 'FeatureCollection', features: [] });
     }
 
-    function computeRoute(fromId, toId) {
-      const edges = window.ROUTE_GRAPH || [];
+    function computeRoute(fromId, toId, includePlanned) {
+      // Planned roads do not exist yet, so by default the router will not drive on them
+      const edges = (window.ROUTE_GRAPH || []).filter(e => includePlanned || !e.planned);
       const dist = { [fromId]: 0 };
       const prev = {};
       const done = new Set();
@@ -2530,7 +2528,8 @@
       const out = document.getElementById('routeResult');
       const src = map.getSource('route-geo');
       if (fromId === toId) { out.innerHTML = '<div class="route-summary">Pick two different spires.</div>'; src.setData({ type: 'FeatureCollection', features: [] }); return; }
-      const route = computeRoute(fromId, toId);
+      const includePlanned = document.getElementById('routeIncludePlanned').checked;
+      const route = computeRoute(fromId, toId, includePlanned);
       if (!route) { out.innerHTML = '<div class="route-summary">No connection between these spires — the city has no road here.</div>'; src.setData({ type: 'FeatureCollection', features: [] }); return; }
 
       const spire = id => window.SPIRES_INDEX.find(x => x.id === id);
@@ -2548,13 +2547,13 @@
         const cond = window.CONDUITS.find(c => c.id === leg.conduit);
         const geom = window.CONDUITS_GEOJSON.features.find(f => f.properties.id === leg.conduit).geometry.coordinates;
         features.push({ type: 'Feature', properties: { kind: leg.against_flow ? 'against' : 'conduit' }, geometry: { type: 'LineString', coordinates: leg.against_flow ? [...geom].reverse() : geom } });
-        (cond.constrained_by || []).forEach(ref => {
+        (cond.status === 'planned' ? [] : (cond.constrained_by || [])).forEach(ref => {
           const b = refEntity(ref).item;
           note(ref, `<div class="route-incident" data-ref="${ref}">${bneckIcon(b)} ${b.codename} on ${cond.codename}${b.delay_label ? ` — ${b.delay_label}` : ''}</div>`);
         });
         if (cond.status === 'planned') note('st-' + cond.id, `<div class="route-incident status" data-ref="${cond.id}">🚧 ${cond.codename} is only planned — this road does not exist yet</div>`);
-        if (cond.status === 'thin') note('st-' + cond.id, `<div class="route-incident status" data-ref="${cond.id}">⋯ ${cond.codename} is a thin flow</div>`);
-        return `<li class="route-leg ${leg.against_flow ? 'against' : ''}"><span class="leg-kind">${leg.against_flow ? '↺' : '⚡'}</span><span>${cond.codename}: ${spire(leg.from).codename} → ${spire(leg.to).codename}${leg.against_flow ? ' <em>(against the flow)</em>' : ''}</span></li>`;
+        if (cond.status === 'thin') note('st-' + cond.id, `<div class="route-incident status" data-ref="${cond.id}">⛴️ ${cond.codename} is a ferry — weak or episodic flow, expect waiting</div>`);
+        return `<li class="route-leg ${leg.against_flow ? 'against' : ''}"><span class="leg-kind">${leg.against_flow ? '↺' : roadOf(cond).icon}</span><span>${cond.codename}: ${spire(leg.from).codename} → ${spire(leg.to).codename}${leg.against_flow ? ' <em>(against the flow)</em>' : ''}</span></li>`;
       }).join('');
 
       visited.forEach(id => (spire(id).constraints || []).forEach(ref => {
@@ -2568,7 +2567,7 @@
 
       const conduitLegs = route.legs.filter(l => l.kind === 'conduit').length;
       out.innerHTML = `
-        <div class="route-summary">${conduitLegs} superhighway leg${conduitLegs === 1 ? '' : 's'} · ${route.legs.length - conduitLegs} walk · ${incidents.length} incident${incidents.length === 1 ? '' : 's'} on the way</div>
+        <div class="route-summary">${conduitLegs} road leg${conduitLegs === 1 ? '' : 's'} · ${route.legs.length - conduitLegs} walk · ${incidents.length} incident${incidents.length === 1 ? '' : 's'} on the way</div>
         <ul class="route-legs">${legsHtml}</ul>
         ${incidents.length ? `<div class="route-incidents">${incidents.join('')}</div>` : ''}`;
       src.setData({ type: 'FeatureCollection', features });

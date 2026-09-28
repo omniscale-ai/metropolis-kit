@@ -142,7 +142,7 @@ challenges:
   - { id: "@chal-realistic-states", district: "@dist-quantum",    impact_scale: 0.85, note: "New in v3" }
   - { id: "@chal-synthesizability", district: "@dist-design",     impact_scale: 0.85, note: "New in v3" }
 
-superhighways:
+highways:
   northbound: "Data → potentials → generated candidates → robotic synthesis → pilot scale (the chapter's integrated workflow)"
   southbound: >
     Three return paths the chapter calls for but describes as largely missing or emerging:
@@ -157,8 +157,8 @@ key_layers:
   - id: "layer-spires"
     name: "Spires"
     description: "Infrastructures, model families and platforms named in the chapter; height = maturity"
-  - id: "layer-superhighways"
-    name: "Data & Material Superhighways"
+  - id: "layer-highways"
+    name: "Data & Material Highways"
     description: "Northbound workflow and southbound feedback paths"
   - id: "layer-bottlenecks"
     name: "Physical & Epistemic Bottlenecks"

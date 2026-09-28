@@ -20,20 +20,20 @@ The kit is fully deployed to GitHub, zero-dependency in Python, and contains thr
 1. **AI Multiscale Modelling Metropolis** (`examples/ai-multiscale/`):
    - **Source:** A. Maevskiy, V. Kapitan, A. Ustyuzhanin, *"Artificial Intelligence for Multiscale Modeling in Solid-State Physics and Chemistry: A Comprehensive Review"*, Advanced Intelligent Systems (2026).
    - **Corridor:** 6 scale districts (from sub-Ångström Kohn-Sham to device digital twins).
-   - **Entities:** 18 spires, 6 bottlenecks, 6 strategic priorities, 13 superhighways.
+   - **Entities:** 18 spires, 6 bottlenecks, 6 strategic priorities, 13 highways.
    - **Compiled:** 126 3D building tiers. Served by default in `docs/` on port **8080**.
 
 2. **Materials Intelligence Metropolis** (`examples/sciance-materials/` & vault `2026-SCIANCE/city-map`):
    - **Source:** Horizon Europe SCIANCE Deliverable D1.1, Materials Science chapter, revision v3 (`matsci-2026-09-27_v3.docx`, not committed). v3 added the validation hierarchy, the PSPP cross-cutting topic (MatWerk NFDI), realistic material states (bulk vs surfaces/interfaces), predictive synthesizability, benchmark-split critique and agentic SDLs.
    - **Corridor:** The chapter's integrated workflow — Modelling → Design → Characterisation → Closed-Loop → Lab-to-Fab Production.
    - **Schema:** first showcase on **schema v2** (constraints drawn where they act — see below).
-   - **Entities:** 16 spires, 9 constraints (4 edge · 2 node · 3 field), 9 priorities, 11 superhighways (2 planned: FAILURE LOG, IN-SILICO LOOP; 3 thin).
+   - **Entities:** 16 spires, 9 constraints (4 edge · 2 node · 3 field), 9 priorities, 11 highways (2 planned: FAILURE LOG, IN-SILICO LOOP; 3 thin).
    - Served on port **8088**.
 
 3. **MIND-MATTER Cyber-Physical Roadmap** (`examples/mind-matter/`):
    - **Source:** DeepTech neuromorphic roadmap (ARIA / Horizon Europe).
    - **Corridor:** Milestones M1 through D3.
-   - **Entities:** 5 spires, 3 bottlenecks, 2 challenges, 2 superhighways.
+   - **Entities:** 5 spires, 3 bottlenecks, 2 challenges, 2 highways.
 
 ---
 
@@ -49,10 +49,10 @@ The kit is fully deployed to GitHub, zero-dependency in Python, and contains thr
      - `🎯 INTERPRET`, `🎯 EXACT PHYSICS`, `🎯 UNCERTAINTY UQ`, `🎯 RG RENORM`
      - `⚡ DFT FEED`, `⚡ HESSIAN LINE`, `⚡ SPIN-LATTICE`, `⚡ MOIRE RAMP`
 
-3. **Interactive Superhighways (Conduits):**
+3. **Interactive Highways (Conduits):**
    - Floating clickable badges at curve apexes (`[ ⚡ DFT FEED ]`).
    - 24px wide invisible hit-area along the spline for easy clicking.
-   - Dedicated directory section in the Left Legend: `⚡ SUPERHIGHWAYS (N)`.
+   - Dedicated directory section in the Left Legend: `⚡ HIGHWAYS (N)`.
    - Interactive Detail Drawer with `SOURCE [Fly ➔]` and `TARGET [Fly ➔]` camera jump buttons.
 
 4. **Dynamic 3D Height Calculation** (all heights below are then multiplied by `BUILDING_HEIGHT_SCALE` = 1/1.5 in `cli/compiler.py`):
@@ -63,8 +63,9 @@ The kit is fully deployed to GitHub, zero-dependency in Python, and contains thr
 ---
 
 5. **Schema v2 — constraints drawn where they act (navigation-map metaphors):**
-   - Bottleneck `scope`: `edge` (traffic congestion + incident pin on a superhighway), `node` (queue of backlog cubes + wait-time chip at a spire), `field` (coloured border tape per constraint + forecast chips in the district's NW corner, spotlight on selection; static, no animated fill). `effect`: slowdown / closure / noise / blind.
-   - `delay_label` (numbers only from the source), `remedied_by`; conduit `status` (operational / thin = ferry line / planned = road under construction); challenge `advanced_by` / `blocked_by`.
+   - Bottleneck `scope`: `edge` (traffic congestion + incident pin on a highway), `node` (queue of backlog cubes + wait-time chip at a spire), `field` (coloured border tape per constraint + forecast chips in the district's NW corner, spotlight on selection; static, no animated fill). `effect`: slowdown / closure / noise / blind.
+   - `delay_label` (numbers only from the source), `remedied_by`; conduit `status` → road type: operational = ⚡ Highway, thin = ⛴️ Ferry (weak/episodic flow), planned = 🚧 Planned road; challenge `advanced_by` / `blocked_by`.
+   - Edge constraints on planned roads render as ⛔ barriers ("blocks construction"), not traffic; the router skips planned roads unless "include planned roads" is ticked. UI term is **Highways** (formerly Superhighways); the schema field stays `conduits`.
    - Scoped constraints have **no towers**. v1 specs without `scope` keep legacy hazard towers (ai-multiscale, mind-matter not yet migrated).
    - Compiler derives reverse links, direction, traffic segments, queue cubes, field overlays, `ROUTE_GRAPH`; places incident pins first, then conduit badges clear of pins, spires and priorities.
    - Viewer: Traffic / Queues / Weather toggles, one-way arrows, relation links on selection, clickable relation chips, legend sections for constraints and priorities, **🧭 Route** panel (Dijkstra over conduits, walking inside a district, against-flow legs penalised) listing incidents on the way. Header now reads title/subtitle from the compiled spec.

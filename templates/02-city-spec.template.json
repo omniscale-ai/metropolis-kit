@@ -112,7 +112,7 @@
   "conduits": [
     {
       "id": "@conduit-example-1",
-      "name": "Superhighway Name",
+      "name": "Highway Name",
       "code": "HW-01",
       "from": "@spire-example-1",
       "to": "@spire-example-1",

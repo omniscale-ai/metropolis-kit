@@ -658,7 +658,7 @@ def compile_metropolis_data(spec):
                     'geometry': {'type': 'LineString', 'coordinates': arc}
                 })
 
-    # 4. Superhighways & Conduits
+    # 4. Highways (conduits): operational highways, ferries (thin) and planned roads
     conduit_features = []
     compiled_conduits = []
     spire_lookup = {s['id']: s for s in spec.get('spires', [])}
@@ -698,6 +698,7 @@ def compile_metropolis_data(spec):
                 [b['coordinates'] for b in compiled_bottlenecks if not b.get('scope')]
     placed_markers = []
     edge_incidents = {}  # conduit id -> [(bottleneck, curve index)]
+    conduit_status = {c['id']: c.get('status', 'operational') for c in spec.get('conduits', [])}
     for bneck in spec.get('bottlenecks', []):
         if bneck.get('scope') != 'edge':
             continue
@@ -707,7 +708,9 @@ def compile_metropolis_data(spec):
             pt, idx = place_on_curve(curve, placed_markers + obstacles, preferred, min_sep=160.0)
             placed_markers.append(pt)
             edge_incidents.setdefault(ref, []).append((bneck, idx))
-            bneck_by_id[bneck['id']]['anchors'].append({'kind': 'edge', 'ref': ref, 'coordinates': pt})
+            # On a planned road the constraint is the reason it is not built: a barrier, not traffic
+            barrier = conduit_status.get(ref) == 'planned'
+            bneck_by_id[bneck['id']]['anchors'].append({'kind': 'edge', 'ref': ref, 'coordinates': pt, 'barrier': barrier})
 
     for c_idx, cond in enumerate(spec.get('conduits', [])):
         curve_coords = conduit_curves[cond['id']]
@@ -755,6 +758,8 @@ def compile_metropolis_data(spec):
     field_features = []    # field: coloured tapes along the borders of affected districts
 
     for cond_id, incidents in edge_incidents.items():
+        if conduit_status.get(cond_id) == 'planned':
+            continue  # nothing drives on a road that does not exist yet
         curve = conduit_curves[cond_id]
         last = len(curve) - 1
         for bneck, idx in incidents:
@@ -866,10 +871,11 @@ def compile_metropolis_data(spec):
     for cond in compiled_conduits:
         penalty = sum(float(bneck_by_id[b]['severity']) for b in cond['constrained_by'])
         base = {'operational': 1.0, 'thin': 1.6, 'planned': 3.0}[cond['status']]
+        planned = cond['status'] == 'planned'  # the viewer skips these unless asked to include them
         route_edges.append({'from': cond['from'], 'to': cond['to'], 'kind': 'conduit', 'conduit': cond['id'],
-                            'cost': round(base + penalty, 2)})
+                            'planned': planned, 'cost': round(base + penalty, 2)})
         route_edges.append({'from': cond['to'], 'to': cond['from'], 'kind': 'conduit', 'conduit': cond['id'],
-                            'against_flow': True, 'cost': round(base + penalty + 2.0, 2)})
+                            'planned': planned, 'against_flow': True, 'cost': round(base + penalty + 2.0, 2)})
     for dist in sorted_districts:
         members = [sid for sid, loc in spire_locations.items() if loc['district_ref'] == dist['id']]
         for a in members:
@@ -1006,7 +1012,7 @@ def main():
     print(f"[✓] Compiled {out_file}:")
     print(f"    - {stats['districts']} Districts")
     print(f"    - {stats['building_tiers']} 3D Building Tiers (Spires, Priority Pins, legacy Hazard Towers, Queues)")
-    print(f"    - {stats['conduits']} Superhighways")
+    print(f"    - {stats['conduits']} Highways")
     scoped = stats['scoped']
     print(f"    - {stats['bottlenecks']} Bottlenecks (edge {scoped['edge']} · node {scoped['node']} · field {scoped['field']})")
     print(f"    - {stats['challenges']} Strategic Priorities")
