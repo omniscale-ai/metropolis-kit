@@ -1,4 +1,4 @@
-.PHONY: all build serve test clean examples build-multiscale build-sciance build-mindmatter
+.PHONY: all build serve serve-sciance test clean examples build-multiscale build-sciance build-mindmatter
 
 all: build
 
@@ -15,6 +15,11 @@ build-mindmatter:
 
 serve:
 	python3 -m cli.compiler --spec examples/ai-multiscale/02-city-spec.json --web-dir docs/ --serve 8080
+
+# SCIANCE showcase in its own build folder (dist/ is git-ignored, docs/ stays untouched)
+SCIANCE_PORT ?= 8088
+serve-sciance:
+	python3 -m cli.compiler --spec examples/sciance-materials/02-city-spec.json --web-dir dist/sciance/ --serve $(SCIANCE_PORT)
 
 examples:
 	@echo "[*] Compiling AI Multiscale showcase..."

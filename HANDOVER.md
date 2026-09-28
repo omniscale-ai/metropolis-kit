@@ -79,9 +79,9 @@ The kit is fully deployed to GitHub, zero-dependency in Python, and contains thr
 ## 🌐 Active Servers & Commands
 
 - **AI Multiscale Metropolis:** `http://localhost:8080/`
-- **SCIANCE Metropolis:** `http://localhost:8088/`
+- **SCIANCE Metropolis:** `http://localhost:8088/` — `make serve-sciance` (builds into git-ignored `dist/sciance/`; override port with `SCIANCE_PORT=…`)
 - **Compile command:** `python3 -m cli.compiler --spec <spec.json> --web-dir docs/`
-- **Make shortcuts:** `make serve`, `make build`, `make examples`, `make test`
+- **Make shortcuts:** `make serve`, `make serve-sciance`, `make build`, `make examples`, `make test`
 
 ---
 
