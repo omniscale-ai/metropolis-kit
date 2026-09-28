@@ -731,19 +731,33 @@
     }
 
     /* MAP MARKERS & STENCILS */
+    /* Zero-size anchor on the ground; the inner block is scaled in JS so its size is fixed
+       in metres (painted on the district) rather than in screen pixels */
     .district-ground-stencil {
+      width: 0;
+      height: 0;
+      position: relative;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .district-ground-stencil .stencil-inner {
+      position: absolute;
+      left: 0;
+      top: 0;
+      transform-origin: 0 0;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      justify-content: flex-end;
+      white-space: nowrap;
       pointer-events: auto;
       cursor: pointer;
       user-select: none;
       text-align: left;
-      transition: opacity 0.3s ease, filter 0.2s ease;
+      transition: filter 0.2s ease;
     }
 
-    .district-ground-stencil:hover {
+    .district-ground-stencil .stencil-inner:hover {
       filter: brightness(1.35);
     }
 
@@ -1139,6 +1153,24 @@
     };
 
     const districtMarkers = [];
+    const districtStencils = [];
+    const STENCIL_INSET_M = 20;          // from the district's west edge
+    const STENCIL_GAP_M = 16;            // below the district's south edge
+    const STENCIL_MAX_WIDTH = 0.92;      // share of the district width the name may use
+    const STENCIL_MAX_HEIGHT_M = 110;    // both lines together; the strip between districts is 240 m
+
+    // Scale each district name so it measures a fixed number of metres on the ground
+    function fitDistrictStencils() {
+      const zoom = map.getZoom();
+      districtStencils.forEach(({ inner, lat, widthM }) => {
+        const metresPerPx = 40075016.686 * Math.cos(lat * Math.PI / 180) / (512 * Math.pow(2, zoom));
+        const natW = inner.offsetWidth, natH = inner.offsetHeight;
+        if (!natW || !natH) return;
+        const scale = Math.min((widthM - 2 * STENCIL_INSET_M) * STENCIL_MAX_WIDTH / (natW * metresPerPx),
+                               STENCIL_MAX_HEIGHT_M / (natH * metresPerPx));
+        inner.style.transform = `scale(${scale.toFixed(4)})`;
+      });
+    }
     const bottleneckMarkers = [];
     const incidentMarkers = [];
     const nodeMarkers = [];
@@ -1505,37 +1537,47 @@
     function renderGroundStencilsAndMarkers() {
       // 1. Districts
       window.DISTRICTS.forEach(d => {
-        // Ground Stencil — anchored inside the district's south-west corner, clickable
+        // Ground Stencil — painted just outside the district's south edge, in the empty strip
+        // between districts, like a street name along a block. Its size is set in metres
+        // (see fitDistrictStencils), so it stays in place at every zoom.
         const stencilEl = document.createElement('div');
         stencilEl.className = 'district-ground-stencil';
-        stencilEl.title = d.name;
-        stencilEl.innerHTML = `
+        const inner = document.createElement('div');
+        inner.className = 'stencil-inner';
+        inner.title = d.name;
+        inner.innerHTML = `
           <div class="stencil-title" style="color: ${d.color};">${d.name}</div>
           <div class="stencil-tag" style="color: ${d.color};">${d.scale_label}</div>
         `;
-        stencilEl.addEventListener('click', (e) => {
+        inner.addEventListener('click', (e) => {
           e.stopPropagation();
           flyToDistrict(d.id);
         });
+        stencilEl.appendChild(inner);
 
         const lngs = d.bounds.map(p => p[0]);
         const lats = d.bounds.map(p => p[1]);
         const minLng = Math.min(...lngs), maxLng = Math.max(...lngs);
         const minLat = Math.min(...lats), maxLat = Math.max(...lats);
-        const cornerInset = 0.03; // fraction of district size kept clear of the dashed border
+        const mPerDegLng = 111320 * Math.cos(d.center[1] * Math.PI / 180);
+        const widthM = (maxLng - minLng) * mPerDegLng;
 
         const stencilMarker = new maplibregl.Marker({
           element: stencilEl,
-          anchor: 'bottom-left',
+          anchor: 'top-left',
           pitchAlignment: 'map',
           rotationAlignment: 'map'
         }).setLngLat([
-          minLng + (maxLng - minLng) * cornerInset,
-          minLat + (maxLat - minLat) * cornerInset
+          minLng + STENCIL_INSET_M / mPerDegLng,
+          minLat - STENCIL_GAP_M / 111320
         ]).addTo(map);
 
         districtMarkers.push(stencilMarker);
+        districtStencils.push({ inner, lat: d.center[1], widthM });
       });
+      fitDistrictStencils();
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitDistrictStencils);
+      map.on('zoom', fitDistrictStencils);
 
       // 2. Bottleneck Hazard Radars (WITH PUNCHY 1-2 WORD CODENAMES!)
       window.BOTTLENECKS.forEach((b, idx) => {
@@ -1767,6 +1809,8 @@
       if (layerKey === 'districts') {
         setLayers(['districts-fill', 'districts-line'], isVisible);
         setMarkers(districtMarkers, isVisible);
+      } else if (layerKey === 'spires') {
+        setLayers(['buildings-wireframe'], isVisible);
       } else if (layerKey === 'conduits') {
         setLayers(['conduits-glow', 'conduits-core', 'conduits-core-thin', 'conduits-core-planned', 'conduits-arrows'], isVisible);
         setMarkers(conduitMarkers, isVisible);
