@@ -1,4 +1,4 @@
-.PHONY: all build serve serve-sciance test clean examples build-multiscale build-sciance build-mindmatter
+.PHONY: all build serve serve-sciance publish-sciance test clean examples build-multiscale build-sciance build-mindmatter
 
 all: build
 
@@ -20,6 +20,18 @@ serve:
 SCIANCE_PORT ?= 8088
 serve-sciance:
 	python3 -m cli.compiler --spec examples/sciance-materials/02-city-spec.json --web-dir dist/sciance/ --serve $(SCIANCE_PORT)
+
+# Publish the SCIANCE showcase to its GitHub Pages repo (omniscale-ai/sciance-d1-1-metropolis).
+# Builds and commits in the local checkout; pushing stays a deliberate, manual step.
+SCIANCE_PAGES_DIR ?= ../sciance-d1-1-metropolis
+publish-sciance:
+	@test -d $(SCIANCE_PAGES_DIR)/.git || { echo "[!] $(SCIANCE_PAGES_DIR) is not a git checkout (clone git@github.com:omniscale-ai/sciance-d1-1-metropolis.git there)"; exit 1; }
+	python3 -m cli.compiler --spec examples/sciance-materials/02-city-spec.json --web-dir $(SCIANCE_PAGES_DIR)/
+	mkdir -p $(SCIANCE_PAGES_DIR)/spec
+	cp examples/sciance-materials/01-domain-profile.yaml examples/sciance-materials/02-city-spec.json $(SCIANCE_PAGES_DIR)/spec/
+	@cd $(SCIANCE_PAGES_DIR) && git add -A && if git diff --cached --quiet; then echo "[=] Nothing to publish: the Pages repo is up to date"; else \
+		git commit -q -m "Update map from metropolis-kit $$(git -C $(CURDIR) describe --always --dirty)" && \
+		echo "[+] Committed in $(SCIANCE_PAGES_DIR). Review, then push: git -C $(SCIANCE_PAGES_DIR) push"; fi
 
 examples:
 	@echo "[*] Compiling AI Multiscale showcase..."

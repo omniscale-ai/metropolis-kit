@@ -133,6 +133,8 @@ python -m cli.compiler --spec my-spec.json --web-dir dist/ --serve 8080
 
 ### 1. Materials Intelligence Metropolis ([`examples/sciance-materials/`](examples/sciance-materials/))
 *Based on the Materials Science chapter of Horizon Europe SCIANCE Deliverable D1.1 (Task 1.1 landscape report, chapter revision v3). First showcase on schema v2.*
+
+**Live:** https://omniscale-ai.github.io/sciance-d1-1-metropolis/ (published from [`omniscale-ai/sciance-d1-1-metropolis`](https://github.com/omniscale-ai/sciance-d1-1-metropolis) with `make publish-sciance`)
 - **Axis**: The report's own integrated workflow — atomistic modelling → generative design → characterisation → closed-loop labs → lab-to-fab production. Spire height encodes the maturity the report assigns.
 - **Features**: NOMAD·FAIRmat·AiiDA, Alexandria/sAlex25, universal MLIPs, GNoME, MatterGen, 4D-STEM & APT ML, PSPP/ICME microstructure modelling, BIG-MAP, A-Lab, AP-Lab, AM digital twins, SSbD/PFAS.
 - **Constraints, drawn where they act**: congestion and incident pins on highways (novelty mirage, vendor lock-in, lab-to-fab gap, the bulk-vs-interface closure of the planned IN-SILICO LOOP); queues at spires (232-min GC & ~3.9% robot faults, middleware silos); border tapes and forecast chips on districts (dark data, OOD fragility, synthetic data fraud).
