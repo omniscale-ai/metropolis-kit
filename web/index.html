@@ -902,6 +902,14 @@
     .tape-swatch.tape-noise { border-top-style: dotted; }
     .tape-swatch.tape-slowdown { border-top-style: dashed; }
 
+    /* "You are here" chip at the west end of the now-line */
+    .now-chip {
+      pointer-events: none;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 800; letter-spacing: 0.5px;
+      color: #062014; background: #7cffb2; border-radius: 12px; padding: 3px 10px;
+      box-shadow: 0 0 16px rgba(124, 255, 178, 0.6); white-space: nowrap;
+    }
+
     /* Conduit badge status variants */
     .conduit-beacon-marker.status-thin { opacity: 0.8; border-style: dashed; }
     .conduit-beacon-marker.status-planned { border-color: #8a93a6; background: rgba(40, 44, 56, 0.85); box-shadow: none; }
@@ -1199,6 +1207,14 @@
       planned: { word: 'PLANNED ROAD', icon: '🚧', title: 'Planned road — called for, not built yet' }
     };
     const roadOf = c => ROAD[c.status] || ROAD.operational;
+    // Card wording can be overridden per city (city_metadata.ui_labels), e.g. for a project map
+    const L = (key, fallback) => ((window.CITY_CONFIG || {}).ui_labels || {})[key] || fallback;
+    const SPIRE_STATUS = {
+      done: { icon: '🟢', word: 'Built / operational' },
+      active: { icon: '🟡', word: 'In progress' },
+      planned: { icon: '⚪', word: 'Planned' }
+    };
+    const HAS_STATUS = (window.SPIRES_INDEX || []).some(sp => sp.status && sp.status !== 'done');
 
     function bneckIcon(b) {
       if (!b.scope) return '⚠️';
@@ -1479,6 +1495,31 @@
         paint: { 'line-color': '#1a0006', 'line-width': 2, 'line-dasharray': [0, 4, 3], 'line-opacity': 0.8 }
       });
 
+      // Risk cascades: dashed red arrows from a constraint to the one it makes more likely
+      map.addSource('causal-geo', { type: 'geojson', data: window.CAUSAL_GEOJSON || { type: 'FeatureCollection', features: [] } });
+      map.addLayer({
+        id: 'causal-links',
+        type: 'line',
+        source: 'causal-geo',
+        paint: { 'line-color': '#ff1744', 'line-width': 2.5, 'line-dasharray': [1.2, 1.2], 'line-opacity': 0.85 }
+      });
+      map.addLayer({
+        id: 'causal-arrows',
+        type: 'symbol',
+        source: 'causal-geo',
+        layout: {
+          'symbol-placement': 'line', 'symbol-spacing': 60, 'icon-image': 'arrow-red', 'icon-size': 0.6,
+          'icon-allow-overlap': true, 'icon-ignore-placement': true, 'icon-rotation-alignment': 'map'
+        }
+      });
+
+      // "You are here": the project's current position in time across the corridor
+      if (window.NOW_MARKER) {
+        map.addSource('now-geo', { type: 'geojson', data: { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: window.NOW_MARKER.line } } });
+        map.addLayer({ id: 'now-glow', type: 'line', source: 'now-geo', paint: { 'line-color': '#7cffb2', 'line-width': 12, 'line-blur': 8, 'line-opacity': 0.45 } });
+        map.addLayer({ id: 'now-line', type: 'line', source: 'now-geo', paint: { 'line-color': '#eafff3', 'line-width': 2.5, 'line-dasharray': [3, 1.5] } });
+      }
+
       // Relation links (on selection) and route overlay
       map.addSource('links-geo', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
       map.addLayer({
@@ -1517,10 +1558,27 @@
         data: window.BUILDINGS_GEOJSON
       });
 
+      const buildingPaint = (opacity) => ({
+        'fill-extrusion-color': ['case', ['has', 'color'], ['get', 'color'], '#00f0ff'],
+        'fill-extrusion-height': ['get', 'height'],
+        'fill-extrusion-base': ['get', 'base_height'],
+        'fill-extrusion-opacity': opacity,
+        'fill-extrusion-vertical-gradient': true
+      });
+      // Planned spires (and the unfinished crown of active ones) are drawn as translucent ghosts;
+      // opacity is per layer in MapLibre, hence a second layer.
+      map.addLayer({
+        id: 'buildings-ghost',
+        type: 'fill-extrusion',
+        source: 'buildings-geo',
+        filter: ['==', ['get', 'ghost'], true],
+        paint: buildingPaint(0.22)
+      });
       map.addLayer({
         id: 'buildings-3d',
         type: 'fill-extrusion',
         source: 'buildings-geo',
+        filter: ['!=', ['get', 'ghost'], true],
         paint: {
           'fill-extrusion-color': [
             'case',
@@ -1629,7 +1687,7 @@
     // Interaction Setup
     function setupInteraction() {
       // Click on ANY 3D Building (Spire, Bottleneck Tower, Priority Monolith)
-      map.on('click', 'buildings-3d', (e) => {
+      const onBuildingClick = (e) => {
         if (!e.features || !e.features.length) return;
         const feat = e.features[0];
         const props = feat.properties;
@@ -1644,10 +1702,12 @@
           const cIdx = window.CHALLENGES.findIndex(c => c.id === props.challenge_ref);
           if (cIdx !== -1) selectObject('challenge', props.challenge_ref, cIdx);
         }
+      };
+      ['buildings-3d', 'buildings-ghost'].forEach(layer => {
+        map.on('click', layer, onBuildingClick);
+        map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
+        map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
       });
-
-      map.on('mouseenter', 'buildings-3d', () => { map.getCanvas().style.cursor = 'pointer'; });
-      map.on('mouseleave', 'buildings-3d', () => { map.getCanvas().style.cursor = ''; });
 
       // Click on Conduit Line or Conduit Hit-Area
       const onConduitClick = (e) => {
@@ -1678,7 +1738,7 @@
         if (ref) gotoRef(ref);
       });
 
-      const interactiveLayers = ['buildings-3d', 'conduits-hitarea', 'fields-tape-hit', 'targets-arcs-hit', 'traffic-queue'];
+      const interactiveLayers = ['buildings-3d', 'buildings-ghost', 'conduits-hitarea', 'fields-tape-hit', 'targets-arcs-hit', 'traffic-queue'];
       const nothingElseAt = (point) => !map.queryRenderedFeatures(point, { layers: interactiveLayers.filter(l => map.getLayer(l)) }).length;
       map.on('click', (e) => {
         const name = districtNameAt(e.lngLat);
@@ -1777,13 +1837,15 @@
       if (!layerVisibility.bottlenecks) hidden.push('bottleneck');
       if (!layerVisibility.challenges) hidden.push('challenge');
       if (!layerVisibility.queues) hidden.push('queue');
-      map.setFilter('buildings-3d', hidden.length ? ['!', ['in', ['get', 'entity_type'], ['literal', hidden]]] : null);
+      const visibleType = hidden.length ? ['!', ['in', ['get', 'entity_type'], ['literal', hidden]]] : true;
+      map.setFilter('buildings-3d', ['all', ['!=', ['get', 'ghost'], true], visibleType]);
+      map.setFilter('buildings-ghost', ['all', ['==', ['get', 'ghost'], true], visibleType]);
     }
 
     function applyLayerVisibility(layerKey) {
       const isVisible = layerVisibility[layerKey];
       if (layerKey === 'districts') {
-        setLayers(['districts-fill', 'districts-line', ...districtNames.map(n => n.layer)], isVisible);
+        setLayers(['districts-fill', 'districts-line', 'now-glow', 'now-line', ...districtNames.map(n => n.layer)], isVisible);
         setMarkers(districtMarkers, isVisible);
       } else if (layerKey === 'spires') {
         setLayers(['buildings-wireframe'], isVisible);
@@ -1796,7 +1858,7 @@
         setMarkers(challengeMarkers, isVisible);
         setLayers(['targets-dot', 'targets-rings', 'targets-arcs', 'targets-arcs-hit'], isVisible);
       } else if (layerKey === 'traffic') {
-        setLayers(['traffic-starved', 'traffic-closed', 'traffic-queue', 'traffic-queue-crawl'], isVisible);
+        setLayers(['traffic-starved', 'traffic-closed', 'traffic-queue', 'traffic-queue-crawl', 'causal-links', 'causal-arrows'], isVisible);
         setMarkers(incidentMarkers, isVisible);
       } else if (layerKey === 'queues') {
         setMarkers(nodeMarkers, isVisible);
@@ -1826,31 +1888,33 @@
       if (type === 'spire') {
         const item = window.SPIRES_INDEX[index];
         badge.className = 'drawer-type-badge badge-spire';
-        badge.textContent = `SPIRE • ${item.code} (${item.codename})`;
+        badge.textContent = HAS_STATUS
+          ? `${SPIRE_STATUS[item.status || 'done'].icon} ${L('spire_badge', 'SPIRE')} • ${item.code} (${item.codename})`
+          : `${L('spire_badge', 'SPIRE')} • ${item.code} (${item.codename})`;
         title.textContent = item.title;
         subtitle.textContent = `${item.district_name} (${item.scale_label})`;
 
         body.innerHTML = `
           <div class="metrics-grid">
             <div class="metric-card">
-              <span class="metric-label">Physical Scale</span>
+              <span class="metric-label">${L('metric_scale', 'Physical Scale')}</span>
               <span class="metric-value" style="color: ${item.color};">${item.metrics.scale || 'N/A'}</span>
             </div>
             <div class="metric-card">
-              <span class="metric-label">Acceleration Factor</span>
+              <span class="metric-label">${L('metric_acceleration', 'Acceleration Factor')}</span>
               <span class="metric-value" style="color: var(--accent-emerald);">${item.metrics.acceleration || 'N/A'}</span>
             </div>
             <div class="metric-card">
-              <span class="metric-label">European Infrastructure</span>
+              <span class="metric-label">${L('metric_infrastructure', 'European Infrastructure')}</span>
               <span class="metric-value">${item.metrics.infrastructure || 'N/A'}</span>
             </div>
             <div class="metric-card">
-              <span class="metric-label">Maturity Level</span>
+              <span class="metric-label">${L('metric_maturity', 'Maturity Level')}</span>
               <span class="metric-value" style="color: var(--accent-amber);">${item.metrics.maturity || 'N/A'}</span>
             </div>
           </div>
           <div>
-            <div class="drawer-section-title"><span>✦</span> Scientific Abstract & Methodology</div>
+            <div class="drawer-section-title"><span>✦</span> ${L('abstract_title', 'Scientific Abstract & Methodology')}</div>
             <p class="drawer-body-text">${item.abstract}</p>
           </div>
           ${relationBlock('⏱️ Constraints at this spire', item.constraints)}
@@ -1888,14 +1952,16 @@
             ${item.delay_label ? `<span class="delay-chip">${item.delay_label}</span>` : ''}
           </div>` : ''}
           <div class="hazard-box">
-            <strong>Critical Impact:</strong> ${item.impact}
+            <strong>${L('impact_title', 'Critical Impact')}:</strong> ${item.impact}
           </div>
           ${relationBlock('📍 Acts on', item.constrains)}
           <div>
-            <div class="drawer-section-title" style="color: var(--accent-emerald);"><span>🛡️</span> Strategic European Remedy</div>
+            <div class="drawer-section-title" style="color: var(--accent-emerald);"><span>🛡️</span> ${L('remedy_title', 'Strategic European Remedy')}</div>
             <div class="remedy-box">${item.remedy}</div>
           </div>
           ${relationBlock('🩹 Remedied by', item.remedied_by)}
+          ${relationBlock('↪️ Leads to', item.causes)}
+          ${relationBlock('↩️ Caused by', item.caused_by)}
           ${relationBlock('🎯 Holds back priorities', blocksPriorities)}
         `;
 
@@ -1910,13 +1976,13 @@
       } else if (type === 'challenge') {
         const item = window.CHALLENGES[index];
         badge.className = 'drawer-type-badge badge-challenge';
-        badge.textContent = `MANDATE • ${item.code} [${item.codename}]`;
+        badge.textContent = `${L('priority_badge', 'MANDATE')} • ${item.code} [${item.codename}]`;
         title.textContent = `${item.codename}: ${item.title}`;
         subtitle.textContent = item.type;
 
         body.innerHTML = `
           <div class="metric-card" style="border-left: 3px solid var(--accent-amber);">
-            <span class="metric-label">Strategic Policy Target</span>
+            <span class="metric-label">${L('target_title', 'Strategic Policy Target')}</span>
             <span class="metric-value" style="font-size: 13.5px; line-height: 1.5; color: #fff;">${item.target}</span>
           </div>
           ${relationBlock('🏛️ Advanced by', item.advanced_by)}
@@ -2128,7 +2194,7 @@
           item.className = 'spire-item';
           item.dataset.id = s.id;
           item.innerHTML = `
-            <span class="spire-item-name">${s.title}</span>
+            <span class="spire-item-name">${HAS_STATUS ? SPIRE_STATUS[s.status || 'done'].icon + ' ' : ''}${s.title}</span>
             <span class="spire-item-code">${s.codename || s.code}</span>
           `;
           item.addEventListener('click', () => {
@@ -2271,7 +2337,7 @@
       document.title = cfg.title || document.title;
       const sub = document.getElementById('hudSubtitle');
       sub.innerHTML = '';
-      [cfg.subtitle, cfg.scale_axis_label].filter(Boolean).forEach((t, i) => {
+      [cfg.subtitle, cfg.scale_axis_label, ...(cfg.hud_tags || [])].filter(Boolean).forEach((t, i) => {
         const span = document.createElement('span');
         if (i > 0) span.className = 'hud-tag';
         span.textContent = t;
@@ -2295,6 +2361,7 @@
       });
       map.addImage('arrow-light', arrow('rgba(255,255,255,0.95)'));
       map.addImage('arrow-grey', arrow('rgba(150,158,176,0.9)'));
+      map.addImage('arrow-red', arrow('rgba(255,23,68,0.95)'));
     }
 
     function startConstraintAnimations() {
@@ -2313,6 +2380,13 @@
 
     // ===== Constraint markers (schema v2) =====
     function renderConstraintMarkers() {
+      if (window.NOW_MARKER) {
+        const el = document.createElement('div');
+        el.className = 'now-chip';
+        el.textContent = `📍 ${window.NOW_MARKER.label}`;
+        districtMarkers.push(new maplibregl.Marker({ element: el, anchor: 'left', offset: [6, 0], pitchAlignment: 'viewport' })
+          .setLngLat(window.NOW_MARKER.label_point).addTo(map));
+      }
       const nodeGroups = {};
       SCOPED.forEach(b => {
         const idx = BNECKS.indexOf(b);

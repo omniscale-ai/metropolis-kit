@@ -71,6 +71,13 @@ The kit is fully deployed to GitHub, zero-dependency in Python, and contains thr
    - Compiler derives reverse links, direction, traffic segments, queue cubes, field overlays, `ROUTE_GRAPH`; places incident pins first, then conduit badges clear of pins, spires and priorities.
    - Viewer: Traffic / Queues / Weather toggles, one-way arrows, relation links on selection, clickable relation chips, legend sections for constraints and priorities, **🧭 Route** panel (Dijkstra over conduits, walking inside a district, against-flow legs penalised) listing incidents on the way. Header now reads title/subtitle from the compiled spec.
 
+6. **Project status maps** (first used for a private CKL Knowledge Discovery CEO view, spec kept outside this repo):
+   - Spire `status`: `done` (solid) · `active` (solid body, ghost crown, amber scaffolding) · `planned` (translucent ghost, separate `buildings-ghost` layer).
+   - Constraint `causes` → risk cascades drawn as red dashed arrows; drawer shows "Leads to" / "Caused by".
+   - `city_metadata.now_marker` (`district_ref`, `position` 0..1, `label`) → "you are here" line across the corridor; `hud_tags` → header tags; `ui_labels` → card wording (metric names, section titles, badges).
+   - Six spire slots per district; lint no longer flags planned roads between planned spires.
+   - `make serve-spec SPEC=… [NAME=…] [PORT=…]` previews any spec outside the repo (e.g. private project maps in the vault) into git-ignored `dist/`.
+
 ## 🔭 Planned Next (agreed, not implemented)
 
 - **`evidence`** on every entity: `{ "section": "7.4.4", "refs": ["Leeman 2024"] }`, shown in the drawer — traceability to the source.

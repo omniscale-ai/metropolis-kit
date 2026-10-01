@@ -1,4 +1,4 @@
-.PHONY: all build serve serve-sciance publish-sciance test clean examples build-multiscale build-sciance build-mindmatter
+.PHONY: all build serve serve-sciance serve-spec publish-sciance test clean examples build-multiscale build-sciance build-mindmatter
 
 all: build
 
@@ -20,6 +20,14 @@ serve:
 SCIANCE_PORT ?= 8088
 serve-sciance:
 	python3 -m cli.compiler --spec examples/sciance-materials/02-city-spec.json --web-dir dist/sciance/ --serve $(SCIANCE_PORT)
+
+# Preview any spec kept outside this repo (e.g. private project maps): builds into git-ignored dist/
+#   make serve-spec SPEC=~/path/02-city-spec.json [NAME=my-map] [PORT=8090]
+NAME ?= local
+PORT ?= 8090
+serve-spec:
+	@test -n "$(SPEC)" || { echo "[!] Usage: make serve-spec SPEC=path/to/02-city-spec.json [NAME=…] [PORT=…]"; exit 1; }
+	python3 -m cli.compiler --spec $(SPEC) --web-dir dist/$(NAME)/ --serve $(PORT)
 
 # Publish the SCIANCE showcase to its GitHub Pages repo (omniscale-ai/sciance-d1-1-metropolis).
 # Builds and commits in the local checkout; pushing stays a deliberate, manual step.

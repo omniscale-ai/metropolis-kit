@@ -53,6 +53,13 @@ FIELD_PALETTE = ['#e8ecf5', '#ff4d9d', '#8c9eff', '#ff8a50', '#b2ff59', '#ffd740
 FIELD_TAPE_INSET_M = 14.0
 FIELD_TAPE_SPACING_M = 16.0
 
+# Project status of spires: amber scaffolding around a spire that is still being built
+SPIRE_STATUSES = ('done', 'active', 'planned')
+SCAFFOLD_COLOR = '#ffb300'
+
+# "You are here" line extends this far beyond the districts on each side
+NOW_LINE_OVERHANG_M = 140.0
+
 # Priorities: ground target + hovering pin, in pale gold (amber belongs to a district hue)
 PRIORITY_COLOR = '#ffe9a8'
 PRIORITY_BEAM_COLOR = '#fff6d6'
@@ -243,6 +250,21 @@ def validate_v2_semantics(spec, district_ids, spire_ids):
             if not ref.startswith(REMEDY_PREFIXES) or not resolves(ref):
                 errors.append(f"Bottleneck {bid} remedied_by unknown or unsupported ref {ref}")
 
+    for sp in spec.get('spires', []):
+        if sp.get('status', 'done') not in SPIRE_STATUSES:
+            errors.append(f"Spire {sp.get('id')} has unknown status '{sp.get('status')}' (expected one of {', '.join(SPIRE_STATUSES)})")
+    for b in spec.get('bottlenecks', []):
+        for ref in b.get('causes', []):
+            if ref not in bneck_ids or ref == b.get('id'):
+                errors.append(f"Bottleneck {b.get('id')} causes unknown or self ref {ref}")
+    now = spec.get('city_metadata', {}).get('now_marker')
+    if now:
+        if now.get('district_ref') not in district_ids:
+            errors.append(f"now_marker references unknown district {now.get('district_ref')}")
+        pos = now.get('position', 0.5)
+        if not isinstance(pos, (int, float)) or not 0.0 <= pos <= 1.0:
+            errors.append("now_marker.position must be a number in 0..1 (0 = south edge, 1 = north edge)")
+
     for c in spec.get('challenges', []):
         cid = c.get('id', '')
         for ref in c.get('advanced_by', []):
@@ -282,7 +304,8 @@ def lint_spec(spec):
             if endpoint_districts and b['district_ref'] not in endpoint_districts:
                 warnings.append(f"Bottleneck {b['id']} (edge) lives in {b['district_ref']}, away from the conduits it constrains")
     for cid, cond in conduits.items():
-        if cond.get('status') == 'planned' and cid not in referenced:
+        ends_planned = any(spires.get(end, {}).get('status') == 'planned' for end in (cond['from'], cond['to']))
+        if cond.get('status') == 'planned' and cid not in referenced and not ends_planned:
             warnings.append(f"Conduit {cid} is 'planned' but no bottleneck explains or is remedied by it")
     return warnings
 
@@ -337,7 +360,8 @@ def compile_metropolis_data(spec):
             (0.0, -40.0, 6),
             (320.0, 30.0, 8),
             (0.0, 230.0, 6),
-            (-160.0, -230.0, 6)
+            (-160.0, -230.0, 6),
+            (160.0, -230.0, 6)
         ]
 
         for s_idx, spire in enumerate(dist_spires):
@@ -364,6 +388,8 @@ def compile_metropolis_data(spec):
             color_lower = adjust_color(dist['color'], sat_mult=1.0, light_mult=0.42)
             color_mid = adjust_color(dist['color'], sat_mult=0.95, light_mult=0.68)
             color_crown = dist['color']
+
+            first_tier = len(building_features)
 
             # Tier 0: Ground Foundation Pedestal (radius 56m, height 0 to 5m)
             poly_base = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 56.0, sides=sides, rotation_deg=15)
@@ -455,6 +481,40 @@ def compile_metropolis_data(spec):
                 'geometry': {'type': 'Polygon', 'coordinates': [poly_needle]}
             })
 
+            # Project status (schema v2): done = solid crystal; active = solid body with a
+            # translucent crown inside amber scaffolding; planned = the whole spire as a ghost.
+            status = spire.get('status', 'done')
+            tiers = building_features[first_tier:]
+            for feat in tiers:
+                feat['properties']['status'] = status
+            if status == 'planned':
+                for feat in tiers:
+                    feat['properties']['ghost'] = True
+            elif status == 'active':
+                for feat in tiers:
+                    if feat['properties']['tier'] in ('crown', 'needle'):
+                        feat['properties']['ghost'] = True
+                post_corners = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 24.0, sides=4, rotation_deg=45)[:4]
+                for c_idx, corner in enumerate(post_corners):
+                    building_features.append({
+                        'type': 'Feature',
+                        'properties': {
+                            'id': f"{spire['id']}-scaffold-{c_idx}", 'spire_ref': spire['id'], 'entity_type': 'spire',
+                            'name': spire['title'], 'tier': 'scaffold', 'status': status,
+                            'height': round(top_tier_h + 8.0, 1), 'base_height': mid_tier_h, 'color': SCAFFOLD_COLOR
+                        },
+                        'geometry': {'type': 'Polygon', 'coordinates': [create_regular_polygon(corner[0], corner[1], 2.4, sides=4)]}
+                    })
+                building_features.append({
+                    'type': 'Feature',
+                    'properties': {
+                        'id': f"{spire['id']}-scaffold-deck", 'spire_ref': spire['id'], 'entity_type': 'spire',
+                        'name': spire['title'], 'tier': 'scaffold', 'status': status,
+                        'height': round(mid_tier_h + 2.0, 1), 'base_height': mid_tier_h, 'color': SCAFFOLD_COLOR
+                    },
+                    'geometry': {'type': 'Polygon', 'coordinates': [create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 27.0, sides=4, rotation_deg=45)]}
+                })
+
             # Wireframe outline feature for crisp polygonal facet edges
             wireframe_features.append({
                 'type': 'Feature',
@@ -499,6 +559,8 @@ def compile_metropolis_data(spec):
             'effect': bneck.get('effect', 'slowdown') if bneck.get('scope') else None,
             'delay_label': bneck.get('delay_label', ''),
             'remedied_by': bneck.get('remedied_by', []),
+            'causes': bneck.get('causes', []),
+            'caused_by': [o['id'] for o in spec.get('bottlenecks', []) if bneck['id'] in o.get('causes', [])],
             'anchors': []
         })
 
@@ -865,6 +927,30 @@ def compile_metropolis_data(spec):
         if b['anchors']:
             b['coordinates'] = b['anchors'][0]['coordinates']
 
+    # Risk cascades: "this constraint makes that one more likely" (causes)
+    causal_features = []
+    for b in compiled_bottlenecks:
+        for ref in b['causes']:
+            target = bneck_by_id[ref]
+            causal_features.append({
+                'type': 'Feature',
+                'properties': {'from': b['id'], 'to': ref},
+                'geometry': {'type': 'LineString', 'coordinates': [b['coordinates'], target['coordinates']]}
+            })
+
+    # "You are here": a line across the corridor at the project's current position in time
+    now_marker = None
+    now_spec = spec.get('city_metadata', {}).get('now_marker')
+    if now_spec:
+        d = district_centers[now_spec['district_ref']]
+        y = d['dy'] - DISTRICT_HEIGHT / 2 + float(now_spec.get('position', 0.5)) * DISTRICT_HEIGHT
+        half = DISTRICT_WIDTH / 2 + NOW_LINE_OVERHANG_M
+        now_marker = {
+            'label': now_spec.get('label', 'NOW'),
+            'line': [meters_to_geo(-half, y), meters_to_geo(half, y)],
+            'label_point': meters_to_geo(half, y)  # east end: the west side is under the legend panel
+        }
+
     # 4c. Routing graph: conduits in both directions (against the flow costs more) plus
     # "walking" links between spires of the same district.
     route_edges = []
@@ -900,6 +986,7 @@ def compile_metropolis_data(spec):
             'coordinates': [loc['lng'], loc['lat']],
             'metrics': spire.get('metrics', {}),
             'abstract': spire.get('abstract', ''),
+            'status': spire.get('status', 'done'),
             'constraints': [b['id'] for b in compiled_bottlenecks
                             if b.get('scope') == 'node' and spire['id'] in b.get('constrains', [])],
             'advances': [c['id'] for c in compiled_challenges if spire['id'] in c.get('advanced_by', [])]
@@ -928,7 +1015,9 @@ window.CITY_CONFIG = {json.dumps({
     'pitch': 60,
     'bearing': -18,
     'scale_axis_label': spec['city_metadata'].get('scale_axis_label', 'Scale Axis'),
-    'scale_axis_description': spec['city_metadata'].get('scale_axis_description', '')
+    'scale_axis_description': spec['city_metadata'].get('scale_axis_description', ''),
+    'hud_tags': spec['city_metadata'].get('hud_tags', []),
+    'ui_labels': spec['city_metadata'].get('ui_labels', {})
 }, indent=2)};
 
 window.DISTRICTS = {json.dumps(compiled_districts, indent=2)};
@@ -956,6 +1045,10 @@ window.FIELDS_GEOJSON = {json.dumps({'type': 'FeatureCollection', 'features': fi
 window.ROUTE_GRAPH = {json.dumps(route_edges)};
 
 window.TARGETS_GEOJSON = {json.dumps({'type': 'FeatureCollection', 'features': target_features})};
+
+window.CAUSAL_GEOJSON = {json.dumps({'type': 'FeatureCollection', 'features': causal_features})};
+
+window.NOW_MARKER = {json.dumps(now_marker)};
 """
     return js_bundle, {
         'districts': len(compiled_districts),
