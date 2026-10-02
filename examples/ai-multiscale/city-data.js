@@ -18,6 +18,7 @@ window.CITY_CONFIG = {
   "scale_axis_description": "South-to-North corridor from sub-Angstrom electronic structure (femtoseconds) through atomistic potentials, phonons, coarse-graining and emergent mesoscale order to continuum digital twins and closed-loop autonomous discovery",
   "hud_tags": [],
   "building_scale": 1.0,
+  "default_view": {},
   "ui_labels": {}
 };
 

@@ -1208,6 +1208,7 @@ window.CITY_CONFIG = {json.dumps({
     'scale_axis_description': spec['city_metadata'].get('scale_axis_description', ''),
     'hud_tags': spec['city_metadata'].get('hud_tags', []),
     'building_scale': spec['city_metadata'].get('building_scale', 1.0),
+    'default_view': spec['city_metadata'].get('default_view', {}),
     'ui_labels': spec['city_metadata'].get('ui_labels', {})
 }, indent=2)};
 

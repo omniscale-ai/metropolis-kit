@@ -26,6 +26,14 @@
       "kind_knowledge_hint": "Registries, classifications and pattern records built by the study",
       "kind_instrument_hint": "Coding, checks, audits and scores the study uses to measure",
       "kind_hub_hint": "Channels through which records entered the registry"
+    },
+    "default_view": {
+      "legend": "collapsed",
+      "layers": [
+        "districts",
+        "spires",
+        "challenges"
+      ]
     }
   },
   "districts": [

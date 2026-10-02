@@ -18,6 +18,7 @@ window.CITY_CONFIG = {
   "scale_axis_description": "South-to-North corridor following the chapter's integrated workflow: atomistic modelling and generative design propose candidates, characterisation and autonomous labs synthesise and validate them, production frameworks test manufacturability, safety and compliance. Spire height encodes the maturity the report assigns. Constraints are drawn where they act: congestion on highways, queues at spires, weather over districts.",
   "hud_tags": [],
   "building_scale": 1.0,
+  "default_view": {},
   "ui_labels": {}
 };
 

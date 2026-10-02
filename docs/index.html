@@ -1348,9 +1348,15 @@
       try { history.replaceState(null, '', `#tour=${tourIndex + 1}`); } catch (e) { /* file:// or sandboxed */ }
     }
 
+    let layersBeforeTour = null;
+
     function startTour(i) {
       if (!TOUR.length) return;
-      if (tourIndex < 0) saveTourPaint();
+      if (tourIndex < 0) {
+        layersBeforeTour = { ...layerVisibility };
+        Object.keys(layerVisibility).forEach(key => setLayerVisible(key, true));
+        saveTourPaint();
+      }
       document.body.classList.add('touring');
       document.getElementById('tourCard').classList.add('open');
       document.getElementById('tourBtn').classList.add('active');
@@ -1366,6 +1372,10 @@
       document.querySelectorAll('.maplibregl-marker.tour-focus').forEach(el => el.classList.remove('tour-focus'));
       document.getElementById('tourCard').classList.remove('open');
       document.getElementById('tourBtn').classList.remove('active');
+      if (layersBeforeTour) {
+        Object.entries(layersBeforeTour).forEach(([key, visible]) => setLayerVisible(key, visible));
+        layersBeforeTour = null;
+      }
       try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* ignore */ }
     }
 
@@ -1733,6 +1743,7 @@
         setupRoutePanel();
         setupBuildingSizeControls();
         setupTour();
+        applyDefaultView();
         buildLegendUI();
         buildScaleRunway();
         startConstraintAnimations();
@@ -2319,6 +2330,28 @@
           }
         }
       });
+    }
+
+    // Turn one layer group on or off, keeping its toggle button in sync
+    function setLayerVisible(key, visible) {
+      if (layerVisibility[key] === visible) return;
+      layerVisibility[key] = visible;
+      const btn = document.querySelector(`.layer-btn[data-layer="${key}"]`);
+      if (btn) btn.classList.toggle('active', visible);
+      applyLayerVisibility(key);
+    }
+
+    // Quiet default view per city (city_metadata.default_view): which layer groups start on,
+    // and whether the directory starts collapsed
+    function applyDefaultView() {
+      const view = (window.CITY_CONFIG || {}).default_view || {};
+      if (Array.isArray(view.layers)) {
+        Object.keys(layerVisibility).forEach(key => setLayerVisible(key, view.layers.includes(key)));
+      }
+      if (view.legend === 'collapsed') {
+        document.getElementById('spireLegendCard').classList.add('collapsed');
+        document.getElementById('restoreLegendBtn').classList.add('visible');
+      }
     }
 
     function setLayers(ids, visible) {

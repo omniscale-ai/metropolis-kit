@@ -18,6 +18,7 @@ window.CITY_CONFIG = {
   "scale_axis_description": "Milestone progression from M1 transport disentanglement to D3 integrated wafer fabrication",
   "hud_tags": [],
   "building_scale": 1.0,
+  "default_view": {},
   "ui_labels": {}
 };
 

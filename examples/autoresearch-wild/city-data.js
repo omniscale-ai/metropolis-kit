@@ -18,6 +18,14 @@ window.CITY_CONFIG = {
   "scale_axis_description": "Following the paper's own Figure 1: what was counted, which design cell stays empty, how six rules fared when tested on new cases, and how papers and code connect. Limitations sit on the finding they weaken.",
   "hud_tags": [],
   "building_scale": 0.6667,
+  "default_view": {
+    "legend": "collapsed",
+    "layers": [
+      "districts",
+      "spires",
+      "challenges"
+    ]
+  },
   "ui_labels": {
     "metric_scale": "Count",
     "metric_acceleration": "Key number",
