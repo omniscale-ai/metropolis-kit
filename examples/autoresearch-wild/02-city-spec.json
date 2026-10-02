@@ -91,8 +91,8 @@
       },
       "abstract": "139 canonical public GitHub records after three aliases are folded into their targets. Roles span research agents, benchmarks, libraries, substrates, meta-resources, paper companions and boundary artifacts, so 139 counts public artifacts, not runnable agents; estimating agent prevalence needs a separate role-coding pass. Every record carries an agent-drafted, human-adjudicated evidence card (141 cards; the two extra are explained) anchored to its primary sources.",
       "place": [
-        0,
-        30
+        -150,
+        90
       ]
     },
     {
@@ -111,8 +111,8 @@
       },
       "abstract": "Seed-line 19, dr-deep-research-agent 10, rl-post-training-as-autoresearch 8, multi-agent-scientist 7, clune-lab-open-endedness 5, mlagentbench-derived 4, camel-ai-line 2, dspy-line 2, physical-robotic-automation 2. 87 registry records have no lineage. The relation mixes code ancestry, shared infrastructure, intellectual influence and structural convergence.",
       "place": [
-        330,
-        160
+        360,
+        170
       ]
     },
     {
@@ -124,8 +124,8 @@
       "codename": "87 UNAFFILIATED",
       "scale_level": 0.7,
       "place": [
-        330,
-        -150
+        360,
+        -60
       ],
       "metrics": {
         "scale": "87 of 139 records",
@@ -151,8 +151,8 @@
       },
       "abstract": "Two existing curated lists supplied 83 of the 139 canonical repository records: 75 from the larger seed list and 8 from a second list. Channels are unequal in yield, which is why the registry is an engineered discovery sample rather than a census.",
       "place": [
-        -330,
-        180
+        -430,
+        190
       ]
     },
     {
@@ -171,8 +171,8 @@
       },
       "abstract": "Synthesis passes combined snowball search over already-inspected repositories with targeted GitHub search. No record entered through undirected GitHub search alone; GitHub search is a technique inside these passes, not a channel.",
       "place": [
-        -330,
-        -20
+        -430,
+        0
       ]
     },
     {
@@ -184,8 +184,8 @@
       "codename": "26 OTHER",
       "scale_level": 0.6,
       "place": [
-        -330,
-        -220
+        -430,
+        -190
       ],
       "metrics": {
         "scale": "26 of 139 records",
@@ -1074,7 +1074,8 @@
       "place": [
         -470,
         200
-      ]
+      ],
+      "short": "structure limits failures"
     },
     {
       "id": "@chal-r2",
@@ -1096,7 +1097,8 @@
       "place": [
         -280,
         200
-      ]
+      ],
+      "short": "fast iteration ⇔ bounded artifacts"
     },
     {
       "id": "@chal-r3",
@@ -1119,7 +1121,8 @@
       "place": [
         -470,
         0
-      ]
+      ],
+      "short": "no loop keeps LLM-judged vectors"
     },
     {
       "id": "@chal-r4",
@@ -1142,7 +1145,8 @@
       "place": [
         -280,
         0
-      ]
+      ],
+      "short": "failures lead the ranking"
     },
     {
       "id": "@chal-r5",
@@ -1163,7 +1167,8 @@
       "place": [
         -470,
         -200
-      ]
+      ],
+      "short": "patterns stay in their lineage"
     },
     {
       "id": "@chal-r6",
@@ -1184,7 +1189,8 @@
       "place": [
         -280,
         -200
-      ]
+      ],
+      "short": "stagnant patterns stay small"
     }
   ],
   "plazas": [
@@ -1214,35 +1220,35 @@
       ],
       "layers": [
         {
-          "id": "pub",
-          "label": "Published in the paper: marginals and two cells (n/p = not published)",
+          "id": "all",
+          "label": "All 139 canonical records — coded evidence cards (marginals as printed in the paper)",
           "cells": [
             [
-              null,
-              null,
-              null,
-              null,
-              null
+              43,
+              1,
+              2,
+              1,
+              1
             ],
             [
-              null,
-              null,
+              24,
+              0,
               "∅ loop",
-              null,
-              null
+              3,
+              6
             ],
             [
-              null,
-              null,
-              null,
-              null,
-              null
+              17,
+              0,
+              0,
+              0,
+              2
             ],
             [
-              null,
-              null,
-              null,
-              null,
+              1,
+              0,
+              0,
+              0,
               38
             ]
           ]
@@ -1253,18 +1259,26 @@
           "row": 1,
           "col": 2,
           "kind": "empty",
-          "label": "EMPTY CELL · R3",
-          "note": "No clean optimization loop keeps a vector signal and a language-model judge. At least 23 adjacent or refused landings; the cell stays empty by three routes — refused on evaluation cost, escaped through tournament aggregation, shipped unreachable. The closest case (virtual-biotech-scientist) fails only the iterated-loop clause."
+          "label": "R3 · ≥23 NEAR, 0 CLEAN",
+          "note": "Not a surprising zero by count — only two records use a vector signal (expected 0.47 here), and both use a programmatic scorer. R3 rests on design attempts: at least 23 systems landed in adjacent designs and none built a clean optimization loop that keeps a vector of LLM judgments; the post-freeze re-test found a case that meets two of three clauses."
         },
         {
-          "row": 3,
-          "col": 4,
+          "row": 1,
+          "col": 3,
           "kind": "empty",
-          "label": "NEITHER",
-          "note": "38 of 139 records run neither a candidate comparison nor an acceptance gate — the registry counts public artifacts, not runnable agents."
+          "label": "TOURNAMENT · 3",
+          "note": "Three LLM-judged systems (AI-CoScientist, open-ai-co-scientist, co-scientist) reduce judgments to a relational, tournament-style score — the escape route the paper identifies next to the empty cell."
         }
       ],
-      "description": "Marginals over 139 records: A2 strict scalar 85, none 47, relational 4, vector 2, band-tolerant 1; A3 programmatic 48, absent 39, language-model 33, hybrid 19. The paper publishes only these totals and two cells, so the rest are marked n/p rather than estimated. Reliability: the two axes behind this plaza carry zero contradictions in the artifact-level check."
+      "description": "Joint distribution of A3 judge × A2 selection signal over the 139 canonical records, recounted from the compendium's coded evidence cards (the two extra cards — a folded MLAgentBench fork and AutoScientists — are excluded as in the paper). Row and column totals reproduce the paper's marginals exactly; the paper itself prints only those totals and the 38-record corner. Reliability: selection signal and judge type carry zero contradictions in the artifact-level check.",
+      "expected": true,
+      "hatch": [
+        {
+          "row": 3,
+          "label": "not running a loop",
+          "note": "39 records have no acceptance gate: 13 curated lists, 10 substrates, 6 benchmarks, 3 libraries, 3 meta-tools, 1 broker and 3 agents (two of them paper stubs). Zeros in this row are structural rather than findings; 38 of the 39 also compare no candidates."
+        }
+      ]
     },
     {
       "id": "@plaza-cost",
@@ -1376,14 +1390,161 @@
         }
       ],
       "description": "Each panel sums to 139. Rows: wall-clock cost of one candidate-generation to acceptance-decision cycle; columns: artifact openness. The bottom row and right column keep unavailable data visible."
+    },
+    {
+      "id": "@plaza-roles",
+      "district_ref": "@dist-population",
+      "title": "Roles: 84 agents among 139 artifacts",
+      "place": [
+        45,
+        -205
+      ],
+      "cell_size": 45,
+      "row_axis": "acceptance gate",
+      "col_axis": "coded role (tool_category)",
+      "rows": [
+        "judge present (100)",
+        "judge absent (39)"
+      ],
+      "cols": [
+        "agent (84)",
+        "lab control (4)",
+        "list (13)",
+        "substrate (12)",
+        "benchmark (10)",
+        "library (10)",
+        "meta-tool (5)",
+        "broker (1)"
+      ],
+      "layers": [
+        {
+          "id": "all",
+          "label": "All 139 canonical records — coded evidence cards",
+          "cells": [
+            [
+              81,
+              4,
+              0,
+              2,
+              4,
+              7,
+              2,
+              0
+            ],
+            [
+              3,
+              0,
+              13,
+              10,
+              6,
+              3,
+              3,
+              1
+            ]
+          ]
+        }
+      ],
+      "highlight": [
+        {
+          "row": 1,
+          "col": 0,
+          "kind": "empty",
+          "label": "3 · 2 STUBS",
+          "note": "Only 3 of the 84 records coded as agents have no acceptance gate, and two of them are paper stubs without code (an announcement-only companion and Research-Venus)."
+        }
+      ],
+      "hatch": [
+        {
+          "row": 1,
+          "label": "not running a loop",
+          "note": "The judge-absent records are mostly not agents: all 13 curated lists, 10 of 12 substrates, 6 of 10 benchmarks."
+        }
+      ],
+      "description": "Roles as coded in the compendium's evidence cards: 84 records are coded as agents, 55 as lists, substrates, benchmarks, libraries, meta-tools, lab control planes or brokers. A coded role is not a runnability check — the paper states that estimating runnable agents needs a separate role-coding pass."
+    },
+    {
+      "id": "@plaza-rules",
+      "district_ref": "@dist-population",
+      "title": "Six rules, fixed on 17 May",
+      "place": [
+        200,
+        110
+      ],
+      "cell_size": 40,
+      "row_axis": "candidate regularity",
+      "col_axis": "verdict",
+      "rows": [
+        "R1 · structure limits failures",
+        "R2 · fast iteration ⇔ bounded artifacts",
+        "R3 · no loop keeps LLM-judged vectors",
+        "R4 · failures lead the ranking",
+        "R5 · patterns stay in their lineage",
+        "R6 · stagnant patterns stay small"
+      ],
+      "cols": [
+        "verdict"
+      ],
+      "layers": [
+        {
+          "id": "after",
+          "short": "after",
+          "label": "After the 25-case audit and corpus evidence (Table 2)",
+          "cells": [
+            [
+              "bounded"
+            ],
+            [
+              "cond."
+            ],
+            [
+              "bounded"
+            ],
+            [
+              "cond."
+            ],
+            [
+              "contra."
+            ],
+            [
+              "explor."
+            ]
+          ]
+        },
+        {
+          "id": "before",
+          "short": "before",
+          "label": "Written down with trigger events before the audit",
+          "cells": [
+            [
+              "?"
+            ],
+            [
+              "?"
+            ],
+            [
+              "?"
+            ],
+            [
+              "?"
+            ],
+            [
+              "?"
+            ],
+            [
+              "?"
+            ]
+          ]
+        }
+      ],
+      "description": "The six candidate regularities and their minimum trigger observations were time-stamped on 17 May 2026 at a 76-record baseline, before 25 newly ingested repositories were inspected. Verdicts: bounded support (R1, R3), conditional (R2, R4), broad form contradicted (R5), exploratory (R6). The tour shows the board blank at the start and fills it at the audit."
     }
   ],
   "tour": [
     {
       "id": "population",
       "title": "139 artifacts — not 139 agents",
-      "text": "A registry of 139 public repositories and 101 papers, frozen on 10 June 2026. It mixes agents with benchmarks, libraries and lists, and 83 records came from just two curated lists — so it counts artifacts, not agents.",
-      "look": "The registry cathedral fed by three intake towers; the 'engineered sample' tape on the district border",
+      "text": "A registry of 139 public repositories and 101 papers, frozen on 10 June 2026. Only 84 are coded as agents; the rest are lists, substrates, benchmarks, libraries and tools. Before looking at new data, the authors also wrote down six rules about how such systems are built — the blank board here; the tour will put them on trial.",
+      "look": "The roles plaza (84 agents vs 55 other artifacts) and the blank board of six rules",
       "focus": [
         "@spire-reporeg",
         "@spire-curated",
@@ -1392,20 +1553,26 @@
         "@conduit-curated",
         "@conduit-synth",
         "@conduit-other",
-        "@bneck-sample"
+        "@bneck-sample",
+        "@plaza-roles",
+        "@plaza-roles",
+        "@plaza-rules"
       ],
       "camera": {
         "target": "@dist-population",
-        "zoom": 14.9,
-        "pitch": 55,
-        "bearing": -14
+        "zoom": 15.0,
+        "pitch": 52,
+        "bearing": -12
+      },
+      "plaza_layers": {
+        "@plaza-rules": "before"
       }
     },
     {
       "id": "empty-cell",
       "title": "The empty cell",
-      "text": "Every record is coded by how it compares candidates and who judges them. Most use one scalar (85) and a program as judge (48); 38 do neither. One combination never appears inside a loop: a vector of LLM judgments — at least 23 systems came close and swerved.",
-      "look": "The fenced '∅ loop' cell and the '38 · NEITHER' corner of the design-space plaza",
+      "text": "Every record is coded by how it compares candidates and who judges them. Most use one scalar judged by code; 38 compare nothing and judge nothing. One cell stays empty: no system keeps a vector of LLM judgments — the two vector systems use code as judge, and three LLM-judged ones escape into tournament scoring. This absence is R3, one of the six rules (stop 4).",
+      "look": "The fenced 'R3 · ≥23 near, 0 clean' cell with its 'exp 0.47', the 'TOURNAMENT · 3' neighbour, and the hatched judge-absent row",
       "focus": [
         "@plaza-design",
         "@spire-primitives",
@@ -1444,8 +1611,8 @@
     {
       "id": "trial",
       "title": "Rules written before looking",
-      "text": "Six candidate regularities and their trigger events were fixed on 17 May, then 25 new repositories were inspected. None of the six triggers fired — bounded support, not proof.",
-      "look": "The audit observatory and six target pins coloured by verdict",
+      "text": "The six rules and their trigger events were fixed on 17 May; then 25 new repositories were inspected and none of the six triggers fired. That is bounded support, not proof — and broader evidence still moved two rules and broke one:",
+      "look": "Six target pins coloured by verdict; the board in district 1 now shows the verdicts",
       "focus": [
         "@spire-audit",
         "@bneck-nonrandom",
@@ -1462,6 +1629,35 @@
         "zoom": 15.55,
         "pitch": 55,
         "bearing": -14
+      },
+      "items": [
+        {
+          "ref": "@chal-r1",
+          "text": "R1 · structure limits failures"
+        },
+        {
+          "ref": "@chal-r2",
+          "text": "R2 · fast iteration ⇔ bounded artifacts"
+        },
+        {
+          "ref": "@chal-r3",
+          "text": "R3 · no loop keeps LLM-judged vectors"
+        },
+        {
+          "ref": "@chal-r4",
+          "text": "R4 · failures lead the ranking"
+        },
+        {
+          "ref": "@chal-r5",
+          "text": "R5 · patterns stay in their lineage"
+        },
+        {
+          "ref": "@chal-r6",
+          "text": "R6 · stagnant patterns stay small"
+        }
+      ],
+      "plaza_layers": {
+        "@plaza-rules": "after"
       }
     },
     {

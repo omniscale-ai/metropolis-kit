@@ -2,7 +2,7 @@
 
 An evidence map of **“AI-Research Agents in the Wild. From GitHub and arXiv to Regularities and Gaps”**
 (Aleksey Komissarov & Andrey Ustyuzhanin, [arXiv:2609.11975](https://arxiv.org/abs/2609.11975), analytic freeze 10 June 2026).
-Built only from the public paper, including Supplementary Tables S1–S3.
+Built from the public paper (including Supplementary Tables S1–S3); the design-space plaza's full judge × signal table is recounted from the authors' compendium of coded evidence cards and reproduces the paper's printed totals.
 
 ### Spatial metaphor: the paper's evidence pipeline
 South to north the city follows the study's method:
@@ -17,9 +17,11 @@ South to north the city follows the study's method:
 - **Spire height** — weight of the element in the paper's argument, not sample size. A spire **in scaffolding** meets the empty-cell trigger only in part (virtual-biotech-scientist, 2 of 3 clauses); **ghosts** are things that do not work or cannot be run (XScientist's unreachable pool, AgenticOperator without code).
 - **Pins on R1–R6** — green *bounded support*, amber *conditional*, red *contradicted*, grey *exploratory*. Green arcs: supporting evidence; red arcs: counterevidence.
 - **Limitations are drawn where they act**: weather over districts (engineered sample, private use unmeasured, single coder), traffic on a road (relatedness is not citation: 3 of 29 edges have a mention), queues at artifacts (25 non-random cases, 10/64 · 10/59 contradicted bindings, 11 of 15 triage flags refuted…).
-- **Plazas** — tables painted on the ground. In the design-space plaza only the published marginals and two cells are shown; the rest is marked *n/p* rather than estimated.
+- **Plazas** — tables painted on the ground: the full judge × signal table (empty cell, its tournament neighbour, the 38-record corner) and Table 7 with both evidence rules.
 
 ### Compilation
 ```bash
 python -m cli.compiler --spec examples/autoresearch-wild/02-city-spec.json --web-dir dist/autoresearch/ --serve 8091
 ```
+
+See [DATA-PROVENANCE.md](DATA-PROVENANCE.md) for what comes from the paper, what is recounted from the compendium, and what is a choice of the map.

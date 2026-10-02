@@ -63,7 +63,8 @@ VERDICT_COLORS = {'supported': '#00e599', 'conditional': '#ffb700', 'contradicte
 
 # Plazas: data grids painted on the ground with bars per cell
 PLAZA_LABEL_MARGIN_M = 180.0   # west margin for row labels
-PLAZA_HEADER_MARGIN_M = 110.0  # north margin for title and column labels
+PLAZA_HEADER_MARGIN_M = 84.0   # north margin for the title, subtitle and row-axis caption
+PLAZA_FOOTER_MARGIN_M = 46.0   # south margin for column labels: in front of the bars, so they stay readable
 PLAZA_MAX_BAR_M = 60.0
 
 # "You are here" line extends this far beyond the districts on each side
@@ -419,6 +420,9 @@ def validate_v2_semantics(spec, district_ids, spire_ids):
         target = stop.get('camera', {}).get('target')
         if target and target != 'city' and target not in all_refs:
             errors.append(f"Tour stop {label} camera target is unknown: {target}")
+        for item in stop.get('items', []):
+            if item.get('ref') and item['ref'] not in all_refs:
+                errors.append(f"Tour stop {label} lists unknown {item['ref']}")
         for pid in stop.get('plaza_layers', {}):
             if pid not in plaza_ids:
                 errors.append(f"Tour stop {label} sets a layer on unknown plaza {pid}")
@@ -438,6 +442,9 @@ def validate_v2_semantics(spec, district_ids, spire_ids):
         for h in pz.get('highlight', []):
             if not (0 <= h.get('row', -1) < len(rows) and 0 <= h.get('col', -1) < len(cols)):
                 errors.append(f"Plaza {pid} highlight outside the grid: {h}")
+        for h in pz.get('hatch', []):
+            if not 0 <= h.get('row', -1) < len(rows):
+                errors.append(f"Plaza {pid} hatch row outside the grid: {h}")
     return errors
 
 def lint_spec(spec):
@@ -730,6 +737,7 @@ def compile_metropolis_data(spec):
             'advanced_by': chal.get('advanced_by', []),
             'blocked_by': chal.get('blocked_by', []),
             'verdict': verdict,
+            'short': chal.get('short', ''),
             'coordinates': coords
         })
 
@@ -842,8 +850,9 @@ def compile_metropolis_data(spec):
         cs = float(pz.get('cell_size', 80.0))
         cx, cy = (float(v) for v in pz.get('place', [0.0, 0.0]))
         w = cs * len(pz.get('cols', [])) + PLAZA_LABEL_MARGIN_M
-        h = cs * len(pz.get('rows', [])) + PLAZA_HEADER_MARGIN_M
-        x0, y0 = cx - cs * len(pz.get('cols', [])) / 2 - PLAZA_LABEL_MARGIN_M, d['dy'] + cy - cs * len(pz.get('rows', [])) / 2
+        h = cs * len(pz.get('rows', [])) + PLAZA_HEADER_MARGIN_M + PLAZA_FOOTER_MARGIN_M
+        x0 = cx - cs * len(pz.get('cols', [])) / 2 - PLAZA_LABEL_MARGIN_M
+        y0 = d['dy'] + cy - cs * len(pz.get('rows', [])) / 2 - PLAZA_FOOTER_MARGIN_M
         nx, ny = max(1, int(w // 90)), max(1, int(h // 90))
         obstacles += [meters_to_geo(x0 + w * (i + 0.5) / nx, y0 + h * (j + 0.5) / ny) for i in range(nx) for j in range(ny)]
     placed_markers = []
@@ -1049,7 +1058,7 @@ def compile_metropolis_data(spec):
         grid_w, grid_h = cs * len(cols), cs * len(rows)
         cx, cy = (float(v) for v in pz.get('place', [0.0, 0.0]))
         gx0, gy_top = cx - grid_w / 2, d['dy'] + cy + grid_h / 2      # grid west edge, north edge
-        frame_w, frame_h = PLAZA_LABEL_MARGIN_M + grid_w + 12.0, PLAZA_HEADER_MARGIN_M + grid_h + 12.0
+        frame_w, frame_h = PLAZA_LABEL_MARGIN_M + grid_w + 12.0, PLAZA_HEADER_MARGIN_M + grid_h + PLAZA_FOOTER_MARGIN_M
         fx0, fy_top = gx0 - PLAZA_LABEL_MARGIN_M, gy_top + PLAZA_HEADER_MARGIN_M
         corners = [meters_to_geo(fx0, fy_top), meters_to_geo(fx0 + frame_w, fy_top),
                    meters_to_geo(fx0 + frame_w, fy_top - frame_h), meters_to_geo(fx0, fy_top - frame_h)]
@@ -1087,6 +1096,7 @@ def compile_metropolis_data(spec):
             'subtitle': pz.get('subtitle', ''), 'description': pz.get('description', ''),
             'row_axis': pz.get('row_axis', ''), 'col_axis': pz.get('col_axis', ''),
             'rows': rows, 'cols': cols, 'layers': pz.get('layers', []), 'highlight': pz.get('highlight', []),
+            'hatch': pz.get('hatch', []), 'expected': bool(pz.get('expected', False)),
             'color': pz.get('color', d['color']), 'corners': corners,
             'frame': {'width_m': frame_w, 'height_m': frame_h, 'grid_x_m': PLAZA_LABEL_MARGIN_M,
                       'grid_y_m': PLAZA_HEADER_MARGIN_M, 'cell_m': cs},
@@ -1114,7 +1124,7 @@ def compile_metropolis_data(spec):
         target = cam.get('target') or (stop.get('focus') or ['city'])[0]
         tour.append({
             'id': stop.get('id', f'stop-{t_idx + 1}'), 'title': stop['title'], 'text': stop['text'],
-            'look': stop.get('look', ''), 'focus': stop.get('focus', []),
+            'look': stop.get('look', ''), 'focus': stop.get('focus', []), 'items': stop.get('items', []),
             'plaza_layers': stop.get('plaza_layers', {}),
             'camera': {'center': ref_coords(target), 'zoom': cam.get('zoom', 15.2),
                        'pitch': cam.get('pitch', 55), 'bearing': cam.get('bearing', -16)}

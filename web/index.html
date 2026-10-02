@@ -917,6 +917,12 @@
     .tour-step { font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #7cffb2; white-space: nowrap; }
     .tour-title { font-size: 17px; font-weight: 800; color: #fff; flex: 1; margin: 0; }
     .tour-text { margin: 8px 0 6px; font-size: 13.5px; line-height: 1.55; color: var(--text-main); }
+    .tour-items { list-style: none; margin: 4px 0 8px; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+    .tour-items:empty { display: none; }
+    .tour-items li { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-main); }
+    .tour-item-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+    .tour-item-verdict { margin-left: auto; font-family: var(--font-mono); font-size: 10px; font-weight: 800; white-space: nowrap; }
+    .challenge-short { font-weight: 600; color: #dfe6f5; }
     .tour-look { margin: 0 0 10px; font-family: var(--font-mono); font-size: 11px; color: #ffcf66; }
     .tour-look:empty { display: none; }
     .tour-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
@@ -1142,6 +1148,7 @@
       <button class="route-close" id="tourCloseBtn" title="Exit tour (Esc)">✕</button>
     </div>
     <p id="tourText" class="tour-text"></p>
+    <ul id="tourItems" class="tour-items"></ul>
     <p id="tourLook" class="tour-look"></p>
     <div class="tour-nav">
       <button id="tourPrevBtn" class="pager-btn">◀ Back</button>
@@ -1328,6 +1335,13 @@
       document.getElementById('tourTitle').textContent = stop.title;
       document.getElementById('tourText').textContent = stop.text;
       document.getElementById('tourLook').textContent = stop.look ? `👁 ${stop.look}` : '';
+      // optional list (e.g. the six rules), coloured by the verdict of the referenced challenge
+      document.getElementById('tourItems').innerHTML = (stop.items || []).map(it => {
+        const e = refEntity(it.ref);
+        const verdict = e && e.kind === 'challenge' && e.item.verdict ? VERDICT[e.item.verdict] : null;
+        return `<li><span class="tour-item-dot" style="background: ${verdict ? verdict.color : '#7cffb2'};"></span><span>${it.text}</span>${
+          verdict ? `<span class="tour-item-verdict" style="color: ${verdict.color};">${verdict.word.toLowerCase()}</span>` : ''}</li>`;
+      }).join('');
       document.querySelectorAll('.tour-dot').forEach((d, j) => d.classList.toggle('active', j === tourIndex));
       document.getElementById('tourPrevBtn').disabled = tourIndex === 0;
       document.getElementById('tourNextBtn').textContent = tourIndex === TOUR.length - 1 ? 'Finish ✓' : 'Next ▶';
@@ -1489,23 +1503,25 @@
       g.fillStyle = 'rgba(223, 230, 245, 0.85)';
       fitFont(g, layer.label || pz.subtitle || '', 600, X(13), canvas.width - X(16));
       g.fillText(layer.label || pz.subtitle || '', X(8), X(36));
-      if (pz.col_axis) {
-        g.fillStyle = 'rgba(223, 230, 245, 0.6)';
-        fitFont(g, pz.col_axis + ' →', 600, X(12), cellsW);
-        g.fillText(pz.col_axis + ' →', gx, X(58));
-      }
+
       if (pz.row_axis) {
         g.fillStyle = 'rgba(223, 230, 245, 0.6)';
         fitFont(g, '↓ ' + pz.row_axis, 600, X(12), gx - X(12));
         g.fillText('↓ ' + pz.row_axis, X(8), X(58));
       }
-      // column headers
+      // column labels sit under the grid, nearest the viewer, so the bars never hide them
       g.textAlign = 'center';
       pz.cols.forEach((c, i) => {
         g.fillStyle = '#dfe6f5';
         fitFont(g, c, 700, X(13), cs - X(6));
-        g.fillText(c, gx + cs * (i + 0.5), gy - X(26));
+        g.fillText(c, gx + cs * (i + 0.5), gy + cellsH + X(6));
       });
+      if (pz.col_axis) {
+        g.textAlign = 'left';
+        g.fillStyle = 'rgba(223, 230, 245, 0.6)';
+        fitFont(g, pz.col_axis + ' →', 600, X(12), cellsW);
+        g.fillText(pz.col_axis + ' →', gx, gy + cellsH + X(26));
+      }
       // row headers
       g.textAlign = 'right';
       g.textBaseline = 'middle';
@@ -1513,6 +1529,23 @@
         g.fillStyle = '#dfe6f5';
         fitFont(g, r, 700, X(14), gx - X(14));
         g.fillText(r, gx - X(8), gy + cs * (j + 0.5));
+      });
+      // hatched rows: "structural" rows whose zeros are not findings
+      (pz.hatch || []).forEach(h => {
+        const y0 = gy + cs * h.row;
+        g.save();
+        g.beginPath(); g.rect(gx, y0, cellsW, cs); g.clip();
+        g.strokeStyle = 'rgba(160, 168, 188, 0.22)';
+        g.lineWidth = Math.max(1, X(1.6));
+        for (let x = gx - cs; x < gx + cellsW + cs; x += X(9)) { g.beginPath(); g.moveTo(x, y0 + cs); g.lineTo(x + cs, y0); g.stroke(); }
+        g.restore();
+        if (h.label) {
+          g.fillStyle = 'rgba(200, 208, 225, 0.85)';
+          g.textAlign = 'right';
+          g.textBaseline = 'top';
+          fitFont(g, h.label, 700, X(10), gx - X(14));
+          g.fillText(h.label, gx - X(8), y0 + cs * 0.5 + X(9));
+        }
       });
       // grid
       g.strokeStyle = 'rgba(223, 230, 245, 0.35)';
@@ -1522,11 +1555,24 @@
       // values: number in the top-left of each cell, n/p for unpublished cells
       g.textAlign = 'left';
       g.textBaseline = 'top';
+      // expected count under independence (row total × column total / N), shown under zeros
+      const num = v => (typeof v === 'number' ? v : 0);
+      const rowTot = (layer.cells || []).map(r => r.reduce((a, v) => a + num(v), 0));
+      const colTot = pz.cols.map((_, i) => (layer.cells || []).reduce((a, r) => a + num(r[i]), 0));
+      const grand = rowTot.reduce((a, v) => a + v, 0);
+      if (pz.expected && grand) {
+        (layer.cells || []).forEach((row, j) => row.forEach((v, i) => {
+          if (v === null || v === undefined || (typeof v === 'number' && v > 0)) return;
+          g.fillStyle = 'rgba(160, 168, 188, 0.75)';
+          g.font = `600 ${X(9)}px "JetBrains Mono", monospace`;
+          g.fillText(`exp ${(rowTot[j] * colTot[i] / grand).toFixed(2)}`, gx + cs * i + X(4), gy + cs * j + X(21));
+        }));
+      }
       (layer.cells || []).forEach((row, j) => row.forEach((v, i) => {
         const x = gx + cs * i + X(4), y = gy + cs * j + X(3);
         if (typeof v === 'string') {
           g.fillStyle = '#ffcf66';
-          g.font = `800 ${X(15)}px "JetBrains Mono", monospace`;
+          fitFont(g, v, 800, X(15), cs - X(8));
           g.fillText(v, x, y);
         } else if (v === null || v === undefined) {
           g.fillStyle = 'rgba(160, 168, 188, 0.6)';
@@ -2089,7 +2135,7 @@
         chalEl.dataset.tourRef = c.id;
         chalEl.innerHTML = `
           <div class="challenge-gem" ${c.verdict ? `style="background: ${VERDICT[c.verdict].color}; box-shadow: 0 0 10px ${VERDICT[c.verdict].color};"` : ''}></div>
-          <div class="challenge-text">🎯 ${c.codename}${c.verdict ? ` <span class="verdict-tag" style="color: ${VERDICT[c.verdict].color};">${VERDICT[c.verdict].word}</span>` : ''}</div>
+          <div class="challenge-text">🎯 ${c.codename}${c.short ? ` <span class="challenge-short">· ${c.short}</span>` : ''}${c.verdict ? ` <span class="verdict-tag" style="color: ${VERDICT[c.verdict].color};">${VERDICT[c.verdict].word}</span>` : ''}</div>
         `;
         chalEl.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -2468,6 +2514,8 @@
             ${item.rows.map((r, j) => `<tr><th>${r}</th>${(layer.cells[j] || []).map(cell).join('')}</tr>`).join('')}
           </table>
           ${(item.highlight || []).map(h => `<div class="${h.kind === 'forbidden' ? 'hazard-box' : 'remedy-box'}" style="margin-top: 10px;"><strong>${item.rows[h.row]} × ${item.cols[h.col]}:</strong> ${h.note || h.label || ''}</div>`).join('')}
+          ${(item.hatch || []).map(h => `<div class="metric-card" style="margin-top: 10px;"><strong>${item.rows[h.row]} — ${h.label || ''}:</strong> ${h.note || ''}</div>`).join('')}
+          ${item.expected ? '<p class="drawer-body-text" style="margin-top: 10px; color: var(--text-muted);">“exp” = expected count if the two axes were independent (row total × column total / N).</p>' : ''}
           ${item.description ? `<p class="drawer-body-text" style="margin-top: 12px;">${item.description}</p>` : ''}
         `;
         body.querySelectorAll('[data-plaza-layer]').forEach(chip => chip.addEventListener('click', (e) => {

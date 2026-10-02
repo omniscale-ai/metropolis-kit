@@ -1135,6 +1135,7 @@ window.CHALLENGES = [
       "@bneck-ood"
     ],
     "verdict": null,
+    "short": "",
     "coordinates": [
       13.4069379,
       52.4968541
@@ -1158,6 +1159,7 @@ window.CHALLENGES = [
       "@bneck-ood"
     ],
     "verdict": null,
+    "short": "",
     "coordinates": [
       13.3930621,
       52.5167068
@@ -1180,6 +1182,7 @@ window.CHALLENGES = [
       "@bneck-dark-data"
     ],
     "verdict": null,
+    "short": "",
     "coordinates": [
       13.4070855,
       52.508083
@@ -1201,6 +1204,7 @@ window.CHALLENGES = [
       "@bneck-synthetic-fraud"
     ],
     "verdict": null,
+    "short": "",
     "coordinates": [
       13.3929145,
       52.5300018
@@ -1224,6 +1228,7 @@ window.CHALLENGES = [
       "@bneck-dark-data"
     ],
     "verdict": null,
+    "short": "",
     "coordinates": [
       13.4,
       52.4962253
@@ -1249,6 +1254,7 @@ window.CHALLENGES = [
       "@bneck-bulk-bias"
     ],
     "verdict": null,
+    "short": "",
     "coordinates": [
       13.4069379,
       52.5216475
@@ -1271,6 +1277,7 @@ window.CHALLENGES = [
       "@bneck-middleware"
     ],
     "verdict": null,
+    "short": "",
     "coordinates": [
       13.3930621,
       52.5249713
@@ -1294,6 +1301,7 @@ window.CHALLENGES = [
       "@bneck-ood"
     ],
     "verdict": null,
+    "short": "",
     "coordinates": [
       13.4070855,
       52.4998185
@@ -1317,6 +1325,7 @@ window.CHALLENGES = [
       "@bneck-dark-data"
     ],
     "verdict": null,
+    "short": "",
     "coordinates": [
       13.3929145,
       52.5052084

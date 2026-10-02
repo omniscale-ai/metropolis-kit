@@ -22,9 +22,8 @@ mapping:
   constraints: "Section 5.6 limitations plus counterevidence, placed where each acts"
   priorities: "R1–R6 with verdict colours; arcs = supporting evidence / counterevidence (may point at plazas)"
   plazas:
-    design_space: "A3 judge × A2 selection signal; marginals + two published cells, rest n/p"
+    design_space: "A3 judge × A2 selection signal; full joint table recounted from the compendium cards (139 canonical), totals match the paper"
     cost_ambition: "Table 7 with both evidence rules; forbidden quadrant fenced"
 
 not_drawn:
-  - "Per-repository design-space coordinates (only in the private compendium)"
   - "Artifact-role counts (the paper states a role-coding pass is still needed)"
