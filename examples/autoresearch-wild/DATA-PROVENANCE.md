@@ -53,6 +53,10 @@ reproduces the design-space table and checks it against the paper.
 | **Roles plaza** — role × acceptance gate, 2 × 8 (district 1): 84 coded agents, 55 other artifacts | `axes.primary.tool_category`, `axes.primary.judge_type` (present / `none`) | Row totals 100 / 39 equal the paper's A3 split (139 − 39 absent); role totals sum to 139 |
 | Contents of the judge-absent row: 13 curated lists, 10 substrates, 6 benchmarks, 3 libraries, 3 meta-tools, 1 broker, 3 agents (two of them paper stubs) | same | — |
 | “84 coded as agents” in tour stop 1 | `tool_category = agent` | — |
+| **Lineage towers** (district 2): one tower per promoted lineage, height by member count | Sizes from Table S1 (paper); one-line profiles and member samples from `wiki/schools/*.md`; typical judge/signal per lineage from the members' cards | Sizes sum to 59 memberships over 52 repositories, as in the paper |
+| Shared-member roads between lineages: deep research ↔ RL post-training (4), Clune ↔ multi-agent scientist (2), MLAgentBench-derived ↔ RL (1) | Lineage member lists | 7 repositories in two lineages, as in §2.3 |
+| **Failure-modes district**: nine antipattern towers, height by number of repositories | Member lists of `wiki/antipatterns/*.md` (judge-uncalibrated: per-record coding instead, see next row); Tier S membership from the paper (Table 5) | Page counts 8 · 4 · 2 · 2 · 1 · 1 · 1 · 1 · 1 match the compendium's declared counts (CLAIM_LEDGER) |
+| **Uncalibrated judges by lineage** plaza and the “7 LINEAGES” chip | Per-record coding `axes.modifier.judge.calibration = uncalibrated` (35 canonical records) × Table S1 lineage membership | **Differs from the paper**: v1 says “judge uncalibrated occurs in four lineages”. The authors' claim audit (`paper/CLAIM_LEDGER.md`, T5-12, 2026-07-26) marks that figure UNSUPPORTED: by antipattern-page membership it is 2 lineages, by per-record coding 7 of 9 (11 including candidate clusters). The map uses the coded measure, as the audit recommends |
 
 **Caveat on roles.** `tool_category` is a coded role, not a runnability check. The paper states that
 estimating the number of runnable agents requires a separate role-coding pass with an explicit sampling
@@ -69,5 +73,6 @@ frame (§2.1, §4.1); the map labels the figure “coded as agents” for that r
 - **Tour texts** paraphrase the paper; numbers in them are from §1–§3 above.
 - **Expected counts** (“exp”) under the design-space zeros are our addition: row total × column total / 139, i.e. what each cell would hold if judge and signal were independent. They show that a zero in a column with two records is not statistically surprising, so the R3 fence is labelled by attempts (“≥23 near, 0 clean”), not by the count.
 - **Hatched “not running a loop” rows** are our reading of the judge-absent records: zeros there are structural (no acceptance gate, mostly non-agent artifacts) rather than findings.
+- **Lineage tower placement**: each tower stands west of the design-space plaza, roughly at the row of its members' typical judge — a visual summary, not a coded position.
 - **Roles grouping**: the eight `tool_category` values are shown as they are coded; “agent” vs the rest is our one-line summary (84 / 55).
 - **`building_scale`**, colours, positions and the empty-cell label “∅ loop” are presentation only.

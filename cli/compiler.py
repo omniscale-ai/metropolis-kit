@@ -91,7 +91,7 @@ def scale_ring(ring, factor, center=None):
 # --- Spire archetypes (spire `kind`) ---------------------------------------
 # Every archetype is a stack of vertical prisms (fill-extrusion) with a ~110 m footprint.
 # Tiers flagged `top` become the translucent part of an `active` (unfinished) spire.
-SPIRE_KINDS = ('system', 'knowledge', 'instrument', 'hub')
+SPIRE_KINDS = ('system', 'knowledge', 'instrument', 'hub', 'failure')
 
 def _local(lng, lat):
     """Returns a function mapping local metre offsets (dx east, dy north) to [lng, lat]."""
@@ -181,6 +181,23 @@ def build_spire_shape(kind, lng, lat, H, colors, sides=8):
         scaffold = {'posts': [pt(26 * math.cos(a), 26 * math.sin(a)) for a in (0.79, 2.36, 3.93, 5.50)],
                     'base_h': pod_z - pod_r, 'top_h': H + 4, 'deck': _disc(pt, 28)}
         return {'tiers': tiers, 'scaffold': scaffold, 'outlines': [_disc(pt, 40, n=16)]}
+
+    if kind == 'failure':  # failure mode: a leaning stack of blocks with a broken, notched top
+        tiers = [_tier('pedestal', [_disc(pt, 52, n=6)], 0.0, 5.0, colors['base'])]
+        blocks = [(30.0, 0.0, 0.30), (25.0, 6.0, 0.52), (21.0, 13.0, 0.70), (17.0, 21.0, 0.84)]
+        prev = 5.0
+        for i, (half, dx, frac) in enumerate(blocks):
+            tiers.append(_tier(f'block-{i}', [_rect(pt, dx - half, -half, dx + half, half)], prev, H * frac,
+                               colors['lower'] if i < 2 else colors['mid'], top=i >= 2))
+            prev = H * frac
+        # broken crown: an L-shaped block (one corner missing) and a jagged shard
+        cx, hc = 28.0, 14.0
+        tiers.append(_tier('crown', [_ring(pt, [(cx - hc, -hc), (cx + hc, -hc), (cx + hc, 2), (cx + 1, 2), (cx + 1, hc), (cx - hc, hc)])],
+                           prev, H * 0.94, colors['crown'], top=True))
+        tiers.append(_tier('shard', [_ring(pt, [(cx + 2, 4), (cx + 9, 4), (cx + 5, 12)])], H * 0.94, H, colors['crown'], top=True))
+        scaffold = {'posts': [pt(x, y) for x, y in ((-12, -32), (52, -32), (-12, 32), (52, 32))],
+                    'base_h': H * 0.52, 'top_h': H + 6.0, 'deck': _rect(pt, -14, -34, 54, 34)}
+        return {'tiers': tiers, 'scaffold': scaffold, 'outlines': [_disc(pt, 52, n=6)]}
 
     # system (default): stepped skyscraper with setbacks and a needle
     base_tier_h, mid_tier_h = round(H * 0.35, 1), round(H * 0.72, 1)
@@ -745,8 +762,10 @@ def compile_metropolis_data(spec):
         # above it on a thin light beam (pin height = impact_scale). No solid body, so priorities
         # never read as another spire.
         # Stepped octahedron: widths grow to the girdle and shrink again (bottom -> top)
-        pin_top = chal_total_h
-        pin_steps = [(8.0, 7.0), (8.0, 13.0), (7.0, 19.0), (8.0, 13.0), (7.0, 7.0)]  # (tier height, radius)
+        # city_metadata.target_scale shrinks targets (rings, arcs, pin) as a whole
+        ts = float(spec.get('city_metadata', {}).get('target_scale', 1.0))
+        pin_top = chal_total_h * (0.55 + 0.45 * ts)
+        pin_steps = [(8.0 * ts, 7.0 * ts), (8.0 * ts, 13.0 * ts), (7.0 * ts, 19.0 * ts), (8.0 * ts, 13.0 * ts), (7.0 * ts, 7.0 * ts)]  # (tier height, radius)
         pin_bottom = pin_top - sum(h for h, _ in pin_steps)
         solids = [('beam', 0.0, pin_bottom, 2.2, 8, PRIORITY_BEAM_COLOR)]
         level = pin_bottom
@@ -772,7 +791,7 @@ def compile_metropolis_data(spec):
             })
 
         # Ground target: bullseye rings and a centre dot
-        for ring_r in PRIORITY_RING_RADII:
+        for ring_r in (r * ts for r in PRIORITY_RING_RADII):
             target_features.append({
                 'type': 'Feature',
                 'properties': {'kind': 'ring', 'challenge_ref': chal['id']},
@@ -781,7 +800,7 @@ def compile_metropolis_data(spec):
         target_features.append({
             'type': 'Feature',
             'properties': {'kind': 'dot', 'challenge_ref': chal['id']},
-            'geometry': {'type': 'Polygon', 'coordinates': [create_regular_polygon(coords[0], coords[1], 7.0, sides=24)]}
+            'geometry': {'type': 'Polygon', 'coordinates': [create_regular_polygon(coords[0], coords[1], 7.0 * ts, sides=24)]}
         })
 
         # Outer ring split into arcs: green per spire that advances the priority, red per
@@ -797,8 +816,8 @@ def compile_metropolis_data(spec):
                 arc = []
                 for k in range(steps + 1):
                     ang = math.radians(start + (end - start) * k / steps)
-                    arc.append([round(coords[0] + math.cos(ang) * PRIORITY_ARC_RADIUS * DEG_LNG_PER_METER, 7),
-                                round(coords[1] + math.sin(ang) * PRIORITY_ARC_RADIUS * DEG_LAT_PER_METER, 7)])
+                    arc.append([round(coords[0] + math.cos(ang) * PRIORITY_ARC_RADIUS * ts * DEG_LNG_PER_METER, 7),
+                                round(coords[1] + math.sin(ang) * PRIORITY_ARC_RADIUS * ts * DEG_LAT_PER_METER, 7)])
                 target_features.append({
                     'type': 'Feature',
                     'properties': {'kind': 'arc', 'force': force, 'ref': ref, 'challenge_ref': chal['id'],
@@ -1209,6 +1228,7 @@ window.CITY_CONFIG = {json.dumps({
     'hud_tags': spec['city_metadata'].get('hud_tags', []),
     'building_scale': spec['city_metadata'].get('building_scale', 1.0),
     'default_view': spec['city_metadata'].get('default_view', {}),
+    'target_labels': spec['city_metadata'].get('target_labels', 'full'),
     'ui_labels': spec['city_metadata'].get('ui_labels', {})
 }, indent=2)};
 

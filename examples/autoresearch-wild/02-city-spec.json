@@ -34,7 +34,9 @@
         "spires",
         "challenges"
       ]
-    }
+    },
+    "target_scale": 0.6,
+    "target_labels": "code"
   },
   "districts": [
     {
@@ -51,29 +53,39 @@
     },
     {
       "id": "@dist-design",
-      "name": "2 · THE DESIGN SPACE",
-      "scale_label": "One cell stays empty — even after a 962-repository re-test",
+      "name": "2 · THE DESIGN SPACE AND ITS LINEAGES",
+      "scale_label": "Nine lineages, one empty cell",
       "order": 2,
       "color": "#ffb700",
       "glow": "rgba(255, 183, 0, 0.4)",
-      "description": "RQ1. Every record is coded on selection signal × judge. Most compare candidates with a strict scalar; 38 run no comparison and no gate at all; and no clean optimization loop keeps a vector signal with a language-model judge. A post-freeze sweep found the closest miss, an unreachable pool and an untestable candidate — three routes by which the cell stays empty.",
+      "description": "RQ1. Every record is coded by selection signal × judge. The nine promoted lineages cluster in this space: seed-line and DSPy compare a scalar with code, deep-research agents use LLM or hybrid judges, the paper-writing lineages judge whole papers with an LLM, and benchmark lineages run no gate. No system keeps a vector of LLM judgments inside a loop.",
+      "eu_infrastructures": []
+    },
+    {
+      "id": "@dist-failures",
+      "name": "3 · FAILURE MODES",
+      "scale_label": "Nine antipatterns · most seen once, one seen everywhere",
+      "order": 3,
+      "color": "#ff4d6d",
+      "glow": "rgba(255, 77, 109, 0.4)",
+      "description": "The compendium promotes nine antipatterns — recurring implementation or evaluation failures with a named mechanism. Two of them lead the Tier S evidence ranking. Most rest on one or two repositories; the uncalibrated LLM judge is coded in 35 records across 7 of the 9 lineages.",
       "eu_infrastructures": []
     },
     {
       "id": "@dist-theory",
-      "name": "3 · THE THEORY ON TRIAL",
+      "name": "4 · THE THEORY ON TRIAL",
       "scale_label": "Six rules fixed in advance · 0 of 6 triggers fired",
-      "order": 3,
+      "order": 4,
       "color": "#c040ff",
       "glow": "rgba(192, 64, 255, 0.4)",
-      "description": "RQ2. Six candidate regularities were written down with trigger observations on 17 May 2026, then 25 new repositories were inspected. No trigger fired, which gives bounded support only: R1 and R3 hold, R2 and R4 are conditional, R5's broad form is contradicted and R6 stays exploratory.",
+      "description": "RQ2. Six candidate regularities were written down with trigger observations on 17 May 2026, then 25 new repositories were inspected. No trigger fired, which gives bounded support only: R1 and R3 hold, R2 and R4 are conditional, R5's broad form is contradicted and R6 stays exploratory. The post-freeze re-test of the empty cell (R3) and its three boundary cases stand next to the regularities.",
       "eu_infrastructures": []
     },
     {
       "id": "@dist-papers",
-      "name": "4 · PAPERS ↔ CODE",
+      "name": "5 · PAPERS ↔ CODE",
       "scale_label": "212 edges map our curation, not citation",
-      "order": 4,
+      "order": 5,
       "color": "#00e599",
       "glow": "rgba(0, 229, 153, 0.4)",
       "description": "RQ3. 64 of 101 papers are coded as related to at least one repository, but the edges reach only 23 of 139 repositories, and six hubs carry 56.6% of them. A full-text sample found a mention for 3 of 29 edges, so this is a map of the curation. At least 18 paper authors also commit to a registry repository.",
@@ -101,26 +113,6 @@
       "place": [
         -150,
         90
-      ]
-    },
-    {
-      "id": "@spire-lineages",
-      "district_ref": "@dist-population",
-      "kind": "knowledge",
-      "title": "Nine promoted lineages",
-      "code": "REG-3",
-      "codename": "9 LINEAGES",
-      "scale_level": 0.85,
-      "metrics": {
-        "scale": "59 memberships / 52 repos",
-        "acceleration": "7 repos in two lineages",
-        "infrastructure": "Lineage records",
-        "maturity": "Multi-label subset (37.4%)"
-      },
-      "abstract": "Seed-line 19, dr-deep-research-agent 10, rl-post-training-as-autoresearch 8, multi-agent-scientist 7, clune-lab-open-endedness 5, mlagentbench-derived 4, camel-ai-line 2, dspy-line 2, physical-robotic-automation 2. 87 registry records have no lineage. The relation mixes code ancestry, shared infrastructure, intellectual influence and structural convergence.",
-      "place": [
-        360,
-        170
       ]
     },
     {
@@ -204,48 +196,8 @@
       "abstract": "Fifteen records came from references in papers, nine from a public benchmark leaderboard, one from a pull request against a curated list and one from a direct recommendation. No record entered through undirected GitHub search alone."
     },
     {
-      "id": "@spire-primitives",
-      "district_ref": "@dist-design",
-      "kind": "instrument",
-      "title": "Coding primitives A1–A5",
-      "code": "COD-1",
-      "codename": "A1–A5",
-      "scale_level": 0.8,
-      "metrics": {
-        "scale": "5 primitives",
-        "acceleration": "Unit of work · signal · judge · pattern · antipattern",
-        "infrastructure": "Controlled vocabulary",
-        "maturity": "0 contradictions in 176 bindings on the four cell axes"
-      },
-      "abstract": "A1 unit of work, A2 selection signal (strict scalar, band-tolerant, vector, relational, none), A3 judge (programmatic, language-model, hybrid, absent), A4 pattern and A5 antipattern under a recorded promotion rule. The null position is the second most common value on both axes; 38 records take it on both.",
-      "place": [
-        -440,
-        200
-      ]
-    },
-    {
-      "id": "@spire-check",
-      "district_ref": "@dist-design",
-      "kind": "instrument",
-      "title": "Artifact-level check of the codings",
-      "code": "DES-2",
-      "codename": "ARTIFACT CHECK",
-      "scale_level": 0.85,
-      "place": [
-        -240,
-        200
-      ],
-      "metrics": {
-        "scale": "3547 anchors · 538 bindings",
-        "acceleration": "3306 anchors resolve verbatim",
-        "infrastructure": "owner/repo@sha:path:line + verbatim facts",
-        "maturity": "Strong on cell axes, weak on patterns and cost"
-      },
-      "abstract": "Two layers: every revision-pinned anchor was fetched at its revision (3306 of 3547 resolve to a verbatim line), and 538 load-bearing codings over 44 repositories and 10 papers were each paired with a verbatim fact. Selection signal, judge type, loop topology and tool category carry zero contradictions across 176 bindings — the axes this plaza and R3 rest on."
-    },
-    {
       "id": "@spire-retest",
-      "district_ref": "@dist-design",
+      "district_ref": "@dist-theory",
       "kind": "instrument",
       "title": "Post-freeze re-test of the empty cell",
       "code": "TST-2",
@@ -259,13 +211,13 @@
       },
       "abstract": "962 repositories created after the freeze, 319 retained by a mechanical filter, 69 flagged by triage agents, 15 highest-stakes flags re-checked by agents told to default to refutation: 11 refuted. The cell stays empty, now by three routes, with one case that shows what filling it would require.",
       "place": [
-        -440,
-        0
+        -430,
+        -140
       ]
     },
     {
       "id": "@spire-virtualbiotech",
-      "district_ref": "@dist-design",
+      "district_ref": "@dist-theory",
       "kind": "system",
       "title": "virtual-biotech-scientist",
       "code": "TST-3",
@@ -280,13 +232,13 @@
       "abstract": "Six single-axis language-model judges score each candidate against the incumbent; verdicts are kept as a six-element vector and front membership is gated by a unanimity dominance predicate with no scalar reduction. The front is built once and never feeds a later generation — whether that fills the cell is the open adjudication.",
       "status": "active",
       "place": [
-        -240,
-        0
+        -255,
+        -150
       ]
     },
     {
       "id": "@spire-xscientist",
-      "district_ref": "@dist-design",
+      "district_ref": "@dist-theory",
       "kind": "system",
       "title": "XScientist",
       "code": "TST-4",
@@ -301,13 +253,13 @@
       "abstract": "A complete and correct seven-dimension Pareto pool that no live path reaches: the reviewer emits a flat score object while the pool's only writer expects a nested one. Executing the repository's own chain admits nothing — the third route by which the cell stays empty.",
       "status": "planned",
       "place": [
-        -400,
-        -215
+        -430,
+        -280
       ]
     },
     {
       "id": "@spire-agenticop",
-      "district_ref": "@dist-design",
+      "district_ref": "@dist-theory",
       "kind": "system",
       "title": "AgenticOperator",
       "code": "TST-5",
@@ -322,8 +274,8 @@
       "abstract": "The candidate recorded in advance as most likely to fill the cell. Re-probed on 26 July 2026 across five repository-name variants and the author's homepage: no code release found.",
       "status": "planned",
       "place": [
-        -130,
-        -235
+        -255,
+        -285
       ]
     },
     {
@@ -348,7 +300,7 @@
     },
     {
       "id": "@spire-ranking",
-      "district_ref": "@dist-theory",
+      "district_ref": "@dist-failures",
       "kind": "instrument",
       "title": "Pattern-strength ranking (Tier S)",
       "code": "COD-4",
@@ -362,13 +314,13 @@
       },
       "abstract": "Tier S: judge-uncalibrated, staged-validation-before-judge, scoreboard, eval-discipline-regression, keep-or-revert — two antipatterns, two architectures, one component under every weighting. Which pattern leads depends on the weighting and on the lineage relation used.",
       "place": [
-        -70,
-        0
+        380,
+        215
       ]
     },
     {
       "id": "@spire-patterns",
-      "district_ref": "@dist-theory",
+      "district_ref": "@dist-failures",
       "kind": "knowledge",
       "title": "Pattern compendium",
       "code": "REG-4",
@@ -382,8 +334,8 @@
       },
       "abstract": "Promoted records: 22 architectures, 7 components, 16 coding patterns and 9 antipatterns. 38 rest on two or more independently inspected artifacts; 16 rest on exactly one and were promoted for structural distinctness or portability — so totals count promoted records, not twice-confirmed regularities.",
       "place": [
-        -70,
-        -230
+        170,
+        215
       ]
     },
     {
@@ -545,6 +497,366 @@
         "maturity": "Top-six hub (stable in 91.5% of resamples at ≥5/6)"
       },
       "abstract": "One of the six most frequently linked repositories: 18 of the 101 paper records carry a curator-assigned relatedness edge to it. Together the six carry 120 of 212 edges (56.6%). The paper's leading explanation is its own curation — which repositories the registry admitted and which the curators used as comparison anchors."
+    },
+    {
+      "id": "@spire-school-seed-line",
+      "district_ref": "@dist-design",
+      "kind": "system",
+      "title": "Seed-line lineage",
+      "code": "LINEAGE",
+      "codename": "SEED-LINE · 19",
+      "scale_level": 0.98,
+      "place": [
+        -440,
+        230
+      ],
+      "metrics": {
+        "scale": "19 member repositories",
+        "acceleration": "keep-or-revert testbed",
+        "infrastructure": "seed-line",
+        "maturity": "Promoted lineage"
+      },
+      "abstract": "keep-or-revert testbed: 17 of 19 members compare a strict scalar with a programmatic scorer (code-eval loops). Members: karpathy/autoresearch and its forks: autoresearch-macos, autoresearch-mlx, autoresearch-win-rtx, recursive-improve, lazy-developer, n-autoresearch, …."
+    },
+    {
+      "id": "@spire-school-dspy-line",
+      "district_ref": "@dist-design",
+      "kind": "system",
+      "title": "DSPy line lineage",
+      "code": "LINEAGE",
+      "codename": "DSPY LINE · 2",
+      "scale_level": 0.6,
+      "place": [
+        -140,
+        230
+      ],
+      "metrics": {
+        "scale": "2 member repositories",
+        "acceleration": "Reflection-driven prompt/program optimizers on the DSPy substrate",
+        "infrastructure": "dspy-line",
+        "maturity": "Promoted lineage"
+      },
+      "abstract": "Reflection-driven prompt/program optimizers on the DSPy substrate; programmatic scorers throughout. Members: gepa (vector-Pareto signal), avatar."
+    },
+    {
+      "id": "@spire-school-multi-agent-scientist",
+      "district_ref": "@dist-design",
+      "kind": "system",
+      "title": "Multi-agent scientist lineage",
+      "code": "LINEAGE",
+      "codename": "MULTI-AGENT SCIENTIST · 7",
+      "scale_level": 0.71,
+      "place": [
+        -440,
+        80
+      ],
+      "metrics": {
+        "scale": "7 member repositories",
+        "acceleration": "Independent reimplementations of one 5-stage paper-writing skeleton",
+        "infrastructure": "multi-agent-scientist",
+        "maturity": "Promoted lineage"
+      },
+      "abstract": "Independent reimplementations of one 5-stage paper-writing skeleton; the judge is typically an LLM reviewer over a whole paper. Members: AI-Scientist (v1, v2), AI-Researcher, AutoResearchClaw, Agent Laboratory, NanoResearch, Auto-Research."
+    },
+    {
+      "id": "@spire-school-clune-lab-open-endedness",
+      "district_ref": "@dist-design",
+      "kind": "system",
+      "title": "Clune-lab open-endedness lineage",
+      "code": "LINEAGE",
+      "codename": "CLUNE-LAB OPEN-ENDEDNESS · 5",
+      "scale_level": 0.66,
+      "place": [
+        -290,
+        80
+      ],
+      "metrics": {
+        "scale": "5 member repositories",
+        "acceleration": "Open-ended discovery from the Clune lab",
+        "infrastructure": "clune-lab-open-endedness",
+        "maturity": "Promoted lineage"
+      },
+      "abstract": "Open-ended discovery from the Clune lab: LLM judges over generated artifacts and archives of agents. Members: AI-Scientist (v1, v2), ADAS, HGM, Darwin Gödel Machine."
+    },
+    {
+      "id": "@spire-school-dr-deep-research-agent",
+      "district_ref": "@dist-design",
+      "kind": "system",
+      "title": "Deep research agents lineage",
+      "code": "LINEAGE",
+      "codename": "DEEP RESEARCH AGENTS · 10",
+      "scale_level": 0.78,
+      "place": [
+        -140,
+        80
+      ],
+      "metrics": {
+        "scale": "10 member repositories",
+        "acceleration": "Search-verify loops with a per-query scalar",
+        "infrastructure": "dr-deep-research-agent",
+        "maturity": "Promoted lineage"
+      },
+      "abstract": "Search-verify loops with a per-query scalar; judges are LLM (5) or hybrid (3). Members: Memento, InfoSeeker, DeepResearch, Marco-DeepResearch, WebThinker, DeepResearcher, MiroRL, …."
+    },
+    {
+      "id": "@spire-school-rl-post-training-as-autoresearch",
+      "district_ref": "@dist-design",
+      "kind": "system",
+      "title": "RL post-training lineage",
+      "code": "LINEAGE",
+      "codename": "RL POST-TRAINING · 8",
+      "scale_level": 0.73,
+      "place": [
+        -440,
+        -70
+      ],
+      "metrics": {
+        "scale": "8 member repositories",
+        "acceleration": "Research behaviour trained in with GRPO-family RL",
+        "infrastructure": "rl-post-training-as-autoresearch",
+        "maturity": "Promoted lineage"
+      },
+      "abstract": "Research behaviour trained in with GRPO-family RL; mixed judges (scorer 3, LLM 3, hybrid 1). Members: ML-Agent, autoresearch-rl, AgentRL, DeepResearch, Marco-DeepResearch, DeepResearcher, MiroRL, ReCall."
+    },
+    {
+      "id": "@spire-school-physical-robotic-automation",
+      "district_ref": "@dist-design",
+      "kind": "system",
+      "title": "Physical robotic automation lineage",
+      "code": "LINEAGE",
+      "codename": "PHYSICAL ROBOTIC AUTOMATION · 2",
+      "scale_level": 0.6,
+      "place": [
+        -200,
+        -70
+      ],
+      "metrics": {
+        "scale": "2 member repositories",
+        "acceleration": "Closing the loop on real lab hardware",
+        "infrastructure": "physical-robotic-automation",
+        "maturity": "Promoted lineage"
+      },
+      "abstract": "Closing the loop on real lab hardware; hybrid judges with instrument feedback. Members: coscientist, organa."
+    },
+    {
+      "id": "@spire-school-mlagentbench-derived",
+      "district_ref": "@dist-design",
+      "kind": "system",
+      "title": "MLAgentBench-derived lineage",
+      "code": "LINEAGE",
+      "codename": "MLAGENTBENCH-DERIVED · 4",
+      "scale_level": 0.64,
+      "place": [
+        -440,
+        -220
+      ],
+      "metrics": {
+        "scale": "4 member repositories",
+        "acceleration": "Benchmark lineage",
+        "infrastructure": "mlagentbench-derived",
+        "maturity": "Promoted lineage"
+      },
+      "abstract": "Benchmark lineage: one upstream harness and its derivatives; mostly no acceptance gate of their own. Members: MLAgentBench, ML-Agent, MLR-Copilot, mle-bench."
+    },
+    {
+      "id": "@spire-school-camel-ai-line",
+      "district_ref": "@dist-design",
+      "kind": "system",
+      "title": "CAMEL-AI line lineage",
+      "code": "LINEAGE",
+      "codename": "CAMEL-AI LINE · 2",
+      "scale_level": 0.6,
+      "place": [
+        -200,
+        -220
+      ],
+      "metrics": {
+        "scale": "2 member repositories",
+        "acceleration": "Agent faces on the CAMEL library substrate",
+        "infrastructure": "camel-ai-line",
+        "maturity": "Promoted lineage"
+      },
+      "abstract": "Agent faces on the CAMEL library substrate; mostly no judge. Members: owl, eigent_search."
+    },
+    {
+      "id": "@spire-ap-judge-uncalibrated",
+      "district_ref": "@dist-failures",
+      "kind": "failure",
+      "title": "Judge uncalibrated",
+      "code": "ANTIPATTERN",
+      "codename": "JUDGE UNCALIBRATED",
+      "scale_level": 0.98,
+      "place": [
+        -455,
+        220
+      ],
+      "metrics": {
+        "scale": "35 records coded with an uncalibrated judge (8 on the antipattern page)",
+        "acceleration": "Tier S (top-five evidence rank)",
+        "infrastructure": "wiki/antipatterns/judge-uncalibrated",
+        "maturity": "Promoted record"
+      },
+      "abstract": "An LLM judge gates loop progression with no ground-truth measurement of its accuracy. Coded in 35 of 139 records, across 7 of the 9 promoted lineages (multi-agent scientist 6, deep research 3, Clune, seed-line, CAMEL, DSPy and MLAgentBench-derived 1 each) plus 22 records outside any lineage. Leads Tier S under three of four weightings."
+    },
+    {
+      "id": "@spire-ap-eval-discipline-regression",
+      "district_ref": "@dist-failures",
+      "kind": "failure",
+      "title": "Eval-discipline regression",
+      "code": "ANTIPATTERN",
+      "codename": "EVAL-DISCIPLINE REGRES",
+      "scale_level": 0.7,
+      "place": [
+        -285,
+        220
+      ],
+      "metrics": {
+        "scale": "4 repositories (antipattern page)",
+        "acceleration": "Tier S (top-five evidence rank)",
+        "infrastructure": "wiki/antipatterns/eval-discipline-regression",
+        "maturity": "Promoted record"
+      },
+      "abstract": "A later version drops evaluation discipline its predecessor had — e.g. The AI Scientist v2 no longer ships the human-rated review benchmark of v1. Seen in the multi-agent-scientist (3) and Clune (2) lineages. In Tier S."
+    },
+    {
+      "id": "@spire-ap-calibration-claimed-not-shipped",
+      "district_ref": "@dist-failures",
+      "kind": "failure",
+      "title": "Calibration claimed, not shipped",
+      "code": "ANTIPATTERN",
+      "codename": "CALIBRATION CLAIMED, N",
+      "scale_level": 0.66,
+      "place": [
+        -115,
+        220
+      ],
+      "metrics": {
+        "scale": "2 repositories",
+        "acceleration": "Promoted antipattern",
+        "infrastructure": "wiki/antipatterns/calibration-claimed-not-shipped",
+        "maturity": "Promoted record"
+      },
+      "abstract": "Documentation claims the judge is calibrated, but no calibration artifact ships with the code. Added in the paper's revision."
+    },
+    {
+      "id": "@spire-ap-cadence-claim-vs-artifact-divergence",
+      "district_ref": "@dist-failures",
+      "kind": "failure",
+      "title": "Cadence claim vs artifact",
+      "code": "ANTIPATTERN",
+      "codename": "CADENCE CLAIM VS ARTIF",
+      "scale_level": 0.66,
+      "place": [
+        -455,
+        90
+      ],
+      "metrics": {
+        "scale": "2 repositories",
+        "acceleration": "Promoted antipattern",
+        "infrastructure": "wiki/antipatterns/cadence-claim-vs-artifact-divergence",
+        "maturity": "Promoted record"
+      },
+      "abstract": "Claimed iteration cadence disagrees with what the shipped artifacts show."
+    },
+    {
+      "id": "@spire-ap-mutable-evaluation-code-as-gaming-surface",
+      "district_ref": "@dist-failures",
+      "kind": "failure",
+      "title": "Mutable evaluation code",
+      "code": "ANTIPATTERN",
+      "codename": "MUTABLE EVALUATION COD",
+      "scale_level": 0.63,
+      "place": [
+        -285,
+        90
+      ],
+      "metrics": {
+        "scale": "1 repository (single case study)",
+        "acceleration": "Single-artifact promotion",
+        "infrastructure": "wiki/antipatterns/mutable-evaluation-code-as-gaming-surface",
+        "maturity": "Promoted record"
+      },
+      "abstract": "The agent can edit the code that scores it and games the metric; the case-study repository documents both the gaming and the structural fix. Added in the paper's revision."
+    },
+    {
+      "id": "@spire-ap-readme-only-full-pipeline",
+      "district_ref": "@dist-failures",
+      "kind": "failure",
+      "title": "README-only full pipeline",
+      "code": "ANTIPATTERN",
+      "codename": "README-ONLY FULL PIPEL",
+      "scale_level": 0.63,
+      "place": [
+        -115,
+        90
+      ],
+      "metrics": {
+        "scale": "1 repository",
+        "acceleration": "Single-artifact promotion",
+        "infrastructure": "wiki/antipatterns/readme-only-full-pipeline",
+        "maturity": "Promoted record"
+      },
+      "abstract": "A README describes a full research pipeline that the repository does not contain. The one case sits in the MLAgentBench-derived lineage."
+    },
+    {
+      "id": "@spire-ap-public-shell-for-off-repo-implementation",
+      "district_ref": "@dist-failures",
+      "kind": "failure",
+      "title": "Public shell, off-repo code",
+      "code": "ANTIPATTERN",
+      "codename": "PUBLIC SHELL, OFF-REPO",
+      "scale_level": 0.63,
+      "place": [
+        -455,
+        -40
+      ],
+      "metrics": {
+        "scale": "1 repository",
+        "acceleration": "Single-artifact promotion",
+        "infrastructure": "wiki/antipatterns/public-shell-for-off-repo-implementation",
+        "maturity": "Promoted record"
+      },
+      "abstract": "The public repository is a shell; the implementation lives elsewhere."
+    },
+    {
+      "id": "@spire-ap-fork-without-pruning",
+      "district_ref": "@dist-failures",
+      "kind": "failure",
+      "title": "Fork without pruning",
+      "code": "ANTIPATTERN",
+      "codename": "FORK WITHOUT PRUNING",
+      "scale_level": 0.63,
+      "place": [
+        -285,
+        -40
+      ],
+      "metrics": {
+        "scale": "1 repository",
+        "acceleration": "Single-artifact promotion",
+        "infrastructure": "wiki/antipatterns/fork-without-pruning",
+        "maturity": "Promoted record"
+      },
+      "abstract": "A fork carries its parent's unused machinery forward without pruning it."
+    },
+    {
+      "id": "@spire-ap-star-prompt-runtime",
+      "district_ref": "@dist-failures",
+      "kind": "failure",
+      "title": "Star-prompt runtime",
+      "code": "ANTIPATTERN",
+      "codename": "STAR-PROMPT RUNTIME",
+      "scale_level": 0.63,
+      "place": [
+        -115,
+        -40
+      ],
+      "metrics": {
+        "scale": "1 repository",
+        "acceleration": "Single-artifact promotion",
+        "infrastructure": "wiki/antipatterns/star-prompt-runtime",
+        "maturity": "Promoted record"
+      },
+      "abstract": "The runtime is essentially one large prompt presented as a system."
     }
   ],
   "conduits": [
@@ -585,18 +897,6 @@
       "description": "Paper references, leaderboard, a PR and a recommendation."
     },
     {
-      "id": "@conduit-lineage",
-      "name": "Registry to the nine lineages",
-      "code": "LINEAGE",
-      "codename": "52 IN LINEAGES",
-      "from": "@spire-reporeg",
-      "to": "@spire-lineages",
-      "status": "operational",
-      "type": "Multi-label relation",
-      "bandwidth": "59 memberships / 52 repos",
-      "description": "Seven repositories sit in two lineages."
-    },
-    {
       "id": "@conduit-unaff",
       "name": "Registry records in no lineage",
       "code": "UNAFF",
@@ -607,30 +907,6 @@
       "type": "Remainder",
       "bandwidth": "87 records",
       "description": "Most of the registry is not covered by any promoted lineage."
-    },
-    {
-      "id": "@conduit-coded",
-      "name": "Every record coded on A1–A5",
-      "code": "CODED",
-      "codename": "139 CODED",
-      "from": "@spire-reporeg",
-      "to": "@spire-primitives",
-      "status": "operational",
-      "type": "Coding → design space",
-      "bandwidth": "139 records",
-      "description": "Each evidence card fills A2 selection signal and A3 judge — the coordinates of the design-space plaza."
-    },
-    {
-      "id": "@conduit-checked",
-      "name": "Codings checked against artifacts",
-      "code": "CHECKED",
-      "codename": "CHECKED",
-      "from": "@spire-primitives",
-      "to": "@spire-check",
-      "status": "operational",
-      "type": "Verification",
-      "bandwidth": "538 bindings",
-      "description": "Load-bearing codings paired with verbatim facts from the repository or paper."
     },
     {
       "id": "@conduit-near",
@@ -669,18 +945,6 @@
       "description": "The system recorded in advance as most likely to fill the cell cannot be tested."
     },
     {
-      "id": "@conduit-rules",
-      "name": "Coded patterns become candidate rules",
-      "code": "RULES",
-      "codename": "CODED → RULES",
-      "from": "@spire-primitives",
-      "to": "@spire-patterns",
-      "status": "operational",
-      "type": "Theory building",
-      "bandwidth": "54 promoted records",
-      "description": "Recurring design decisions and failures are promoted to pattern records; six regularities are stated over them with time-stamped triggers on 17 May 2026."
-    },
-    {
       "id": "@conduit-rank",
       "name": "Patterns into the ranking",
       "code": "RANK",
@@ -691,18 +955,6 @@
       "type": "Scoring",
       "bandwidth": "t, p, c inputs",
       "description": "Supporting repositories, papers and lineages feed the composite score."
-    },
-    {
-      "id": "@conduit-lin-term",
-      "name": "Lineages into the ranking",
-      "code": "LIN-TERM",
-      "codename": "LINEAGE TERM",
-      "from": "@spire-lineages",
-      "to": "@spire-ranking",
-      "status": "operational",
-      "type": "Scoring",
-      "bandwidth": "c term",
-      "description": "Imported score counts a four-lineage subset; nine promoted lineages give a different c for keep-or-revert."
     },
     {
       "id": "@conduit-audit",
@@ -811,6 +1063,78 @@
       "type": "Identity resolution",
       "bandwidth": "718 slots / 661 names",
       "description": "Author slots matched against registry repositories and their commit histories."
+    },
+    {
+      "id": "@conduit-lineage",
+      "name": "Registry records grouped into nine lineages",
+      "code": "LINEAGE",
+      "codename": "52 IN LINEAGES",
+      "from": "@spire-reporeg",
+      "to": "@spire-school-seed-line",
+      "status": "operational",
+      "type": "Multi-label relation",
+      "bandwidth": "59 memberships / 52 repos",
+      "description": "52 of 139 records belong to at least one promoted lineage; seven belong to two."
+    },
+    {
+      "id": "@conduit-rules",
+      "name": "Coded patterns become candidate rules",
+      "code": "RULES",
+      "codename": "CODED → RULES",
+      "from": "@spire-reporeg",
+      "to": "@spire-patterns",
+      "status": "operational",
+      "type": "Theory building",
+      "bandwidth": "54 promoted records",
+      "description": "Recurring design decisions and failures are promoted to pattern records; six regularities are stated over them with time-stamped triggers on 17 May 2026."
+    },
+    {
+      "id": "@conduit-lin-term",
+      "name": "Lineages feed the ranking",
+      "code": "LIN-TERM",
+      "codename": "LINEAGE TERM",
+      "from": "@spire-school-seed-line",
+      "to": "@spire-ranking",
+      "status": "operational",
+      "type": "Scoring",
+      "bandwidth": "c term",
+      "description": "Presence in several lineages separates a general pattern from an idiomatic one in the Tier S score."
+    },
+    {
+      "id": "@conduit-school-dr-rl",
+      "name": "Deep research ↔ RL post-training",
+      "code": "SCHOOL-DR-",
+      "codename": "4 SHARED",
+      "from": "@spire-school-dr-deep-research-agent",
+      "to": "@spire-school-rl-post-training-as-autoresearch",
+      "status": "operational",
+      "type": "Shared members",
+      "bandwidth": "DeepResearch, Marco-DR, DeepResearcher, MiroRL",
+      "description": "Four repositories belong to both lineages: deep-research agents trained with RL."
+    },
+    {
+      "id": "@conduit-school-clune-mas",
+      "name": "Clune open-endedness ↔ multi-agent scientist",
+      "code": "SCHOOL-CLU",
+      "codename": "2 SHARED",
+      "from": "@spire-school-clune-lab-open-endedness",
+      "to": "@spire-school-multi-agent-scientist",
+      "status": "operational",
+      "type": "Shared members",
+      "bandwidth": "AI-Scientist v1 and v2",
+      "description": "The AI Scientist belongs to both lineages."
+    },
+    {
+      "id": "@conduit-school-mlab-rl",
+      "name": "MLAgentBench-derived ↔ RL post-training",
+      "code": "SCHOOL-MLA",
+      "codename": "1 SHARED",
+      "from": "@spire-school-mlagentbench-derived",
+      "to": "@spire-school-rl-post-training-as-autoresearch",
+      "status": "operational",
+      "type": "Shared member",
+      "bandwidth": "ML-Agent",
+      "description": "ML-Agent extends the MLAgentBench harness with RL post-training."
     }
   ],
   "bottlenecks": [
@@ -868,11 +1192,11 @@
       "title": "Two coding families contradicted",
       "code": "CONTRADICTED",
       "codename": "10/64 · 10/59",
-      "district_ref": "@dist-design",
+      "district_ref": "@dist-failures",
       "severity": 0.7,
       "scope": "node",
       "constrains": [
-        "@spire-check"
+        "@spire-ranking"
       ],
       "effect": "slowdown",
       "nature": "Fragile aggregates",
@@ -885,7 +1209,7 @@
       "title": "Single-agent triage is unreliable",
       "code": "TRIAGE",
       "codename": "11 OF 15 REFUTED",
-      "district_ref": "@dist-design",
+      "district_ref": "@dist-theory",
       "severity": 0.55,
       "scope": "node",
       "constrains": [
@@ -902,7 +1226,7 @@
       "title": "nexus-swarm: open case for R1",
       "code": "NEXUS",
       "codename": "OPEN R1 CASE",
-      "district_ref": "@dist-design",
+      "district_ref": "@dist-theory",
       "severity": 0.4,
       "scope": "node",
       "constrains": [
@@ -918,7 +1242,7 @@
       "title": "No code release found",
       "code": "NORELEASE",
       "codename": "NO RELEASE",
-      "district_ref": "@dist-design",
+      "district_ref": "@dist-theory",
       "severity": 0.6,
       "scope": "edge",
       "constrains": [
@@ -951,7 +1275,7 @@
       "title": "Ranking computed at the baseline",
       "code": "BASELINE",
       "codename": "76-RECORD BASELINE",
-      "district_ref": "@dist-theory",
+      "district_ref": "@dist-failures",
       "severity": 0.5,
       "scope": "node",
       "constrains": [
@@ -967,7 +1291,7 @@
       "title": "Architecture leads under nine lineages",
       "code": "LEADER",
       "codename": "LEADER FLIPS",
-      "district_ref": "@dist-theory",
+      "district_ref": "@dist-failures",
       "severity": 0.6,
       "scope": "node",
       "constrains": [
@@ -980,19 +1304,20 @@
     },
     {
       "id": "@bneck-fourlineages",
-      "title": "judge-uncalibrated spans four lineages",
+      "title": "Uncalibrated judges span seven lineages",
       "code": "FOURLINEAGES",
-      "codename": "4 LINEAGES",
-      "district_ref": "@dist-theory",
+      "codename": "7 LINEAGES",
+      "district_ref": "@dist-failures",
       "severity": 0.75,
       "scope": "node",
       "constrains": [
-        "@spire-ranking"
+        "@spire-ap-judge-uncalibrated"
       ],
       "effect": "slowdown",
       "nature": "Counterevidence",
-      "impact": "An evaluation failure occurs in four lineages that share no architecture, while architecture patterns appear in at most two — contradicting the broad form of R5.",
-      "remedy": "Treat evaluation infrastructure as a cross-lineage risk: immutable evaluation code and shipped calibration artifacts."
+      "impact": "Records coded with an uncalibrated LLM judge occur in 7 of the 9 promoted lineages (and in 22 records with no lineage), while architecture patterns appear in at most two — contradicting the broad form of R5. Measure: per-record coding judge.calibration = uncalibrated. Paper v1 states 'four lineages', which the authors' own claim audit could not reproduce; by antipattern-page membership the count is two.",
+      "remedy": "Treat evaluation infrastructure as a cross-lineage risk: immutable evaluation code and shipped calibration artifacts.",
+      "delay_label": "7 of 9 lineages (coded)"
     },
     {
       "id": "@bneck-g1",
@@ -1080,10 +1405,9 @@
         "@bneck-nexus"
       ],
       "place": [
-        -470,
-        200
-      ],
-      "short": "structure limits failures"
+        -485,
+        240
+      ]
     },
     {
       "id": "@chal-r2",
@@ -1103,10 +1427,9 @@
         "@bneck-contradicted"
       ],
       "place": [
-        -280,
-        200
-      ],
-      "short": "fast iteration ⇔ bounded artifacts"
+        -370,
+        240
+      ]
     },
     {
       "id": "@chal-r3",
@@ -1127,10 +1450,9 @@
         "@spire-virtualbiotech"
       ],
       "place": [
-        -470,
-        0
-      ],
-      "short": "no loop keeps LLM-judged vectors"
+        -485,
+        135
+      ]
     },
     {
       "id": "@chal-r4",
@@ -1151,10 +1473,9 @@
         "@bneck-baseline"
       ],
       "place": [
-        -280,
-        0
-      ],
-      "short": "failures lead the ranking"
+        -370,
+        135
+      ]
     },
     {
       "id": "@chal-r5",
@@ -1165,7 +1486,7 @@
       "impact_scale": 0.75,
       "type": "Candidate regularity",
       "verdict": "contradicted",
-      "target": "Proposed: design patterns stay local to one or two lineages. No migration occurred in the audit, but judge-uncalibrated spans four lineages; restricting the claim to architecture patterns came after the counterexample and is post hoc.",
+      "target": "Proposed: design patterns stay local to one or two lineages. No migration occurred in the audit, but records coded with an uncalibrated LLM judge span 7 of 9 lineages (paper v1: 'four'); restricting the claim to architecture patterns came after the counterexample and is post hoc.",
       "advanced_by": [
         "@spire-audit"
       ],
@@ -1173,10 +1494,9 @@
         "@bneck-fourlineages"
       ],
       "place": [
-        -470,
-        -200
-      ],
-      "short": "patterns stay in their lineage"
+        -485,
+        30
+      ]
     },
     {
       "id": "@chal-r6",
@@ -1195,10 +1515,9 @@
         "@bneck-g1"
       ],
       "place": [
-        -280,
-        -200
-      ],
-      "short": "stagnant patterns stay small"
+        -370,
+        30
+      ]
     }
   ],
   "plazas": [
@@ -1278,7 +1597,7 @@
           "note": "Three LLM-judged systems (AI-CoScientist, open-ai-co-scientist, co-scientist) reduce judgments to a relational, tournament-style score — the escape route the paper identifies next to the empty cell."
         }
       ],
-      "description": "Joint distribution of A3 judge × A2 selection signal over the 139 canonical records, recounted from the compendium's coded evidence cards (the two extra cards — a folded MLAgentBench fork and AutoScientists — are excluded as in the paper). Row and column totals reproduce the paper's marginals exactly; the paper itself prints only those totals and the 38-record corner. Reliability: selection signal and judge type carry zero contradictions in the artifact-level check.",
+      "description": "How every record is coded: A2 selection signal (how candidates are compared) × A3 judge (who accepts them), two of five coding primitives (A1 unit of work, A4 pattern, A5 antipattern). Reliability: an artifact-level check bound 538 load-bearing codings to verbatim facts; selection signal and judge type carry zero contradictions in 176 bindings. Table recounted from the compendium's coded cards for the 139 canonical records; totals equal the paper's marginals. The nine lineages stand west of the plaza, roughly at the row of their typical judge.",
       "expected": true,
       "hatch": [
         {
@@ -1545,6 +1864,54 @@
         }
       ],
       "description": "The six candidate regularities and their minimum trigger observations were time-stamped on 17 May 2026 at a 76-record baseline, before 25 newly ingested repositories were inspected. Verdicts: bounded support (R1, R3), conditional (R2, R4), broad form contradicted (R5), exploratory (R6). The tour shows the board blank at the start and fills it at the audit."
+    },
+    {
+      "id": "@plaza-uncal",
+      "district_ref": "@dist-failures",
+      "title": "Uncalibrated LLM judges by lineage",
+      "place": [
+        160,
+        -215
+      ],
+      "cell_size": 40,
+      "row_axis": "records",
+      "col_axis": "promoted lineage",
+      "rows": [
+        "coded uncalibrated (35)"
+      ],
+      "cols": [
+        "multi-agent sci.",
+        "deep research",
+        "Clune",
+        "seed-line",
+        "CAMEL",
+        "DSPy",
+        "MLAgentBench",
+        "RL post-train.",
+        "robotics",
+        "no lineage"
+      ],
+      "layers": [
+        {
+          "id": "coded",
+          "label": "Per-record coding judge.calibration = uncalibrated, 139 canonical records",
+          "cells": [
+            [
+              6,
+              3,
+              1,
+              1,
+              1,
+              1,
+              1,
+              0,
+              0,
+              22
+            ]
+          ]
+        }
+      ],
+      "description": "Counts of records whose judge is coded uncalibrated, by promoted lineage (Table S1 membership). Seven of nine lineages are touched, against at most two for any architecture pattern. Paper v1 says 'four lineages'; the authors' claim audit (T5-12) could not reproduce that figure and recommends this coded measure."
     }
   ],
   "tour": [
@@ -1578,42 +1945,54 @@
     },
     {
       "id": "empty-cell",
-      "title": "The empty cell",
-      "text": "Every record is coded by how it compares candidates and who judges them. Most use one scalar judged by code; 38 compare nothing and judge nothing. One cell stays empty: no system keeps a vector of LLM judgments — the two vector systems use code as judge, and three LLM-judged ones escape into tournament scoring. This absence is R3, one of the six rules (stop 4).",
-      "look": "The fenced 'R3 · ≥23 near, 0 clean' cell with its 'exp 0.47', the 'TOURNAMENT · 3' neighbour, and the hatched judge-absent row",
+      "title": "Lineages and the empty cell",
+      "text": "Every record is coded by how it compares candidates and who judges them. The nine lineages cluster: seed-line compares one scalar with code, deep-research agents use LLM judges, paper-writing lineages judge whole papers with an LLM. One cell stays empty: no system keeps a vector of LLM judgments — this absence is R3, one of the six rules (stop 4).",
+      "look": "Nine lineage towers beside the plaza, the fenced R3 cell and its 'TOURNAMENT · 3' neighbour",
       "focus": [
         "@plaza-design",
-        "@spire-primitives",
-        "@spire-check"
+        "@spire-school-seed-line",
+        "@spire-school-dspy-line",
+        "@spire-school-multi-agent-scientist",
+        "@spire-school-clune-lab-open-endedness",
+        "@spire-school-dr-deep-research-agent",
+        "@spire-school-rl-post-training-as-autoresearch",
+        "@spire-school-physical-robotic-automation",
+        "@spire-school-mlagentbench-derived",
+        "@spire-school-camel-ai-line",
+        "@conduit-school-dr-rl",
+        "@conduit-school-clune-mas",
+        "@conduit-school-mlab-rl"
       ],
       "camera": {
-        "target": "@plaza-design",
-        "zoom": 15.95,
-        "pitch": 48,
-        "bearing": -8
+        "target": "@dist-design",
+        "zoom": 15.05,
+        "pitch": 50,
+        "bearing": -12
       }
     },
     {
-      "id": "retest",
-      "title": "962 repositories later",
-      "text": "A post-freeze sweep tried to fill the cell. The closest miss meets two of three clauses; one repository ships a Pareto pool no code path reaches; the candidate predicted in advance has no code. Of 15 hits flagged by triage agents, 11 were wrong.",
-      "look": "The scaffolded tower, two ghosts, and the '11 of 15 refuted' chip",
+      "id": "failures",
+      "title": "Nine ways to fail",
+      "text": "The compendium names nine recurring failures. Most rest on one or two repositories — a README promising a pipeline that isn't there, evaluation code the agent can edit, calibration claimed but not shipped. Two lead the evidence ranking: the uncalibrated LLM judge and regressed evaluation discipline.",
+      "look": "Nine leaning towers — height by how many repositories show the failure; the two tallest are in Tier S",
       "focus": [
-        "@spire-retest",
-        "@spire-virtualbiotech",
-        "@spire-xscientist",
-        "@spire-agenticop",
-        "@conduit-near",
-        "@conduit-unreach",
-        "@conduit-nocode",
-        "@bneck-triage",
-        "@bneck-norelease"
+        "@spire-ap-judge-uncalibrated",
+        "@spire-ap-eval-discipline-regression",
+        "@spire-ap-calibration-claimed-not-shipped",
+        "@spire-ap-cadence-claim-vs-artifact-divergence",
+        "@spire-ap-mutable-evaluation-code-as-gaming-surface",
+        "@spire-ap-readme-only-full-pipeline",
+        "@spire-ap-public-shell-for-off-repo-implementation",
+        "@spire-ap-fork-without-pruning",
+        "@spire-ap-star-prompt-runtime",
+        "@spire-ranking",
+        "@spire-patterns"
       ],
       "camera": {
-        "target": "@spire-virtualbiotech",
-        "zoom": 16.05,
-        "pitch": 58,
-        "bearing": -14
+        "target": "@dist-failures",
+        "zoom": 15.0,
+        "pitch": 52,
+        "bearing": -12
       }
     },
     {
@@ -1634,8 +2013,8 @@
       ],
       "camera": {
         "target": "@chal-r3",
-        "zoom": 15.55,
-        "pitch": 55,
+        "zoom": 15.35,
+        "pitch": 52,
         "bearing": -14
       },
       "items": [
@@ -1669,6 +2048,30 @@
       }
     },
     {
+      "id": "retest",
+      "title": "R3, re-tested on 962 new repositories",
+      "text": "R3 claims an absence, so the authors attacked it after the freeze: 962 new repositories, 69 flagged by triage agents, 15 re-checked — 11 of those flags were wrong. The closest miss meets two of three clauses; one repository ships a Pareto pool no code path reaches; the candidate predicted in advance has no code. The cell stays empty.",
+      "look": "The scaffolded tower, two ghosts, and the '11 of 15 refuted' chip",
+      "focus": [
+        "@spire-retest",
+        "@spire-virtualbiotech",
+        "@spire-xscientist",
+        "@spire-agenticop",
+        "@conduit-near",
+        "@conduit-unreach",
+        "@conduit-nocode",
+        "@bneck-triage",
+        "@bneck-norelease",
+        "@chal-r3"
+      ],
+      "camera": {
+        "target": "@spire-virtualbiotech",
+        "zoom": 15.9,
+        "pitch": 56,
+        "bearing": -14
+      }
+    },
+    {
       "id": "r2",
       "title": "It depends on what you count",
       "text": "R2 says fast iteration only comes with bounded artifacts. Count measured times only, and the forbidden cell is empty — because open-ended systems publish no measurements. Count configured limits too, and two counterexamples appear.",
@@ -1690,19 +2093,19 @@
     {
       "id": "r5",
       "title": "Failures travel, architectures don't",
-      "text": "The uncalibrated LLM judge shows up in four lineages, while architecture patterns stay within one or two. Evaluation infrastructure carries failures across otherwise unrelated systems; the broad form of R5 is contradicted.",
-      "look": "The red R5 pin and the '4 lineages' chip on the Tier S ranking",
+      "text": "The uncalibrated LLM judge is coded in 35 records across 7 of the 9 lineages, while architecture patterns stay within one or two: evaluation infrastructure carries failures across otherwise unrelated systems, so the broad form of R5 is contradicted. (Paper v1 says four lineages; the coded count is seven.)",
+      "look": "The 'uncalibrated judges by lineage' plaza and the tallest failure tower",
       "focus": [
         "@chal-r5",
-        "@spire-ranking",
+        "@spire-ap-judge-uncalibrated",
         "@bneck-fourlineages",
-        "@spire-patterns"
+        "@plaza-uncal"
       ],
       "camera": {
-        "target": "@chal-r5",
-        "zoom": 15.9,
-        "pitch": 55,
-        "bearing": -14
+        "target": "@plaza-uncal",
+        "zoom": 15.4,
+        "pitch": 50,
+        "bearing": -12
       }
     },
     {

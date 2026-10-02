@@ -949,6 +949,8 @@
     .plaza-table th { color: var(--text-muted); font-weight: 600; }
     .plaza-table td { color: #fff; font-weight: 700; }
     .plaza-table td.np { color: var(--text-dim); font-weight: 500; }
+    .challenge-beacon-marker.compact { padding: 2px 6px; gap: 4px; }
+    .challenge-beacon-marker.compact .challenge-text { font-size: 10px; }
     .verdict-tag { font-size: 9px; font-weight: 800; margin-left: 4px; letter-spacing: 0.4px; }
 
     /* "You are here" chip at the west end of the now-line */
@@ -1687,7 +1689,8 @@
       system: { icon: '🏢', word: 'System' },
       knowledge: { icon: '⛪', word: 'Knowledge' },
       instrument: { icon: '🔭', word: 'Instrument' },
-      hub: { icon: '📡', word: 'Hub' }
+      hub: { icon: '📡', word: 'Hub' },
+      failure: { icon: '💥', word: 'Failure mode' }
     };
     const HAS_KINDS = (window.SPIRES_INDEX || []).some(sp => sp.kind && sp.kind !== 'system');
     const kindOf = sp => KIND[sp.kind || 'system'] || KIND.system;
@@ -2140,13 +2143,16 @@
       });
 
       // 3. Strategic Priorities & Challenges (WITH PUNCHY 1-2 WORD CODENAMES!)
+      // city_metadata.target_labels = "code": just the code, verdict shown by the gem colour
+      const compactTargets = ((window.CITY_CONFIG || {}).target_labels || 'full') === 'code';
       window.CHALLENGES.forEach((c, idx) => {
         const chalEl = document.createElement('div');
         chalEl.className = 'challenge-beacon-marker';
+        if (compactTargets) chalEl.classList.add('compact');
         chalEl.dataset.tourRef = c.id;
         chalEl.innerHTML = `
           <div class="challenge-gem" ${c.verdict ? `style="background: ${VERDICT[c.verdict].color}; box-shadow: 0 0 10px ${VERDICT[c.verdict].color};"` : ''}></div>
-          <div class="challenge-text">🎯 ${c.codename}${c.short ? ` <span class="challenge-short">· ${c.short}</span>` : ''}${c.verdict ? ` <span class="verdict-tag" style="color: ${VERDICT[c.verdict].color};">${VERDICT[c.verdict].word}</span>` : ''}</div>
+          <div class="challenge-text">${compactTargets ? '' : '🎯 '}${c.codename}${!compactTargets && c.short ? ` <span class="challenge-short">· ${c.short}</span>` : ''}${!compactTargets && c.verdict ? ` <span class="verdict-tag" style="color: ${VERDICT[c.verdict].color};">${VERDICT[c.verdict].word}</span>` : ''}</div>
         `;
         chalEl.addEventListener('click', (e) => {
           e.stopPropagation();

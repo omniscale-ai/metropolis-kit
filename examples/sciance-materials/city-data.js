@@ -19,6 +19,7 @@ window.CITY_CONFIG = {
   "hud_tags": [],
   "building_scale": 1.0,
   "default_view": {},
+  "target_labels": "full",
   "ui_labels": {}
 };
 
