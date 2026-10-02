@@ -1,0 +1,30 @@
+# METROPOLIS-KIT: DOMAIN PROFILE — paper illustration
+# Source: Komissarov & Ustyuzhanin, "AI-Research Agents in the Wild. From GitHub and arXiv to
+#         Regularities and Gaps", arXiv:2609.11975 (analytic freeze 10 June 2026). Public data only.
+
+domain:
+  id: "autoresearch-in-the-wild"
+  title: "AUTORESEARCH IN THE WILD"
+  audience: "Readers and reviewers of the paper"
+
+metaphor:
+  spatial_topology: "Evidence pipeline"
+  direction: "Sources → Registries → Coding & verification → Theory → Tests"
+  rationale: >
+    The paper's contribution is its evidence discipline as much as its findings, so the city follows
+    the method; the ecosystem (lineages, hubs) appears inside the registries district and the
+    design-space plaza instead of driving the layout.
+
+mapping:
+  spires: "Method artifacts and key cases; height = weight in the argument"
+  spire_status: "active = partial landing in the empty cell; planned (ghost) = non-functional or unreleased"
+  highways: "Data flow of the method; re-test results are thin (ferries) or planned (no code)"
+  constraints: "Section 5.6 limitations plus counterevidence, placed where each acts"
+  priorities: "R1–R6 with verdict colours; arcs = supporting evidence / counterevidence (may point at plazas)"
+  plazas:
+    design_space: "A3 judge × A2 selection signal; marginals + two published cells, rest n/p"
+    cost_ambition: "Table 7 with both evidence rules; forbidden quadrant fenced"
+
+not_drawn:
+  - "Per-repository design-space coordinates (only in the private compendium)"
+  - "Artifact-role counts (the paper states a role-coding pass is still needed)"

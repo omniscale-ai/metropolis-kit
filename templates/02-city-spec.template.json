@@ -26,6 +26,7 @@
     {
       "id": "@spire-example-1",
       "district_ref": "@dist-example-1",
+      "kind": "system",
       "title": "Spire or Model Name",
       "code": "SP-01",
       "scale_level": 0.9,

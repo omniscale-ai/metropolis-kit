@@ -1,4 +1,4 @@
-.PHONY: all build serve serve-sciance serve-spec publish-sciance test clean examples build-multiscale build-sciance build-mindmatter
+.PHONY: all build serve serve-sciance serve-spec publish-sciance test clean examples build-multiscale build-sciance build-mindmatter build-autoresearch
 
 all: build
 
@@ -12,6 +12,9 @@ build-sciance:
 
 build-mindmatter:
 	python3 -m cli.compiler --spec examples/mind-matter/02-city-spec.json --web-dir docs/
+
+build-autoresearch:
+	python3 -m cli.compiler --spec examples/autoresearch-wild/02-city-spec.json --web-dir docs/
 
 serve:
 	python3 -m cli.compiler --spec examples/ai-multiscale/02-city-spec.json --web-dir docs/ --serve 8080
@@ -48,11 +51,14 @@ examples:
 	python3 -m cli.compiler --spec examples/sciance-materials/02-city-spec.json --out examples/sciance-materials/city-data.js
 	@echo "[*] Compiling MIND-MATTER showcase..."
 	python3 -m cli.compiler --spec examples/mind-matter/02-city-spec.json --out examples/mind-matter/city-data.js
+	@echo "[*] Compiling AUTORESEARCH IN THE WILD showcase..."
+	python3 -m cli.compiler --spec examples/autoresearch-wild/02-city-spec.json --out examples/autoresearch-wild/city-data.js
 
 test:
 	python3 -m cli.compiler --spec examples/ai-multiscale/02-city-spec.json --validate-only
 	python3 -m cli.compiler --spec examples/sciance-materials/02-city-spec.json --validate-only
 	python3 -m cli.compiler --spec examples/mind-matter/02-city-spec.json --validate-only
+	python3 -m cli.compiler --spec examples/autoresearch-wild/02-city-spec.json --validate-only
 
 clean:
 	rm -rf __pycache__ cli/__pycache__

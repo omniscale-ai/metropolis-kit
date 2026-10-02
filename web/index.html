@@ -902,6 +902,49 @@
     .tape-swatch.tape-noise { border-top-style: dotted; }
     .tape-swatch.tape-slowdown { border-top-style: dashed; }
 
+    /* Spire kind key at the top of the directory */
+    .kind-key { display: flex; flex-wrap: wrap; gap: 6px 12px; padding: 6px 4px 10px; font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 8px; }
+
+    /* Guided tour */
+    .tour-card {
+      position: absolute; left: 50%; bottom: 78px; transform: translateX(-50%);
+      width: min(640px, calc(100vw - 32px)); z-index: 25; display: none;
+      background: rgba(8, 12, 24, 0.94); border: 1px solid rgba(124, 255, 178, 0.45); border-radius: 12px;
+      padding: 14px 18px 12px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55); backdrop-filter: blur(10px);
+    }
+    .tour-card.open { display: block; }
+    .tour-head { display: flex; align-items: baseline; gap: 10px; }
+    .tour-step { font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #7cffb2; white-space: nowrap; }
+    .tour-title { font-size: 17px; font-weight: 800; color: #fff; flex: 1; margin: 0; }
+    .tour-text { margin: 8px 0 6px; font-size: 13.5px; line-height: 1.55; color: var(--text-main); }
+    .tour-look { margin: 0 0 10px; font-family: var(--font-mono); font-size: 11px; color: #ffcf66; }
+    .tour-look:empty { display: none; }
+    .tour-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .tour-dots { display: flex; gap: 6px; }
+    .tour-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); cursor: pointer; }
+    .tour-dot.active { background: #7cffb2; box-shadow: 0 0 8px #7cffb2; }
+    body.touring .maplibregl-marker:not(.tour-focus) { opacity: 0.12; transition: opacity 0.4s ease; }
+    body.touring .maplibregl-marker.tour-focus { opacity: 1; transition: opacity 0.4s ease; }
+    body.touring .hud-footer .scale-axis-strip { opacity: 0.35; }
+
+    /* Data plazas */
+    .plaza-switch {
+      pointer-events: auto; cursor: pointer; display: flex; gap: 4px; align-items: center;
+      background: rgba(10, 16, 32, 0.88); border: 1px solid rgba(0, 240, 255, 0.45); border-radius: 8px;
+      padding: 3px 6px; font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #dfe6f5;
+    }
+    .plaza-switch button {
+      cursor: pointer; font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #dfe6f5;
+      background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 5px; padding: 1px 6px;
+    }
+    .plaza-switch button.active { background: rgba(0, 240, 255, 0.25); border-color: var(--accent-cyan); }
+    .plaza-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-family: var(--font-mono); font-size: 11px; }
+    .plaza-table th, .plaza-table td { border: 1px solid rgba(255, 255, 255, 0.12); padding: 4px 6px; text-align: center; }
+    .plaza-table th { color: var(--text-muted); font-weight: 600; }
+    .plaza-table td { color: #fff; font-weight: 700; }
+    .plaza-table td.np { color: var(--text-dim); font-weight: 500; }
+    .verdict-tag { font-size: 9px; font-weight: 800; margin-left: 4px; letter-spacing: 0.4px; }
+
     /* "You are here" chip at the west end of the now-line */
     .now-chip {
       pointer-events: none;
@@ -1072,6 +1115,14 @@
         <span>🔄</span>
         <span>Auto-Orbit</span>
       </button>
+      <button id="tourBtn" class="control-action-btn" title="Guided tour (Space / → next, ← back, Esc exit)">
+        <span>▶</span>
+        <span>Tour</span>
+      </button>
+      <button id="scaleBtn" class="control-action-btn" title="Building size: Alt/Option + scroll, or [ and ] keys. Click to reset.">
+        <span>🏙️</span>
+        <span id="scaleLabel">×1.00</span>
+      </button>
       <button id="routeBtn" class="control-action-btn" title="Directions between two spires">
         <span>🧭</span>
         <span>Route</span>
@@ -1082,6 +1133,22 @@
       </button>
     </div>
   </footer>
+
+  <!-- GUIDED TOUR CARD -->
+  <section id="tourCard" class="tour-card">
+    <div class="tour-head">
+      <span id="tourStep" class="tour-step"></span>
+      <h3 id="tourTitle" class="tour-title"></h3>
+      <button class="route-close" id="tourCloseBtn" title="Exit tour (Esc)">✕</button>
+    </div>
+    <p id="tourText" class="tour-text"></p>
+    <p id="tourLook" class="tour-look"></p>
+    <div class="tour-nav">
+      <button id="tourPrevBtn" class="pager-btn">◀ Back</button>
+      <div id="tourDots" class="tour-dots"></div>
+      <button id="tourNextBtn" class="pager-btn">Next ▶</button>
+    </div>
+  </section>
 
   <!-- ROUTE (DIRECTIONS) PANEL -->
   <section id="routePanel" class="route-panel">
@@ -1183,6 +1250,345 @@
       });
     }
 
+    // ===== Guided tour (city_metadata-independent: window.TOUR from the spec's "tour") =====
+    const TOUR = window.TOUR || [];
+    let tourIndex = -1;
+    const tourSaved = {};
+
+    function tourRefsIn(el) {
+      const refs = [];
+      if (el.dataset && el.dataset.tourRef) refs.push(el.dataset.tourRef);
+      el.querySelectorAll('[data-tour-ref]').forEach(n => refs.push(n.dataset.tourRef));
+      return refs;
+    }
+
+    function saveTourPaint() {
+      const save = (layer, prop) => { if (map.getLayer(layer)) tourSaved[`${layer}|${prop}`] = map.getPaintProperty(layer, prop); };
+      ['buildings-3d', 'buildings-ghost'].forEach(l => save(l, 'fill-extrusion-color'));
+      ['conduits-glow', 'conduits-core', 'conduits-core-thin', 'conduits-core-planned', 'targets-rings', 'targets-arcs', 'targets-dot'].forEach(l =>
+        save(l, map.getLayer(l) && map.getLayer(l).type === 'fill' ? 'fill-opacity' : 'line-opacity'));
+      PLAZAS.forEach(pz => save(`plaza-tex-${pz.id}`, 'raster-opacity'));
+      save('plaza-bars', 'fill-extrusion-opacity');
+    }
+
+    function restoreTourPaint() {
+      Object.entries(tourSaved).forEach(([key, val]) => {
+        const [layer, prop] = key.split('|');
+        if (map.getLayer(layer)) map.setPaintProperty(layer, prop, val);
+      });
+    }
+
+    // Everything outside the stop's focus fades: building colours turn slate (opacity is
+    // per layer in MapLibre, colour is per feature), roads and plazas dim, markers fade.
+    function applyTourFocus(stop) {
+      restoreTourPaint();
+      const focus = new Set(stop.focus || []);
+      const list = [...focus];
+      const dim = '#1c2333';
+      const inFocus = key => ['in', ['get', key], ['literal', list]];
+      ['buildings-3d', 'buildings-ghost'].forEach(layer => {
+        if (!map.getLayer(layer)) return;
+        map.setPaintProperty(layer, 'fill-extrusion-color', ['case',
+          ['any', inFocus('spire_ref'), inFocus('challenge_ref'), inFocus('bottleneck_ref')],
+          ['coalesce', ['get', 'color'], '#00f0ff'], dim]);
+      });
+      ['conduits-glow', 'conduits-core', 'conduits-core-thin', 'conduits-core-planned'].forEach(layer => {
+        if (!map.getLayer(layer)) return;
+        const base = tourSaved[`${layer}|line-opacity`];
+        map.setPaintProperty(layer, 'line-opacity', ['case', inFocus('id'), base === undefined ? 0.9 : base, 0.08]);
+      });
+      ['targets-rings', 'targets-arcs'].forEach(layer => {
+        if (map.getLayer(layer)) map.setPaintProperty(layer, 'line-opacity', ['case', inFocus('challenge_ref'), 0.9, 0.12]);
+      });
+      if (map.getLayer('targets-dot')) map.setPaintProperty('targets-dot', 'fill-opacity', ['case', inFocus('challenge_ref'), 0.9, 0.15]);
+      PLAZAS.forEach(pz => {
+        const layer = `plaza-tex-${pz.id}`;
+        if (map.getLayer(layer)) map.setPaintProperty(layer, 'raster-opacity', focus.has(pz.id) ? 0.97 : 0.2);
+      });
+      if (map.getLayer('plaza-bars')) {
+        const anyPlaza = PLAZAS.some(pz => focus.has(pz.id));
+        map.setPaintProperty('plaza-bars', 'fill-extrusion-opacity', anyPlaza ? 0.85 : 0.2);
+      }
+      // a constraint in focus also lights up the spire it sits on; a spire lights its node chips
+      document.querySelectorAll('.maplibregl-marker').forEach(el => {
+        el.classList.toggle('tour-focus', tourRefsIn(el).some(r => focus.has(r)));
+      });
+    }
+
+    function goToStop(i) {
+      if (!TOUR.length) return;
+      tourIndex = Math.max(0, Math.min(TOUR.length - 1, i));
+      const stop = TOUR[tourIndex];
+      closeDrawer();
+      stopOrbit();
+      Object.entries(stop.plaza_layers || {}).forEach(([pid, layer]) => setPlazaLayer(pid, layer));
+      applyTourFocus(stop);
+      map.flyTo({ ...stop.camera, duration: 1600, essential: true, padding: { top: 60, bottom: 230, left: 360, right: 40 } });
+      document.getElementById('tourStep').textContent = `${tourIndex + 1} / ${TOUR.length}`;
+      document.getElementById('tourTitle').textContent = stop.title;
+      document.getElementById('tourText').textContent = stop.text;
+      document.getElementById('tourLook').textContent = stop.look ? `👁 ${stop.look}` : '';
+      document.querySelectorAll('.tour-dot').forEach((d, j) => d.classList.toggle('active', j === tourIndex));
+      document.getElementById('tourPrevBtn').disabled = tourIndex === 0;
+      document.getElementById('tourNextBtn').textContent = tourIndex === TOUR.length - 1 ? 'Finish ✓' : 'Next ▶';
+      try { history.replaceState(null, '', `#tour=${tourIndex + 1}`); } catch (e) { /* file:// or sandboxed */ }
+    }
+
+    function startTour(i) {
+      if (!TOUR.length) return;
+      if (tourIndex < 0) saveTourPaint();
+      document.body.classList.add('touring');
+      document.getElementById('tourCard').classList.add('open');
+      document.getElementById('tourBtn').classList.add('active');
+      goToStop(i || 0);
+    }
+
+    function endTour() {
+      if (tourIndex < 0) return;
+      tourIndex = -1;
+      restoreTourPaint();
+      PLAZAS.forEach(pz => setPlazaLayer(pz.id, (pz.layers[0] || {}).id));
+      document.body.classList.remove('touring');
+      document.querySelectorAll('.maplibregl-marker.tour-focus').forEach(el => el.classList.remove('tour-focus'));
+      document.getElementById('tourCard').classList.remove('open');
+      document.getElementById('tourBtn').classList.remove('active');
+      try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* ignore */ }
+    }
+
+    function setupTour() {
+      const btn = document.getElementById('tourBtn');
+      if (!TOUR.length) { btn.style.display = 'none'; return; }
+      document.getElementById('tourDots').innerHTML = TOUR.map((s, j) => `<span class="tour-dot" title="${s.title}" data-stop="${j}"></span>`).join('');
+      document.getElementById('tourDots').addEventListener('click', e => {
+        const d = e.target.closest('[data-stop]');
+        if (d) goToStop(+d.dataset.stop);
+      });
+      btn.addEventListener('click', () => (tourIndex < 0 ? startTour(0) : endTour()));
+      document.getElementById('tourPrevBtn').addEventListener('click', () => goToStop(tourIndex - 1));
+      document.getElementById('tourNextBtn').addEventListener('click', () => (tourIndex >= TOUR.length - 1 ? endTour() : goToStop(tourIndex + 1)));
+      document.getElementById('tourCloseBtn').addEventListener('click', endTour);
+      // Capture phase: while touring, these keys belong to the tour, not to the drawer pager
+      window.addEventListener('keydown', (e) => {
+        if (tourIndex < 0) return;
+        if (e.target && /input|select|textarea/i.test(e.target.tagName)) return;
+        let handled = true;
+        if (e.key === ' ' || e.key === 'ArrowRight' || e.key === 'PageDown') goToStop(tourIndex + 1);
+        else if (e.key === 'ArrowLeft' || e.key === 'PageUp') goToStop(tourIndex - 1);
+        else if (e.key === 'Escape') endTour();
+        else if (/^[1-9]$/.test(e.key) && +e.key <= TOUR.length) goToStop(+e.key - 1);
+        else handled = false;
+        if (handled) { e.preventDefault(); e.stopImmediatePropagation(); }
+      }, true);
+      const m = /#tour=(\d+)/.exec(location.hash);
+      if (m) {
+        // wait for district names / plaza textures so the first stop is dimmed correctly
+        setTimeout(() => startTour(+m[1] - 1), 1200);
+      }
+    }
+
+    // ===== Live building size (Alt/Option + scroll, [ / ] keys) =====
+    // Heights scale through a paint multiplier; footprints are rescaled around each building's
+    // centre (or its spire, for scaffolding and queues) from the compiled geometry.
+    let buildingSize = 1;                // runtime factor on top of the compiled city_metadata.building_scale
+    let buildingScaleFrame = null;
+    const ORIG_BUILDINGS = JSON.parse(JSON.stringify(window.BUILDINGS_GEOJSON || { type: 'FeatureCollection', features: [] }));
+    const ORIG_WIREFRAME = JSON.parse(JSON.stringify(window.WIREFRAME_GEOJSON || { type: 'FeatureCollection', features: [] }));
+
+    function scaleRing(ring, k, center) {
+      const pts = ring.length > 1 && ring[0][0] === ring[ring.length - 1][0] && ring[0][1] === ring[ring.length - 1][1] ? ring.slice(0, -1) : ring;
+      const c = center || [pts.reduce((a, p) => a + p[0], 0) / pts.length, pts.reduce((a, p) => a + p[1], 0) / pts.length];
+      return ring.map(p => [c[0] + (p[0] - c[0]) * k, c[1] + (p[1] - c[1]) * k]);
+    }
+
+    function applyBuildingSize() {
+      buildingScaleFrame = null;
+      const k = buildingSize;
+      ['buildings-3d', 'buildings-ghost'].forEach(layer => {
+        if (!map.getLayer(layer)) return;
+        map.setPaintProperty(layer, 'fill-extrusion-height', ['*', ['get', 'height'], k]);
+        map.setPaintProperty(layer, 'fill-extrusion-base', ['*', ['get', 'base_height'], k]);
+      });
+      const buildings = {
+        type: 'FeatureCollection',
+        features: ORIG_BUILDINGS.features.map(f => ({
+          ...f,
+          geometry: { ...f.geometry, coordinates: f.geometry.coordinates.map(r => scaleRing(r, k, f.properties.scale_center)) }
+        }))
+      };
+      map.getSource('buildings-geo').setData(buildings);
+      if (map.getSource('wireframe-geo')) {
+        map.getSource('wireframe-geo').setData({
+          type: 'FeatureCollection',
+          features: ORIG_WIREFRAME.features.map(f => ({ ...f, geometry: { ...f.geometry, coordinates: scaleRing(f.geometry.coordinates, k) } }))
+        });
+      }
+      const effective = k * ((window.CITY_CONFIG || {}).building_scale || 1);
+      document.getElementById('scaleLabel').textContent = `×${effective.toFixed(2)}`;
+    }
+
+    function setBuildingSize(k) {
+      buildingSize = Math.min(2.5, Math.max(0.3, k));
+      if (!buildingScaleFrame) buildingScaleFrame = setTimeout(applyBuildingSize, 30);  // coalesce bursts of wheel events
+    }
+
+    function setupBuildingSizeControls() {
+      // Capture phase on the map container, so MapLibre never sees Alt+wheel as a zoom
+      document.getElementById('map').addEventListener('wheel', (e) => {
+        if (!e.altKey) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        setBuildingSize(buildingSize * Math.exp(-e.deltaY * 0.0015));
+      }, { capture: true, passive: false });
+      window.addEventListener('keydown', (e) => {
+        if (e.target && /input|select|textarea/i.test(e.target.tagName)) return;
+        if (e.key === ']') setBuildingSize(buildingSize * 1.1);
+        if (e.key === '[') setBuildingSize(buildingSize / 1.1);
+      });
+      document.getElementById('scaleBtn').addEventListener('click', () => setBuildingSize(1));
+      applyBuildingSize();
+    }
+
+    // ===== Data plazas =====
+    const PLAZAS = window.PLAZAS || [];
+    const plazaActive = {};           // plaza id -> active layer id
+    PLAZAS.forEach(pz => { plazaActive[pz.id] = (pz.layers[0] || {}).id; });
+
+    function plazaBarFilter() {
+      const parts = PLAZAS.map(pz => ['all', ['==', ['get', 'plaza'], pz.id], ['==', ['get', 'layer'], plazaActive[pz.id] || '']]);
+      return ['all', ['==', ['get', 'kind'], 'bar'], parts.length ? ['any', ...parts] : false];
+    }
+
+    function fitFont(g, text, weight, maxPx, maxWidth) {
+      let size = maxPx;
+      g.font = `${weight} ${size}px "JetBrains Mono", monospace`;
+      while (size > 8 && g.measureText(text).width > maxWidth) {
+        size -= 1;
+        g.font = `${weight} ${size}px "JetBrains Mono", monospace`;
+      }
+      return size;
+    }
+
+    function drawPlaza(pz) {
+      const f = pz.frame;
+      const ppm = Math.min(4, 4096 / f.width_m);
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.ceil(f.width_m * ppm);
+      canvas.height = Math.ceil(f.height_m * ppm);
+      const g = canvas.getContext('2d');
+      const X = m => m * ppm;
+      const gx = X(f.grid_x_m), gy = X(f.grid_y_m), cs = X(f.cell_m);
+      const layer = pz.layers.find(l => l.id === plazaActive[pz.id]) || pz.layers[0] || { cells: [] };
+      const cellsW = cs * pz.cols.length, cellsH = cs * pz.rows.length;
+      g.fillStyle = 'rgba(8, 12, 24, 0.72)';
+      g.fillRect(0, 0, canvas.width, canvas.height);
+      g.textBaseline = 'top';
+      // title and axis captions in the header margin
+      g.fillStyle = pz.color;
+      fitFont(g, pz.title, 800, X(22), canvas.width - X(16));
+      g.fillText(pz.title, X(8), X(8));
+      g.fillStyle = 'rgba(223, 230, 245, 0.85)';
+      fitFont(g, layer.label || pz.subtitle || '', 600, X(13), canvas.width - X(16));
+      g.fillText(layer.label || pz.subtitle || '', X(8), X(36));
+      if (pz.col_axis) {
+        g.fillStyle = 'rgba(223, 230, 245, 0.6)';
+        fitFont(g, pz.col_axis + ' →', 600, X(12), cellsW);
+        g.fillText(pz.col_axis + ' →', gx, X(58));
+      }
+      if (pz.row_axis) {
+        g.fillStyle = 'rgba(223, 230, 245, 0.6)';
+        fitFont(g, '↓ ' + pz.row_axis, 600, X(12), gx - X(12));
+        g.fillText('↓ ' + pz.row_axis, X(8), X(58));
+      }
+      // column headers
+      g.textAlign = 'center';
+      pz.cols.forEach((c, i) => {
+        g.fillStyle = '#dfe6f5';
+        fitFont(g, c, 700, X(13), cs - X(6));
+        g.fillText(c, gx + cs * (i + 0.5), gy - X(26));
+      });
+      // row headers
+      g.textAlign = 'right';
+      g.textBaseline = 'middle';
+      pz.rows.forEach((r, j) => {
+        g.fillStyle = '#dfe6f5';
+        fitFont(g, r, 700, X(14), gx - X(14));
+        g.fillText(r, gx - X(8), gy + cs * (j + 0.5));
+      });
+      // grid
+      g.strokeStyle = 'rgba(223, 230, 245, 0.35)';
+      g.lineWidth = Math.max(1, X(0.8));
+      for (let i = 0; i <= pz.cols.length; i++) { g.beginPath(); g.moveTo(gx + cs * i, gy); g.lineTo(gx + cs * i, gy + cellsH); g.stroke(); }
+      for (let j = 0; j <= pz.rows.length; j++) { g.beginPath(); g.moveTo(gx, gy + cs * j); g.lineTo(gx + cellsW, gy + cs * j); g.stroke(); }
+      // values: number in the top-left of each cell, n/p for unpublished cells
+      g.textAlign = 'left';
+      g.textBaseline = 'top';
+      (layer.cells || []).forEach((row, j) => row.forEach((v, i) => {
+        const x = gx + cs * i + X(4), y = gy + cs * j + X(3);
+        if (typeof v === 'string') {
+          g.fillStyle = '#ffcf66';
+          g.font = `800 ${X(15)}px "JetBrains Mono", monospace`;
+          g.fillText(v, x, y);
+        } else if (v === null || v === undefined) {
+          g.fillStyle = 'rgba(160, 168, 188, 0.6)';
+          g.font = `600 ${X(11)}px "JetBrains Mono", monospace`;
+          g.fillText('n/p', x, y);
+        } else {
+          g.fillStyle = v === 0 ? 'rgba(160, 168, 188, 0.85)' : '#ffffff';
+          g.font = `800 ${X(15)}px "JetBrains Mono", monospace`;
+          g.fillText(String(v), x, y);
+        }
+      }));
+      // special cells: caption under the fence
+      (pz.highlight || []).forEach(h => {
+        g.fillStyle = h.kind === 'forbidden' ? '#ff5c7a' : '#ffcf66';
+        g.textAlign = 'center';
+        g.textBaseline = 'bottom';
+        fitFont(g, h.label || '', 800, X(10), cs - X(4));
+        g.fillText(h.label || '', gx + cs * (h.col + 0.5), gy + cs * (h.row + 1) - X(3));
+      });
+      return canvas;
+    }
+
+    function addPlazaTextures() {
+      PLAZAS.forEach(pz => {
+        const id = `plaza-tex-${pz.id}`;
+        map.addSource(id, { type: 'image', url: drawPlaza(pz).toDataURL('image/png'), coordinates: pz.corners });
+        map.addLayer({ id, type: 'raster', source: id, paint: { 'raster-opacity': 0.97, 'raster-fade-duration': 0 } }, 'plaza-highlight');
+      });
+    }
+
+    function setPlazaLayer(plazaId, layerId) {
+      plazaActive[plazaId] = layerId;
+      const pz = PLAZAS.find(p => p.id === plazaId);
+      const src = map.getSource(`plaza-tex-${plazaId}`);
+      if (src) src.updateImage({ url: drawPlaza(pz).toDataURL('image/png'), coordinates: pz.corners });
+      map.setFilter('plaza-bars', plazaBarFilter());
+      document.querySelectorAll(`.plaza-switch[data-plaza="${plazaId}"] button`).forEach(b => b.classList.toggle('active', b.dataset.layer === layerId));
+      if (activeSelection && activeSelection.type === 'plaza' && activeSelection.id === plazaId) {
+        selectObject('plaza', plazaId, PLAZAS.indexOf(pz), true);
+      }
+    }
+
+    function renderPlazaControls() {
+      PLAZAS.forEach((pz, idx) => {
+        const el = document.createElement('div');
+        el.className = 'plaza-switch';
+        el.dataset.plaza = pz.id;
+        el.dataset.tourRef = pz.id;
+        el.innerHTML = `<span class="plaza-switch-title">▦ ${pz.title}</span>` + (pz.layers.length > 1
+          ? pz.layers.map(l => `<button data-layer="${l.id}" class="${l.id === plazaActive[pz.id] ? 'active' : ''}" title="${l.label || l.id}">${l.short || l.id}</button>`).join('')
+          : '');
+        el.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const btn = e.target.closest('button');
+          if (btn) setPlazaLayer(pz.id, btn.dataset.layer);
+          else selectObject('plaza', pz.id, idx);
+        });
+        districtMarkers.push(new maplibregl.Marker({ element: el, anchor: 'bottom-left', pitchAlignment: 'viewport' })
+          .setLngLat(pz.corners[0]).addTo(map));
+      });
+    }
+
     function districtNameAt(lngLat) {
       if (!layerVisibility.districts) return null;
       return districtNames.find(n => lngLat.lng >= n.bbox[0] && lngLat.lng <= n.bbox[2] && lngLat.lat >= n.bbox[1] && lngLat.lat <= n.bbox[3]) || null;
@@ -1214,6 +1620,22 @@
       active: { icon: '🟡', word: 'In progress' },
       planned: { icon: '⚪', word: 'Planned' }
     };
+    const VERDICT = {
+      supported: { color: '#00e599', word: 'BOUNDED SUPPORT' },
+      conditional: { color: '#ffb700', word: 'CONDITIONAL' },
+      contradicted: { color: '#ff1744', word: 'CONTRADICTED' },
+      exploratory: { color: '#a0a8bc', word: 'EXPLORATORY' }
+    };
+    // Spire archetypes (spire `kind`): shape says what a thing is
+    const KIND = {
+      system: { icon: '🏢', word: 'System' },
+      knowledge: { icon: '⛪', word: 'Knowledge' },
+      instrument: { icon: '🔭', word: 'Instrument' },
+      hub: { icon: '📡', word: 'Hub' }
+    };
+    const HAS_KINDS = (window.SPIRES_INDEX || []).some(sp => sp.kind && sp.kind !== 'system');
+    const kindOf = sp => KIND[sp.kind || 'system'] || KIND.system;
+    const kindWord = sp => L(`kind_${sp.kind || 'system'}`, kindOf(sp).word);
     const HAS_STATUS = (window.SPIRES_INDEX || []).some(sp => sp.status && sp.status !== 'done');
 
     function bneckIcon(b) {
@@ -1263,6 +1685,8 @@
         renderConstraintMarkers();
         setupInteraction();
         setupRoutePanel();
+        setupBuildingSizeControls();
+        setupTour();
         buildLegendUI();
         buildScaleRunway();
         startConstraintAnimations();
@@ -1370,11 +1794,32 @@
         paint: { 'line-color': '#000000', 'line-width': 14, 'line-opacity': 0.001 }
       });
 
+      // Data plazas: grid texture on the ground, bars per cell, fenced special cells
+      map.addSource('plaza-geo', { type: 'geojson', data: window.PLAZAS_GEOJSON || { type: 'FeatureCollection', features: [] } });
+      map.addLayer({
+        id: 'plaza-hit', type: 'fill', source: 'plaza-geo', filter: ['==', ['get', 'kind'], 'hit'],
+        paint: { 'fill-color': '#000000', 'fill-opacity': 0.001 }
+      });
+      map.addLayer({
+        id: 'plaza-highlight', type: 'line', source: 'plaza-geo', filter: ['==', ['get', 'kind'], 'highlight'],
+        paint: {
+          'line-color': ['match', ['get', 'style'], 'forbidden', '#ff1744', '#ffb300'],
+          'line-width': 3, 'line-dasharray': [1.5, 1]
+        }
+      });
+      map.addLayer({
+        id: 'plaza-bars', type: 'fill-extrusion', source: 'plaza-geo', filter: plazaBarFilter(),
+        paint: {
+          'fill-extrusion-color': ['get', 'color'], 'fill-extrusion-height': ['get', 'height'],
+          'fill-extrusion-base': ['get', 'base_height'], 'fill-extrusion-opacity': 0.85
+        }
+      });
+
       // District names painted on the ground (after the webfont is available)
       const fontsReady = document.fonts && document.fonts.load
         ? Promise.all([document.fonts.load('800 96px "JetBrains Mono"'), document.fonts.load('600 68px "JetBrains Mono"')]).catch(() => null)
         : Promise.resolve();
-      fontsReady.then(addDistrictNames);
+      fontsReady.then(() => { addDistrictNames(); addPlazaTextures(); });
 
       // 2. Highways (conduits)
       map.addSource('conduits-geo', {
@@ -1619,6 +2064,7 @@
         if (b.scope) return; // schema v2 constraints are rendered by renderConstraintMarkers()
         const hazardEl = document.createElement('div');
         hazardEl.className = 'hazard-radar-marker';
+        hazardEl.dataset.tourRef = b.id;
         hazardEl.innerHTML = `
           <div class="hazard-pulse-ring"></div>
           <div class="hazard-radar-text">⚠️ ${b.codename}</div>
@@ -1640,9 +2086,10 @@
       window.CHALLENGES.forEach((c, idx) => {
         const chalEl = document.createElement('div');
         chalEl.className = 'challenge-beacon-marker';
+        chalEl.dataset.tourRef = c.id;
         chalEl.innerHTML = `
-          <div class="challenge-gem"></div>
-          <div class="challenge-text">🎯 ${c.codename}</div>
+          <div class="challenge-gem" ${c.verdict ? `style="background: ${VERDICT[c.verdict].color}; box-shadow: 0 0 10px ${VERDICT[c.verdict].color};"` : ''}></div>
+          <div class="challenge-text">🎯 ${c.codename}${c.verdict ? ` <span class="verdict-tag" style="color: ${VERDICT[c.verdict].color};">${VERDICT[c.verdict].word}</span>` : ''}</div>
         `;
         chalEl.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -1664,6 +2111,7 @@
         if (!cond.midpoint) return;
         const conduitEl = document.createElement('div');
         conduitEl.className = `conduit-beacon-marker status-${cond.status || 'operational'}`;
+        conduitEl.dataset.tourRef = cond.id;
         conduitEl.title = `${roadOf(cond).title}: ${cond.name}`;
         conduitEl.innerHTML = `
           <span style="font-size: 11px;">${roadOf(cond).icon}</span>
@@ -1738,7 +2186,12 @@
         if (ref) gotoRef(ref);
       });
 
-      const interactiveLayers = ['buildings-3d', 'buildings-ghost', 'conduits-hitarea', 'fields-tape-hit', 'targets-arcs-hit', 'traffic-queue'];
+      map.on('click', 'plaza-hit', (e) => {
+        if (map.queryRenderedFeatures(e.point, { layers: ['buildings-3d', 'buildings-ghost', 'conduits-hitarea'].filter(l => map.getLayer(l)) }).length) return;
+        const id = e.features && e.features[0] && e.features[0].properties.plaza;
+        if (id) selectObject('plaza', id, PLAZAS.findIndex(p => p.id === id));
+      });
+      const interactiveLayers = ['plaza-hit', 'buildings-3d', 'buildings-ghost', 'conduits-hitarea', 'fields-tape-hit', 'targets-arcs-hit', 'traffic-queue'];
       const nothingElseAt = (point) => !map.queryRenderedFeatures(point, { layers: interactiveLayers.filter(l => map.getLayer(l)) }).length;
       map.on('click', (e) => {
         const name = districtNameAt(e.lngLat);
@@ -1845,7 +2298,8 @@
     function applyLayerVisibility(layerKey) {
       const isVisible = layerVisibility[layerKey];
       if (layerKey === 'districts') {
-        setLayers(['districts-fill', 'districts-line', 'now-glow', 'now-line', ...districtNames.map(n => n.layer)], isVisible);
+        setLayers(['districts-fill', 'districts-line', 'now-glow', 'now-line', 'plaza-hit', 'plaza-highlight', 'plaza-bars',
+          ...districtNames.map(n => n.layer), ...PLAZAS.map(p => `plaza-tex-${p.id}`)], isVisible);
         setMarkers(districtMarkers, isVisible);
       } else if (layerKey === 'spires') {
         setLayers(['buildings-wireframe'], isVisible);
@@ -1870,7 +2324,7 @@
     }
 
     // Selection & Drawer Rendering
-    function selectObject(type, id, index) {
+    function selectObject(type, id, index, keepCamera) {
       activeSelection = { type, id, index };
       const selected = type === 'bottleneck' ? BNECKS[index] : null;
       highlightField(selected && selected.scope === 'field' ? id : null);
@@ -1888,9 +2342,10 @@
       if (type === 'spire') {
         const item = window.SPIRES_INDEX[index];
         badge.className = 'drawer-type-badge badge-spire';
+        const kindPrefix = HAS_KINDS ? `${kindOf(item).icon} ${kindWord(item).toUpperCase()} • ` : '';
         badge.textContent = HAS_STATUS
-          ? `${SPIRE_STATUS[item.status || 'done'].icon} ${L('spire_badge', 'SPIRE')} • ${item.code} (${item.codename})`
-          : `${L('spire_badge', 'SPIRE')} • ${item.code} (${item.codename})`;
+          ? `${kindPrefix}${SPIRE_STATUS[item.status || 'done'].icon} ${L('spire_badge', 'SPIRE')} • ${item.code} (${item.codename})`
+          : `${kindPrefix}${L('spire_badge', 'SPIRE')} • ${item.code} (${item.codename})`;
         title.textContent = item.title;
         subtitle.textContent = `${item.district_name} (${item.scale_label})`;
 
@@ -1981,12 +2436,13 @@
         subtitle.textContent = item.type;
 
         body.innerHTML = `
+          ${item.verdict ? `<div class="scope-banner"><span class="scope-tag" style="background: ${VERDICT[item.verdict].color}22; color: ${VERDICT[item.verdict].color}; border-color: ${VERDICT[item.verdict].color};">VERDICT: ${VERDICT[item.verdict].word}</span></div>` : ''}
           <div class="metric-card" style="border-left: 3px solid var(--accent-amber);">
             <span class="metric-label">${L('target_title', 'Strategic Policy Target')}</span>
             <span class="metric-value" style="font-size: 13.5px; line-height: 1.5; color: #fff;">${item.target}</span>
           </div>
-          ${relationBlock('🏛️ Advanced by', item.advanced_by)}
-          ${relationBlock('⚠️ Blocked by', item.blocked_by)}
+          ${relationBlock(item.verdict ? '🏛️ Supporting evidence' : '🏛️ Advanced by', item.advanced_by)}
+          ${relationBlock(item.verdict ? '⚠️ Counterevidence' : '⚠️ Blocked by', item.blocked_by)}
         `;
 
         showLinks(item.coordinates, [
@@ -1996,6 +2452,31 @@
 
         updatePager(window.CHALLENGES.length, index);
         flyToObject(item.coordinates);
+      } else if (type === 'plaza') {
+        const item = PLAZAS[index];
+        const layer = item.layers.find(l => l.id === plazaActive[item.id]) || item.layers[0] || { cells: [] };
+        badge.className = 'drawer-type-badge badge-conduit';
+        badge.textContent = `DATA PLAZA • ${item.rows.length}×${item.cols.length}`;
+        title.textContent = item.title;
+        subtitle.textContent = layer.label || item.subtitle || '';
+        const cell = v => (v === null || v === undefined) ? '<td class="np">n/p</td>' : `<td>${v}</td>`;
+        body.innerHTML = `
+          ${item.layers.length > 1 ? `<div class="relation-list">${item.layers.map(l =>
+            `<span class="ref-chip ${l.id === plazaActive[item.id] ? 'kind-spire' : ''}" data-plaza-layer="${l.id}">${l.label || l.id}</span>`).join('')}</div>` : ''}
+          <table class="plaza-table">
+            <tr><th>${item.row_axis || ''} \\ ${item.col_axis || ''}</th>${item.cols.map(c => `<th>${c}</th>`).join('')}</tr>
+            ${item.rows.map((r, j) => `<tr><th>${r}</th>${(layer.cells[j] || []).map(cell).join('')}</tr>`).join('')}
+          </table>
+          ${(item.highlight || []).map(h => `<div class="${h.kind === 'forbidden' ? 'hazard-box' : 'remedy-box'}" style="margin-top: 10px;"><strong>${item.rows[h.row]} × ${item.cols[h.col]}:</strong> ${h.note || h.label || ''}</div>`).join('')}
+          ${item.description ? `<p class="drawer-body-text" style="margin-top: 12px;">${item.description}</p>` : ''}
+        `;
+        body.querySelectorAll('[data-plaza-layer]').forEach(chip => chip.addEventListener('click', (e) => {
+          e.stopPropagation();
+          setPlazaLayer(item.id, chip.dataset.plazaLayer);
+        }));
+        showLinks(null, []);
+        updatePager(PLAZAS.length, index);
+        if (!keepCamera) flyToObject(item.coordinates);
       } else if (type === 'conduit') {
         const item = window.CONDUITS[index];
         badge.className = 'drawer-type-badge badge-conduit';
@@ -2151,6 +2632,7 @@
       if (type === 'bottleneck') return BNECKS;
       if (type === 'challenge') return window.CHALLENGES;
       if (type === 'conduit') return window.CONDUITS;
+      if (type === 'plaza') return PLAZAS;
       return [];
     }
 
@@ -2166,6 +2648,13 @@
     function buildLegendUI() {
       const container = document.getElementById('legendDistrictList');
       container.innerHTML = '';
+      if (HAS_KINDS) {
+        const present = Object.keys(KIND).filter(k => window.SPIRES_INDEX.some(sp => (sp.kind || 'system') === k));
+        const key = document.createElement('div');
+        key.className = 'kind-key';
+        key.innerHTML = present.map(k => `<span title="${L(`kind_${k}_hint`, '')}">${KIND[k].icon} ${L(`kind_${k}`, KIND[k].word)}</span>`).join('');
+        container.appendChild(key);
+      }
 
       // 1. Scale Districts & Spires
       window.DISTRICTS.forEach(d => {
@@ -2194,7 +2683,7 @@
           item.className = 'spire-item';
           item.dataset.id = s.id;
           item.innerHTML = `
-            <span class="spire-item-name">${HAS_STATUS ? SPIRE_STATUS[s.status || 'done'].icon + ' ' : ''}${s.title}</span>
+            <span class="spire-item-name">${HAS_KINDS ? kindOf(s).icon + ' ' : ''}${HAS_STATUS && s.status && s.status !== 'done' ? SPIRE_STATUS[s.status].icon + ' ' : ''}${s.title}</span>
             <span class="spire-item-code">${s.codename || s.code}</span>
           `;
           item.addEventListener('click', () => {
@@ -2284,6 +2773,24 @@
         });
         container.appendChild(group);
       };
+      if (PLAZAS.length) {
+        const group = document.createElement('div');
+        group.className = 'district-group';
+        group.style.borderTop = '1px solid rgba(255, 255, 255, 0.1)';
+        group.style.paddingTop = '10px';
+        group.innerHTML = `<div class="district-group-header"><div class="district-label-box"><div>
+          <div class="district-group-name" style="color: var(--accent-cyan);">▦ DATA PLAZAS (${PLAZAS.length})</div>
+          <div class="district-group-scale">Tables painted on the ground</div></div></div></div>`;
+        PLAZAS.forEach((pz, idx) => {
+          const row = document.createElement('div');
+          row.className = 'spire-item conduit-legend-item';
+          row.dataset.id = pz.id;
+          row.innerHTML = `<span class="spire-item-name">▦ ${pz.title}</span><span class="spire-item-code">${pz.rows.length}×${pz.cols.length}</span>`;
+          row.addEventListener('click', () => selectObject('plaza', pz.id, idx));
+          group.appendChild(row);
+        });
+        container.appendChild(group);
+      }
       addSection('⚠️ CONSTRAINTS', 'Traffic · Queues · Weather', 'var(--accent-red)', BNECKS, 'bottleneck');
       addSection('🎯 PRIORITIES', 'Research challenges & recommendations', 'var(--accent-amber)', window.CHALLENGES, 'challenge');
     }
@@ -2380,6 +2887,7 @@
 
     // ===== Constraint markers (schema v2) =====
     function renderConstraintMarkers() {
+      renderPlazaControls();
       if (window.NOW_MARKER) {
         const el = document.createElement('div');
         el.className = 'now-chip';
@@ -2393,6 +2901,7 @@
         (b.anchors || []).forEach((a, aIdx) => {
           if (a.kind === 'edge') {
             const el = document.createElement('div');
+            el.dataset.tourRef = b.id;
             if (a.barrier) {
               // A planned road: the constraint is the barrier that keeps it from being built
               el.className = 'incident-pin barrier';
@@ -2422,6 +2931,7 @@
           const chip = document.createElement('div');
           chip.className = 'forecast-chip';
           chip.dataset.bneck = b.id;
+          chip.dataset.tourRef = b.id;
           chip.style.borderColor = b.color;
           chip.style.setProperty('--tape', b.color);
           chip.title = `${b.title} — ${EFFECT_WORD[b.effect]} over ${b.constrains.length} district(s)`;
@@ -2440,6 +2950,7 @@
         group.items.forEach(({ b, idx }) => {
           const chip = document.createElement('div');
           chip.className = 'node-chip';
+          chip.dataset.tourRef = b.id;
           chip.title = b.title;
           chip.innerHTML = `<span>${bneckIcon(b)}</span><span>${b.codename}</span>${b.delay_label ? `<span class="delay-chip">${b.delay_label}</span>` : ''}`;
           chip.addEventListener('click', (e) => { e.stopPropagation(); selectObject('bottleneck', b.id, idx); });
@@ -2470,6 +2981,7 @@
       if (ref.startsWith('@bneck-')) { const i = BNECKS.findIndex(x => x.id === ref); return i < 0 ? null : { kind: 'bottleneck', i, item: BNECKS[i] }; }
       if (ref.startsWith('@chal-')) { const i = window.CHALLENGES.findIndex(x => x.id === ref); return i < 0 ? null : { kind: 'challenge', i, item: window.CHALLENGES[i] }; }
       if (ref.startsWith('@dist-')) { const d = window.DISTRICTS.find(x => x.id === ref); return d ? { kind: 'district', item: d } : null; }
+      if (ref.startsWith('@plaza-')) { const i = PLAZAS.findIndex(x => x.id === ref); return i < 0 ? null : { kind: 'plaza', i, item: PLAZAS[i] }; }
       return null;
     }
 

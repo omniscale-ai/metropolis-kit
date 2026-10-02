@@ -41,3 +41,15 @@ Rules:
 5. `remedied_by` points to the conduit, spire or challenge that the source presents as the fix.
 6. Conduits take `status`, which sets the road type in the viewer: `operational` (default, ⚡ highway), `thin` (⛴️ ferry — the flow exists but is weak, emerging or episodic), `planned` (🚧 planned road — the source asks for it but it does not exist). Every `planned` conduit should be explained by a bottleneck, as its target or its remedy; an edge bottleneck on a planned road is drawn as the barrier that keeps it from being built.
 7. Challenges take `advanced_by` (spires that move them forward) and `blocked_by` (bottlenecks that hold them back).
+
+### Spire Kinds (building archetypes)
+Give every spire a `kind`; the shape says what the thing is, the colour stays the district's:
+
+| `kind` | Building | Use for |
+| :--- | :--- | :--- |
+| `system` (default) | Stepped skyscraper | Models, algorithms, software and agent systems |
+| `knowledge` | Cathedral | Datasets, registries, corpora, classifications, knowledge bases |
+| `instrument` | Observatory | Measurements, benchmarks, checks, audits, scores |
+| `hub` | TV tower | Channels, standards, protocols, connection points |
+
+Choose by what the object *is*, not by its role in the graph (height and roads already show prominence). Within one map, keep the rule simple enough to state in one sentence in the legend.

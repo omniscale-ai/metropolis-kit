@@ -1,0 +1,1554 @@
+{
+  "city_metadata": {
+    "title": "AUTORESEARCH IN THE WILD",
+    "subtitle": "Evidence map from GitHub/paper arXiv:2609.11975",
+    "theme": "quantum_crystal",
+    "schema_version": "2.0",
+    "scale_axis_label": "",
+    "scale_axis_description": "Following the paper's own Figure 1: what was counted, which design cell stays empty, how six rules fared when tested on new cases, and how papers and code connect. Limitations sit on the finding they weaken.",
+    "building_scale": 0.6667,
+    "ui_labels": {
+      "metric_scale": "Count",
+      "metric_acceleration": "Key number",
+      "metric_infrastructure": "Evidence object",
+      "metric_maturity": "Reliability",
+      "abstract_title": "What it is",
+      "impact_title": "Effect",
+      "remedy_title": "What would fix it",
+      "target_title": "Claim",
+      "spire_badge": "ARTIFACT",
+      "priority_badge": "REGULARITY",
+      "kind_system": "Ecosystem system",
+      "kind_knowledge": "Corpus & knowledge",
+      "kind_instrument": "Study instrument",
+      "kind_hub": "Intake channel",
+      "kind_system_hint": "Repositories and agent systems from the studied ecosystem",
+      "kind_knowledge_hint": "Registries, classifications and pattern records built by the study",
+      "kind_instrument_hint": "Coding, checks, audits and scores the study uses to measure",
+      "kind_hub_hint": "Channels through which records entered the registry"
+    }
+  },
+  "districts": [
+    {
+      "id": "@dist-population",
+      "name": "1 · THE POPULATION",
+      "scale_label": "139 public artifacts — not 139 agents",
+      "order": 1,
+      "color": "#00f0ff",
+      "glow": "rgba(0, 240, 255, 0.4)",
+      "description": "What was counted: 139 canonical public repositories admitted through unequal discovery channels — agents, benchmarks, libraries, substrates, lists and boundary artifacts. Nine lineages cover only 52 of them. Estimating how many runnable agents exist needs a separate role-coding pass.",
+      "eu_infrastructures": [
+        "GitHub"
+      ]
+    },
+    {
+      "id": "@dist-design",
+      "name": "2 · THE DESIGN SPACE",
+      "scale_label": "One cell stays empty — even after a 962-repository re-test",
+      "order": 2,
+      "color": "#ffb700",
+      "glow": "rgba(255, 183, 0, 0.4)",
+      "description": "RQ1. Every record is coded on selection signal × judge. Most compare candidates with a strict scalar; 38 run no comparison and no gate at all; and no clean optimization loop keeps a vector signal with a language-model judge. A post-freeze sweep found the closest miss, an unreachable pool and an untestable candidate — three routes by which the cell stays empty.",
+      "eu_infrastructures": []
+    },
+    {
+      "id": "@dist-theory",
+      "name": "3 · THE THEORY ON TRIAL",
+      "scale_label": "Six rules fixed in advance · 0 of 6 triggers fired",
+      "order": 3,
+      "color": "#c040ff",
+      "glow": "rgba(192, 64, 255, 0.4)",
+      "description": "RQ2. Six candidate regularities were written down with trigger observations on 17 May 2026, then 25 new repositories were inspected. No trigger fired, which gives bounded support only: R1 and R3 hold, R2 and R4 are conditional, R5's broad form is contradicted and R6 stays exploratory.",
+      "eu_infrastructures": []
+    },
+    {
+      "id": "@dist-papers",
+      "name": "4 · PAPERS ↔ CODE",
+      "scale_label": "212 edges map our curation, not citation",
+      "order": 4,
+      "color": "#00e599",
+      "glow": "rgba(0, 229, 153, 0.4)",
+      "description": "RQ3. 64 of 101 papers are coded as related to at least one repository, but the edges reach only 23 of 139 repositories, and six hubs carry 56.6% of them. A full-text sample found a mention for 3 of 29 edges, so this is a map of the curation. At least 18 paper authors also commit to a registry repository.",
+      "eu_infrastructures": [
+        "arXiv"
+      ]
+    }
+  ],
+  "spires": [
+    {
+      "id": "@spire-reporeg",
+      "district_ref": "@dist-population",
+      "kind": "knowledge",
+      "title": "Repository registry",
+      "code": "REG-1",
+      "codename": "139 REPOSITORIES",
+      "scale_level": 0.98,
+      "metrics": {
+        "scale": "139 canonical records",
+        "acceleration": "3 aliases folded",
+        "infrastructure": "Evidence card per record",
+        "maturity": "Frozen 10 Jun 2026"
+      },
+      "abstract": "139 canonical public GitHub records after three aliases are folded into their targets. Roles span research agents, benchmarks, libraries, substrates, meta-resources, paper companions and boundary artifacts, so 139 counts public artifacts, not runnable agents; estimating agent prevalence needs a separate role-coding pass. Every record carries an agent-drafted, human-adjudicated evidence card (141 cards; the two extra are explained) anchored to its primary sources.",
+      "place": [
+        0,
+        30
+      ]
+    },
+    {
+      "id": "@spire-lineages",
+      "district_ref": "@dist-population",
+      "kind": "knowledge",
+      "title": "Nine promoted lineages",
+      "code": "REG-3",
+      "codename": "9 LINEAGES",
+      "scale_level": 0.85,
+      "metrics": {
+        "scale": "59 memberships / 52 repos",
+        "acceleration": "7 repos in two lineages",
+        "infrastructure": "Lineage records",
+        "maturity": "Multi-label subset (37.4%)"
+      },
+      "abstract": "Seed-line 19, dr-deep-research-agent 10, rl-post-training-as-autoresearch 8, multi-agent-scientist 7, clune-lab-open-endedness 5, mlagentbench-derived 4, camel-ai-line 2, dspy-line 2, physical-robotic-automation 2. 87 registry records have no lineage. The relation mixes code ancestry, shared infrastructure, intellectual influence and structural convergence.",
+      "place": [
+        330,
+        160
+      ]
+    },
+    {
+      "id": "@spire-unaffiliated",
+      "district_ref": "@dist-population",
+      "kind": "knowledge",
+      "title": "Records in no lineage",
+      "code": "POP-3",
+      "codename": "87 UNAFFILIATED",
+      "scale_level": 0.7,
+      "place": [
+        330,
+        -150
+      ],
+      "metrics": {
+        "scale": "87 of 139 records",
+        "acceleration": "62.6% outside the nine lineages",
+        "infrastructure": "Lineage membership relation",
+        "maturity": "Multi-label subset covers 52"
+      },
+      "abstract": "Nine promoted lineages cover 52 of the 139 canonical records; the remaining 87 have no promoted-lineage membership. The lineage map is a structured, overlapping view of a subset, not a partition of the registry."
+    },
+    {
+      "id": "@spire-curated",
+      "district_ref": "@dist-population",
+      "kind": "hub",
+      "title": "Curated lists",
+      "code": "SRC-1",
+      "codename": "CURATED LISTS",
+      "scale_level": 0.9,
+      "metrics": {
+        "scale": "83 of 139 records",
+        "acceleration": "75 seed list + 8 second list",
+        "infrastructure": "Discovery channel",
+        "maturity": "Largest channel"
+      },
+      "abstract": "Two existing curated lists supplied 83 of the 139 canonical repository records: 75 from the larger seed list and 8 from a second list. Channels are unequal in yield, which is why the registry is an engineered discovery sample rather than a census.",
+      "place": [
+        -330,
+        180
+      ]
+    },
+    {
+      "id": "@spire-synthesis",
+      "district_ref": "@dist-population",
+      "kind": "hub",
+      "title": "Synthesis passes",
+      "code": "SRC-2",
+      "codename": "SYNTHESIS",
+      "scale_level": 0.75,
+      "metrics": {
+        "scale": "30 of 139 records",
+        "acceleration": "Snowball + targeted GitHub search",
+        "infrastructure": "Discovery channel",
+        "maturity": "Second channel"
+      },
+      "abstract": "Synthesis passes combined snowball search over already-inspected repositories with targeted GitHub search. No record entered through undirected GitHub search alone; GitHub search is a technique inside these passes, not a channel.",
+      "place": [
+        -330,
+        -20
+      ]
+    },
+    {
+      "id": "@spire-otherchannels",
+      "district_ref": "@dist-population",
+      "kind": "hub",
+      "title": "Paper references, leaderboard and other channels",
+      "code": "POP-6",
+      "codename": "26 OTHER",
+      "scale_level": 0.6,
+      "place": [
+        -330,
+        -220
+      ],
+      "metrics": {
+        "scale": "26 of 139 records",
+        "acceleration": "15 refs · 9 leaderboard · 1 PR · 1 recommendation",
+        "infrastructure": "Discovery channels",
+        "maturity": "Minor channels"
+      },
+      "abstract": "Fifteen records came from references in papers, nine from a public benchmark leaderboard, one from a pull request against a curated list and one from a direct recommendation. No record entered through undirected GitHub search alone."
+    },
+    {
+      "id": "@spire-primitives",
+      "district_ref": "@dist-design",
+      "kind": "instrument",
+      "title": "Coding primitives A1–A5",
+      "code": "COD-1",
+      "codename": "A1–A5",
+      "scale_level": 0.8,
+      "metrics": {
+        "scale": "5 primitives",
+        "acceleration": "Unit of work · signal · judge · pattern · antipattern",
+        "infrastructure": "Controlled vocabulary",
+        "maturity": "0 contradictions in 176 bindings on the four cell axes"
+      },
+      "abstract": "A1 unit of work, A2 selection signal (strict scalar, band-tolerant, vector, relational, none), A3 judge (programmatic, language-model, hybrid, absent), A4 pattern and A5 antipattern under a recorded promotion rule. The null position is the second most common value on both axes; 38 records take it on both.",
+      "place": [
+        -440,
+        200
+      ]
+    },
+    {
+      "id": "@spire-check",
+      "district_ref": "@dist-design",
+      "kind": "instrument",
+      "title": "Artifact-level check of the codings",
+      "code": "DES-2",
+      "codename": "ARTIFACT CHECK",
+      "scale_level": 0.85,
+      "place": [
+        -240,
+        200
+      ],
+      "metrics": {
+        "scale": "3547 anchors · 538 bindings",
+        "acceleration": "3306 anchors resolve verbatim",
+        "infrastructure": "owner/repo@sha:path:line + verbatim facts",
+        "maturity": "Strong on cell axes, weak on patterns and cost"
+      },
+      "abstract": "Two layers: every revision-pinned anchor was fetched at its revision (3306 of 3547 resolve to a verbatim line), and 538 load-bearing codings over 44 repositories and 10 papers were each paired with a verbatim fact. Selection signal, judge type, loop topology and tool category carry zero contradictions across 176 bindings — the axes this plaza and R3 rest on."
+    },
+    {
+      "id": "@spire-retest",
+      "district_ref": "@dist-design",
+      "kind": "instrument",
+      "title": "Post-freeze re-test of the empty cell",
+      "code": "TST-2",
+      "codename": "RE-TEST 26 JUL",
+      "scale_level": 0.88,
+      "metrics": {
+        "scale": "962 → 319 → 69 → 15",
+        "acceleration": "10 triage agents + 15 adversarial re-checks",
+        "infrastructure": "Outside the frozen sample",
+        "maturity": "R3 survives on one clause"
+      },
+      "abstract": "962 repositories created after the freeze, 319 retained by a mechanical filter, 69 flagged by triage agents, 15 highest-stakes flags re-checked by agents told to default to refutation: 11 refuted. The cell stays empty, now by three routes, with one case that shows what filling it would require.",
+      "place": [
+        -440,
+        0
+      ]
+    },
+    {
+      "id": "@spire-virtualbiotech",
+      "district_ref": "@dist-design",
+      "kind": "system",
+      "title": "virtual-biotech-scientist",
+      "code": "TST-3",
+      "codename": "2 OF 3 CLAUSES",
+      "scale_level": 0.72,
+      "metrics": {
+        "scale": "6-element judge vector",
+        "acceleration": "Unanimity dominance, no scalar",
+        "infrastructure": "Front built once",
+        "maturity": "Fails only the loop clause"
+      },
+      "abstract": "Six single-axis language-model judges score each candidate against the incumbent; verdicts are kept as a six-element vector and front membership is gated by a unanimity dominance predicate with no scalar reduction. The front is built once and never feeds a later generation — whether that fills the cell is the open adjudication.",
+      "status": "active",
+      "place": [
+        -240,
+        0
+      ]
+    },
+    {
+      "id": "@spire-xscientist",
+      "district_ref": "@dist-design",
+      "kind": "system",
+      "title": "XScientist",
+      "code": "TST-4",
+      "codename": "UNREACHABLE POOL",
+      "scale_level": 0.6,
+      "metrics": {
+        "scale": "7-dimension Pareto pool",
+        "acceleration": "Zero admitted candidates",
+        "infrastructure": "Executed with flag forced on",
+        "maturity": "Shipped unreachable"
+      },
+      "abstract": "A complete and correct seven-dimension Pareto pool that no live path reaches: the reviewer emits a flat score object while the pool's only writer expects a nested one. Executing the repository's own chain admits nothing — the third route by which the cell stays empty.",
+      "status": "planned",
+      "place": [
+        -400,
+        -215
+      ]
+    },
+    {
+      "id": "@spire-agenticop",
+      "district_ref": "@dist-design",
+      "kind": "system",
+      "title": "AgenticOperator",
+      "code": "TST-5",
+      "codename": "NO CODE",
+      "scale_level": 0.55,
+      "metrics": {
+        "scale": "Recorded in advance",
+        "acceleration": "5 name variants probed",
+        "infrastructure": "Paper-only system",
+        "maturity": "Untestable"
+      },
+      "abstract": "The candidate recorded in advance as most likely to fill the cell. Re-probed on 26 July 2026 across five repository-name variants and the author's homepage: no code release found.",
+      "status": "planned",
+      "place": [
+        -130,
+        -235
+      ]
+    },
+    {
+      "id": "@spire-audit",
+      "district_ref": "@dist-theory",
+      "kind": "instrument",
+      "title": "Prospective audit",
+      "code": "TST-1",
+      "codename": "PROSPECTIVE AUDIT",
+      "scale_level": 0.95,
+      "metrics": {
+        "scale": "25 new repositories",
+        "acceleration": "0 of 6 triggers observed",
+        "infrastructure": "Triggers fixed 17 May 2026",
+        "maturity": "Bounded support only"
+      },
+      "abstract": "Six candidate regularities and their minimum trigger observations were time-stamped at a 76-record baseline before 25 newly ingested repositories were inspected in June 2026. None of the six trigger events occurred; trigger absence supplies bounded support, and corpus-wide evidence is reported as a separate layer.",
+      "place": [
+        -70,
+        230
+      ]
+    },
+    {
+      "id": "@spire-ranking",
+      "district_ref": "@dist-theory",
+      "kind": "instrument",
+      "title": "Pattern-strength ranking (Tier S)",
+      "code": "COD-4",
+      "codename": "TIER S",
+      "scale_level": 0.75,
+      "metrics": {
+        "scale": "s = 3√t + p + 2c",
+        "acceleration": "Top five: s ≥ 12",
+        "infrastructure": "Composite evidence score",
+        "maturity": "Leading position not stable"
+      },
+      "abstract": "Tier S: judge-uncalibrated, staged-validation-before-judge, scoreboard, eval-discipline-regression, keep-or-revert — two antipatterns, two architectures, one component under every weighting. Which pattern leads depends on the weighting and on the lineage relation used.",
+      "place": [
+        -70,
+        0
+      ]
+    },
+    {
+      "id": "@spire-patterns",
+      "district_ref": "@dist-theory",
+      "kind": "knowledge",
+      "title": "Pattern compendium",
+      "code": "REG-4",
+      "codename": "54 PATTERNS",
+      "scale_level": 0.8,
+      "metrics": {
+        "scale": "54 promoted records",
+        "acceleration": "22 arch · 7 comp · 16 coding · 9 anti",
+        "infrastructure": "Promotion rule",
+        "maturity": "16 rest on one artifact"
+      },
+      "abstract": "Promoted records: 22 architectures, 7 components, 16 coding patterns and 9 antipatterns. 38 rest on two or more independently inspected artifacts; 16 rest on exactly one and were promoted for structural distinctness or portability — so totals count promoted records, not twice-confirmed regularities.",
+      "place": [
+        -70,
+        -230
+      ]
+    },
+    {
+      "id": "@spire-arxiv",
+      "district_ref": "@dist-papers",
+      "kind": "knowledge",
+      "title": "Paper registry (101 records)",
+      "code": "SRC-5",
+      "codename": "101 PAPERS",
+      "scale_level": 0.85,
+      "metrics": {
+        "scale": "101 records · 98 unique",
+        "acceleration": "64 carry a relatedness edge (63.4%)",
+        "infrastructure": "Curated paper records",
+        "maturity": "Lower bound: 25 lack full text"
+      },
+      "abstract": "101 curated records (98 unique artifacts). 64 carry at least one curator-assigned relatedness edge (63.4%, 95% CI 53.5–72.3); under adversarial imputation of the 25 records without full text the rate lies in [63.4%, 88.1%]. Fifteen papers have a companion-code URL resolving to a canonical repository.",
+      "place": [
+        -430,
+        90
+      ]
+    },
+    {
+      "id": "@spire-authorship",
+      "district_ref": "@dist-papers",
+      "kind": "instrument",
+      "title": "Authorship audit",
+      "code": "COD-5",
+      "codename": "AUTHORSHIP",
+      "scale_level": 0.72,
+      "metrics": {
+        "scale": "718 slots · 661 names",
+        "acceleration": "≥18 commit-adjudicated · 58 byline",
+        "infrastructure": "Two adjudication passes",
+        "maturity": "Lower bound only on commit tier"
+      },
+      "abstract": "Display-name equality nominates a case; confirmation needs an explicit source and a second pass against complete commit histories. At least 18 identities (20 of 63 slots, 13 of 101 papers) are commit-adjudicated; the byline tier of 58 is attributed credit, not a bound.",
+      "place": [
+        -430,
+        -190
+      ]
+    },
+    {
+      "id": "@spire-hub-agentlab",
+      "district_ref": "@dist-papers",
+      "kind": "system",
+      "title": "Agent Laboratory (SamuelSchmidgall/AgentLaboratory)",
+      "code": "HUB",
+      "codename": "AGENT LABORATORY · 24",
+      "scale_level": 0.98,
+      "place": [
+        90,
+        200
+      ],
+      "metrics": {
+        "scale": "24 paper records",
+        "acceleration": "11.3% of 212 edges",
+        "infrastructure": "SamuelSchmidgall/AgentLaboratory",
+        "maturity": "Top-six hub (stable in 91.5% of resamples at ≥5/6)"
+      },
+      "abstract": "One of the six most frequently linked repositories: 24 of the 101 paper records carry a curator-assigned relatedness edge to it. Together the six carry 120 of 212 edges (56.6%). The paper's leading explanation is its own curation — which repositories the registry admitted and which the curators used as comparison anchors."
+    },
+    {
+      "id": "@spire-hub-aiscientist",
+      "district_ref": "@dist-papers",
+      "kind": "system",
+      "title": "The AI Scientist (SakanaAI/AI-Scientist)",
+      "code": "HUB",
+      "codename": "THE AI SCIENTIST · 21",
+      "scale_level": 0.85,
+      "place": [
+        330,
+        200
+      ],
+      "metrics": {
+        "scale": "21 paper records",
+        "acceleration": "9.9% of 212 edges",
+        "infrastructure": "SakanaAI/AI-Scientist",
+        "maturity": "Top-six hub (stable in 91.5% of resamples at ≥5/6)"
+      },
+      "abstract": "One of the six most frequently linked repositories: 21 of the 101 paper records carry a curator-assigned relatedness edge to it. Together the six carry 120 of 212 edges (56.6%). The paper's leading explanation is its own curation — which repositories the registry admitted and which the curators used as comparison anchors."
+    },
+    {
+      "id": "@spire-hub-mlagentbench",
+      "district_ref": "@dist-papers",
+      "kind": "system",
+      "title": "MLAgentBench (snap-stanford/MLAgentBench)",
+      "code": "HUB",
+      "codename": "MLAGENTBENCH · 20",
+      "scale_level": 0.81,
+      "place": [
+        90,
+        0
+      ],
+      "metrics": {
+        "scale": "20 paper records",
+        "acceleration": "9.4% of 212 edges",
+        "infrastructure": "snap-stanford/MLAgentBench",
+        "maturity": "Top-six hub (stable in 91.5% of resamples at ≥5/6)"
+      },
+      "abstract": "One of the six most frequently linked repositories: 20 of the 101 paper records carry a curator-assigned relatedness edge to it. Together the six carry 120 of 212 edges (56.6%). The paper's leading explanation is its own curation — which repositories the registry admitted and which the curators used as comparison anchors."
+    },
+    {
+      "id": "@spire-hub-airesearcher",
+      "district_ref": "@dist-papers",
+      "kind": "system",
+      "title": "AI-Researcher (HKUDS/AI-Researcher)",
+      "code": "HUB",
+      "codename": "AI-RESEARCHER · 19",
+      "scale_level": 0.76,
+      "place": [
+        330,
+        0
+      ],
+      "metrics": {
+        "scale": "19 paper records",
+        "acceleration": "9.0% of 212 edges",
+        "infrastructure": "HKUDS/AI-Researcher",
+        "maturity": "Top-six hub (stable in 91.5% of resamples at ≥5/6)"
+      },
+      "abstract": "One of the six most frequently linked repositories: 19 of the 101 paper records carry a curator-assigned relatedness edge to it. Together the six carry 120 of 212 edges (56.6%). The paper's leading explanation is its own curation — which repositories the registry admitted and which the curators used as comparison anchors."
+    },
+    {
+      "id": "@spire-hub-nanoresearch",
+      "district_ref": "@dist-papers",
+      "kind": "system",
+      "title": "NanoResearch (OpenRaiser/NanoResearch)",
+      "code": "HUB",
+      "codename": "NANORESEARCH · 18",
+      "scale_level": 0.72,
+      "place": [
+        90,
+        -200
+      ],
+      "metrics": {
+        "scale": "18 paper records",
+        "acceleration": "8.5% of 212 edges",
+        "infrastructure": "OpenRaiser/NanoResearch",
+        "maturity": "Top-six hub (stable in 91.5% of resamples at ≥5/6)"
+      },
+      "abstract": "One of the six most frequently linked repositories: 18 of the 101 paper records carry a curator-assigned relatedness edge to it. Together the six carry 120 of 212 edges (56.6%). The paper's leading explanation is its own curation — which repositories the registry admitted and which the curators used as comparison anchors."
+    },
+    {
+      "id": "@spire-hub-researchagent",
+      "district_ref": "@dist-papers",
+      "kind": "system",
+      "title": "ResearchAgent (JinheonBaek/ResearchAgent)",
+      "code": "HUB",
+      "codename": "RESEARCHAGENT · 18",
+      "scale_level": 0.72,
+      "place": [
+        330,
+        -200
+      ],
+      "metrics": {
+        "scale": "18 paper records",
+        "acceleration": "8.5% of 212 edges",
+        "infrastructure": "JinheonBaek/ResearchAgent",
+        "maturity": "Top-six hub (stable in 91.5% of resamples at ≥5/6)"
+      },
+      "abstract": "One of the six most frequently linked repositories: 18 of the 101 paper records carry a curator-assigned relatedness edge to it. Together the six carry 120 of 212 edges (56.6%). The paper's leading explanation is its own curation — which repositories the registry admitted and which the curators used as comparison anchors."
+    }
+  ],
+  "conduits": [
+    {
+      "id": "@conduit-curated",
+      "name": "Curated lists into the registry",
+      "code": "CURATED",
+      "codename": "83 RECORDS",
+      "from": "@spire-curated",
+      "to": "@spire-reporeg",
+      "status": "operational",
+      "type": "Admission",
+      "bandwidth": "83 records",
+      "description": "The largest discovery channel."
+    },
+    {
+      "id": "@conduit-synth",
+      "name": "Synthesis passes into the registry",
+      "code": "SYNTH",
+      "codename": "30 RECORDS",
+      "from": "@spire-synthesis",
+      "to": "@spire-reporeg",
+      "status": "operational",
+      "type": "Admission",
+      "bandwidth": "30 records",
+      "description": "Snowball plus targeted GitHub search."
+    },
+    {
+      "id": "@conduit-other",
+      "name": "Other channels into the registry",
+      "code": "OTHER",
+      "codename": "26 RECORDS",
+      "from": "@spire-otherchannels",
+      "to": "@spire-reporeg",
+      "status": "operational",
+      "type": "Admission",
+      "bandwidth": "26 records",
+      "description": "Paper references, leaderboard, a PR and a recommendation."
+    },
+    {
+      "id": "@conduit-lineage",
+      "name": "Registry to the nine lineages",
+      "code": "LINEAGE",
+      "codename": "52 IN LINEAGES",
+      "from": "@spire-reporeg",
+      "to": "@spire-lineages",
+      "status": "operational",
+      "type": "Multi-label relation",
+      "bandwidth": "59 memberships / 52 repos",
+      "description": "Seven repositories sit in two lineages."
+    },
+    {
+      "id": "@conduit-unaff",
+      "name": "Registry records in no lineage",
+      "code": "UNAFF",
+      "codename": "87 OUTSIDE",
+      "from": "@spire-reporeg",
+      "to": "@spire-unaffiliated",
+      "status": "operational",
+      "type": "Remainder",
+      "bandwidth": "87 records",
+      "description": "Most of the registry is not covered by any promoted lineage."
+    },
+    {
+      "id": "@conduit-coded",
+      "name": "Every record coded on A1–A5",
+      "code": "CODED",
+      "codename": "139 CODED",
+      "from": "@spire-reporeg",
+      "to": "@spire-primitives",
+      "status": "operational",
+      "type": "Coding → design space",
+      "bandwidth": "139 records",
+      "description": "Each evidence card fills A2 selection signal and A3 judge — the coordinates of the design-space plaza."
+    },
+    {
+      "id": "@conduit-checked",
+      "name": "Codings checked against artifacts",
+      "code": "CHECKED",
+      "codename": "CHECKED",
+      "from": "@spire-primitives",
+      "to": "@spire-check",
+      "status": "operational",
+      "type": "Verification",
+      "bandwidth": "538 bindings",
+      "description": "Load-bearing codings paired with verbatim facts from the repository or paper."
+    },
+    {
+      "id": "@conduit-near",
+      "name": "Re-test finds the closest approach",
+      "code": "NEAR",
+      "codename": "2 OF 3",
+      "from": "@spire-retest",
+      "to": "@spire-virtualbiotech",
+      "status": "thin",
+      "type": "Re-test result",
+      "bandwidth": "Two clauses met",
+      "description": "Satisfies the per-candidate judge and retained-vector clauses; fails the iterated loop."
+    },
+    {
+      "id": "@conduit-unreach",
+      "name": "Re-test finds a shipped-unreachable pool",
+      "code": "UNREACH",
+      "codename": "UNREACHABLE",
+      "from": "@spire-retest",
+      "to": "@spire-xscientist",
+      "status": "thin",
+      "type": "Re-test result",
+      "bandwidth": "Zero admitted candidates",
+      "description": "Confirmed by executing the repository's own chain."
+    },
+    {
+      "id": "@conduit-nocode",
+      "name": "Re-probe of the predicted candidate",
+      "code": "NOCODE",
+      "codename": "NO RELEASE",
+      "from": "@spire-retest",
+      "to": "@spire-agenticop",
+      "status": "planned",
+      "type": "Re-test result",
+      "bandwidth": "No code found",
+      "description": "The system recorded in advance as most likely to fill the cell cannot be tested."
+    },
+    {
+      "id": "@conduit-rules",
+      "name": "Coded patterns become candidate rules",
+      "code": "RULES",
+      "codename": "CODED → RULES",
+      "from": "@spire-primitives",
+      "to": "@spire-patterns",
+      "status": "operational",
+      "type": "Theory building",
+      "bandwidth": "54 promoted records",
+      "description": "Recurring design decisions and failures are promoted to pattern records; six regularities are stated over them with time-stamped triggers on 17 May 2026."
+    },
+    {
+      "id": "@conduit-rank",
+      "name": "Patterns into the ranking",
+      "code": "RANK",
+      "codename": "PATTERN SCORES",
+      "from": "@spire-patterns",
+      "to": "@spire-ranking",
+      "status": "operational",
+      "type": "Scoring",
+      "bandwidth": "t, p, c inputs",
+      "description": "Supporting repositories, papers and lineages feed the composite score."
+    },
+    {
+      "id": "@conduit-lin-term",
+      "name": "Lineages into the ranking",
+      "code": "LIN-TERM",
+      "codename": "LINEAGE TERM",
+      "from": "@spire-lineages",
+      "to": "@spire-ranking",
+      "status": "operational",
+      "type": "Scoring",
+      "bandwidth": "c term",
+      "description": "Imported score counts a four-lineage subset; nine promoted lineages give a different c for keep-or-revert."
+    },
+    {
+      "id": "@conduit-audit",
+      "name": "Newly ingested repositories put the rules on trial",
+      "code": "AUDIT",
+      "codename": "25 NEW CASES",
+      "from": "@spire-reporeg",
+      "to": "@spire-audit",
+      "status": "operational",
+      "type": "Prospective test",
+      "bandwidth": "25 repositories",
+      "description": "Triggers were fixed at a 76-record baseline; the 25 June cases were inspected afterwards."
+    },
+    {
+      "id": "@conduit-retest",
+      "name": "The empty cell, attacked after the freeze",
+      "code": "RETEST",
+      "codename": "RE-TEST R3",
+      "from": "@spire-audit",
+      "to": "@spire-retest",
+      "status": "thin",
+      "type": "Re-test",
+      "bandwidth": "962 → 319 → 69 → 15",
+      "description": "A structural absence invites a later check; the re-test runs outside the frozen sample and leaves the audit unchanged."
+    },
+    {
+      "id": "@conduit-hub-agentlab",
+      "name": "Papers related to Agent Laboratory",
+      "code": "HUB-AGENTL",
+      "codename": "24 EDGES",
+      "from": "@spire-arxiv",
+      "to": "@spire-hub-agentlab",
+      "status": "operational",
+      "type": "Curator-assigned relatedness",
+      "bandwidth": "24 paper records",
+      "description": "24 paper records are coded as related to Agent Laboratory."
+    },
+    {
+      "id": "@conduit-hub-aiscientist",
+      "name": "Papers related to The AI Scientist",
+      "code": "HUB-AISCIE",
+      "codename": "21 EDGES",
+      "from": "@spire-arxiv",
+      "to": "@spire-hub-aiscientist",
+      "status": "operational",
+      "type": "Curator-assigned relatedness",
+      "bandwidth": "21 paper records",
+      "description": "21 paper records are coded as related to The AI Scientist."
+    },
+    {
+      "id": "@conduit-hub-mlagentbench",
+      "name": "Papers related to MLAgentBench",
+      "code": "HUB-MLAGEN",
+      "codename": "20 EDGES",
+      "from": "@spire-arxiv",
+      "to": "@spire-hub-mlagentbench",
+      "status": "operational",
+      "type": "Curator-assigned relatedness",
+      "bandwidth": "20 paper records",
+      "description": "20 paper records are coded as related to MLAgentBench."
+    },
+    {
+      "id": "@conduit-hub-airesearcher",
+      "name": "Papers related to AI-Researcher",
+      "code": "HUB-AIRESE",
+      "codename": "19 EDGES",
+      "from": "@spire-arxiv",
+      "to": "@spire-hub-airesearcher",
+      "status": "operational",
+      "type": "Curator-assigned relatedness",
+      "bandwidth": "19 paper records",
+      "description": "19 paper records are coded as related to AI-Researcher."
+    },
+    {
+      "id": "@conduit-hub-nanoresearch",
+      "name": "Papers related to NanoResearch",
+      "code": "HUB-NANORE",
+      "codename": "18 EDGES",
+      "from": "@spire-arxiv",
+      "to": "@spire-hub-nanoresearch",
+      "status": "operational",
+      "type": "Curator-assigned relatedness",
+      "bandwidth": "18 paper records",
+      "description": "18 paper records are coded as related to NanoResearch."
+    },
+    {
+      "id": "@conduit-hub-researchagent",
+      "name": "Papers related to ResearchAgent",
+      "code": "HUB-RESEAR",
+      "codename": "18 EDGES",
+      "from": "@spire-arxiv",
+      "to": "@spire-hub-researchagent",
+      "status": "operational",
+      "type": "Curator-assigned relatedness",
+      "bandwidth": "18 paper records",
+      "description": "18 paper records are coded as related to ResearchAgent."
+    },
+    {
+      "id": "@conduit-authors",
+      "name": "Paper authors to the authorship audit",
+      "code": "AUTHORS",
+      "codename": "718 SLOTS",
+      "from": "@spire-arxiv",
+      "to": "@spire-authorship",
+      "status": "operational",
+      "type": "Identity resolution",
+      "bandwidth": "718 slots / 661 names",
+      "description": "Author slots matched against registry repositories and their commit histories."
+    }
+  ],
+  "bottlenecks": [
+    {
+      "id": "@bneck-sample",
+      "title": "Engineered discovery sample",
+      "code": "SAMPLE",
+      "codename": "ENGINEERED SAMPLE",
+      "district_ref": "@dist-population",
+      "severity": 0.7,
+      "scope": "field",
+      "constrains": [
+        "@dist-population"
+      ],
+      "effect": "noise",
+      "nature": "Sampling frame",
+      "impact": "Search terms, curated lists, snowballing, GitHub availability and English-language metadata shaped what entered; global prevalence lies outside the design.",
+      "remedy": "Declare the unit of analysis; role-code artifacts and state an explicit sampling frame before prevalence estimates."
+    },
+    {
+      "id": "@bneck-private",
+      "title": "Private use unmeasured",
+      "code": "PRIVATE",
+      "codename": "PRIVATE USE",
+      "district_ref": "@dist-population",
+      "severity": 0.55,
+      "scope": "field",
+      "constrains": [
+        "@dist-population"
+      ],
+      "effect": "blind",
+      "nature": "Unobserved population",
+      "impact": "Private deployments lie outside both sampling frames; their size and behaviour are unmeasured.",
+      "remedy": "Surveys, consent-based telemetry or institutional sampling."
+    },
+    {
+      "id": "@bneck-singlecoder",
+      "title": "Single coder, no double coding",
+      "code": "SINGLECODER",
+      "codename": "SINGLE CODER",
+      "district_ref": "@dist-design",
+      "severity": 0.75,
+      "scope": "field",
+      "constrains": [
+        "@dist-design",
+        "@dist-theory"
+      ],
+      "effect": "noise",
+      "nature": "Coding reliability",
+      "impact": "Coding stayed single-coder; the artifact check shows whether a coding is demonstrable, not whether a second coder would agree. Artifact roles and several design variables lack independent double coding.",
+      "remedy": "Independent double coding with reported inter-rater agreement; separate the lineage sub-relations."
+    },
+    {
+      "id": "@bneck-contradicted",
+      "title": "Two coding families contradicted",
+      "code": "CONTRADICTED",
+      "codename": "10/64 · 10/59",
+      "district_ref": "@dist-design",
+      "severity": 0.7,
+      "scope": "node",
+      "constrains": [
+        "@spire-check"
+      ],
+      "effect": "slowdown",
+      "nature": "Fragile aggregates",
+      "impact": "Pattern membership (10 of 64 bindings contradicted) feeds the ranking's support counts; iteration-cost coordinates (10 of 59) feed the cost-versus-ambition matrix — the two weakest results.",
+      "remedy": "Re-code both families against primary sources before using them as counts.",
+      "delay_label": "10/64 · 10/59 contradicted"
+    },
+    {
+      "id": "@bneck-triage",
+      "title": "Single-agent triage is unreliable",
+      "code": "TRIAGE",
+      "codename": "11 OF 15 REFUTED",
+      "district_ref": "@dist-design",
+      "severity": 0.55,
+      "scope": "node",
+      "constrains": [
+        "@spire-retest"
+      ],
+      "effect": "slowdown",
+      "nature": "Agent calibration",
+      "impact": "Fifteen independent re-checks told to default to refutation overturned 11 of the 15 highest-stakes trigger flags — the calibration to attach to any single-agent trigger report.",
+      "remedy": "Adversarial multi-route re-checks before counting a trigger.",
+      "delay_label": "11 of 15 refuted"
+    },
+    {
+      "id": "@bneck-nexus",
+      "title": "nexus-swarm: open case for R1",
+      "code": "NEXUS",
+      "codename": "OPEN R1 CASE",
+      "district_ref": "@dist-design",
+      "severity": 0.4,
+      "scope": "node",
+      "constrains": [
+        "@spire-retest"
+      ],
+      "effect": "slowdown",
+      "nature": "Unadjudicated counterexample",
+      "impact": "A mutated prompt is accepted on an uncalibrated judge's self-reported score with no programmatic co-gate. If the mutation is on the causal path of the score it bears on R1; if not, it is a different failure — a gate that fires while the mutation is inert.",
+      "remedy": "Establish whether the mutated artifact lies on the causal path of the scored scalar."
+    },
+    {
+      "id": "@bneck-norelease",
+      "title": "No code release found",
+      "code": "NORELEASE",
+      "codename": "NO RELEASE",
+      "district_ref": "@dist-design",
+      "severity": 0.6,
+      "scope": "edge",
+      "constrains": [
+        "@conduit-nocode"
+      ],
+      "effect": "closure",
+      "nature": "Untestable claim",
+      "impact": "The most likely candidate for the empty cell exists only as a paper; nothing can be executed.",
+      "remedy": "A public code release."
+    },
+    {
+      "id": "@bneck-nonrandom",
+      "title": "Non-random audit, no external preregistration",
+      "code": "NONRANDOM",
+      "codename": "25 NON-RANDOM",
+      "district_ref": "@dist-theory",
+      "severity": 0.65,
+      "scope": "node",
+      "constrains": [
+        "@spire-audit"
+      ],
+      "effect": "slowdown",
+      "nature": "Test design",
+      "impact": "The audit has 25 non-random cases; its protocol was time-stamped in project history without external preregistration governance, and several variables lacked double coding.",
+      "remedy": "Externally preregistered triggers and a random draw of new cases.",
+      "delay_label": "25 cases"
+    },
+    {
+      "id": "@bneck-baseline",
+      "title": "Ranking computed at the baseline",
+      "code": "BASELINE",
+      "codename": "76-RECORD BASELINE",
+      "district_ref": "@dist-theory",
+      "severity": 0.5,
+      "scope": "node",
+      "constrains": [
+        "@spire-ranking"
+      ],
+      "effect": "slowdown",
+      "nature": "Stale ranking",
+      "impact": "The ranking was computed at the 76-record baseline; ranks two to five were not recomputed after the audit, and a full re-walk is deferred.",
+      "remedy": "Re-walk the ranking against the 139-record corpus."
+    },
+    {
+      "id": "@bneck-leader",
+      "title": "Architecture leads under nine lineages",
+      "code": "LEADER",
+      "codename": "LEADER FLIPS",
+      "district_ref": "@dist-theory",
+      "severity": 0.6,
+      "scope": "node",
+      "constrains": [
+        "@spire-ranking"
+      ],
+      "effect": "slowdown",
+      "nature": "Conditional ranking",
+      "impact": "Under the nine promoted lineage records keep-or-revert (an architecture) leads in two of four weightings — 16.8 vs 16.5 baseline, 19.0 vs 16.0 linear — through one contested repository, ML-Agent.",
+      "remedy": "Adjudicate contested supporting repositories; report both lineage relations."
+    },
+    {
+      "id": "@bneck-fourlineages",
+      "title": "judge-uncalibrated spans four lineages",
+      "code": "FOURLINEAGES",
+      "codename": "4 LINEAGES",
+      "district_ref": "@dist-theory",
+      "severity": 0.75,
+      "scope": "node",
+      "constrains": [
+        "@spire-ranking"
+      ],
+      "effect": "slowdown",
+      "nature": "Counterevidence",
+      "impact": "An evaluation failure occurs in four lineages that share no architecture, while architecture patterns appear in at most two — contradicting the broad form of R5.",
+      "remedy": "Treat evaluation infrastructure as a cross-lineage risk: immutable evaluation code and shipped calibration artifacts."
+    },
+    {
+      "id": "@bneck-g1",
+      "title": "Runtime-contract stayed at three",
+      "code": "G1",
+      "codename": "G1 FAILED",
+      "district_ref": "@dist-theory",
+      "severity": 0.5,
+      "scope": "node",
+      "constrains": [
+        "@spire-patterns"
+      ],
+      "effect": "slowdown",
+      "nature": "Failed prediction",
+      "impact": "The directional companion prediction G1 expected a fourth runtime-contract instance; the count stayed at three across 15 recorded observations.",
+      "remedy": "Survival or event-history analysis over a sequence of frozen snapshots."
+    },
+    {
+      "id": "@bneck-notcitation",
+      "title": "Relatedness is not citation",
+      "code": "NOTCITATION",
+      "codename": "NOT A CITATION",
+      "district_ref": "@dist-papers",
+      "severity": 0.8,
+      "scope": "field",
+      "constrains": [
+        "@dist-papers"
+      ],
+      "effect": "noise",
+      "delay_label": "3 of 29 edges have a mention",
+      "nature": "Measurement validity",
+      "impact": "Full text of seven linked papers was searched for the 29 repositories they are credited with: 3 locatable (one in prose, two in references), 26 not. The graph maps the curation, not the papers' citation behaviour.",
+      "remedy": "A mention extraction over the 76 records with retrievable full text, admitting only locatable mentions, to build a comparable citation graph."
+    },
+    {
+      "id": "@bneck-fulltext",
+      "title": "Papers without full text",
+      "code": "FULLTEXT",
+      "codename": "25 NO FULL TEXT",
+      "district_ref": "@dist-papers",
+      "severity": 0.55,
+      "scope": "node",
+      "constrains": [
+        "@spire-arxiv"
+      ],
+      "effect": "slowdown",
+      "nature": "Coverage",
+      "impact": "Twenty-five paper records had no accessible full text; under adversarial imputation the paper-side incidence lies in [63.4%, 88.1%].",
+      "remedy": "Retrieve full text before coding relatedness.",
+      "delay_label": "25 of 101"
+    },
+    {
+      "id": "@bneck-byline",
+      "title": "Byline tier is not a bound",
+      "code": "BYLINE",
+      "codename": "BYLINE ≠ AUTHOR",
+      "district_ref": "@dist-papers",
+      "severity": 0.5,
+      "scope": "node",
+      "constrains": [
+        "@spire-authorship"
+      ],
+      "effect": "slowdown",
+      "nature": "Identity evidence",
+      "impact": "40 of 63 byline-matched slots come from four records that transcribe the paper's own author list; commit histories cannot support at least 24 of the 63.",
+      "remedy": "Count only commit-adjudicated identities as a lower bound; keep the byline tier separate.",
+      "delay_label": "≥24/63 excluded"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "@chal-r1",
+      "title": "Structural compatibility constrains failure modes",
+      "code": "R1",
+      "codename": "R1",
+      "district_ref": "@dist-theory",
+      "impact_scale": 0.75,
+      "type": "Candidate regularity",
+      "verdict": "supported",
+      "target": "Structural commitments remove specific failure modes from the design surface. Four zero co-occurrence pairs at baseline; the one new seed-line case in the audit used programmatic acceptance, so the P1 trigger (seed-line with an uncalibrated language-model judge) was not observed.",
+      "advanced_by": [
+        "@spire-audit"
+      ],
+      "blocked_by": [
+        "@bneck-nexus"
+      ],
+      "place": [
+        -470,
+        200
+      ]
+    },
+    {
+      "id": "@chal-r2",
+      "title": "Iteration cost rises with artifact openness",
+      "code": "R2",
+      "codename": "R2",
+      "district_ref": "@dist-theory",
+      "impact_scale": 0.75,
+      "type": "Candidate regularity",
+      "verdict": "conditional",
+      "target": "Fast iteration co-occurs with bounded, programmatically scored artifacts. Empty forbidden quadrant if only measured durations count — but the open-ended column then holds no measurement at all; two open-ended repositories bound an iteration below ten minutes if configured bounds count.",
+      "advanced_by": [
+        "@spire-audit"
+      ],
+      "blocked_by": [
+        "@plaza-cost",
+        "@bneck-contradicted"
+      ],
+      "place": [
+        -280,
+        200
+      ]
+    },
+    {
+      "id": "@chal-r3",
+      "title": "The vector-signal / LM-judge cell stays empty",
+      "code": "R3",
+      "codename": "R3",
+      "district_ref": "@dist-theory",
+      "impact_scale": 0.95,
+      "type": "Candidate regularity",
+      "verdict": "supported",
+      "target": "No clean optimization loop keeps a vector signal and a language-model judge. At least 23 adjacent or refused landings; three routes keep the cell empty: refused on evaluation cost, escaped through tournament aggregation, shipped unreachable.",
+      "advanced_by": [
+        "@spire-audit",
+        "@spire-retest",
+        "@plaza-design"
+      ],
+      "blocked_by": [
+        "@spire-virtualbiotech"
+      ],
+      "place": [
+        -470,
+        0
+      ]
+    },
+    {
+      "id": "@chal-r4",
+      "title": "Failure patterns lead the evidence ranking",
+      "code": "R4",
+      "codename": "R4",
+      "district_ref": "@dist-theory",
+      "impact_scale": 0.75,
+      "type": "Candidate regularity",
+      "verdict": "conditional",
+      "target": "An antipattern leads the composite ranking under the imported four-lineage relation; under the nine promoted lineages an architecture pattern leads in two of four weightings. Tier S membership is stable, the leading position is not.",
+      "advanced_by": [
+        "@spire-ranking",
+        "@spire-audit"
+      ],
+      "blocked_by": [
+        "@bneck-leader",
+        "@bneck-baseline"
+      ],
+      "place": [
+        -280,
+        0
+      ]
+    },
+    {
+      "id": "@chal-r5",
+      "title": "Unit of work constrains cross-lineage transfer",
+      "code": "R5",
+      "codename": "R5",
+      "district_ref": "@dist-theory",
+      "impact_scale": 0.75,
+      "type": "Candidate regularity",
+      "verdict": "contradicted",
+      "target": "Proposed: design patterns stay local to one or two lineages. No migration occurred in the audit, but judge-uncalibrated spans four lineages; restricting the claim to architecture patterns came after the counterexample and is post hoc.",
+      "advanced_by": [
+        "@spire-audit"
+      ],
+      "blocked_by": [
+        "@bneck-fourlineages"
+      ],
+      "place": [
+        -470,
+        -200
+      ]
+    },
+    {
+      "id": "@chal-r6",
+      "title": "Long-stagnant patterns rarely jump",
+      "code": "R6",
+      "codename": "R6",
+      "district_ref": "@dist-theory",
+      "impact_scale": 0.75,
+      "type": "Candidate regularity",
+      "verdict": "exploratory",
+      "target": "No long-stagnant two-instance pattern jumped to five; the directional companion prediction G1 failed (runtime-contract stayed at three across 15 observations).",
+      "advanced_by": [
+        "@spire-audit"
+      ],
+      "blocked_by": [
+        "@bneck-g1"
+      ],
+      "place": [
+        -280,
+        -200
+      ]
+    }
+  ],
+  "plazas": [
+    {
+      "id": "@plaza-design",
+      "district_ref": "@dist-design",
+      "title": "Design space: judge × selection signal",
+      "place": [
+        300,
+        0
+      ],
+      "cell_size": 70,
+      "row_axis": "judge (A3)",
+      "col_axis": "selection signal (A2)",
+      "rows": [
+        "programmatic (48)",
+        "language-model (33)",
+        "hybrid (19)",
+        "absent (39)"
+      ],
+      "cols": [
+        "strict scalar (85)",
+        "band-tolerant (1)",
+        "vector (2)",
+        "relational (4)",
+        "none (47)"
+      ],
+      "layers": [
+        {
+          "id": "pub",
+          "label": "Published in the paper: marginals and two cells (n/p = not published)",
+          "cells": [
+            [
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "∅ loop",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              null,
+              null,
+              38
+            ]
+          ]
+        }
+      ],
+      "highlight": [
+        {
+          "row": 1,
+          "col": 2,
+          "kind": "empty",
+          "label": "EMPTY CELL · R3",
+          "note": "No clean optimization loop keeps a vector signal and a language-model judge. At least 23 adjacent or refused landings; the cell stays empty by three routes — refused on evaluation cost, escaped through tournament aggregation, shipped unreachable. The closest case (virtual-biotech-scientist) fails only the iterated-loop clause."
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "kind": "empty",
+          "label": "NEITHER",
+          "note": "38 of 139 records run neither a candidate comparison nor an acceptance gate — the registry counts public artifacts, not runnable agents."
+        }
+      ],
+      "description": "Marginals over 139 records: A2 strict scalar 85, none 47, relational 4, vector 2, band-tolerant 1; A3 programmatic 48, absent 39, language-model 33, hybrid 19. The paper publishes only these totals and two cells, so the rest are marked n/p rather than estimated. Reliability: the two axes behind this plaza carry zero contradictions in the artifact-level check."
+    },
+    {
+      "id": "@plaza-cost",
+      "district_ref": "@dist-theory",
+      "title": "Cost × ambition (Table 7)",
+      "place": [
+        330,
+        -20
+      ],
+      "cell_size": 70,
+      "row_axis": "iteration cost",
+      "col_axis": "artifact openness",
+      "rows": [
+        "< 600 s",
+        "600 s – 1 h",
+        "1 h – 1 day",
+        "> 1 day",
+        "unavailable"
+      ],
+      "cols": [
+        "bounded",
+        "mixed",
+        "open-ended",
+        "unavailable"
+      ],
+      "layers": [
+        {
+          "id": "a",
+          "short": "(a)",
+          "label": "(a) Measured durations only",
+          "cells": [
+            [
+              10,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              61,
+              24,
+              17,
+              23
+            ]
+          ]
+        },
+        {
+          "id": "b",
+          "short": "(b)",
+          "label": "(b) Measurements and configured ceilings, unit respected",
+          "cells": [
+            [
+              23,
+              4,
+              2,
+              0
+            ],
+            [
+              8,
+              3,
+              1,
+              1
+            ],
+            [
+              11,
+              6,
+              1,
+              1
+            ],
+            [
+              2,
+              0,
+              1,
+              0
+            ],
+            [
+              28,
+              14,
+              12,
+              21
+            ]
+          ]
+        }
+      ],
+      "highlight": [
+        {
+          "row": 0,
+          "col": 2,
+          "kind": "forbidden",
+          "label": "FORBIDDEN · R2",
+          "note": "Under (a) the quadrant is empty — but the open-ended column holds no measurement at all (0 of 17), so the emptiness is an absence of measurement. Under (b) two open-ended repositories bound an iteration below ten minutes and the P2 trigger would have fired."
+        }
+      ],
+      "description": "Each panel sums to 139. Rows: wall-clock cost of one candidate-generation to acceptance-decision cycle; columns: artifact openness. The bottom row and right column keep unavailable data visible."
+    }
+  ],
+  "tour": [
+    {
+      "id": "population",
+      "title": "139 artifacts — not 139 agents",
+      "text": "A registry of 139 public repositories and 101 papers, frozen on 10 June 2026. It mixes agents with benchmarks, libraries and lists, and 83 records came from just two curated lists — so it counts artifacts, not agents.",
+      "look": "The registry cathedral fed by three intake towers; the 'engineered sample' tape on the district border",
+      "focus": [
+        "@spire-reporeg",
+        "@spire-curated",
+        "@spire-synthesis",
+        "@spire-otherchannels",
+        "@conduit-curated",
+        "@conduit-synth",
+        "@conduit-other",
+        "@bneck-sample"
+      ],
+      "camera": {
+        "target": "@dist-population",
+        "zoom": 14.9,
+        "pitch": 55,
+        "bearing": -14
+      }
+    },
+    {
+      "id": "empty-cell",
+      "title": "The empty cell",
+      "text": "Every record is coded by how it compares candidates and who judges them. Most use one scalar (85) and a program as judge (48); 38 do neither. One combination never appears inside a loop: a vector of LLM judgments — at least 23 systems came close and swerved.",
+      "look": "The fenced '∅ loop' cell and the '38 · NEITHER' corner of the design-space plaza",
+      "focus": [
+        "@plaza-design",
+        "@spire-primitives",
+        "@spire-check"
+      ],
+      "camera": {
+        "target": "@plaza-design",
+        "zoom": 15.95,
+        "pitch": 48,
+        "bearing": -8
+      }
+    },
+    {
+      "id": "retest",
+      "title": "962 repositories later",
+      "text": "A post-freeze sweep tried to fill the cell. The closest miss meets two of three clauses; one repository ships a Pareto pool no code path reaches; the candidate predicted in advance has no code. Of 15 hits flagged by triage agents, 11 were wrong.",
+      "look": "The scaffolded tower, two ghosts, and the '11 of 15 refuted' chip",
+      "focus": [
+        "@spire-retest",
+        "@spire-virtualbiotech",
+        "@spire-xscientist",
+        "@spire-agenticop",
+        "@conduit-near",
+        "@conduit-unreach",
+        "@conduit-nocode",
+        "@bneck-triage",
+        "@bneck-norelease"
+      ],
+      "camera": {
+        "target": "@spire-virtualbiotech",
+        "zoom": 16.05,
+        "pitch": 58,
+        "bearing": -14
+      }
+    },
+    {
+      "id": "trial",
+      "title": "Rules written before looking",
+      "text": "Six candidate regularities and their trigger events were fixed on 17 May, then 25 new repositories were inspected. None of the six triggers fired — bounded support, not proof.",
+      "look": "The audit observatory and six target pins coloured by verdict",
+      "focus": [
+        "@spire-audit",
+        "@bneck-nonrandom",
+        "@conduit-audit",
+        "@chal-r1",
+        "@chal-r2",
+        "@chal-r3",
+        "@chal-r4",
+        "@chal-r5",
+        "@chal-r6"
+      ],
+      "camera": {
+        "target": "@chal-r3",
+        "zoom": 15.55,
+        "pitch": 55,
+        "bearing": -14
+      }
+    },
+    {
+      "id": "r2",
+      "title": "It depends on what you count",
+      "text": "R2 says fast iteration only comes with bounded artifacts. Count measured times only, and the forbidden cell is empty — because open-ended systems publish no measurements. Count configured limits too, and two counterexamples appear.",
+      "look": "Table 7 switched to rule (b): the red-fenced cell now holds 2",
+      "focus": [
+        "@plaza-cost",
+        "@chal-r2"
+      ],
+      "plaza_layers": {
+        "@plaza-cost": "b"
+      },
+      "camera": {
+        "target": "@plaza-cost",
+        "zoom": 15.85,
+        "pitch": 48,
+        "bearing": -8
+      }
+    },
+    {
+      "id": "r5",
+      "title": "Failures travel, architectures don't",
+      "text": "The uncalibrated LLM judge shows up in four lineages, while architecture patterns stay within one or two. Evaluation infrastructure carries failures across otherwise unrelated systems; the broad form of R5 is contradicted.",
+      "look": "The red R5 pin and the '4 lineages' chip on the Tier S ranking",
+      "focus": [
+        "@chal-r5",
+        "@spire-ranking",
+        "@bneck-fourlineages",
+        "@spire-patterns"
+      ],
+      "camera": {
+        "target": "@chal-r5",
+        "zoom": 15.9,
+        "pitch": 55,
+        "bearing": -14
+      }
+    },
+    {
+      "id": "hubs",
+      "title": "Six hubs — on our map",
+      "text": "64 of 101 papers are linked to only 23 repositories, and six hubs carry 56.6% of the 212 edges. In a full-text sample only 3 of 29 credited repositories are actually mentioned: the graph shows the curators' view, not citations.",
+      "look": "Six skyscraper hubs and their roads; the 'not a citation' tape around the district",
+      "focus": [
+        "@spire-arxiv",
+        "@bneck-notcitation",
+        "@spire-hub-agentlab",
+        "@spire-hub-aiscientist",
+        "@spire-hub-mlagentbench",
+        "@spire-hub-airesearcher",
+        "@spire-hub-nanoresearch",
+        "@spire-hub-researchagent",
+        "@conduit-hub-agentlab",
+        "@conduit-hub-aiscientist",
+        "@conduit-hub-mlagentbench",
+        "@conduit-hub-airesearcher",
+        "@conduit-hub-nanoresearch",
+        "@conduit-hub-researchagent"
+      ],
+      "camera": {
+        "target": "@dist-papers",
+        "zoom": 15.15,
+        "pitch": 52,
+        "bearing": -14
+      }
+    },
+    {
+      "id": "next",
+      "title": "What would change the picture",
+      "text": "Fill the empty cell in a controlled experiment of scalar, vector and tournament variants; extract real mentions to turn the curated graph into a citation graph; role-code the registry to count actual agents.",
+      "look": "R3 and its near misses, the registry, and the paper corpus",
+      "focus": [
+        "@chal-r3",
+        "@plaza-design",
+        "@spire-virtualbiotech",
+        "@spire-xscientist",
+        "@spire-agenticop",
+        "@spire-reporeg",
+        "@spire-arxiv"
+      ],
+      "camera": {
+        "target": "city",
+        "zoom": 14.05,
+        "pitch": 45,
+        "bearing": -14
+      }
+    }
+  ]
+}

@@ -90,7 +90,7 @@ Borrowing the visual language of navigation maps, a bottleneck is no longer a fr
 | `node` | `@spire-*` | `slowdown` · `closure` | Queue: backlog cubes and a wait-time chip at the spire, a red collar when closed |
 | `field` | `@dist-*` | `slowdown` · `noise` · `blind` | Weather: a coloured hazard tape along the border of every district it covers (colour = which problem, stroke = effect) plus a forecast row of clickable chips in the district corner; selecting one spotlights its coverage |
 
-Further v2 fields: `delay_label` (numbers from the source only), `remedied_by`, conduit `status`, challenge `advanced_by` / `blocked_by`. A conduit's status sets its road type: `operational` = ⚡ highway, `thin` = ⛴️ ferry (weak or episodic flow, dotted line), `planned` = 🚧 planned road (called for, not built; grey dashes). An edge constraint on a planned road is drawn as a ⛔ barrier — the reason it is not built — instead of traffic, and the router skips planned roads unless *include planned roads* is ticked. The compiler derives reverse links, flow direction (one-way arrows), traffic segments and a routing graph; the viewer adds **Traffic / Queues / Weather** layer toggles, relation links on selection, and a **🧭 Route** panel that lists every incident between two spires. All v2 fields are optional: v1 specs still render with legacy hazard towers.
+Further v2 fields: `delay_label` (numbers from the source only), `remedied_by`, conduit `status`, challenge `advanced_by` / `blocked_by`. A conduit's status sets its road type: `operational` = ⚡ highway, `thin` = ⛴️ ferry (weak or episodic flow, dotted line), `planned` = 🚧 planned road (called for, not built; grey dashes). An edge constraint on a planned road is drawn as a ⛔ barrier — the reason it is not built — instead of traffic, and the router skips planned roads unless *include planned roads* is ticked. The compiler derives reverse links, flow direction (one-way arrows), traffic segments and a routing graph; the viewer adds **Traffic / Queues / Weather** layer toggles, relation links on selection, and a **🧭 Route** panel that lists every incident between two spires. All v2 fields are optional: v1 specs still render with legacy hazard towers. Project and paper maps add spire `status` (done / active / planned), constraint `causes`, a `now_marker`, challenge `verdict`, explicit `place` offsets, and **plazas** — data tables painted on the ground with bars, fenced special cells and switchable layers. Spire `kind` picks the building archetype — `system` skyscraper, `knowledge` cathedral, `instrument` observatory, `hub` TV tower. A spec-level `tour` turns the map into a guided story of viewpoints (Space / arrows, `#tour=N` links). `city_metadata.building_scale` sizes a city's buildings; in the viewer Alt/Option + scroll (or `[` / `]`) rescales them live.
 
 ---
 
@@ -154,6 +154,15 @@ python -m cli.compiler --spec my-spec.json --web-dir dist/ --serve 8080
 - **Features**: DeepH/xDeepH, HamGNN, differentiable DFT (D4FT, GradDFT, Jrystal), NequIP/MACE/SevenNet/CHGNet, Phonax, RSMI-NE & multiscale structural complexity, quasicontinuum & Gaussian Phase Packets, MOFDiff/MOFFlow, the Li$_x$CoO$_2$ four-scale pipeline.
 - **Bottlenecks**: Benchmark-only validation (MD17/QH9), MLIP overstabilisation of local minima, long-range blindness in GNN phonons, bead mapping vs crystalline symmetry, one-way hierarchical coupling, computational-only ground truth.
 - **Signature detail**: 12 highways run northbound and exactly 1 runs back south — the review's finding on the near-absence of bidirectional scale coupling, rendered as geometry.
+
+---
+
+### 4. Autoresearch in the Wild ([`examples/autoresearch-wild/`](examples/autoresearch-wild/))
+*An illustration for Komissarov & Ustyuzhanin, "AI-Research Agents in the Wild" (arXiv:2609.11975).*
+
+**Live:** https://omniscale-ai.github.io/ai-research-bench/ — press ▶ Tour for the 8-stop story.
+- **Axis**: the paper's own Figure 1 — the population → the design space → the theory on trial → papers ↔ code, each district labelled with its thesis.
+- **Features**: R1–R6 as targets coloured by verdict; limitations drawn where they act; the empty vector × LM-judge cell with its near miss (scaffolded) and two ghosts; two **data plazas** — the design space and Table 7's cost × ambition matrix with a switch between evidence rules.
 
 ---
 

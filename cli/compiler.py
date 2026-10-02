@@ -57,6 +57,15 @@ FIELD_TAPE_SPACING_M = 16.0
 SPIRE_STATUSES = ('done', 'active', 'planned')
 SCAFFOLD_COLOR = '#ffb300'
 
+# Claims tested by a study: pin colour by verdict
+CHALLENGE_VERDICTS = ('supported', 'conditional', 'contradicted', 'exploratory')
+VERDICT_COLORS = {'supported': '#00e599', 'conditional': '#ffb700', 'contradicted': '#ff1744', 'exploratory': '#a0a8bc'}
+
+# Plazas: data grids painted on the ground with bars per cell
+PLAZA_LABEL_MARGIN_M = 180.0   # west margin for row labels
+PLAZA_HEADER_MARGIN_M = 110.0  # north margin for title and column labels
+PLAZA_MAX_BAR_M = 60.0
+
 # "You are here" line extends this far beyond the districts on each side
 NOW_LINE_OVERHANG_M = 140.0
 
@@ -70,6 +79,123 @@ PRIORITY_ARC_GAP_DEG = 10.0
 def geo_distance_m(a, b):
     """Approximate ground distance in metres between two [lng, lat] points near the city centre."""
     return math.hypot((a[0] - b[0]) / DEG_LNG_PER_METER, (a[1] - b[1]) / DEG_LAT_PER_METER)
+
+def scale_ring(ring, factor, center=None):
+    """Scales a ring of [lng, lat] points about `center` (default: the ring's own centroid)."""
+    pts = ring[:-1] if len(ring) > 1 and ring[0] == ring[-1] else ring
+    if center is None:
+        center = [sum(p[0] for p in pts) / len(pts), sum(p[1] for p in pts) / len(pts)]
+    return [[round(center[0] + (p[0] - center[0]) * factor, 7), round(center[1] + (p[1] - center[1]) * factor, 7)] for p in ring]
+
+# --- Spire archetypes (spire `kind`) ---------------------------------------
+# Every archetype is a stack of vertical prisms (fill-extrusion) with a ~110 m footprint.
+# Tiers flagged `top` become the translucent part of an `active` (unfinished) spire.
+SPIRE_KINDS = ('system', 'knowledge', 'instrument', 'hub')
+
+def _local(lng, lat):
+    """Returns a function mapping local metre offsets (dx east, dy north) to [lng, lat]."""
+    return lambda dx, dy: [round(lng + dx * DEG_LNG_PER_METER, 7), round(lat + dy * DEG_LAT_PER_METER, 7)]
+
+def _ring(pt, pts):
+    ring = [pt(x, y) for x, y in pts]
+    return ring + [ring[0]]
+
+def _rect(pt, x0, y0, x1, y1):
+    return _ring(pt, [(x0, y0), (x1, y0), (x1, y1), (x0, y1)])
+
+def _disc(pt, r, n=24, cx=0.0, cy=0.0):
+    return _ring(pt, [(cx + r * math.cos(2 * math.pi * i / n), cy + r * math.sin(2 * math.pi * i / n)) for i in range(n)])
+
+def _tier(name, rings, base_h, top_h, color, top=False):
+    return {'name': name, 'rings': rings, 'base_h': base_h, 'top_h': top_h, 'color': color, 'top': top}
+
+def build_spire_shape(kind, lng, lat, H, colors, sides=8):
+    """Tiers, scaffold and ground outlines for one spire of the given archetype and height H."""
+    pt = _local(lng, lat)
+    white = '#ffffff'
+
+    if kind == 'knowledge':  # cathedral: Latin-cross nave facing south, twin west towers with spires
+        cross = [(-17, -55), (17, -55), (17, 10), (42, 10), (42, 40), (17, 40), (17, 55),
+                 (-17, 55), (-17, 40), (-42, 40), (-42, 10), (-17, 10)]
+        nave_h = max(28.0, H * 0.30)
+        tower_h = H * 0.70
+        tiers = [
+            _tier('plinth', [_rect(pt, -48, -64, 48, 66)], 0.0, 4.0, colors['base']),
+            _tier('nave', [_ring(pt, cross)], 4.0, nave_h, colors['lower']),
+            _tier('apse', [_ring(pt, [(17 * math.cos(math.pi * i / 10), 55 + 17 * math.sin(math.pi * i / 10)) for i in range(11)])], 4.0, nave_h, colors['lower']),
+            _tier('nave-roof', [_rect(pt, -8, -52, 8, 52)], nave_h, nave_h + H * 0.07, colors['mid']),
+            _tier('transept-roof', [_rect(pt, -39, 21, 39, 29)], nave_h, nave_h + H * 0.07, colors['mid']),
+            _tier('lantern', [_rect(pt, -10, 15, 10, 35)], nave_h, H * 0.48, colors['mid']),
+            _tier('lantern-cap', [_rect(pt, -6, 19, 6, 31)], H * 0.48, H * 0.55, colors['crown']),
+        ]
+        for side, tx in (('w', -13), ('e', 13)):
+            tiers.append(_tier(f'tower-{side}', [_rect(pt, tx - 8, -55, tx + 8, -39)], 4.0, tower_h, colors['mid']))
+            steps = [(6.5, 0.79), (4.5, 0.87), (3.0, 0.94), (1.5, 1.0)]
+            prev = tower_h
+            for i, (half, frac) in enumerate(steps):
+                tiers.append(_tier(f'spire-{side}{i}', [_rect(pt, tx - half, -47 - half, tx + half, -47 + half)],
+                                   prev, H * frac, colors['crown'] if i < 3 else white, top=True))
+                prev = H * frac
+        scaffold = {'posts': [pt(x, y) for x, y in ((-25, -60), (25, -60), (-25, -34), (25, -34))],
+                    'base_h': tower_h, 'top_h': H + 6.0, 'deck': _rect(pt, -26, -61, 26, -33)}
+        return {'tiers': tiers, 'scaffold': scaffold, 'outlines': [_ring(pt, cross)]}
+
+    if kind == 'instrument':  # observatory: round drum, catwalk, stepped hemispherical dome
+        r = 38.0
+        drum_top = max(30.0, H - r)
+        tiers = [
+            _tier('pedestal', [_disc(pt, 56)], 0.0, 5.0, colors['base']),
+            _tier('drum', [_disc(pt, 40)], 5.0, drum_top, colors['lower']),
+            _tier('catwalk', [_disc(pt, 46), _disc(pt, 40)[::-1]], drum_top * 0.55, drum_top * 0.55 + 2.5, colors['mid']),
+        ]
+        steps = 6
+        for i in range(steps):
+            z0, z1 = r * i / steps, r * (i + 1) / steps
+            zm = (z0 + z1) / 2
+            tiers.append(_tier(f'dome-{i}', [_disc(pt, r * math.sqrt(max(0.0, 1 - (zm / r) ** 2)))],
+                               drum_top + z0, drum_top + z1, colors['crown'], top=True))
+        tiers.append(_tier('finial', [_disc(pt, 2.5, n=8)], drum_top + r, drum_top + r + 8, white, top=True))
+        scaffold = {'posts': [pt(42 * math.cos(a), 42 * math.sin(a)) for a in (0.79, 2.36, 3.93, 5.50)],
+                    'base_h': drum_top, 'top_h': drum_top + r + 6, 'deck': _disc(pt, 44)}
+        return {'tiers': tiers, 'scaffold': scaffold, 'outlines': [_disc(pt, 40), _disc(pt, 56)]}
+
+    if kind == 'hub':  # TV tower: flared base, slim shaft, spherical pod, upper mast, antenna
+        pod_z, pod_r = H * 0.67, 21.0
+        tiers = [
+            _tier('pedestal', [_disc(pt, 40, n=16)], 0.0, 8.0, colors['base']),
+            _tier('flare-0', [_disc(pt, 22, n=16)], 8.0, H * 0.06, colors['lower']),
+            _tier('flare-1', [_disc(pt, 15, n=16)], H * 0.06, H * 0.12, colors['lower']),
+            _tier('flare-2', [_disc(pt, 10, n=12)], H * 0.12, H * 0.18, colors['mid']),
+            _tier('shaft', [_disc(pt, 6.5, n=12)], H * 0.18, pod_z - pod_r, colors['mid']),
+        ]
+        steps = 6
+        for i in range(steps):
+            z0 = -pod_r + 2 * pod_r * i / steps
+            z1 = -pod_r + 2 * pod_r * (i + 1) / steps
+            zm = (z0 + z1) / 2
+            tiers.append(_tier(f'pod-{i}', [_disc(pt, pod_r * math.sqrt(max(0.05, 1 - (zm / pod_r) ** 2)))],
+                               pod_z + z0, pod_z + z1, colors['crown'], top=True))
+        tiers.append(_tier('mast', [_disc(pt, 4.0, n=10)], pod_z + pod_r, H * 0.86, colors['mid'], top=True))
+        tiers.append(_tier('antenna', [_disc(pt, 1.6, n=6)], H * 0.86, H, white, top=True))
+        scaffold = {'posts': [pt(26 * math.cos(a), 26 * math.sin(a)) for a in (0.79, 2.36, 3.93, 5.50)],
+                    'base_h': pod_z - pod_r, 'top_h': H + 4, 'deck': _disc(pt, 28)}
+        return {'tiers': tiers, 'scaffold': scaffold, 'outlines': [_disc(pt, 40, n=16)]}
+
+    # system (default): stepped skyscraper with setbacks and a needle
+    base_tier_h, mid_tier_h = round(H * 0.35, 1), round(H * 0.72, 1)
+    poly_t1 = create_regular_polygon(lng, lat, 44.0, sides=sides, rotation_deg=0)
+    poly_t2 = create_regular_polygon(lng, lat, 32.0, sides=sides, rotation_deg=22.5)
+    tiers = [
+        _tier('pedestal', [create_regular_polygon(lng, lat, 56.0, sides=sides, rotation_deg=15)], 0.0, 5.0, colors['base']),
+        _tier('tier1', [poly_t1], 5.0, base_tier_h, colors['lower']),
+        _tier('tier2', [poly_t2], base_tier_h, mid_tier_h, colors['mid']),
+        _tier('tier3', [create_regular_polygon(lng, lat, 20.0, sides=sides, rotation_deg=45)], mid_tier_h, H, colors['crown'], top=True),
+        _tier('needle', [create_regular_polygon(lng, lat, 5.0, sides=4, rotation_deg=45)], H, round(H + 32.0, 1), white, top=True),
+    ]
+    scaffold = {'posts': create_regular_polygon(lng, lat, 24.0, sides=4, rotation_deg=45)[:4],
+                'base_h': mid_tier_h, 'top_h': H + 8.0,
+                'deck': create_regular_polygon(lng, lat, 27.0, sides=4, rotation_deg=45)}
+    return {'tiers': tiers, 'scaffold': scaffold, 'outlines': [poly_t1, poly_t2]}
 
 def place_on_curve(curve_coords, placed, preferred_idx=None, min_sep=BADGE_MIN_SEPARATION_M):
     """Picks a point on the curve for a marker: the preferred index (default: the apex)
@@ -213,6 +339,7 @@ def validate_v2_semantics(spec, district_ids, spire_ids):
     conduit_ids = {c.get('id') for c in spec.get('conduits', [])}
     chal_ids = {c.get('id') for c in spec.get('challenges', [])}
     bneck_ids = {b.get('id') for b in spec.get('bottlenecks', [])}
+    plaza_ids = {p.get('id') for p in spec.get('plazas', [])}
     known = {'@conduit-': conduit_ids, '@spire-': set(spire_ids), '@dist-': set(district_ids), '@chal-': chal_ids}
 
     def resolves(ref):
@@ -250,7 +377,12 @@ def validate_v2_semantics(spec, district_ids, spire_ids):
             if not ref.startswith(REMEDY_PREFIXES) or not resolves(ref):
                 errors.append(f"Bottleneck {bid} remedied_by unknown or unsupported ref {ref}")
 
+    bs = spec.get('city_metadata', {}).get('building_scale', 1.0)
+    if not isinstance(bs, (int, float)) or not 0.2 <= bs <= 3.0:
+        errors.append("city_metadata.building_scale must be a number between 0.2 and 3.0")
     for sp in spec.get('spires', []):
+        if sp.get('kind', 'system') not in SPIRE_KINDS:
+            errors.append(f"Spire {sp.get('id')} has unknown kind '{sp.get('kind')}' (expected one of {', '.join(SPIRE_KINDS)})")
         if sp.get('status', 'done') not in SPIRE_STATUSES:
             errors.append(f"Spire {sp.get('id')} has unknown status '{sp.get('status')}' (expected one of {', '.join(SPIRE_STATUSES)})")
     for b in spec.get('bottlenecks', []):
@@ -268,11 +400,44 @@ def validate_v2_semantics(spec, district_ids, spire_ids):
     for c in spec.get('challenges', []):
         cid = c.get('id', '')
         for ref in c.get('advanced_by', []):
-            if ref not in spire_ids:
-                errors.append(f"Challenge {cid} advanced_by unknown spire {ref}")
+            if ref not in spire_ids and ref not in plaza_ids:
+                errors.append(f"Challenge {cid} advanced_by unknown spire or plaza {ref}")
         for ref in c.get('blocked_by', []):
-            if ref not in bneck_ids:
-                errors.append(f"Challenge {cid} blocked_by unknown bottleneck {ref}")
+            if ref not in bneck_ids and ref not in spire_ids and ref not in plaza_ids:
+                errors.append(f"Challenge {cid} blocked_by unknown bottleneck, spire or plaza {ref}")
+        if c.get('verdict') is not None and c['verdict'] not in CHALLENGE_VERDICTS:
+            errors.append(f"Challenge {cid} has unknown verdict '{c['verdict']}' (expected one of {', '.join(CHALLENGE_VERDICTS)})")
+    all_refs = set(district_ids) | set(spire_ids) | bneck_ids | plaza_ids | \
+        {c.get('id') for c in spec.get('challenges', [])} | {c.get('id') for c in spec.get('conduits', [])}
+    for t_idx, stop in enumerate(spec.get('tour', [])):
+        label = stop.get('id', f'#{t_idx + 1}')
+        if not stop.get('title') or not stop.get('text'):
+            errors.append(f"Tour stop {label} needs a title and a text")
+        for ref in stop.get('focus', []):
+            if ref not in all_refs:
+                errors.append(f"Tour stop {label} focuses on unknown {ref}")
+        target = stop.get('camera', {}).get('target')
+        if target and target != 'city' and target not in all_refs:
+            errors.append(f"Tour stop {label} camera target is unknown: {target}")
+        for pid in stop.get('plaza_layers', {}):
+            if pid not in plaza_ids:
+                errors.append(f"Tour stop {label} sets a layer on unknown plaza {pid}")
+    for pz in spec.get('plazas', []):
+        pid = pz.get('id', '')
+        if not pid.startswith('@plaza-'):
+            errors.append(f"Plaza ID must start with '@plaza-': {pid}")
+        if pz.get('district_ref') not in district_ids:
+            errors.append(f"Plaza {pid} references unknown district {pz.get('district_ref')}")
+        rows, cols = pz.get('rows', []), pz.get('cols', [])
+        if not rows or not cols:
+            errors.append(f"Plaza {pid} needs non-empty 'rows' and 'cols'")
+        for layer in pz.get('layers', []):
+            cells = layer.get('cells', [])
+            if len(cells) != len(rows) or any(len(r) != len(cols) for r in cells):
+                errors.append(f"Plaza {pid} layer '{layer.get('id')}' must have {len(rows)}x{len(cols)} cells (null for unpublished)")
+        for h in pz.get('highlight', []):
+            if not (0 <= h.get('row', -1) < len(rows) and 0 <= h.get('col', -1) < len(cols)):
+                errors.append(f"Plaza {pid} highlight outside the grid: {h}")
     return errors
 
 def lint_spec(spec):
@@ -366,6 +531,8 @@ def compile_metropolis_data(spec):
 
         for s_idx, spire in enumerate(dist_spires):
             offset_x, offset_y, sides = spire_offsets[s_idx % len(spire_offsets)]
+            if 'place' in spire:  # explicit position in metres from the district centre
+                offset_x, offset_y = float(spire['place'][0]), float(spire['place'][1])
             spire_lnglat = meters_to_geo(dist_x + offset_x, dist_y + offset_y)
             spire_locations[spire['id']] = {
                 'lng': spire_lnglat[0],
@@ -377,155 +544,62 @@ def compile_metropolis_data(spec):
             }
 
             scale_lvl = spire.get('scale_level', 0.8)
-            # Towering 3D Heights: 120m to 210m tall!
+            # Towering 3D Heights: 120m to 210m tall (before the global and per-city scales)
             total_height = round(100.0 + scale_lvl * 110.0, 1)
-            base_tier_h = round(total_height * 0.35, 1)
-            mid_tier_h = round(total_height * 0.72, 1)
-            top_tier_h = total_height
-            needle_h = round(total_height + 32.0, 1)
+            colors = {
+                'base': dist['color'],
+                'lower': adjust_color(dist['color'], sat_mult=1.0, light_mult=0.42),
+                'mid': adjust_color(dist['color'], sat_mult=0.95, light_mult=0.68),
+                'crown': dist['color']
+            }
+            kind = spire.get('kind', 'system')
+            shape = build_spire_shape(kind, spire_lnglat[0], spire_lnglat[1], total_height, colors, sides)
 
-            # Saturated, rich district-themed colors for 3D crystal lighting
-            color_lower = adjust_color(dist['color'], sat_mult=1.0, light_mult=0.42)
-            color_mid = adjust_color(dist['color'], sat_mult=0.95, light_mult=0.68)
-            color_crown = dist['color']
-
-            first_tier = len(building_features)
-
-            # Tier 0: Ground Foundation Pedestal (radius 56m, height 0 to 5m)
-            poly_base = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 56.0, sides=sides, rotation_deg=15)
-            building_features.append({
-                'type': 'Feature',
-                'properties': {
-                    'id': f"{spire['id']}-pedestal",
-                    'spire_ref': spire['id'],
-                    'entity_type': 'spire',
-                    'name': spire['title'],
-                    'tier': 'pedestal',
-                    'height': 5.0,
-                    'base_height': 0.0,
-                    'color': dist['color'],
-                    'opacity': 0.85
-                },
-                'geometry': {'type': 'Polygon', 'coordinates': [poly_base]}
-            })
-
-            # Tier 1: Lower Crystal Prism (radius 44m, height 5m to base_tier_h)
-            poly_t1 = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 44.0, sides=sides, rotation_deg=0)
-            building_features.append({
-                'type': 'Feature',
-                'properties': {
-                    'id': f"{spire['id']}-tier1",
-                    'spire_ref': spire['id'],
-                    'entity_type': 'spire',
-                    'name': spire['title'],
-                    'tier': 'body_lower',
-                    'height': base_tier_h,
-                    'base_height': 5.0,
-                    'color': color_lower,
-                    'opacity': 0.95
-                },
-                'geometry': {'type': 'Polygon', 'coordinates': [poly_t1]}
-            })
-
-            # Tier 2: Mid Crystalline Shaft (radius 32m, height base_tier_h to mid_tier_h)
-            poly_t2 = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 32.0, sides=sides, rotation_deg=22.5)
-            building_features.append({
-                'type': 'Feature',
-                'properties': {
-                    'id': f"{spire['id']}-tier2",
-                    'spire_ref': spire['id'],
-                    'entity_type': 'spire',
-                    'name': spire['title'],
-                    'tier': 'body_mid',
-                    'height': mid_tier_h,
-                    'base_height': base_tier_h,
-                    'color': color_mid,
-                    'opacity': 0.95
-                },
-                'geometry': {'type': 'Polygon', 'coordinates': [poly_t2]}
-            })
-
-            # Tier 3: Upper Facet Crown (radius 20m, height mid_tier_h to top_tier_h)
-            poly_t3 = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 20.0, sides=sides, rotation_deg=45)
-            building_features.append({
-                'type': 'Feature',
-                'properties': {
-                    'id': f"{spire['id']}-tier3",
-                    'spire_ref': spire['id'],
-                    'entity_type': 'spire',
-                    'name': spire['title'],
-                    'tier': 'crown',
-                    'height': top_tier_h,
-                    'base_height': mid_tier_h,
-                    'color': color_crown,
-                    'opacity': 1.0
-                },
-                'geometry': {'type': 'Polygon', 'coordinates': [poly_t3]}
-            })
-
-            # Tier 4: Needle Antenna (radius 5m, height top_tier_h to needle_h)
-            poly_needle = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 5.0, sides=4, rotation_deg=45)
-            building_features.append({
-                'type': 'Feature',
-                'properties': {
-                    'id': f"{spire['id']}-needle",
-                    'spire_ref': spire['id'],
-                    'entity_type': 'spire',
-                    'name': spire['title'],
-                    'tier': 'needle',
-                    'height': needle_h,
-                    'base_height': top_tier_h,
-                    'color': '#ffffff',
-                    'opacity': 1.0
-                },
-                'geometry': {'type': 'Polygon', 'coordinates': [poly_needle]}
-            })
-
-            # Project status (schema v2): done = solid crystal; active = solid body with a
-            # translucent crown inside amber scaffolding; planned = the whole spire as a ghost.
+            # Project status (schema v2): done = solid; active = solid body with the building's
+            # top part as a translucent ghost inside amber scaffolding; planned = whole ghost.
             status = spire.get('status', 'done')
-            tiers = building_features[first_tier:]
-            for feat in tiers:
-                feat['properties']['status'] = status
-            if status == 'planned':
-                for feat in tiers:
-                    feat['properties']['ghost'] = True
-            elif status == 'active':
-                for feat in tiers:
-                    if feat['properties']['tier'] in ('crown', 'needle'):
-                        feat['properties']['ghost'] = True
-                post_corners = create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 24.0, sides=4, rotation_deg=45)[:4]
-                for c_idx, corner in enumerate(post_corners):
+            for tier in shape['tiers']:
+                ghost = status == 'planned' or (status == 'active' and tier['top'])
+                props = {
+                    'id': f"{spire['id']}-{tier['name']}", 'spire_ref': spire['id'], 'entity_type': 'spire',
+                    'name': spire['title'], 'tier': tier['name'], 'kind': kind, 'status': status,
+                    'height': round(tier['top_h'], 1), 'base_height': round(tier['base_h'], 1), 'color': tier['color']
+                }
+                if ghost:
+                    props['ghost'] = True
+                building_features.append({'type': 'Feature', 'properties': props,
+                                          'geometry': {'type': 'Polygon', 'coordinates': tier['rings']}})
+            if status == 'active':
+                sc = shape['scaffold']
+                for c_idx, corner in enumerate(sc['posts']):
                     building_features.append({
                         'type': 'Feature',
+                        '_center': [spire_lnglat[0], spire_lnglat[1]],  # posts scale towards the spire axis
                         'properties': {
                             'id': f"{spire['id']}-scaffold-{c_idx}", 'spire_ref': spire['id'], 'entity_type': 'spire',
-                            'name': spire['title'], 'tier': 'scaffold', 'status': status,
-                            'height': round(top_tier_h + 8.0, 1), 'base_height': mid_tier_h, 'color': SCAFFOLD_COLOR
+                            'name': spire['title'], 'tier': 'scaffold', 'kind': kind, 'status': status,
+                            'height': round(sc['top_h'], 1), 'base_height': round(sc['base_h'], 1), 'color': SCAFFOLD_COLOR
                         },
                         'geometry': {'type': 'Polygon', 'coordinates': [create_regular_polygon(corner[0], corner[1], 2.4, sides=4)]}
                     })
                 building_features.append({
                     'type': 'Feature',
+                    '_center': [spire_lnglat[0], spire_lnglat[1]],
                     'properties': {
                         'id': f"{spire['id']}-scaffold-deck", 'spire_ref': spire['id'], 'entity_type': 'spire',
-                        'name': spire['title'], 'tier': 'scaffold', 'status': status,
-                        'height': round(mid_tier_h + 2.0, 1), 'base_height': mid_tier_h, 'color': SCAFFOLD_COLOR
+                        'name': spire['title'], 'tier': 'scaffold', 'kind': kind, 'status': status,
+                        'height': round(sc['base_h'] + 2.0, 1), 'base_height': round(sc['base_h'], 1), 'color': SCAFFOLD_COLOR
                     },
-                    'geometry': {'type': 'Polygon', 'coordinates': [create_regular_polygon(spire_lnglat[0], spire_lnglat[1], 27.0, sides=4, rotation_deg=45)]}
+                    'geometry': {'type': 'Polygon', 'coordinates': [sc['deck']]}
                 })
 
-            # Wireframe outline feature for crisp polygonal facet edges
-            wireframe_features.append({
-                'type': 'Feature',
-                'properties': {'color': dist['color']},
-                'geometry': {'type': 'LineString', 'coordinates': poly_t1}
-            })
-            wireframe_features.append({
-                'type': 'Feature',
-                'properties': {'color': dist['color']},
-                'geometry': {'type': 'LineString', 'coordinates': poly_t2}
-            })
+            # Ground outlines for crisp facet edges
+            for ring in shape['outlines']:
+                wireframe_features.append({
+                    'type': 'Feature',
+                    'properties': {'color': dist['color']},
+                    'geometry': {'type': 'LineString', 'coordinates': ring}
+                })
 
     # 2. 3D Bottleneck Hazard Radars (Dynamic height based on severity!)
     compiled_bottlenecks = []
@@ -631,8 +705,11 @@ def compile_metropolis_data(spec):
     for c_idx, chal in enumerate(spec.get('challenges', [])):
         d_center = district_centers[chal['district_ref']]
         off_x, off_y = chal_offsets[c_idx % len(chal_offsets)]
+        if 'place' in chal:
+            off_x, off_y = float(chal['place'][0]), float(chal['place'][1])
         coords = meters_to_geo(off_x, d_center['dy'] + off_y)
         codename = chal.get('codename', chal.get('code', f"PRIO-0{c_idx+1}"))
+        verdict = chal.get('verdict')
 
         # Dynamic height scaling based on impact_scale (0.4 to 1.0)
         impact = float(chal.get('impact_scale', 0.8))
@@ -652,6 +729,7 @@ def compile_metropolis_data(spec):
             'target': chal.get('target', ''),
             'advanced_by': chal.get('advanced_by', []),
             'blocked_by': chal.get('blocked_by', []),
+            'verdict': verdict,
             'coordinates': coords
         })
 
@@ -665,7 +743,7 @@ def compile_metropolis_data(spec):
         solids = [('beam', 0.0, pin_bottom, 2.2, 8, PRIORITY_BEAM_COLOR)]
         level = pin_bottom
         for step_idx, (tier_h, radius) in enumerate(pin_steps):
-            solids.append((f'pin_{step_idx}', level, level + tier_h, radius, 4, PRIORITY_COLOR))
+            solids.append((f'pin_{step_idx}', level, level + tier_h, radius, 4, VERDICT_COLORS.get(verdict, PRIORITY_COLOR)))
             level += tier_h
         for tier, lo, hi, radius, sides, color in solids:
             building_features.append({
@@ -758,6 +836,16 @@ def compile_metropolis_data(spec):
     obstacles = [[loc['lng'], loc['lat']] for loc in spire_locations.values()] + \
                 [c['coordinates'] for c in compiled_challenges] + \
                 [b['coordinates'] for b in compiled_bottlenecks if not b.get('scope')]
+    # Plazas are no-go areas for badges and pins: sample their footprint every ~90 m
+    for pz in spec.get('plazas', []):
+        d = district_centers[pz['district_ref']]
+        cs = float(pz.get('cell_size', 80.0))
+        cx, cy = (float(v) for v in pz.get('place', [0.0, 0.0]))
+        w = cs * len(pz.get('cols', [])) + PLAZA_LABEL_MARGIN_M
+        h = cs * len(pz.get('rows', [])) + PLAZA_HEADER_MARGIN_M
+        x0, y0 = cx - cs * len(pz.get('cols', [])) / 2 - PLAZA_LABEL_MARGIN_M, d['dy'] + cy - cs * len(pz.get('rows', [])) / 2
+        nx, ny = max(1, int(w // 90)), max(1, int(h // 90))
+        obstacles += [meters_to_geo(x0 + w * (i + 0.5) / nx, y0 + h * (j + 0.5) / ny) for i in range(nx) for j in range(ny)]
     placed_markers = []
     edge_incidents = {}  # conduit id -> [(bottleneck, curve index)]
     conduit_status = {c['id']: c.get('status', 'operational') for c in spec.get('conduits', [])}
@@ -873,6 +961,7 @@ def compile_metropolis_data(spec):
                 h = round(6.0 + ((k * 7) % 5) * 3.0 + severity * 8.0, 1)
                 queue_features.append({
                     'type': 'Feature',
+                    '_center': [loc['lng'], loc['lat']],  # the backlog scales towards its spire
                     'properties': {
                         'id': f"{bneck['id']}-q{ref}-{k}", 'entity_type': 'queue', 'bottleneck_ref': bneck['id'],
                         'height': h, 'base_height': 0.0,
@@ -951,6 +1040,86 @@ def compile_metropolis_data(spec):
             'label_point': meters_to_geo(half, y)  # east end: the west side is under the legend panel
         }
 
+    # 4d. Plazas: a data grid painted on the ground (texture drawn by the viewer) with bars per cell
+    plaza_meta, plaza_features = [], []
+    for pz in spec.get('plazas', []):
+        d = district_centers[pz['district_ref']]
+        cs = float(pz.get('cell_size', 80.0))
+        rows, cols = pz['rows'], pz['cols']
+        grid_w, grid_h = cs * len(cols), cs * len(rows)
+        cx, cy = (float(v) for v in pz.get('place', [0.0, 0.0]))
+        gx0, gy_top = cx - grid_w / 2, d['dy'] + cy + grid_h / 2      # grid west edge, north edge
+        frame_w, frame_h = PLAZA_LABEL_MARGIN_M + grid_w + 12.0, PLAZA_HEADER_MARGIN_M + grid_h + 12.0
+        fx0, fy_top = gx0 - PLAZA_LABEL_MARGIN_M, gy_top + PLAZA_HEADER_MARGIN_M
+        corners = [meters_to_geo(fx0, fy_top), meters_to_geo(fx0 + frame_w, fy_top),
+                   meters_to_geo(fx0 + frame_w, fy_top - frame_h), meters_to_geo(fx0, fy_top - frame_h)]
+        values = [v for layer in pz.get('layers', []) for row in layer['cells'] for v in row if isinstance(v, (int, float))]
+        vmax = max(values) if values else 1
+        for layer in pz.get('layers', []):
+            for r, row in enumerate(layer['cells']):
+                for c, v in enumerate(row):
+                    if not isinstance(v, (int, float)) or v <= 0:
+                        continue
+                    mx, my = gx0 + (c + 0.5) * cs, gy_top - (r + 0.5) * cs
+                    ctr = meters_to_geo(mx, my)
+                    plaza_features.append({
+                        'type': 'Feature',
+                        'properties': {'kind': 'bar', 'plaza': pz['id'], 'layer': layer['id'], 'row': r, 'col': c,
+                                       'height': round(max(3.0, PLAZA_MAX_BAR_M * v / vmax), 1), 'base_height': 0.0,
+                                       'color': pz.get('color', d['color'])},
+                        'geometry': {'type': 'Polygon', 'coordinates': [create_rectangle(ctr[0], ctr[1], cs * 0.55, cs * 0.55)]}
+                    })
+        for h in pz.get('highlight', []):
+            mx, my = gx0 + (h['col'] + 0.5) * cs, gy_top - (h['row'] + 0.5) * cs
+            ctr = meters_to_geo(mx, my)
+            plaza_features.append({
+                'type': 'Feature',
+                'properties': {'kind': 'highlight', 'plaza': pz['id'], 'style': h.get('kind', 'empty')},
+                'geometry': {'type': 'LineString', 'coordinates': create_rectangle(ctr[0], ctr[1], cs - 8.0, cs - 8.0)}
+            })
+        plaza_features.append({
+            'type': 'Feature',
+            'properties': {'kind': 'hit', 'plaza': pz['id']},
+            'geometry': {'type': 'Polygon', 'coordinates': [corners + [corners[0]]]}
+        })
+        plaza_meta.append({
+            'id': pz['id'], 'district_ref': pz['district_ref'], 'title': pz.get('title', ''),
+            'subtitle': pz.get('subtitle', ''), 'description': pz.get('description', ''),
+            'row_axis': pz.get('row_axis', ''), 'col_axis': pz.get('col_axis', ''),
+            'rows': rows, 'cols': cols, 'layers': pz.get('layers', []), 'highlight': pz.get('highlight', []),
+            'color': pz.get('color', d['color']), 'corners': corners,
+            'frame': {'width_m': frame_w, 'height_m': frame_h, 'grid_x_m': PLAZA_LABEL_MARGIN_M,
+                      'grid_y_m': PLAZA_HEADER_MARGIN_M, 'cell_m': cs},
+            'coordinates': meters_to_geo(cx, d['dy'] + cy)
+        })
+
+    # 4e. Guided tour: resolve each stop's camera target to coordinates
+    def ref_coords(ref):
+        if ref in (None, 'city'):
+            return [LNG_CENTER, LAT_CENTER]
+        if ref in district_centers:
+            return [district_centers[ref]['lng'], district_centers[ref]['lat']]
+        if ref in spire_locations:
+            return [spire_locations[ref]['lng'], spire_locations[ref]['lat']]
+        for coll, key in ((compiled_challenges, 'coordinates'), (compiled_bottlenecks, 'coordinates'),
+                          (plaza_meta, 'coordinates'), (compiled_conduits, 'midpoint')):
+            for item in coll:
+                if item['id'] == ref:
+                    return item[key]
+        return [LNG_CENTER, LAT_CENTER]
+
+    tour = []
+    for t_idx, stop in enumerate(spec.get('tour', [])):
+        cam = dict(stop.get('camera', {}))
+        target = cam.get('target') or (stop.get('focus') or ['city'])[0]
+        tour.append({
+            'id': stop.get('id', f'stop-{t_idx + 1}'), 'title': stop['title'], 'text': stop['text'],
+            'look': stop.get('look', ''), 'focus': stop.get('focus', []),
+            'plaza_layers': stop.get('plaza_layers', {}),
+            'camera': {'center': ref_coords(target), 'zoom': cam.get('zoom', 15.2),
+                       'pitch': cam.get('pitch', 55), 'bearing': cam.get('bearing', -16)}
+        })
+
     # 4c. Routing graph: conduits in both directions (against the flow costs more) plus
     # "walking" links between spires of the same district.
     route_edges = []
@@ -987,16 +1156,27 @@ def compile_metropolis_data(spec):
             'metrics': spire.get('metrics', {}),
             'abstract': spire.get('abstract', ''),
             'status': spire.get('status', 'done'),
+            'kind': spire.get('kind', 'system'),
             'constraints': [b['id'] for b in compiled_bottlenecks
                             if b.get('scope') == 'node' and spire['id'] in b.get('constrains', [])],
             'advances': [c['id'] for c in compiled_challenges if spire['id'] in c.get('advanced_by', [])]
         })
 
-    # One global vertical scale for every extrusion (spires, pins, queues, legacy towers)
+    # Building size: a global vertical scale for every extrusion, times an optional per-city
+    # city_metadata.building_scale that shrinks or grows buildings as a whole (height and footprint)
+    size = float(spec.get('city_metadata', {}).get('building_scale', 1.0))
     for feat in building_features + queue_features:
         props = feat['properties']
-        props['height'] = round(props['height'] * BUILDING_HEIGHT_SCALE, 1)
-        props['base_height'] = round(props['base_height'] * BUILDING_HEIGHT_SCALE, 1)
+        props['height'] = round(props['height'] * BUILDING_HEIGHT_SCALE * size, 1)
+        props['base_height'] = round(props['base_height'] * BUILDING_HEIGHT_SCALE * size, 1)
+        center = feat.pop('_center', None)
+        if center:
+            props['scale_center'] = center  # lets the viewer rescale footprints live (Alt+scroll)
+        if size != 1.0:
+            feat['geometry']['coordinates'] = [scale_ring(ring, size, center) for ring in feat['geometry']['coordinates']]
+    if size != 1.0:
+        for feat in wireframe_features:
+            feat['geometry']['coordinates'] = scale_ring(feat['geometry']['coordinates'], size)
     buildings_geojson = {'type': 'FeatureCollection', 'features': building_features + queue_features}
     wireframe_geojson = {'type': 'FeatureCollection', 'features': wireframe_features}
     conduits_geojson = {'type': 'FeatureCollection', 'features': conduit_features}
@@ -1017,6 +1197,7 @@ window.CITY_CONFIG = {json.dumps({
     'scale_axis_label': spec['city_metadata'].get('scale_axis_label', 'Scale Axis'),
     'scale_axis_description': spec['city_metadata'].get('scale_axis_description', ''),
     'hud_tags': spec['city_metadata'].get('hud_tags', []),
+    'building_scale': spec['city_metadata'].get('building_scale', 1.0),
     'ui_labels': spec['city_metadata'].get('ui_labels', {})
 }, indent=2)};
 
@@ -1049,6 +1230,12 @@ window.TARGETS_GEOJSON = {json.dumps({'type': 'FeatureCollection', 'features': t
 window.CAUSAL_GEOJSON = {json.dumps({'type': 'FeatureCollection', 'features': causal_features})};
 
 window.NOW_MARKER = {json.dumps(now_marker)};
+
+window.PLAZAS = {json.dumps(plaza_meta)};
+
+window.TOUR = {json.dumps(tour)};
+
+window.PLAZAS_GEOJSON = {json.dumps({'type': 'FeatureCollection', 'features': plaza_features})};
 """
     return js_bundle, {
         'districts': len(compiled_districts),

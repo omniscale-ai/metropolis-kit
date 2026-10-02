@@ -78,12 +78,25 @@ The kit is fully deployed to GitHub, zero-dependency in Python, and contains thr
    - Six spire slots per district; lint no longer flags planned roads between planned spires.
    - `make serve-spec SPEC=… [NAME=…] [PORT=…]` previews any spec outside the repo (e.g. private project maps in the vault) into git-ignored `dist/`.
 
+7. **Paper illustrations** (`examples/autoresearch-wild/`, arXiv:2609.11975, public data only):
+   - Challenge `verdict` (supported / conditional / contradicted / exploratory) colours the pin; `advanced_by` / `blocked_by` may point at spires, constraints or plazas ("supporting evidence" / "counterevidence").
+   - `place: [dx, dy]` (metres from the district centre) for spires, challenges and plazas.
+   - **Plazas** (`plazas[]`): rows × cols grid with `layers` (switchable, e.g. evidence rules), `highlight` cells (empty / forbidden), numbers, text or `null` (= n/p, not published). Compiler emits bars, fences, hit area and frame; viewer paints the grid as a ground texture, adds a layer switch and a drawer with the table. Plaza footprints are obstacles for badge/pin placement.
+
+8. **Building size:** `city_metadata.building_scale` (0.2–3, default 1) shrinks or grows all buildings of one city — heights and footprints; scaffolding and queues scale towards their spire. In the viewer **Alt/Option + scroll** (or `[` / `]`) rescales live, the 🏙️ ×N button shows the effective factor and resets on click. Ctrl+scroll is avoided on purpose: on a Mac trackpad pinch-zoom arrives as Ctrl+wheel.
+
+9. **Spire kinds (building archetypes):** `kind` = `system` (stepped skyscraper, default) · `knowledge` (cathedral: Latin-cross nave facing south, twin west towers with spires) · `instrument` (observatory: drum, catwalk, stepped dome) · `hub` (TV tower: flared base, shaft, spherical pod, mast). Built in `build_spire_shape()`; tiers flagged `top` become the ghost part of an `active` spire, each archetype defines its own scaffold. Viewer shows a kind key at the top of the directory and the icon in rows and cards; wording per city via `ui_labels.kind_*`. In autoresearch-wild: skyscraper = object from the studied ecosystem, other shapes = the study's own knowledge, instruments and intake channels. A fifth kind (factory for labs/pipelines) is a candidate for sciance.
+
+10. **Guided tour:** spec `tour[]` stops (`title`, `text`, `look`, `focus` refs, `camera` with `target` ref or `city`, optional `plaza_layers`). Compiler validates refs and resolves camera targets (`window.TOUR`). Viewer: ▶ Tour button, story card, Space/→ next, ← back, Esc exit, 1–9 jump, dots, `#tour=N` deep links; non-focused buildings turn slate (per-feature colour), roads/plazas/targets dim, markers fade (markers carry `data-tour-ref`). Autoplay is planned, not built.
+11. **Autoresearch in the Wild — published:** https://omniscale-ai.github.io/ai-research-bench/ (repo `omniscale-ai/ai-research-bench`, Pages from `main` root, local checkout `~/git/ai-research-bench`). Rebuild with `python3 -m cli.compiler --spec examples/autoresearch-wild/02-city-spec.json --web-dir ../ai-research-bench/`, copy `spec/`, commit, push. The repo was private when first inspected and public after Pages was enabled.
+
 ## 🔭 Planned Next (agreed, not implemented)
 
 - **`evidence`** on every entity: `{ "section": "7.4.4", "refs": ["Leeman 2024"] }`, shown in the drawer — traceability to the source.
 - **`cycle_profile`** on spires: per-stage durations of a design–make–test loop for a "popular times" histogram; only where the source gives numbers.
 - Possibly a **validation rung** field on spires, following the v3 validation hierarchy (candidate → … → scale-up).
 - Migrate ai-multiscale and mind-matter to schema v2.
+- Tour autoplay (e.g. 8 s per stop) for talks and kiosks.
 
 ## 🌐 Active Servers & Commands
 
