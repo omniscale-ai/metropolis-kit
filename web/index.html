@@ -1014,10 +1014,33 @@
     .route-incident.field { color: #dfe6f5; }
     .route-incident.status { color: #ffd08a; }
     .route-close { float: right; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 14px; }
+
+    /* ===== Metro view ===== */
+    .metro-view { position: absolute; inset: 0; z-index: 2; display: none; background: #0a0f1c; cursor: grab; }
+    .metro-view.dragging { cursor: grabbing; }
+    body.metro .metro-view { display: block; }
+    body.metro .hud-layers-panel, body.metro #scaleBtn, body.metro #routeBtn, body.metro #orbitBtn,
+    body.metro #resetCamBtn, body.metro .scale-axis-strip { display: none !important; }
+    #metroSvg { width: 100%; height: 100%; display: block; }
+    .view-switch { display: flex; gap: 4px; margin-right: 10px; align-self: center; }
+    .view-switch button {
+      cursor: pointer; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #dfe6f5;
+      background: rgba(10, 16, 32, 0.85); border: 1px solid rgba(255,255,255,0.18); border-radius: 8px; padding: 6px 10px;
+    }
+    .view-switch button.active { border-color: var(--accent-cyan); color: var(--accent-cyan); background: rgba(0, 240, 255, 0.12); }
+    .metro-station { cursor: pointer; }
+    .metro-station:hover .m-dot { stroke-width: 6; }
+    .metro-label { font-family: 'Inter', system-ui, sans-serif; font-size: 13px; font-weight: 600; fill: #e8ecf5; paint-order: stroke; stroke: #0a0f1c; stroke-width: 4px; }
+    .metro-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; fill: #8a9bb8; paint-order: stroke; stroke: #0a0f1c; stroke-width: 3px; }
+    .metro-line-name { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 800; letter-spacing: 1px; }
+    .metro-ic-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 800; fill: #ffffff; }
+    body.touring .metro-station:not(.m-focus), body.touring .metro-line:not(.m-focus) { opacity: 0.18; }
+    .metro-station.m-selected .m-dot { stroke: #ffffff; stroke-width: 7; }
   </style>
 </head>
 <body>
   <div id="map"></div>
+  <div id="metroView" class="metro-view" aria-label="Metro map"><svg id="metroSvg" xmlns="http://www.w3.org/2000/svg"></svg></div>
   <div class="viewport-overlay"></div>
 
   <!-- TOP HUD BAR -->
@@ -1031,6 +1054,10 @@
     </div>
 
     <!-- LAYER VISIBILITY TOGGLES -->
+    <div class="view-switch" id="viewSwitch">
+      <button data-view="city" class="active" title="3D city">🏙 City</button>
+      <button data-view="metro" title="Schematic metro map">🚇 Metro</button>
+    </div>
     <div class="hud-layers-panel">
       <button class="layer-btn active" data-layer="districts" title="Toggle District Scale Zones">
         <span class="layer-dot" style="color: var(--accent-cyan);"></span>
@@ -1332,7 +1359,8 @@
       stopOrbit();
       Object.entries(stop.plaza_layers || {}).forEach(([pid, layer]) => setPlazaLayer(pid, layer));
       applyTourFocus(stop);
-      map.flyTo({ ...stop.camera, duration: 1600, essential: true, padding: { top: 60, bottom: 230, left: 360, right: 40 } });
+      map.flyTo({ ...stop.camera, duration: currentView === 'metro' ? 0 : 1600, essential: true, padding: { top: 60, bottom: 230, left: 360, right: 40 } });
+      if (currentView === 'metro') { highlightMetro(stop.focus); focusMetro(stop.focus); }
       document.getElementById('tourStep').textContent = `${tourIndex + 1} / ${TOUR.length}`;
       document.getElementById('tourTitle').textContent = stop.title;
       document.getElementById('tourText').textContent = stop.text;
@@ -1374,6 +1402,7 @@
       document.querySelectorAll('.maplibregl-marker.tour-focus').forEach(el => el.classList.remove('tour-focus'));
       document.getElementById('tourCard').classList.remove('open');
       document.getElementById('tourBtn').classList.remove('active');
+      if (currentView === 'metro') { highlightMetro([]); fitMetro(); }
       if (layersBeforeTour) {
         Object.entries(layersBeforeTour).forEach(([key, visible]) => setLayerVisible(key, visible));
         layersBeforeTour = null;
@@ -1409,6 +1438,186 @@
       if (m) {
         // wait for district names / plaza textures so the first stop is dimmed correctly
         setTimeout(() => startTour(+m[1] - 1), 1200);
+      }
+    }
+
+
+    // ===== Metro view: schematic map from window.METRO (same spec as the city) =====
+    const METRO = window.METRO || { lines: [], stations: [], interchanges: [] };
+    const M_UNIT = 120, M_ROW = 230, M_PAD = 220;
+    let metroView = null;      // { x, y, w, h } viewBox
+    let metroBuilt = false;
+    let currentView = 'city';
+
+    function metroY(row) { const rows = METRO.lines.length; return M_PAD + (rows - 1 - row) * M_ROW; }
+    function metroX(x) { return M_PAD + 260 + x * M_UNIT; }
+    function metroStationLabel(st) {
+      const e = refEntity(st.ref);
+      if (!e) return { name: st.ref, sub: '' };
+      const it = e.item;
+      if (e.kind === 'plaza') return { name: it.title, sub: '▦ table' };
+      if (e.kind === 'challenge') return { name: `${it.codename} · ${it.title}`, sub: it.verdict ? VERDICT[it.verdict].word.toLowerCase() : '' };
+      return { name: it.title, sub: it.metrics && it.metrics.scale ? it.metrics.scale : '' };
+    }
+    function wrapLabel(text, max) {
+      const words = text.split(' '); const out = []; let cur = '';
+      words.forEach(w => { if ((cur + ' ' + w).trim().length > max && cur) { out.push(cur); cur = w; } else cur = (cur + ' ' + w).trim(); });
+      if (cur) out.push(cur);
+      return out.slice(0, 3);
+    }
+
+    function buildMetro() {
+      const svg = document.getElementById('metroSvg');
+      const NS = 'http://www.w3.org/2000/svg';
+      const el = (tag, attrs, parent) => { const n = document.createElementNS(NS, tag); Object.entries(attrs || {}).forEach(([k, v]) => n.setAttribute(k, v)); (parent || svg).appendChild(n); return n; };
+      svg.innerHTML = '';
+      const maxX = Math.max(1, ...METRO.stations.map(s => s.x));
+      const minX = Math.min(0, ...METRO.stations.map(s => s.x));
+      const W = metroX(maxX) + M_PAD + 120, H = metroY(-1) + M_PAD / 2;
+      const gLines = el('g'), gIc = el('g'), gSt = el('g');
+      // lines
+      METRO.lines.forEach(ln => {
+        const y = metroY(ln.row);
+        const g = el('g', { class: 'metro-line', 'data-line': ln.id }, gLines);
+        el('line', { x1: metroX(ln.x0) - 40, y1: y, x2: metroX(ln.x1) + 40, y2: y, stroke: ln.color, 'stroke-width': 12, 'stroke-linecap': 'round' }, g);
+        // line name at the west end, right-aligned before the first station
+        const words = wrapLabel(ln.name, 22);
+        words.forEach((w, k) => {
+          const name = el('text', { x: metroX(ln.x0) - 64, y: y + 5 + (k - (words.length - 1) / 2) * 16, 'text-anchor': 'end', class: 'metro-line-name', fill: ln.color }, g);
+          name.textContent = w;
+        });
+      });
+      // interchanges: a white capsule joining the member stations
+      METRO.interchanges.forEach(ic => {
+        const x = metroX(ic.x), y0 = metroY(Math.max(...ic.rows)), y1 = metroY(Math.min(...ic.rows));
+        el('rect', { x: x - 17, y: y0 - 17, width: 34, height: y1 - y0 + 34, rx: 17, fill: '#ffffff', stroke: '#0a0f1c', 'stroke-width': 4 }, gIc);
+        el('rect', { x: x - 9, y: y0, width: 18, height: y1 - y0, fill: '#0a0f1c', opacity: 0.12 }, gIc);
+        const t = el('text', { x: x, y: y0 - 30, 'text-anchor': 'middle', class: 'metro-ic-label' }, gIc);
+        t.textContent = `⇄ ${ic.label || ''}`;
+      });
+      // stations, labels alternate above / below the line
+      const byLine = {};
+      METRO.stations.forEach(st => (byLine[st.line] = byLine[st.line] || []).push(st));
+      Object.values(byLine).forEach(list => list.sort((a, b) => a.x - b.x).forEach((st, i) => {
+        const ln = METRO.lines.find(l => l.id === st.line);
+        const x = metroX(st.x), y = metroY(st.row);
+        const e = refEntity(st.ref);
+        const g = el('g', { class: 'metro-station', 'data-ref': st.ref }, gSt);
+        if (st.kind === 'plaza') {
+          el('rect', { class: 'm-dot', x: x - 12, y: y - 12, width: 24, height: 24, rx: 5, fill: '#0a0f1c', stroke: ln.color, 'stroke-width': 4 }, g);
+          el('path', { d: `M${x - 6} ${y}h12M${x} ${y - 6}v12`, stroke: ln.color, 'stroke-width': 2 }, g);
+        } else if (st.kind === 'challenge') {
+          const c = e && e.item.verdict ? VERDICT[e.item.verdict].color : '#ffe9a8';
+          el('circle', { class: 'm-dot', cx: x, cy: y, r: 13, fill: c, stroke: '#0a0f1c', 'stroke-width': 4 }, g);
+        } else {
+          el('circle', { class: 'm-dot', cx: x, cy: y, r: st.interchange ? 9 : 11, fill: '#ffffff', stroke: st.interchange ? '#0a0f1c' : ln.color, 'stroke-width': st.interchange ? 3 : 5 }, g);
+        }
+        const lab = metroStationLabel(st);
+        const up = i % 2 === 0;
+        const lines = wrapLabel(lab.name, 20);
+        // interchange stations label to the side, clear of the capsule
+        const side = !!st.interchange;
+        const lx = side ? x + 26 : x, anchor = side ? 'start' : 'middle';
+        const baseY = side ? y - 18 - (lines.length - 1) * 15 : (up ? y - 26 - (lines.length - 1) * 15 - (lab.sub ? 13 : 0) : y + 34);
+        lines.forEach((ltxt, k) => {
+          const t = el('text', { x: lx, y: baseY + k * 15, 'text-anchor': anchor, class: 'metro-label' }, g);
+          const icon = k === 0 && e && e.kind === 'spire' && HAS_KINDS ? kindOf(e.item).icon + ' ' : '';
+          t.textContent = icon + ltxt;
+        });
+        if (lab.sub) {
+          const t = el('text', { x: lx, y: baseY + lines.length * 15 - 2, 'text-anchor': anchor, class: 'metro-sub' }, g);
+          t.textContent = lab.sub.length > 30 ? lab.sub.slice(0, 29) + '…' : lab.sub;
+        }
+        g.addEventListener('click', ev => { ev.stopPropagation(); if (!metroDragMoved) gotoRef(st.ref); });
+      }));
+      svg.dataset.w = W; svg.dataset.h = H;
+      metroView = { x: 0, y: 0, w: W, h: H };
+      fitMetro();
+      metroBuilt = true;
+    }
+
+    function applyMetroView() {
+      const v = metroView;
+      document.getElementById('metroSvg').setAttribute('viewBox', `${v.x} ${v.y} ${v.w} ${v.h}`);
+    }
+    function fitMetro() {
+      const svg = document.getElementById('metroSvg');
+      const W = +svg.dataset.w, H = +svg.dataset.h;
+      const box = svg.getBoundingClientRect();
+      const aspect = (box.width || 1600) / (box.height || 1000);
+      // leave room for the directory on the left and the HUD at top/bottom
+      let w = W * 1.08, h = w / aspect;
+      if (h < H * 1.25) { h = H * 1.25; w = h * aspect; }
+      metroView = { x: (W - w) / 2 - w * 0.08, y: (H - h) / 2 - h * 0.02, w, h };
+      applyMetroView();
+    }
+    function focusMetro(refs) {
+      const pts = METRO.stations.filter(s => refs.includes(s.ref));
+      if (!pts.length) return;
+      const xs = pts.map(s => metroX(s.x)), ys = pts.map(s => metroY(s.row));
+      const svg = document.getElementById('metroSvg');
+      const box = svg.getBoundingClientRect();
+      const aspect = (box.width || 1600) / (box.height || 1000);
+      let w = Math.max(900, (Math.max(...xs) - Math.min(...xs)) * 1.6 + 500);
+      let h = w / aspect;
+      const needH = (Math.max(...ys) - Math.min(...ys)) * 1.6 + 500;
+      if (h < needH) { h = needH; w = h * aspect; }
+      const cx = (Math.max(...xs) + Math.min(...xs)) / 2, cy = (Math.max(...ys) + Math.min(...ys)) / 2;
+      // the tour card covers the lower third: shift the view down so stations sit higher
+      metroView = { x: cx - w / 2 - w * 0.06, y: cy - h / 2 + h * 0.14, w, h };
+      applyMetroView();
+    }
+    function highlightMetro(refs, selected) {
+      const set = new Set(refs || []);
+      document.querySelectorAll('.metro-station').forEach(g => {
+        g.classList.toggle('m-focus', set.has(g.dataset.ref));
+        g.classList.toggle('m-selected', g.dataset.ref === selected);
+      });
+      const lines = new Set(METRO.stations.filter(s => set.has(s.ref)).map(s => s.line));
+      document.querySelectorAll('.metro-line').forEach(g => g.classList.toggle('m-focus', lines.has(g.dataset.line)));
+    }
+
+    let metroDragMoved = false;
+    function setupMetro() {
+      const view = document.getElementById('metroView');
+      const svg = document.getElementById('metroSvg');
+      let drag = null;
+      view.addEventListener('mousedown', e => { drag = { x: e.clientX, y: e.clientY, v: { ...metroView } }; metroDragMoved = false; view.classList.add('dragging'); });
+      window.addEventListener('mousemove', e => {
+        if (!drag) return;
+        const box = svg.getBoundingClientRect(), k = metroView.w / box.width;
+        const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+        if (Math.abs(dx) + Math.abs(dy) > 4) metroDragMoved = true;
+        metroView = { ...drag.v, x: drag.v.x - dx * k, y: drag.v.y - dy * k };
+        applyMetroView();
+      });
+      window.addEventListener('mouseup', () => { drag = null; view.classList.remove('dragging'); });
+      view.addEventListener('wheel', e => {
+        e.preventDefault();
+        const box = svg.getBoundingClientRect();
+        const f = Math.exp(e.deltaY * 0.0015);
+        const px = metroView.x + (e.clientX - box.left) / box.width * metroView.w;
+        const py = metroView.y + (e.clientY - box.top) / box.height * metroView.h;
+        metroView = { x: px - (px - metroView.x) * f, y: py - (py - metroView.y) * f, w: metroView.w * f, h: metroView.h * f };
+        applyMetroView();
+      }, { passive: false });
+      document.querySelectorAll('#viewSwitch button').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
+      document.getElementById('resetCamBtn').addEventListener('click', () => { if (currentView === 'metro') fitMetro(); });
+      let initial = 'city';
+      try { initial = localStorage.getItem('metropolis.view') || 'city'; } catch (e) { /* storage blocked */ }
+      if (/view=metro/.test(location.hash)) initial = 'metro';
+      if (/view=city/.test(location.hash)) initial = 'city';
+      if (!METRO.stations.length) document.getElementById('viewSwitch').style.display = 'none';
+      else setView(initial);
+    }
+    function setView(v) {
+      currentView = v === 'metro' && METRO.stations.length ? 'metro' : 'city';
+      document.body.classList.toggle('metro', currentView === 'metro');
+      document.querySelectorAll('#viewSwitch button').forEach(b => b.classList.toggle('active', b.dataset.view === currentView));
+      try { localStorage.setItem('metropolis.view', currentView); } catch (e) { /* storage blocked */ }
+      if (currentView === 'metro') {
+        if (!metroBuilt) buildMetro(); else fitMetro();
+        if (tourIndex >= 0) { const st = TOUR[tourIndex]; highlightMetro(st.focus); focusMetro(st.focus); }
       }
     }
 
@@ -1746,6 +1955,7 @@
         setupRoutePanel();
         setupBuildingSizeControls();
         setupTour();
+        setupMetro();
         applyDefaultView();
         buildLegendUI();
         buildScaleRunway();
@@ -2410,6 +2620,7 @@
 
     // Selection & Drawer Rendering
     function selectObject(type, id, index, keepCamera) {
+      if (currentView === 'metro') { keepCamera = true; highlightMetro(tourIndex >= 0 ? TOUR[tourIndex].focus : [], id); }
       activeSelection = { type, id, index };
       const selected = type === 'bottleneck' ? BNECKS[index] : null;
       highlightField(selected && selected.scope === 'field' ? id : null);

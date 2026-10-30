@@ -215,6 +215,167 @@ def build_spire_shape(kind, lng, lat, H, colors, sides=8):
                 'deck': create_regular_polygon(lng, lat, 27.0, sides=4, rotation_deg=45)}
     return {'tiers': tiers, 'scaffold': scaffold, 'outlines': [poly_t1, poly_t2]}
 
+# --- Metro view: a schematic map built from the same spec --------------------
+# Districts become lines, spires / challenges / plazas become stations, and
+# interchanges join stations of different lines. The optional spec block
+#   "metro": {"lines": {"@dist-x": {"order": [...]}}, "interchanges": [{"id", "label", "members"}], "hide": [...]}
+# only steers order and interchanges; without it, interchanges come from cross-district roads.
+
+def _station_ref_district(spec):
+    """Maps every possible station ref to its district."""
+    refs = {}
+    for coll in ('spires', 'challenges', 'plazas'):
+        for item in spec.get(coll, []):
+            refs[item['id']] = item['district_ref']
+    return refs
+
+def validate_metro(spec, district_ids, spire_ids, plaza_ids):
+    errors = []
+    metro = spec.get('metro')
+    if not metro:
+        return errors
+    where = _station_ref_district(spec)
+    for dist, cfg in metro.get('lines', {}).items():
+        if dist not in district_ids:
+            errors.append(f"metro.lines references unknown district {dist}")
+        for ref in cfg.get('order', []):
+            if where.get(ref) != dist:
+                errors.append(f"metro.lines[{dist}].order lists {ref}, which is not a station of that district")
+    seen = {}
+    for ic in metro.get('interchanges', []):
+        members = ic.get('members', [])
+        lines = [where.get(m) for m in members]
+        if any(l is None for l in lines):
+            errors.append(f"metro interchange {ic.get('id')} has unknown members {[m for m in members if m not in where]}")
+        elif len(set(lines)) != len(lines) or len(lines) < 2:
+            errors.append(f"metro interchange {ic.get('id')} needs at least two members, at most one per line")
+        for m in members:
+            if m in seen:
+                errors.append(f"metro station {m} is in two interchanges ({seen[m]}, {ic.get('id')})")
+            seen[m] = ic.get('id')
+    for ref in metro.get('hide', []):
+        if ref not in where:
+            errors.append(f"metro.hide lists unknown {ref}")
+    return errors
+
+def build_metro(spec, sorted_districts, spire_locations, compiled_challenges, plaza_meta):
+    metro = spec.get('metro', {}) or {}
+    hide = set(metro.get('hide', []))
+    where = _station_ref_district(spec)
+    pos = {sid: (loc['lng'], loc['lat']) for sid, loc in spire_locations.items()}
+    pos.update({c['id']: tuple(c['coordinates']) for c in compiled_challenges})
+    pos.update({p['id']: tuple(p['coordinates']) for p in plaza_meta})
+
+    # stations per line: explicit order first, then west -> east
+    lines = []
+    for row, dist in enumerate(sorted_districts):
+        members = [r for r, d in where.items() if d == dist['id'] and r not in hide and r in pos]
+        order = [r for r in metro.get('lines', {}).get(dist['id'], {}).get('order', []) if r in members]
+        rest = sorted((r for r in members if r not in order), key=lambda r: (pos[r][0], -pos[r][1]))
+        lines.append({'id': dist['id'], 'name': dist['name'], 'color': dist['color'], 'row': row, 'stations': order + rest})
+
+    # interchanges: from the spec, or one per cross-district road
+    if metro.get('interchanges'):
+        interchanges = [dict(ic) for ic in metro['interchanges']]
+    else:
+        interchanges, used = [], set()
+        for cond in spec.get('conduits', []):
+            a, b = cond['from'], cond['to']
+            if where.get(a) != where.get(b) and a not in used and b not in used and a in pos and b in pos:
+                interchanges.append({'id': cond['id'], 'label': cond.get('codename', ''), 'members': [a, b]})
+                used.update((a, b))
+    ic_of = {m: k for k, ic in enumerate(interchanges) for m in ic['members']}
+    line_of = {r: ln for ln in lines for r in ln['stations']}
+    interchanges = [ic for ic in interchanges if all(m in line_of for m in ic['members'])]
+    ic_of = {m: k for k, ic in enumerate(interchanges) for m in ic['members']}
+
+    # interchanges are ordered by where their members sit on their lines, and every line
+    # visits its interchange stations in that global order
+    def rel(m):
+        st = line_of[m]['stations']
+        return st.index(m) / max(1, len(st) - 1)
+    order = sorted(range(len(interchanges)), key=lambda k: sum(rel(m) for m in interchanges[k]['members']) / len(interchanges[k]['members']))
+    rank = {k: i for i, k in enumerate(order)}
+    for ln in lines:
+        slots = [i for i, r in enumerate(ln['stations']) if r in ic_of]
+        members = sorted((ln['stations'][i] for i in slots), key=lambda r: rank[ic_of[r]])
+        for i, r in zip(slots, members):
+            ln['stations'][i] = r
+
+    # columns: each interchange sits far enough right of the previous anchor on every line it touches
+    col = {}
+    for k in order:
+        need = (max(col.values()) + 1) if col else 0
+        for m in interchanges[k]['members']:
+            st = line_of[m]['stations']
+            i = st.index(m)
+            prev_i, prev_x = -1, -1.0
+            for j in range(i - 1, -1, -1):
+                if st[j] in ic_of and ic_of[st[j]] in col:
+                    prev_i, prev_x = j, col[ic_of[st[j]]]
+                    break
+            need = max(need, prev_x + (i - prev_i))
+        col[k] = need
+
+    stations = []
+    for ln in lines:
+        st = ln['stations']
+        anchors = [(i, col[ic_of[r]]) for i, r in enumerate(st) if r in ic_of]
+        xs = [None] * len(st)
+        for i, x in anchors:
+            xs[i] = x
+        bounds = [(-1, -1.0)] + anchors
+        for (i0, x0), nxt in zip(bounds, anchors + [None]):
+            if nxt is None:
+                for j in range(i0 + 1, len(st)):
+                    xs[j] = x0 + (j - i0)
+            else:
+                i1, x1 = nxt
+                n = i1 - i0 - 1
+                for j in range(i0 + 1, i1):
+                    xs[j] = x0 + (x1 - x0) * (j - i0) / (n + 1)
+        ln['_xs'] = xs
+
+    # an interchange capsule that passes over a line (between its member rows) must not land
+    # on one of that line's stations: re-space such lines with the column as an empty breakpoint
+    for ln in lines:
+        st, xs = ln['stations'], ln['_xs']
+        passed = [col[k] for k, ic in enumerate(interchanges) if k in col
+                  and ln['row'] not in [line_of[m]['row'] for m in ic['members']]
+                  and min(line_of[m]['row'] for m in ic['members']) < ln['row'] < max(line_of[m]['row'] for m in ic['members'])]
+        if not passed:
+            continue
+        fixed = {i: xs[i] for i, r in enumerate(st) if r in ic_of}
+        breaks = sorted(set(list(fixed.values()) + passed))
+        groups = {}
+        for i, x in enumerate(xs):
+            if i in fixed:
+                continue
+            lo = max([b_ for b_ in breaks if b_ <= x], default=None)
+            if lo is not None and x == lo and lo in passed:
+                pass  # sits exactly on a passed column: belongs to the interval to its right
+            groups.setdefault(lo, []).append(i)
+        for lo, idx in groups.items():
+            higher = [b_ for b_ in breaks if lo is None or b_ > lo]
+            hi = higher[0] if higher else None
+            base = -1.0 if lo is None else lo
+            for j, i in enumerate(idx):
+                xs[i] = base + (j + 1) if hi is None else base + (hi - base) * (j + 1) / (len(idx) + 1)
+
+    for ln in lines:
+        st, xs = ln['stations'], ln.pop('_xs')
+        for r, x in zip(st, xs):
+            kind = 'plaza' if r.startswith('@plaza-') else 'challenge' if r.startswith('@chal-') else 'spire'
+            stations.append({'ref': r, 'kind': kind, 'line': ln['id'], 'row': ln['row'], 'x': round(x, 3),
+                             'interchange': interchanges[ic_of[r]]['id'] if r in ic_of else None})
+        ln['x0'] = min(xs) if xs else 0
+        ln['x1'] = max(xs) if xs else 0
+        del ln['stations']
+    for k, ic in enumerate(interchanges):
+        ic['x'] = col.get(k, 0)
+        ic['rows'] = sorted(line_of[m]['row'] for m in ic['members'])
+    return {'lines': lines, 'stations': stations, 'interchanges': interchanges}
+
 def place_on_curve(curve_coords, placed, preferred_idx=None, min_sep=BADGE_MIN_SEPARATION_M):
     """Picks a point on the curve for a marker: the preferred index (default: the apex)
     if it is clear of already-placed markers, otherwise the nearest point along the
@@ -427,6 +588,7 @@ def validate_v2_semantics(spec, district_ids, spire_ids):
             errors.append(f"Challenge {cid} has unknown verdict '{c['verdict']}' (expected one of {', '.join(CHALLENGE_VERDICTS)})")
     all_refs = set(district_ids) | set(spire_ids) | bneck_ids | plaza_ids | \
         {c.get('id') for c in spec.get('challenges', [])} | {c.get('id') for c in spec.get('conduits', [])}
+    errors.extend(validate_metro(spec, district_ids, spire_ids, plaza_ids))
     for t_idx, stop in enumerate(spec.get('tour', [])):
         label = stop.get('id', f'#{t_idx + 1}')
         if not stop.get('title') or not stop.get('text'):
@@ -1149,6 +1311,8 @@ def compile_metropolis_data(spec):
                        'pitch': cam.get('pitch', 55), 'bearing': cam.get('bearing', -16)}
         })
 
+    metro_data = build_metro(spec, sorted_districts, spire_locations, compiled_challenges, plaza_meta)
+
     # 4c. Routing graph: conduits in both directions (against the flow costs more) plus
     # "walking" links between spires of the same district.
     route_edges = []
@@ -1265,6 +1429,8 @@ window.NOW_MARKER = {json.dumps(now_marker)};
 window.PLAZAS = {json.dumps(plaza_meta)};
 
 window.TOUR = {json.dumps(tour)};
+
+window.METRO = {json.dumps(metro_data)};
 
 window.PLAZAS_GEOJSON = {json.dumps({'type': 'FeatureCollection', 'features': plaza_features})};
 """

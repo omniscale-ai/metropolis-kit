@@ -2157,5 +2157,122 @@
         "bearing": -14
       }
     }
-  ]
+  ],
+  "metro": {
+    "lines": {
+      "@dist-population": {
+        "order": [
+          "@spire-curated",
+          "@spire-synthesis",
+          "@spire-otherchannels",
+          "@spire-reporeg",
+          "@plaza-roles",
+          "@spire-unaffiliated",
+          "@plaza-rules"
+        ]
+      },
+      "@dist-design": {
+        "order": [
+          "@spire-school-seed-line",
+          "@spire-school-dspy-line",
+          "@spire-school-multi-agent-scientist",
+          "@plaza-design",
+          "@spire-school-dr-deep-research-agent",
+          "@spire-school-rl-post-training-as-autoresearch",
+          "@spire-school-clune-lab-open-endedness",
+          "@spire-school-mlagentbench-derived",
+          "@spire-school-physical-robotic-automation",
+          "@spire-school-camel-ai-line"
+        ]
+      },
+      "@dist-failures": {
+        "order": [
+          "@spire-patterns",
+          "@spire-ranking",
+          "@spire-ap-eval-discipline-regression",
+          "@spire-ap-calibration-claimed-not-shipped",
+          "@spire-ap-judge-uncalibrated",
+          "@plaza-uncal",
+          "@spire-ap-mutable-evaluation-code-as-gaming-surface",
+          "@spire-ap-cadence-claim-vs-artifact-divergence",
+          "@spire-ap-readme-only-full-pipeline",
+          "@spire-ap-public-shell-for-off-repo-implementation",
+          "@spire-ap-fork-without-pruning",
+          "@spire-ap-star-prompt-runtime"
+        ]
+      },
+      "@dist-theory": {
+        "order": [
+          "@spire-audit",
+          "@chal-r1",
+          "@chal-r2",
+          "@plaza-cost",
+          "@chal-r3",
+          "@spire-retest",
+          "@spire-virtualbiotech",
+          "@spire-xscientist",
+          "@spire-agenticop",
+          "@chal-r4",
+          "@chal-r5",
+          "@chal-r6"
+        ]
+      },
+      "@dist-papers": {
+        "order": [
+          "@spire-arxiv",
+          "@spire-hub-agentlab",
+          "@spire-hub-aiscientist",
+          "@spire-hub-mlagentbench",
+          "@spire-hub-airesearcher",
+          "@spire-hub-nanoresearch",
+          "@spire-hub-researchagent",
+          "@spire-authorship"
+        ]
+      }
+    },
+    "interchanges": [
+      {
+        "id": "registry",
+        "label": "Registry",
+        "members": [
+          "@spire-reporeg",
+          "@spire-school-seed-line",
+          "@spire-patterns",
+          "@spire-audit"
+        ]
+      },
+      {
+        "id": "lineages-ranking",
+        "label": "Lineages & Tier S",
+        "members": [
+          "@spire-school-multi-agent-scientist",
+          "@spire-ranking"
+        ]
+      },
+      {
+        "id": "empty-cell",
+        "label": "Empty cell · R3",
+        "members": [
+          "@plaza-design",
+          "@chal-r3"
+        ]
+      },
+      {
+        "id": "judge-r5",
+        "label": "Judge uncalibrated · R5",
+        "members": [
+          "@spire-ap-judge-uncalibrated",
+          "@chal-r5"
+        ]
+      },
+      {
+        "id": "hubs-lineages",
+        "label": "Hubs & lineages",
+        "members": [
+          "@spire-hub-aiscientist",
+          "@spire-school-clune-lab-open-endedness"
+        ]
+      }
+    ]
+  }
 }

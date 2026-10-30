@@ -96,7 +96,8 @@ The kit is fully deployed to GitHub, zero-dependency in Python, and contains thr
 - **`cycle_profile`** on spires: per-stage durations of a design–make–test loop for a "popular times" histogram; only where the source gives numbers.
 - Possibly a **validation rung** field on spires, following the v3 validation hierarchy (candidate → … → scale-up).
 - Migrate ai-multiscale and mind-matter to schema v2.
-- Tour autoplay (e.g. 8 s per stop) for talks and kiosks.
+- **Metro-map view:** v1 implemented 2026-10-30 (City / Metro switch, SVG schematic from the same spec, five interchanges in autoresearch-wild). Open items in `plans/metro-view.md`.
+- **Narrated tour (feature request, 2026-10-30):** a 🔊 button that reads the current stop and an Auto mode that reads every stop and flies on by itself (Space pauses). Not the browser's built-in speechSynthesis (rejected: sounds poor) — pre-generate one mp3 per stop with ElevenLabs (needs `ELEVENLABS_API_KEY` and a chosen voice), ship the files next to the map, play them from the tour card; regenerate when tour texts change. Supersedes the plain autoplay item.
 
 ## 🌐 Active Servers & Commands
 
