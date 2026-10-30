@@ -1022,7 +1022,7 @@
     body.metro .hud-layers-panel, body.metro #scaleBtn, body.metro #routeBtn, body.metro #orbitBtn,
     body.metro #resetCamBtn, body.metro .scale-axis-strip { display: none !important; }
     #metroSvg { width: 100%; height: 100%; display: block; }
-    .view-switch { display: flex; gap: 4px; margin-right: 10px; align-self: center; }
+    .view-switch { display: flex; gap: 4px; margin-right: 10px; align-self: center; pointer-events: auto; }
     .view-switch button {
       cursor: pointer; font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #dfe6f5;
       background: rgba(10, 16, 32, 0.85); border: 1px solid rgba(255,255,255,0.18); border-radius: 8px; padding: 6px 10px;
@@ -1030,10 +1030,12 @@
     .view-switch button.active { border-color: var(--accent-cyan); color: var(--accent-cyan); background: rgba(0, 240, 255, 0.12); }
     .metro-station { cursor: pointer; }
     .metro-station:hover .m-dot { stroke-width: 6; }
-    .metro-label { font-family: 'Inter', system-ui, sans-serif; font-size: 13px; font-weight: 600; fill: #e8ecf5; paint-order: stroke; stroke: #0a0f1c; stroke-width: 4px; }
+    .metro-station-label { cursor: pointer; }
+    body.touring .metro-station-label:not(.m-focus) { opacity: 0.25; }
+    .metro-label { font-family: 'Inter', system-ui, sans-serif; font-size: 12px; font-weight: 600; fill: #e8ecf5; paint-order: stroke; stroke: #0a0f1c; stroke-width: 4px; }
     .metro-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; fill: #8a9bb8; paint-order: stroke; stroke: #0a0f1c; stroke-width: 3px; }
-    .metro-line-name { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 800; letter-spacing: 1px; }
-    .metro-ic-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 800; fill: #ffffff; }
+    .metro-line-name { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 800; letter-spacing: 1px; }
+    .metro-ic-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 800; fill: #ffffff; paint-order: stroke; stroke: #0a0f1c; stroke-width: 4px; }
     body.touring .metro-station:not(.m-focus), body.touring .metro-line:not(.m-focus) { opacity: 0.18; }
     .metro-station.m-selected .m-dot { stroke: #ffffff; stroke-width: 7; }
   </style>
@@ -1466,36 +1468,54 @@
       return out.slice(0, 3);
     }
 
+    // Labels live in screen pixels: each label group is drawn at 1 unit = 1 px and placed with
+    // translate(x, y) scale(k), k = SVG units per screen pixel. On every zoom the labels are
+    // re-placed greedily (most important first) into free spots around their station; a label
+    // that fits nowhere is hidden until the user zooms in (its name stays in the hover tooltip).
+    const M_FONT = 12, M_SUB = 10;
+    let metroLabels = [];      // { g, cx, cy, w, h, r, prio, side }
+    let metroFixed = [];       // { g, ux, uy, w, h, anchor } line names (always shown)
+    let metroLastK = null;
+
     function buildMetro() {
       const svg = document.getElementById('metroSvg');
       const NS = 'http://www.w3.org/2000/svg';
       const el = (tag, attrs, parent) => { const n = document.createElementNS(NS, tag); Object.entries(attrs || {}).forEach(([k, v]) => n.setAttribute(k, v)); (parent || svg).appendChild(n); return n; };
       svg.innerHTML = '';
+      metroLabels = []; metroFixed = []; metroLastK = null;
       const maxX = Math.max(1, ...METRO.stations.map(s => s.x));
-      const minX = Math.min(0, ...METRO.stations.map(s => s.x));
       const W = metroX(maxX) + M_PAD + 120, H = metroY(-1) + M_PAD / 2;
-      const gLines = el('g'), gIc = el('g'), gSt = el('g');
-      // lines
+      const gLines = el('g'), gIc = el('g'), gSt = el('g'), gLab = el('g');
+      const textBlock = (parent, rows, sub, anchor, bold) => {
+        rows.forEach((txt, k) => {
+          const t = el('text', { x: 0, y: k * (M_FONT + 3), 'text-anchor': anchor, class: bold ? 'metro-line-name' : 'metro-label' }, parent);
+          t.textContent = txt;
+        });
+        if (sub) {
+          const t = el('text', { x: 0, y: rows.length * (M_FONT + 3) - 1, 'text-anchor': anchor, class: 'metro-sub' }, parent);
+          t.textContent = sub;
+        }
+      };
+      // lines and their names
       METRO.lines.forEach(ln => {
         const y = metroY(ln.row);
         const g = el('g', { class: 'metro-line', 'data-line': ln.id }, gLines);
         el('line', { x1: metroX(ln.x0) - 40, y1: y, x2: metroX(ln.x1) + 40, y2: y, stroke: ln.color, 'stroke-width': 12, 'stroke-linecap': 'round' }, g);
-        // line name at the west end, right-aligned before the first station
-        const words = wrapLabel(ln.name, 22);
-        words.forEach((w, k) => {
-          const name = el('text', { x: metroX(ln.x0) - 64, y: y + 5 + (k - (words.length - 1) / 2) * 16, 'text-anchor': 'end', class: 'metro-line-name', fill: ln.color }, g);
-          name.textContent = w;
-        });
+        const lg = el('g', { class: 'metro-line', 'data-line': ln.id, fill: ln.color }, gLab);
+        textBlock(lg, wrapLabel(ln.name, 24), '', 'end', true);
+        lg.querySelectorAll('text').forEach(t => t.setAttribute('fill', ln.color));
+        metroFixed.push({ g: lg, ux: metroX(ln.x0) - 54, uy: y });
       });
-      // interchanges: a white capsule joining the member stations
+      // interchanges: a white capsule joining the member stations, label above its top
       METRO.interchanges.forEach(ic => {
         const x = metroX(ic.x), y0 = metroY(Math.max(...ic.rows)), y1 = metroY(Math.min(...ic.rows));
         el('rect', { x: x - 17, y: y0 - 17, width: 34, height: y1 - y0 + 34, rx: 17, fill: '#ffffff', stroke: '#0a0f1c', 'stroke-width': 4 }, gIc);
-        el('rect', { x: x - 9, y: y0, width: 18, height: y1 - y0, fill: '#0a0f1c', opacity: 0.12 }, gIc);
-        const t = el('text', { x: x, y: y0 - 30, 'text-anchor': 'middle', class: 'metro-ic-label' }, gIc);
+        const lg = el('g', { class: 'metro-ic-g' }, gLab);
+        const t = el('text', { x: 0, y: 0, 'text-anchor': 'middle', class: 'metro-ic-label' }, lg);
         t.textContent = `⇄ ${ic.label || ''}`;
+        metroLabels.push({ g: lg, cx: x, cy: y0, r: 18, prio: 100, ic: true });
       });
-      // stations, labels alternate above / below the line
+      // stations
       const byLine = {};
       METRO.stations.forEach(st => (byLine[st.line] = byLine[st.line] || []).push(st));
       Object.values(byLine).forEach(list => list.sort((a, b) => a.x - b.x).forEach((st, i) => {
@@ -1503,42 +1523,102 @@
         const x = metroX(st.x), y = metroY(st.row);
         const e = refEntity(st.ref);
         const g = el('g', { class: 'metro-station', 'data-ref': st.ref }, gSt);
+        const lab = metroStationLabel(st);
+        el('title', {}, g).textContent = lab.name + (lab.sub ? ` — ${lab.sub}` : '');
+        let r = 11;
         if (st.kind === 'plaza') {
           el('rect', { class: 'm-dot', x: x - 12, y: y - 12, width: 24, height: 24, rx: 5, fill: '#0a0f1c', stroke: ln.color, 'stroke-width': 4 }, g);
           el('path', { d: `M${x - 6} ${y}h12M${x} ${y - 6}v12`, stroke: ln.color, 'stroke-width': 2 }, g);
+          r = 13;
         } else if (st.kind === 'challenge') {
           const c = e && e.item.verdict ? VERDICT[e.item.verdict].color : '#ffe9a8';
           el('circle', { class: 'm-dot', cx: x, cy: y, r: 13, fill: c, stroke: '#0a0f1c', 'stroke-width': 4 }, g);
+          r = 15;
         } else {
           el('circle', { class: 'm-dot', cx: x, cy: y, r: st.interchange ? 9 : 11, fill: '#ffffff', stroke: st.interchange ? '#0a0f1c' : ln.color, 'stroke-width': st.interchange ? 3 : 5 }, g);
+          r = st.interchange ? 18 : 13;
         }
-        const lab = metroStationLabel(st);
-        const up = i % 2 === 0;
-        const lines = wrapLabel(lab.name, 20);
-        // interchange stations label to the side, clear of the capsule
-        const side = !!st.interchange;
-        const lx = side ? x + 26 : x, anchor = side ? 'start' : 'middle';
-        const baseY = side ? y - 18 - (lines.length - 1) * 15 : (up ? y - 26 - (lines.length - 1) * 15 - (lab.sub ? 13 : 0) : y + 34);
-        lines.forEach((ltxt, k) => {
-          const t = el('text', { x: lx, y: baseY + k * 15, 'text-anchor': anchor, class: 'metro-label' }, g);
-          const icon = k === 0 && e && e.kind === 'spire' && HAS_KINDS ? kindOf(e.item).icon + ' ' : '';
-          t.textContent = icon + ltxt;
-        });
-        if (lab.sub) {
-          const t = el('text', { x: lx, y: baseY + lines.length * 15 - 2, 'text-anchor': anchor, class: 'metro-sub' }, g);
-          t.textContent = lab.sub.length > 30 ? lab.sub.slice(0, 29) + '…' : lab.sub;
-        }
+        const lg = el('g', { class: 'metro-station-label', 'data-ref': st.ref }, gLab);
+        const icon = e && e.kind === 'spire' && HAS_KINDS ? kindOf(e.item).icon + ' ' : '';
+        const rows = wrapLabel(lab.name, 22);
+        rows[0] = icon + rows[0];
+        const sub = lab.sub ? (lab.sub.length > 32 ? lab.sub.slice(0, 31) + '…' : lab.sub) : '';
+        textBlock(lg, rows, sub, 'start', false);
+        lg.addEventListener('click', ev => { ev.stopPropagation(); if (!metroDragMoved) gotoRef(st.ref); });
+        const prio = st.kind === 'challenge' ? 90 : st.kind === 'plaza' ? 80 : st.interchange ? 70 : 50;
+        metroLabels.push({ g: lg, cx: x, cy: y, r, prio, side: !!st.interchange, order: i });
         g.addEventListener('click', ev => { ev.stopPropagation(); if (!metroDragMoved) gotoRef(st.ref); });
       }));
+      // measure every label once, at 1 unit = 1 px
+      metroLabels.concat(metroFixed).forEach(L => {
+        L.g.setAttribute('transform', 'translate(0,0)');
+        const b = L.g.getBBox();
+        L.bx = b.x; L.by = b.y; L.w = b.width; L.h = b.height;
+      });
       svg.dataset.w = W; svg.dataset.h = H;
       metroView = { x: 0, y: 0, w: W, h: H };
-      fitMetro();
       metroBuilt = true;
+      fitMetro();
+    }
+
+    function layoutMetroLabels() {
+      const svg = document.getElementById('metroSvg');
+      const box = svg.getBoundingClientRect();
+      if (!box.width || !metroLabels.length) return;
+      const k = metroView.w / box.width;               // SVG units per screen pixel
+      if (metroLastK !== null && Math.abs(k - metroLastK) / metroLastK < 0.01) return;
+      metroLastK = k;
+      const placed = [];
+      const hit = (a) => placed.some(b => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h);
+      const PADX = 3, PADY = 2;
+      // obstacles in screen px (relative to an arbitrary origin: unit / k)
+      METRO.stations.forEach(st => {
+        const x = metroX(st.x) / k, y = metroY(st.row) / k, r = 9;
+        placed.push({ x: x - r, y: y - r, w: 2 * r, h: 2 * r });
+      });
+      // the line strokes themselves (6 units each side of the axis)
+      METRO.lines.forEach(ln => {
+        const y = metroY(ln.row) / k, x0 = (metroX(ln.x0) - 40) / k, x1 = (metroX(ln.x1) + 40) / k;
+        placed.push({ x: x0, y: y - 6 / k - 2, w: x1 - x0, h: 12 / k + 4 });
+      });
+      METRO.interchanges.forEach(ic => {
+        const x = metroX(ic.x) / k, y0 = metroY(Math.max(...ic.rows)) / k, y1 = metroY(Math.min(...ic.rows)) / k;
+        placed.push({ x: x - 17 / k - 2, y: y0 - 17 / k, w: 34 / k + 4, h: y1 - y0 + 34 / k });
+      });
+      metroFixed.forEach(L => {
+        const sx = L.ux / k - L.w, sy = L.uy / k - L.h / 2 + 4;
+        L.g.setAttribute('transform', `translate(${L.ux},${L.uy - (L.h / 2 - 8) * k}) scale(${k})`);
+        placed.push({ x: sx - PADX, y: sy - PADY, w: L.w + 2 * PADX, h: L.h + 2 * PADY });
+      });
+      const items = metroLabels.slice().sort((a, b) => b.prio - a.prio || (a.order || 0) - (b.order || 0));
+      items.forEach(L => {
+        const cx = L.cx / k, cy = L.cy / k, gap = 6 + L.r / k;
+        // candidate top-left corners of the label box, in px, relative to the station
+        const above = [-L.w / 2, -gap - L.h], below = [-L.w / 2, gap];
+        const right = [gap, -L.h / 2], left = [-gap - L.w, -L.h / 2];
+        const ar = [gap * 0.6, -gap - L.h], br = [gap * 0.6, gap], al = [-gap * 0.6 - L.w, -gap - L.h], bl = [-gap * 0.6 - L.w, gap];
+        const cands = L.ic ? [[-L.w / 2, -gap - L.h - 2], [-L.w / 2, -gap - L.h - 18], [gap, -gap - L.h], [-gap - L.w, -gap - L.h]]
+          : L.side ? [right, left, ar, br, al, bl, above, below]
+          : (L.order % 2 === 0 ? [above, below, ar, br, al, bl, right, left] : [below, above, br, ar, bl, al, right, left]);
+        for (const [dx, dy] of cands) {
+          const r = { x: cx + dx - PADX, y: cy + dy - PADY, w: L.w + 2 * PADX, h: L.h + 2 * PADY };
+          if (!hit(r)) {
+            placed.push(r);
+            // label content starts at its own bbox origin (bx, by); shift so the box lands at (dx, dy)
+            const ux = (cx + dx - L.bx) * k, uy = (cy + dy - L.by) * k;
+            L.g.setAttribute('transform', `translate(${ux},${uy}) scale(${k})`);
+            L.g.style.display = '';
+            return;
+          }
+        }
+        L.g.style.display = 'none';
+      });
     }
 
     function applyMetroView() {
       const v = metroView;
       document.getElementById('metroSvg').setAttribute('viewBox', `${v.x} ${v.y} ${v.w} ${v.h}`);
+      layoutMetroLabels();
     }
     function fitMetro() {
       const svg = document.getElementById('metroSvg');
@@ -1569,7 +1649,7 @@
     }
     function highlightMetro(refs, selected) {
       const set = new Set(refs || []);
-      document.querySelectorAll('.metro-station').forEach(g => {
+      document.querySelectorAll('.metro-station, .metro-station-label').forEach(g => {
         g.classList.toggle('m-focus', set.has(g.dataset.ref));
         g.classList.toggle('m-selected', g.dataset.ref === selected);
       });
@@ -1602,6 +1682,7 @@
         applyMetroView();
       }, { passive: false });
       document.querySelectorAll('#viewSwitch button').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
+      window.addEventListener('resize', () => { if (currentView === 'metro' && metroBuilt) { metroLastK = null; applyMetroView(); } });
       document.getElementById('resetCamBtn').addEventListener('click', () => { if (currentView === 'metro') fitMetro(); });
       let initial = 'city';
       try { initial = localStorage.getItem('metropolis.view') || 'city'; } catch (e) { /* storage blocked */ }
