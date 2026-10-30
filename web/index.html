@@ -1404,7 +1404,7 @@
       document.querySelectorAll('.maplibregl-marker.tour-focus').forEach(el => el.classList.remove('tour-focus'));
       document.getElementById('tourCard').classList.remove('open');
       document.getElementById('tourBtn').classList.remove('active');
-      if (currentView === 'metro') { highlightMetro([]); fitMetro(); }
+      if (currentView === 'metro') { highlightMetro([]); fitMetro(true); }
       if (layersBeforeTour) {
         Object.entries(layersBeforeTour).forEach(([key, visible]) => setLayerVisible(key, visible));
         layersBeforeTour = null;
@@ -1615,12 +1615,33 @@
       });
     }
 
+    // Smooth camera moves on the metro map (tour stops, refit): interpolate the viewBox with an
+    // ease-in-out curve; the width is interpolated geometrically so zooming feels even.
+    let metroAnim = null;
+    function animateMetroTo(target, ms) {
+      if (metroAnim) cancelAnimationFrame(metroAnim.raf);
+      const from = { ...metroView }, t0 = performance.now(), dur = ms || 1200;
+      const ease = t => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+      // keep the point under the view centre moving in step with the zoom
+      const fc = { x: from.x + from.w / 2, y: from.y + from.h / 2 }, tc = { x: target.x + target.w / 2, y: target.y + target.h / 2 };
+      const step = now => {
+        const u = Math.min(1, (now - t0) / dur), e = ease(u);
+        const w = from.w * Math.pow(target.w / from.w, e), h = from.h * Math.pow(target.h / from.h, e);
+        const cx = fc.x + (tc.x - fc.x) * e, cy = fc.y + (tc.y - fc.y) * e;
+        metroView = { x: cx - w / 2, y: cy - h / 2, w, h };
+        applyMetroView();
+        if (u < 1) metroAnim.raf = requestAnimationFrame(step); else metroAnim = null;
+      };
+      metroAnim = { raf: requestAnimationFrame(step) };
+    }
+    function stopMetroAnim() { if (metroAnim) { cancelAnimationFrame(metroAnim.raf); metroAnim = null; } }
+
     function applyMetroView() {
       const v = metroView;
       document.getElementById('metroSvg').setAttribute('viewBox', `${v.x} ${v.y} ${v.w} ${v.h}`);
       layoutMetroLabels();
     }
-    function fitMetro() {
+    function fitMetro(animate) {
       const svg = document.getElementById('metroSvg');
       const W = +svg.dataset.w, H = +svg.dataset.h;
       const box = svg.getBoundingClientRect();
@@ -1628,8 +1649,8 @@
       // leave room for the directory on the left and the HUD at top/bottom
       let w = W * 1.08, h = w / aspect;
       if (h < H * 1.25) { h = H * 1.25; w = h * aspect; }
-      metroView = { x: (W - w) / 2 - w * 0.08, y: (H - h) / 2 - h * 0.02, w, h };
-      applyMetroView();
+      const target = { x: (W - w) / 2 - w * 0.08, y: (H - h) / 2 - h * 0.02, w, h };
+      if (animate) animateMetroTo(target, 1200); else { stopMetroAnim(); metroView = target; applyMetroView(); }
     }
     function focusMetro(refs) {
       const pts = METRO.stations.filter(s => refs.includes(s.ref));
@@ -1644,8 +1665,7 @@
       if (h < needH) { h = needH; w = h * aspect; }
       const cx = (Math.max(...xs) + Math.min(...xs)) / 2, cy = (Math.max(...ys) + Math.min(...ys)) / 2;
       // the tour card covers the lower third: shift the view down so stations sit higher
-      metroView = { x: cx - w / 2 - w * 0.06, y: cy - h / 2 + h * 0.14, w, h };
-      applyMetroView();
+      animateMetroTo({ x: cx - w / 2 - w * 0.06, y: cy - h / 2 + h * 0.14, w, h }, 1400);
     }
     function highlightMetro(refs, selected) {
       const set = new Set(refs || []);
@@ -1662,7 +1682,7 @@
       const view = document.getElementById('metroView');
       const svg = document.getElementById('metroSvg');
       let drag = null;
-      view.addEventListener('mousedown', e => { drag = { x: e.clientX, y: e.clientY, v: { ...metroView } }; metroDragMoved = false; view.classList.add('dragging'); });
+      view.addEventListener('mousedown', e => { stopMetroAnim(); drag = { x: e.clientX, y: e.clientY, v: { ...metroView } }; metroDragMoved = false; view.classList.add('dragging'); });
       window.addEventListener('mousemove', e => {
         if (!drag) return;
         const box = svg.getBoundingClientRect(), k = metroView.w / box.width;
@@ -1674,6 +1694,7 @@
       window.addEventListener('mouseup', () => { drag = null; view.classList.remove('dragging'); });
       view.addEventListener('wheel', e => {
         e.preventDefault();
+        stopMetroAnim();
         const box = svg.getBoundingClientRect();
         const f = Math.exp(e.deltaY * 0.0015);
         const px = metroView.x + (e.clientX - box.left) / box.width * metroView.w;
@@ -1683,7 +1704,7 @@
       }, { passive: false });
       document.querySelectorAll('#viewSwitch button').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
       window.addEventListener('resize', () => { if (currentView === 'metro' && metroBuilt) { metroLastK = null; applyMetroView(); } });
-      document.getElementById('resetCamBtn').addEventListener('click', () => { if (currentView === 'metro') fitMetro(); });
+      document.getElementById('resetCamBtn').addEventListener('click', () => { if (currentView === 'metro') fitMetro(true); });
       let initial = 'city';
       try { initial = localStorage.getItem('metropolis.view') || 'city'; } catch (e) { /* storage blocked */ }
       if (/view=metro/.test(location.hash)) initial = 'metro';
