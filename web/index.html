@@ -1031,6 +1031,11 @@
     .metro-station { cursor: pointer; }
     .metro-station:hover .m-dot { stroke-width: 6; }
     .metro-station-label { cursor: pointer; }
+    .metro-ic, .metro-ic-g { cursor: pointer; }
+    .metro-ic:hover { stroke: var(--accent-cyan); }
+    .metro-ic.m-selected { stroke: var(--accent-cyan); stroke-width: 6; }
+    .ic-member { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 12.5px; }
+    .ic-line-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
     body.touring .metro-station-label:not(.m-focus) { opacity: 0.25; }
     .metro-label { font-family: 'Inter', system-ui, sans-serif; font-size: 12px; font-weight: 600; fill: #e8ecf5; paint-order: stroke; stroke: #0a0f1c; stroke-width: 4px; }
     .metro-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; fill: #8a9bb8; paint-order: stroke; stroke: #0a0f1c; stroke-width: 3px; }
@@ -1507,10 +1512,14 @@
         metroFixed.push({ g: lg, ux: metroX(ln.x0) - 54, uy: y });
       });
       // interchanges: a white capsule joining the member stations, label above its top
-      METRO.interchanges.forEach(ic => {
+      METRO.interchanges.forEach((ic, icIdx) => {
         const x = metroX(ic.x), y0 = metroY(Math.max(...ic.rows)), y1 = metroY(Math.min(...ic.rows));
-        el('rect', { x: x - 17, y: y0 - 17, width: 34, height: y1 - y0 + 34, rx: 17, fill: '#ffffff', stroke: '#0a0f1c', 'stroke-width': 4 }, gIc);
-        const lg = el('g', { class: 'metro-ic-g' }, gLab);
+        const openIc = ev => { ev.stopPropagation(); if (!metroDragMoved) selectObject('interchange', ic.id, icIdx); };
+        const cap = el('rect', { class: 'metro-ic', 'data-ic': ic.id, x: x - 17, y: y0 - 17, width: 34, height: y1 - y0 + 34, rx: 17, fill: '#ffffff', stroke: '#0a0f1c', 'stroke-width': 4 }, gIc);
+        el('title', {}, cap).textContent = `⇄ ${ic.label || ''}${ic.title ? ' — ' + ic.title : ''}`;
+        cap.addEventListener('click', openIc);
+        const lg = el('g', { class: 'metro-ic-g', 'data-ic': ic.id }, gLab);
+        lg.addEventListener('click', openIc);
         const t = el('text', { x: 0, y: 0, 'text-anchor': 'middle', class: 'metro-ic-label' }, lg);
         t.textContent = `⇄ ${ic.label || ''}`;
         metroLabels.push({ g: lg, cx: x, cy: y0, r: 18, prio: 100, ic: true });
@@ -2850,6 +2859,26 @@
 
         updatePager(window.CHALLENGES.length, index);
         flyToObject(item.coordinates);
+      } else if (type === 'interchange') {
+        const ic = METRO.interchanges[index];
+        badge.className = 'drawer-type-badge badge-conduit';
+        badge.textContent = `⇄ INTERCHANGE • ${ic.members.length} LINES`;
+        title.textContent = ic.title || ic.label;
+        subtitle.textContent = ic.label || '';
+        const lineOf = ref => { const st = METRO.stations.find(s => s.ref === ref); return st ? METRO.lines.find(l => l.id === st.line) : null; };
+        body.innerHTML = `
+          ${ic.text ? `<p class="drawer-body-text">${ic.text}</p>` : ''}
+          <div class="relation-block">
+            <div class="drawer-section-title"><span>🚇</span> Change here between</div>
+            ${ic.members.map(ref => { const ln = lineOf(ref); return `<div class="ic-member">
+              <span class="ic-line-dot" style="background: ${ln ? ln.color : '#fff'};"></span>
+              <span style="color: var(--text-muted); min-width: 9em;">${ln ? ln.name.replace(/^\d+ · /, '') : ''}</span>
+              <span class="ref-chip kind-spire" data-ref="${ref}">${refLabel(ref)}</span></div>`; }).join('')}
+          </div>`;
+        showLinks(null, []);
+        updatePager(METRO.interchanges.length, index);
+        document.querySelectorAll('.metro-ic').forEach(r => r.classList.toggle('m-selected', r.dataset.ic === ic.id));
+        highlightMetro(ic.members, null);
       } else if (type === 'plaza') {
         const item = PLAZAS[index];
         const layer = item.layers.find(l => l.id === plazaActive[item.id]) || item.layers[0] || { cells: [] };
@@ -3033,6 +3062,7 @@
       if (type === 'challenge') return window.CHALLENGES;
       if (type === 'conduit') return window.CONDUITS;
       if (type === 'plaza') return PLAZAS;
+      if (type === 'interchange') return METRO.interchanges;
       return [];
     }
 
@@ -3042,6 +3072,8 @@
       activeSelection = null;
       showLinks(null, []);
       highlightField(null);
+      document.querySelectorAll('.metro-ic.m-selected').forEach(r => r.classList.remove('m-selected'));
+      if (currentView === 'metro' && tourIndex < 0) highlightMetro([], null);
     }
 
     // Legend Builder (districts & spires, highways, constraints, priorities)

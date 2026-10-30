@@ -247,7 +247,9 @@ def validate_metro(spec, district_ids, spire_ids, plaza_ids):
         lines = [where.get(m) for m in members]
         if any(l is None for l in lines):
             errors.append(f"metro interchange {ic.get('id')} has unknown members {[m for m in members if m not in where]}")
-        elif len(set(lines)) != len(lines) or len(lines) < 2:
+        if ic.get('text') is not None and not isinstance(ic['text'], str):
+            errors.append(f"metro interchange {ic.get('id')}: text must be a string")
+        if len(set(lines)) != len(lines) or len(lines) < 2:
             errors.append(f"metro interchange {ic.get('id')} needs at least two members, at most one per line")
         for m in members:
             if m in seen:

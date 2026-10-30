@@ -2239,7 +2239,9 @@
           "@spire-school-seed-line",
           "@spire-patterns",
           "@spire-audit"
-        ]
+        ],
+        "title": "Where every record starts",
+        "text": "All 139 canonical records enter through the registry. From here 52 of them are grouped into the nine lineages (design line), recurring designs and failures are promoted into the 54-record pattern compendium (failure line), and 25 newly ingested repositories go to the prospective audit that puts the six rules on trial (theory line)."
       },
       {
         "id": "lineages-ranking",
@@ -2247,7 +2249,9 @@
         "members": [
           "@spire-school-multi-agent-scientist",
           "@spire-ranking"
-        ]
+        ],
+        "title": "Where the leading failures live",
+        "text": "The two antipatterns in Tier S concentrate in the multi-agent-scientist lineage: it holds 6 of the records coded with an uncalibrated judge and 3 of the 4 eval-discipline-regression cases. Lineage membership also feeds the ranking's c term — a pattern seen in several lineages scores higher."
       },
       {
         "id": "empty-cell",
@@ -2255,7 +2259,9 @@
         "members": [
           "@plaza-design",
           "@chal-r3"
-        ]
+        ],
+        "title": "From the design space to rule R3",
+        "text": "The fenced cell of the design-space plaza — no clean loop keeps a vector of LLM judgments — is exactly the absence that rule R3 states. Transfer here to follow the claim onto the theory line, where it was fixed in advance and then attacked by a 962-repository re-test."
       },
       {
         "id": "judge-r5",
@@ -2263,7 +2269,9 @@
         "members": [
           "@spire-ap-judge-uncalibrated",
           "@chal-r5"
-        ]
+        ],
+        "title": "The failure that breaks R5",
+        "text": "R5 proposed that design patterns stay inside one or two lineages. The uncalibrated LLM judge is coded in 7 of the 9 lineages, while architecture patterns stay within two — so this failure is the counterexample that contradicts the broad form of R5 (paper v1 says four lineages)."
       },
       {
         "id": "hubs-lineages",
@@ -2271,7 +2279,9 @@
         "members": [
           "@spire-hub-aiscientist",
           "@spire-school-clune-lab-open-endedness"
-        ]
+        ],
+        "title": "From the papers' favourite systems to their lineages",
+        "text": "The repositories that papers link to most are lineage members: The AI Scientist belongs to the Clune and multi-agent-scientist lineages; Agent Laboratory, AI-Researcher and NanoResearch to multi-agent scientist; MLAgentBench to its own lineage. Transfer here to go from the curated paper graph to how these systems are built."
       }
     ]
   }
