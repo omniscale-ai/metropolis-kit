@@ -1,0 +1,12 @@
+{
+  "agent_id": "agent_1701m68x0e2de16atthrebph14mb",
+  "tool_ids": {
+    "show": "tool_8701m68x0c5yew1bpcgk01xn66zd",
+    "highlight": "tool_3401m68x0cepeqh9fve588nv5rqx",
+    "open": "tool_6701m68x0d8xe8da10by9j9pqa2q",
+    "view": "tool_6101m68x0dhtft4afttxz379z2qf",
+    "tour": "tool_1801m68x0dt6e93b3wjewrkrbngg"
+  },
+  "kb_doc_id": "7mOEvThdtCzJSJKSj1fz",
+  "kb_name": "explainitarium-kb.md"
+}

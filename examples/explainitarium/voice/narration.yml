@@ -177,7 +177,7 @@
     },
     {
      "speaker": "maya",
-     "text": "[excited] Level two: questions you can pick. The tour pauses, an answer plays, and the map shows its evidence. Level three: you simply ask, out loud, and an agent answers from the map's own knowledge and flies the camera for you."
+     "text": "[excited] Level two: the map asks you — you've met it already — and you answer with a click. Level three: you simply ask, out loud, and an agent answers from the map's own knowledge and flies the camera for you."
     },
     {
      "speaker": "owen",
@@ -222,7 +222,7 @@
     },
     {
      "speaker": "maya",
-     "text": "[warm] That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. Soon, a place you can ask."
+     "text": "[warm] That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. And a place you can ask — press Ask, and talk to me."
     }
    ]
   }

@@ -1,6 +1,6 @@
-# Explainitarium — dialogue tour (draft for review)
+# Explainitarium — dialogue tour
 
-Generated from `examples/explainitarium/02-city-spec.json` (tour[].dialogue). Edit the spec, not this file. Actions in brackets fire when the line starts.
+Generated from `examples/explainitarium/02-city-spec.json` (tour[].dialogue, tour[].quiz). Edit the spec, not this file. Actions in brackets fire when the line starts.
 
 ## 1. Nobody reads page 47
 
@@ -42,6 +42,14 @@ Generated from `examples/explainitarium/02-city-spec.json` (tour[].dialogue). Ed
 
 **Maya:** [warm] Exactly. Every map here draws its limits where they act.
 
+**Quiz — Owen:** [dryly] Your turn. Show me where a human checks the agents' work.
+
+Right answers: @spire-review, @bneck-review, @spire-profile
+
+**Maya (right):** [pleased] Exactly. Agents draft, a person approves, and the provenance file keeps the receipts.
+
+**Maya (wrong):** [gentle] Close. The gates are here: the one-page profile, and the human review with its provenance file.
+
 ## 3. One spec, many views
 
 **Maya:** [brisk] From here on, nothing is guessed. The compiler reads the spec, places every building, routes every road, and works out the cameras for this tour.  
@@ -67,7 +75,7 @@ Generated from `examples/explainitarium/02-city-spec.json` (tour[].dialogue). Ed
 **Maya:** [candid] Big districts still need positions by hand. It's marked, right there on the compiler.  
   `→ view "city"; show ["@spire-compiler", "@bneck-layout"]`
 
-## 4. The map talks — and will listen
+## 4. The map talks — and listens
 
 **Owen:** [dryly] Here's my real question. Who is talking right now?
 
@@ -82,7 +90,7 @@ Generated from `examples/explainitarium/02-city-spec.json` (tour[].dialogue). Ed
 **Owen:** [impressed, grudging] Neat. So this tour is level one. What are two and three?  
   `→ highlight ["@spire-level1", "@spire-level2", "@spire-level3"]`
 
-**Maya:** [excited] Level two: questions you can pick. The tour pauses, an answer plays, and the map shows its evidence. Level three: you simply ask, out loud, and an agent answers from the map's own knowledge and flies the camera for you.  
+**Maya:** [excited] Level two: the map asks you — you've met it already — and you answer with a click. Level three: you simply ask, out loud, and an agent answers from the map's own knowledge and flies the camera for you.  
   `→ show ["@spire-level2", "@spire-level3"]`
 
 **Owen:** [skeptical] A live agent in a live demo. What could possibly go wrong.
@@ -109,16 +117,5 @@ Generated from `examples/explainitarium/02-city-spec.json` (tour[].dialogue). Ed
 
 **Owen:** [warmer] So the thing explaining itself is built exactly like the things it explains.
 
-**Maya:** [warm] That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. Soon, a place you can ask.  
+**Maya:** [warm] That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. And a place you can ask — press Ask, and talk to me.  
   `→ show "@dist-use"`
-
-## Quiz after "Agents read, a human approves"
-
-**Owen:** [dryly] Your turn. Show me where a human checks the agents' work.
-
-Right answers: @spire-review, @bneck-review, @spire-profile
-
-**Maya (right):** [pleased] Exactly. Agents draft, a person approves, and the provenance file keeps the receipts.
-
-**Maya (wrong):** [gentle] Close. The gates are here: the one-page profile, and the human review with its provenance file.
-

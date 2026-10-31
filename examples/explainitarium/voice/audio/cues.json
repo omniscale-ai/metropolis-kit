@@ -201,7 +201,7 @@
   {
    "page": 4,
    "file": "page-04.mp3",
-   "duration": 62.77,
+   "duration": 61.49,
    "cues": [
     {
      "speaker": "owen",
@@ -236,19 +236,19 @@
     {
      "speaker": "maya",
      "start": 34.18,
-     "end": 50.3,
-     "text": "Level two: questions you can pick. The tour pauses, an answer plays, and the map shows its evidence. Level three: you simply ask, out loud, and an agent answers from the map's own knowledge and flies the camera for you."
+     "end": 49.02,
+     "text": "Level two: the map asks you — you've met it already — and you answer with a click. Level three: you simply ask, out loud, and an agent answers from the map's own knowledge and flies the camera for you."
     },
     {
      "speaker": "owen",
-     "start": 50.6,
-     "end": 56.0,
+     "start": 49.32,
+     "end": 54.72,
      "text": "A live agent in a live demo. What could possibly go wrong."
     },
     {
      "speaker": "maya",
-     "start": 56.3,
-     "end": 63.07,
+     "start": 55.02,
+     "end": 61.79,
      "text": "The network. That's why it's marked as a limit — and why levels one and two need no live connection at all."
     }
    ]
@@ -256,7 +256,7 @@
   {
    "page": 5,
    "file": "page-05.mp3",
-   "duration": 47.26,
+   "duration": 47.75,
    "cues": [
     {
      "speaker": "owen",
@@ -303,8 +303,8 @@
     {
      "speaker": "maya",
      "start": 34.26,
-     "end": 47.5,
-     "text": "That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. Soon, a place you can ask."
+     "end": 47.97,
+     "text": "That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. And a place you can ask — press Ask, and talk to me."
     }
    ]
   }

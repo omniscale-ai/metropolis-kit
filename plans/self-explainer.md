@@ -63,7 +63,7 @@ the tour, plays the answer, runs its actions, then offers "continue the tour".
 2. Action vocabulary in the viewer (used by the current tour too). — done 2026-10-31: `show`, `open`, `tour`, `view`, `highlight`, `plaza_cell` (`plaza_layer` deferred to the paper map); `window.metropolis.act`, stop-level `do`, compiler validation.
 3. Level 1: dialogue texts → export → deckcast audio → player. Plus MP4. — done 2026-10-31 except the MP4.
 4. Level 2: questions + answers through the same pipeline. — changed 2026-10-31 at the user's suggestion: the map asks the reader (answer = click on the map), one quiz after stop 2; done.
-5. Level 3: KB export, agent, client tools, mic button.
+5. Level 3: KB export, agent, client tools, mic button. — done 2026-10-31 (`--export-kb`, `cli.voice_agent`, 🎙 Ask).
 
 ## Open decisions
 - Voices: deckcast's maya (curious → guide) and owen (dry → sceptic); key in ~/git/deckcast/.env.

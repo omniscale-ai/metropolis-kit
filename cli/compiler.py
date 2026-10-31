@@ -1608,7 +1608,98 @@ def narration_bundle(spec, spec_dir, out_dir, web_dir=None):
                 base = os.path.relpath(audio_dir, out_dir).replace(os.sep, '/') + '/'
     elif audio_dir:
         warnings.append(f"narration.audio {narr['audio']} has no cues.json yet — run deckcast audio")
-    return {'speakers': speakers, 'base': base, 'pages': pages}, warnings
+    # level 3: the voice agent made by cli.voice_agent, recorded next to the audio
+    agent_id = None
+    agent_path = os.path.join(os.path.dirname(audio_dir), 'agent.json') if audio_dir else None
+    if agent_path and os.path.exists(agent_path):
+        with open(agent_path, encoding='utf-8') as f:
+            agent_id = json.load(f).get('agent_id')
+    return {'speakers': speakers, 'base': base, 'pages': pages, 'agent_id': agent_id}, warnings
+
+
+def export_kb(spec):
+    """The map as a knowledge base for a voice agent (markdown): every object with its id, so the
+    agent can answer from the map's own content and point at the evidence with the viewer's actions."""
+    meta = spec.get('city_metadata', {})
+    labels = meta.get('ui_labels', {})
+    spires = {s['id']: s for s in spec.get('spires', [])}
+    name = lambda ref: (spires.get(ref) or {}).get('title') or ref
+    spoken = lambda text: SPOKEN_TAG.sub('', text).strip()
+    out = [f"# {meta.get('title', 'The map')} — knowledge base", '']
+    if meta.get('subtitle'):
+        out += [meta['subtitle'], '']
+    if meta.get('scale_axis_description'):
+        out += [f"Layout: {meta['scale_axis_description']}", '']
+    out += ['Every object below has an id in backticks. Pass these ids to the tools (show, highlight, open) '
+            'to point at the object on the map.', '']
+    for d in sorted(spec.get('districts', []), key=lambda x: x.get('order', 0)):
+        out += [f"## District `{d['id']}` — {d['name']}", '', f"Thesis: {d.get('scale_label', '')}"]
+        if d.get('description'):
+            out.append(d['description'])
+        out.append('')
+        for sp in [s for s in spec.get('spires', []) if s.get('district_ref') == d['id']]:
+            status = sp.get('status', 'done')
+            out.append(f"### `{sp['id']}` — {sp['title']}" + (f" ({status})" if status != 'done' else ''))
+            out.append(f"Kind: {sp.get('kind', 'system')}.")
+            for key, val in (sp.get('metrics') or {}).items():
+                if val:
+                    out.append(f"- {labels.get('metric_' + key, key)}: {val}")
+            if sp.get('abstract'):
+                out.append(sp['abstract'])
+            out.append('')
+        for b in [b for b in spec.get('bottlenecks', []) if b.get('district_ref') == d['id']]:
+            out.append(f"### Constraint `{b['id']}` — {b.get('title', b.get('codename', ''))}")
+            for key in ('nature', 'impact', 'remedy'):
+                if b.get(key):
+                    out.append(f"- {key.capitalize()}: {b[key]}")
+            out.append('')
+        for c in [c for c in spec.get('challenges', []) if c.get('district_ref') == d['id']]:
+            out.append(f"### Goal `{c['id']}` — {c['title']}")
+            if c.get('target'):
+                out.append(c['target'])
+            if c.get('advanced_by'):
+                out.append(f"- Advanced by: {', '.join(name(r) for r in c['advanced_by'])}")
+            if c.get('blocked_by'):
+                out.append(f"- Blocked by: {', '.join(name(r) for r in c['blocked_by'])}")
+            out.append('')
+        for pz in [p for p in spec.get('plazas', []) if p.get('district_ref') == d['id']]:
+            out += [f"### Data plaza `{pz['id']}` — {pz.get('title', '')}", pz.get('subtitle', '')]
+            for layer in pz.get('layers', []):
+                out.append(f"Table ({layer.get('label', layer.get('id'))}): rows are {', '.join(pz['rows'])}; "
+                           f"columns are {', '.join(pz['cols'])}.")
+                for row, cells in zip(pz['rows'], layer.get('cells', [])):
+                    out.append(f"- {row}: " + '; '.join(f"{col} = {v if v is not None else 'not published'}"
+                                                        for col, v in zip(pz['cols'], cells)))
+            out.append('')
+    roads = spec.get('conduits', [])
+    if roads:
+        out += ['## Roads (flows between objects)', '']
+        for c in roads:
+            status = c.get('status', 'operational')
+            out.append(f"- `{c['id']}` {c.get('name', c.get('codename', ''))}: {name(c['from'])} → {name(c['to'])}"
+                       + (f" ({status})" if status != 'operational' else '')
+                       + (f". {c['description']}" if c.get('description') else ''))
+        out.append('')
+    ics = spec.get('metro', {}).get('interchanges', [])
+    if ics:
+        out += ['## Metro view interchanges', '']
+        for ic in ics:
+            out.append(f"- {ic.get('title', ic.get('id'))}: {ic.get('text', '')} "
+                       f"(stations: {', '.join(name(r) for r in ic.get('members', []))})")
+        out.append('')
+    speakers = spec.get('narration', {}).get('speakers', {})
+    who = lambda sid: speakers.get(sid, {}).get('name', sid)
+    if spec.get('tour'):
+        out += ['## The guided tour', '']
+        for i, stop in enumerate(spec['tour'], 1):
+            out += [f"### Stop {i}: {stop['title']}", stop.get('text', '')]
+            for line in stop.get('dialogue', []):
+                out.append(f"- {who(line['speaker'])}: {spoken(line['text'])}")
+            for q in stop.get('quiz', []):
+                out.append(f"- Quiz — {who(q['ask']['speaker'])} asks: {spoken(q['ask']['text'])} "
+                           f"Answer: {', '.join(name(r) for r in q.get('answer', []))}.")
+            out.append('')
+    return '\n'.join(out).rstrip() + '\n'
 
 
 def main():
@@ -1618,6 +1709,7 @@ def main():
     parser.add_argument('--web-dir', help="Optional web target directory (e.g. docs/ or dist/)")
     parser.add_argument('--validate-only', action='store_true', help="Run schema validation without emitting")
     parser.add_argument('--export-narration', metavar='PATH', help="Write the tour dialogue as a deckcast script (narration.yml) and exit")
+    parser.add_argument('--export-kb', metavar='PATH', help="Write the map as a markdown knowledge base for a voice agent and exit")
     parser.add_argument('--serve', type=int, nargs='?', const=8080, help="Launch local HTTP server on given port (default 8080)")
 
     args = parser.parse_args()
@@ -1640,6 +1732,12 @@ def main():
     for warning in lint_spec(spec):
         print(f"    [warn] {warning}")
     if args.validate_only:
+        sys.exit(0)
+    if args.export_kb:
+        os.makedirs(os.path.dirname(os.path.abspath(args.export_kb)), exist_ok=True)
+        with open(args.export_kb, 'w', encoding='utf-8') as f:
+            f.write(export_kb(spec))
+        print(f"[✓] Knowledge base {args.export_kb}")
         sys.exit(0)
     if args.export_narration:
         script = export_narration(spec)

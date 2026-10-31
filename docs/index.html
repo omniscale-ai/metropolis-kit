@@ -935,6 +935,21 @@
     #listenBtn, #orbitBtn, #tourBtn { white-space: nowrap; }
     .tour-listen { font-family: var(--font-mono); font-size: 11px; }
     .tour-listen.active { color: #0a0f1c; background: #7cffb2; border-color: #7cffb2; }
+    /* Talk to the city (level 3): a live voice agent that points at the map */
+    .talk-panel { position: absolute; right: 24px; bottom: 96px; width: min(340px, calc(100vw - 32px)); z-index: 26; display: none;
+      background: rgba(8, 12, 24, 0.94); border: 1px solid rgba(0, 240, 255, 0.45); border-radius: 12px; padding: 12px 14px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55); backdrop-filter: blur(10px); }
+    body.talking .talk-panel { display: block; }
+    .talk-head { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #00f0ff; letter-spacing: 1px; }
+    .talk-dot { width: 10px; height: 10px; border-radius: 50%; background: #8a9bb8; flex: none; }
+    .talk-panel[data-mode="listening"] .talk-dot { background: #7cffb2; box-shadow: 0 0 10px #7cffb2; }
+    .talk-panel[data-mode="speaking"] .talk-dot { background: #00f0ff; box-shadow: 0 0 10px #00f0ff; animation: talkPulse 0.9s ease-in-out infinite; }
+    @keyframes talkPulse { 50% { transform: scale(1.35); } }
+    .talk-status { flex: 1; }
+    .talk-line { margin-top: 8px; font-size: 13.5px; line-height: 1.5; color: #fff; min-height: 1.5em; }
+    .talk-you { margin-top: 6px; font-size: 12px; color: var(--text-muted); font-style: italic; }
+    .talk-you:empty, .talk-line:empty { display: none; }
+    #talkBtn.active { color: #0a0f1c; background: #00f0ff; border-color: #00f0ff; }
     .tour-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
     .tour-dots { display: flex; gap: 6px; }
     .tour-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); cursor: pointer; }
@@ -1187,6 +1202,10 @@
         <span>🎧</span>
         <span>Listen</span>
       </button>
+      <button id="talkBtn" class="control-action-btn" title="Talk to the city — ask anything out loud; the guide answers and points at the map" style="display: none; white-space: nowrap;">
+        <span>🎙</span>
+        <span>Ask</span>
+      </button>
       <button id="scaleBtn" class="control-action-btn" title="Building size: Alt/Option + scroll, or [ and ] keys. Click to reset.">
         <span>🏙️</span>
         <span id="scaleLabel">×1.00</span>
@@ -1219,6 +1238,13 @@
       <button id="tourListenBtn" class="pager-btn tour-listen" title="Narrated tour: play / pause (P)" style="display: none;">🔊 Listen</button>
       <button id="tourNextBtn" class="pager-btn">Next ▶</button>
     </div>
+  </section>
+
+  <section id="talkPanel" class="talk-panel" data-mode="connecting">
+    <div class="talk-head"><span class="talk-dot"></span><span id="talkStatus" class="talk-status">CONNECTING…</span>
+      <button class="route-close" id="talkEndBtn" title="End the conversation">✕</button></div>
+    <div id="talkYou" class="talk-you"></div>
+    <div id="talkLine" class="talk-line"></div>
   </section>
 
   <!-- ROUTE (DIRECTIONS) PANEL -->
@@ -1714,6 +1740,81 @@
         if (e.key === 'p' || e.key === 'P') { e.preventDefault(); toggleListen(); }
       });
       setListenUI();
+    }
+
+    // ===== Talk to the city (level 3): an ElevenLabs voice agent (made by cli.voice_agent) that
+    // knows the map from its knowledge-base export and points at it through the same actions.
+    // The SDK loads only when the reader presses Ask; the agent id is public, the key never is.
+    const ELEVEN_SDK = 'https://cdn.jsdelivr.net/npm/@elevenlabs/client@1.32.1/+esm';
+    let talk = null;   // the live conversation
+
+    function talkUI(mode, status) {
+      const panel = document.getElementById('talkPanel');
+      panel.dataset.mode = mode;
+      document.getElementById('talkStatus').textContent = status;
+    }
+
+    // the model sometimes drops the leading @ of an id, or sends one id instead of a list
+    const refsOf = v => asList(v).map(r => String(r).trim()).map(r => (r.startsWith('@') ? r : '@' + r));
+
+    async function startTalk() {
+      if (talk) return;
+      if (narrating && !narrAudio.paused) narrAudio.pause();   // one voice at a time
+      document.body.classList.add('talking');
+      document.getElementById('talkBtn').classList.add('active');
+      document.getElementById('talkYou').textContent = '';
+      document.getElementById('talkLine').textContent = '';
+      talkUI('connecting', 'CONNECTING…');
+      const tool = (name, fn) => params => {
+        console.info('metropolis: agent calls', name, JSON.stringify(params));
+        try { fn(params || {}); } catch (e) { console.warn(e); }
+        return `${name}: done`;
+      };
+      try {
+        const { Conversation } = await import(ELEVEN_SDK);
+        talk = await Conversation.startSession({
+          agentId: NARRATION.agent_id,
+          clientTools: {
+            show: tool('show', p => act({ show: refsOf(p.refs || p.ref) })),
+            highlight: tool('highlight', p => act({ highlight: refsOf(p.refs) })),
+            open: tool('open', p => act({ open: refsOf(p.ref)[0] })),
+            view: tool('view', p => act({ view: p.mode })),
+            tour: tool('tour', p => act({ tour: +p.stop || 0 })),
+          },
+          onStatusChange: ({ status }) => { if (status === 'disconnected') endTalk(); },
+          onModeChange: ({ mode }) => talkUI(mode, mode === 'speaking' ? 'SPEAKING' : 'LISTENING — ASK ANYTHING'),
+          onMessage: ({ source, message }) => {
+            const text = String(message).replace(/\[[^\]]*\]\s*/g, '');   // the voice's [emotion] tags
+            document.getElementById(source === 'user' ? 'talkYou' : 'talkLine').textContent = source === 'user' ? `“${text}”` : text;
+          },
+          onError: msg => { console.warn('talk:', msg); talkUI('error', 'CONNECTION PROBLEM'); },
+        });
+        talkUI('listening', 'LISTENING — ASK ANYTHING');
+      } catch (e) {
+        console.warn('talk:', e);
+        talk = null;
+        // the usual causes: no microphone permission, a page served over plain http, or no network
+        talkUI('error', window.isSecureContext ? 'NO MICROPHONE OR NO NETWORK' : 'NEEDS HTTPS OR LOCALHOST');
+      }
+    }
+
+    function endTalk() {
+      const t = talk;
+      talk = null;
+      if (t) t.endSession().catch(() => {});
+      document.body.classList.remove('talking');
+      document.getElementById('talkBtn').classList.remove('active');
+    }
+
+    // a typed question to the live agent (the same conversation as the microphone)
+    window.metropolis.ask = text => (talk ? talk.sendUserMessage(String(text)) : null);
+
+    function setupTalk() {
+      if (!NARRATION || !NARRATION.agent_id) return;
+      const btn = document.getElementById('talkBtn');
+      btn.style.display = '';
+      btn.addEventListener('click', () => (document.body.classList.contains('talking') ? endTalk() : startTalk()));
+      document.getElementById('talkEndBtn').addEventListener('click', endTalk);
     }
 
     function setupTour() {
@@ -2464,6 +2565,7 @@
         setupBuildingSizeControls();
         setupTour();
         setupNarration();
+        setupTalk();
         setupMetro();
         applyDefaultView();
         buildLegendUI();
