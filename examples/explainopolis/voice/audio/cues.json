@@ -256,7 +256,7 @@
   {
    "page": 5,
    "file": "page-05.mp3",
-   "duration": 47.75,
+   "duration": 49.5,
    "cues": [
     {
      "speaker": "owen",
@@ -303,8 +303,8 @@
     {
      "speaker": "maya",
      "start": 34.26,
-     "end": 47.97,
-     "text": "That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. And a place you can ask — press Ask, and talk to me."
+     "end": 49.75,
+     "text": "That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. And a place you can ask: press the Ask button, bottom right, and talk to me."
     }
    ]
   }

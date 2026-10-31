@@ -959,6 +959,8 @@
     .talk-line { margin-top: 8px; font-size: 13.5px; line-height: 1.5; color: #fff; min-height: 1.5em; }
     .talk-you { margin-top: 6px; font-size: 12px; color: var(--text-muted); font-style: italic; }
     .talk-you:empty, .talk-line:empty { display: none; }
+    #talkBtn.pulse { animation: askPulse 1s ease-in-out 12; border-color: #00f0ff; color: #00f0ff; }
+    @keyframes askPulse { 50% { box-shadow: 0 0 0 6px rgba(0, 240, 255, 0.35), 0 0 24px rgba(0, 240, 255, 0.8); transform: translateY(-2px); } }
     #talkBtn.active { color: #0a0f1c; background: #00f0ff; border-color: #00f0ff; }
     .tour-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
     .tour-dots { display: flex; gap: 6px; }
@@ -1602,6 +1604,7 @@
       view: v => setView(v),
       highlight: v => { const refs = asList(v).filter(r => refEntity(r)); actionFocus = refs.length ? refs : null; setFocus(currentFocus()); },
       plaza_cell: v => markPlazaCell(v),
+      ask: v => (v === 'start' ? startTalk() : pulseAsk()),
     };
 
     function act(action) {
@@ -1807,7 +1810,8 @@
             view: tool('view', p => act({ view: p.mode })),
             tour: tool('tour', p => act({ tour: +p.stop || 0 })),
           },
-          onStatusChange: ({ status }) => { if (status === 'disconnected') endTalk(); },
+          // only a live conversation ends the panel; a failed start keeps it open with the reason
+          onStatusChange: ({ status }) => { if (status === 'disconnected' && talk) endTalk(); },
           onModeChange: ({ mode }) => talkUI(mode, mode === 'speaking' ? 'SPEAKING' : 'LISTENING — ASK ANYTHING'),
           onMessage: ({ source, message }) => {
             const text = String(message).replace(/\[[^\]]*\]\s*/g, '');   // the voice's [emotion] tags
@@ -1835,12 +1839,28 @@
     // a typed question to the live agent (the same conversation as the microphone)
     window.metropolis.ask = text => (talk ? talk.sendUserMessage(String(text)) : null);
 
+    // point at the Ask button for a few seconds (a narrated line says "press Ask")
+    function pulseAsk() {
+      const btn = document.getElementById('talkBtn');
+      if (!btn || btn.style.display === 'none') return;
+      btn.classList.remove('pulse');
+      void btn.offsetWidth;   // restart the animation
+      btn.classList.add('pulse');
+      setTimeout(() => btn.classList.remove('pulse'), 12000);
+    }
+
     function setupTalk() {
       if (!NARRATION || !NARRATION.agent_id) return;
       const btn = document.getElementById('talkBtn');
       btn.style.display = '';
       btn.addEventListener('click', () => (document.body.classList.contains('talking') ? endTalk() : startTalk()));
       document.getElementById('talkEndBtn').addEventListener('click', endTalk);
+      if (/(^#|&)ask\b/.test(location.hash)) {
+        const gate = document.getElementById('listenGate'), gbtn = document.getElementById('listenGateBtn');
+        gbtn.textContent = '🎙 Talk to the city';
+        gbtn.onclick = () => { gate.classList.remove('open'); gbtn.textContent = '🎧 Start the narrated tour'; gbtn.onclick = null; startTalk(); };
+        setTimeout(() => gate.classList.add('open'), 1200);
+      }
     }
 
     function setupTour() {
@@ -3306,8 +3326,7 @@
             <div class="drawer-section-title"><span>✦</span> ${L('abstract_title', 'Scientific Abstract & Methodology')}</div>
             <p class="drawer-body-text">${item.abstract}</p>
           </div>
-          ${(item.links || []).length ? `<div class="spire-links">${item.links.map(l =>
-            `<a class="spire-link" href="${escapeHtml(l.url)}" target="_blank" rel="noopener">${escapeHtml(l.label)} <span>↗</span></a>`).join('')}</div>` : ''}
+          ${cardLinks(item.links)}
           ${relationBlock('⏱️ Constraints at this spire', item.constraints)}
           ${relationBlock('🎯 Advances priorities', item.advances)}
           <div class="relation-block conduit-endpoints-row">
@@ -3377,6 +3396,7 @@
             <span class="metric-label">${L('target_title', 'Strategic Policy Target')}</span>
             <span class="metric-value" style="font-size: 13.5px; line-height: 1.5; color: #fff;">${item.target}</span>
           </div>
+          ${cardLinks(item.links)}
           ${relationBlock(item.verdict ? '🏛️ Supporting evidence' : '🏛️ Advanced by', item.advanced_by)}
           ${relationBlock(item.verdict ? '⚠️ Counterevidence' : '⚠️ Blocked by', item.blocked_by)}
         `;
@@ -3955,6 +3975,20 @@
       if (e.kind === 'conduit') return `${roadOf(e.item).icon} ${e.item.codename}`;
       return e.item.codename || e.item.title;
     }
+
+    // Card links: a URL opens in a new tab; a link with "do" runs actions (e.g. start talking)
+    let cardLinkActions = [];
+    function cardLinks(links) {
+      if (!(links || []).length) return '';
+      cardLinkActions = links.map(l => l.do || null);
+      return `<div class="spire-links">${links.map((l, i) => l.do
+        ? `<button class="spire-link" data-link-act="${i}">${escapeHtml(l.label)}</button>`
+        : `<a class="spire-link" href="${escapeHtml(l.url)}" target="_blank" rel="noopener">${escapeHtml(l.label)} <span>↗</span></a>`).join('')}</div>`;
+    }
+    document.addEventListener('click', e => {
+      const b = e.target.closest('[data-link-act]');
+      if (b) (cardLinkActions[+b.dataset.linkAct] || []).forEach(act);
+    });
 
     function escapeHtml(text) {
       return String(text).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));

@@ -346,4 +346,4 @@ Two public maps, a private CEO view and two narrated decks exist today — and t
 - Owen: And deckcast?
 - Maya: Two decks narrated end to end, one with a link where you can talk to the agent.
 - Owen: So the thing explaining itself is built exactly like the things it explains.
-- Maya: That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. And a place you can ask — press Ask, and talk to me.
+- Maya: That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. And a place you can ask: press the Ask button, bottom right, and talk to me.

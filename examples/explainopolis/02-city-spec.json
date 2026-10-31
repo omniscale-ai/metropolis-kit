@@ -465,7 +465,17 @@
         "infrastructure": "knowledge base exported by the compiler",
         "maturity": "Working — needs the network"
       },
-      "abstract": "Ask anything by voice; the agent answers from the map's own knowledge and flies the camera to the evidence."
+      "abstract": "Ask anything by voice; the agent answers from the map's own knowledge and flies the camera to the evidence.",
+      "links": [
+        {
+          "label": "🎙 Talk to the city",
+          "do": [
+            {
+              "ask": "start"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "@spire-use-sciance",
@@ -930,6 +940,16 @@
       "place": [
         330,
         -150
+      ],
+      "links": [
+        {
+          "label": "🎙 Talk to the city",
+          "do": [
+            {
+              "ask": "start"
+            }
+          ]
+        }
       ]
     }
   ],
@@ -1542,10 +1562,13 @@
         },
         {
           "speaker": "guide",
-          "text": "[warm] That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. And a place you can ask — press Ask, and talk to me.",
+          "text": "[warm] That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. And a place you can ask: press the Ask button, bottom right, and talk to me.",
           "do": [
             {
               "show": "@dist-use"
+            },
+            {
+              "ask": "pulse"
             }
           ]
         }

@@ -565,10 +565,6 @@ def validate_v2_semantics(spec, district_ids, spire_ids):
     for sp in spec.get('spires', []):
         if sp.get('kind', 'system') not in SPIRE_KINDS:
             errors.append(f"Spire {sp.get('id')} has unknown kind '{sp.get('kind')}' (expected one of {', '.join(SPIRE_KINDS)})")
-        for link in sp.get('links', []):
-            if not isinstance(link, dict) or not link.get('label') or \
-                    not str(link.get('url', '')).startswith(('https://', 'http://')):
-                errors.append(f"Spire {sp.get('id')} link needs a label and an http(s) url: {link!r}")
         if sp.get('status', 'done') not in SPIRE_STATUSES:
             errors.append(f"Spire {sp.get('id')} has unknown status '{sp.get('status')}' (expected one of {', '.join(SPIRE_STATUSES)})")
     for b in spec.get('bottlenecks', []):
@@ -596,6 +592,17 @@ def validate_v2_semantics(spec, district_ids, spire_ids):
     all_refs = set(district_ids) | set(spire_ids) | bneck_ids | plaza_ids | \
         {c.get('id') for c in spec.get('challenges', [])} | {c.get('id') for c in spec.get('conduits', [])}
     errors.extend(validate_metro(spec, district_ids, spire_ids, plaza_ids))
+    # links on cards: a URL to open, or actions to run (e.g. start talking to the map)
+    for obj in spec.get('spires', []) + spec.get('challenges', []):
+        for link in obj.get('links', []):
+            where = f"{obj.get('id')} link"
+            if not isinstance(link, dict) or not link.get('label'):
+                errors.append(f"{where} needs a label: {link!r}")
+            elif 'do' in link:
+                errors.extend(validate_actions(link['do'], where, all_refs,
+                                               {pz.get('id'): pz for pz in spec.get('plazas', [])}, len(spec.get('tour', []))))
+            elif not str(link.get('url', '')).startswith(('https://', 'http://')):
+                errors.append(f"{where} needs an http(s) url or a 'do' list: {link!r}")
     for t_idx, stop in enumerate(spec.get('tour', [])):
         label = stop.get('id', f'#{t_idx + 1}')
         if not stop.get('title') or not stop.get('text'):
@@ -663,7 +670,7 @@ def validate_v2_semantics(spec, district_ids, spire_ids):
                 errors.append(f"Plaza {pid} hatch row outside the grid: {h}")
     return errors
 
-ACTIONS = ('show', 'open', 'tour', 'view', 'highlight', 'plaza_cell')
+ACTIONS = ('show', 'open', 'tour', 'view', 'highlight', 'plaza_cell', 'ask')
 
 
 def validate_actions(actions, where, all_refs, plazas, n_stops):
@@ -692,6 +699,9 @@ def validate_actions(actions, where, all_refs, plazas, n_stops):
             elif name == 'tour':
                 if not isinstance(arg, int) or not 0 <= arg <= n_stops:
                     errors.append(f"{where}: tour must be a stop number 1..{n_stops} (0 ends the tour), got {arg!r}")
+            elif name == 'ask':
+                if arg not in ('start', 'pulse'):
+                    errors.append(f"{where}: ask must be 'start' (open the conversation) or 'pulse' (point at the Ask button), got {arg!r}")
             elif name == 'view':
                 if arg not in ('city', 'metro'):
                     errors.append(f"{where}: view must be 'city' or 'metro', got {arg!r}")
@@ -998,6 +1008,7 @@ def compile_metropolis_data(spec):
             'blocked_by': chal.get('blocked_by', []),
             'verdict': verdict,
             'short': chal.get('short', ''),
+            'links': chal.get('links', []),
             'coordinates': coords
         })
 
@@ -1652,7 +1663,8 @@ def export_kb(spec):
             if sp.get('abstract'):
                 out.append(sp['abstract'])
             for link in sp.get('links', []):
-                out.append(f"- Link: {link['label']} — {link['url']}")
+                if link.get('url'):
+                    out.append(f"- Link: {link['label']} — {link['url']}")
             out.append('')
         for b in [b for b in spec.get('bottlenecks', []) if b.get('district_ref') == d['id']]:
             out.append(f"### Constraint `{b['id']}` — {b.get('title', b.get('codename', ''))}")

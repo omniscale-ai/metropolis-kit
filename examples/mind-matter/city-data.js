@@ -450,6 +450,7 @@ window.CHALLENGES = [
     "blocked_by": [],
     "verdict": null,
     "short": "",
+    "links": [],
     "coordinates": [
       13.4069379,
       52.5051186
@@ -468,6 +469,7 @@ window.CHALLENGES = [
     "blocked_by": [],
     "verdict": null,
     "short": "",
+    "links": [],
     "coordinates": [
       13.3930621,
       52.5332357

@@ -117,5 +117,5 @@ Right answers: @spire-review, @bneck-review, @spire-profile
 
 **Owen:** [warmer] So the thing explaining itself is built exactly like the things it explains.
 
-**Maya:** [warm] That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. And a place you can ask — press Ask, and talk to me.  
-  `→ show "@dist-use"`
+**Maya:** [warm] That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. And a place you can ask: press the Ask button, bottom right, and talk to me.  
+  `→ show "@dist-use"; ask "pulse"`

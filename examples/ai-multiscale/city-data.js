@@ -929,6 +929,7 @@ window.CHALLENGES = [
     "blocked_by": [],
     "verdict": null,
     "short": "",
+    "links": [],
     "coordinates": [
       13.4069379,
       52.4927219
@@ -947,6 +948,7 @@ window.CHALLENGES = [
     "blocked_by": [],
     "verdict": null,
     "short": "",
+    "links": [],
     "coordinates": [
       13.3930621,
       52.5043101
@@ -965,6 +967,7 @@ window.CHALLENGES = [
     "blocked_by": [],
     "verdict": null,
     "short": "",
+    "links": [],
     "coordinates": [
       13.4070855,
       52.5122152
@@ -983,6 +986,7 @@ window.CHALLENGES = [
     "blocked_by": [],
     "verdict": null,
     "short": "",
+    "links": [],
     "coordinates": [
       13.3929145,
       52.5176051
@@ -1001,6 +1005,7 @@ window.CHALLENGES = [
     "blocked_by": [],
     "verdict": null,
     "short": "",
+    "links": [],
     "coordinates": [
       13.4,
       52.5251509
@@ -1019,6 +1024,7 @@ window.CHALLENGES = [
     "blocked_by": [],
     "verdict": null,
     "short": "",
+    "links": [],
     "coordinates": [
       13.4069379,
       52.5340442
