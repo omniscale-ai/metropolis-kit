@@ -252,6 +252,7 @@ window.SPIRES_INDEX = [
       "maturity": "Validated Milestone"
     },
     "abstract": "Conclusively settled the mechanism debate, proving Space-Charge-Limited Current (SCLC) exponent m=2.71 and isolating the 20% contact barrier modulation threshold.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -277,6 +278,7 @@ window.SPIRES_INDEX = [
       "maturity": "Operational Prototype"
     },
     "abstract": "Autonomous agent proposing targeted experimental sweeps, orchestrating physical measurement instruments, and eliminating human confirmation bias.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -302,6 +304,7 @@ window.SPIRES_INDEX = [
       "maturity": "Demo Unit"
     },
     "abstract": "In-memory analog matrix acceleration utilizing conductance states of 2D memristive devices, performing single-cycle analog vector dot products.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -327,6 +330,7 @@ window.SPIRES_INDEX = [
       "maturity": "Lab Prototype"
     },
     "abstract": "Robotic pick-and-place assembly of pristine 2D atomic monolayers with controlled twist angle and sub-nanometer interface cleanliness.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -352,6 +356,7 @@ window.SPIRES_INDEX = [
       "maturity": "Pilot Testing"
     },
     "abstract": "Integration of 2D memristive selector arrays onto industrial CMOS wafer back-end metallization layers.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],

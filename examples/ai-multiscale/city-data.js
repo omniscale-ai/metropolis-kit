@@ -324,6 +324,7 @@ window.SPIRES_INDEX = [
       "maturity": "Sub-meV across material classes"
     },
     "abstract": "A lineage exploiting locality and equivariance to predict DFT Hamiltonians without self-consistent field iteration: DeepH's local coordinates, DeepH-E3's rigorous E(3) equivariance, DeepH-2's equivariant local-coordinate transformer, DeepH-r's basis-independent real-space potentials, and xDeepH's time-reversal symmetry for magnetic systems. Trained on 3x3 supercells (576 structures) it generalises to magic-angle twisted bilayer graphene at 1.08 degrees with 11,000+ atoms, reaching 0.12 meV MAE for monolayer graphene and 0.21 meV for MoS2, and resolves SOC-induced topological phase transitions in twisted bismuthene, Bi2Se3 and Bi2Te3.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -349,6 +350,7 @@ window.SPIRES_INDEX = [
       "maturity": "5.4 meV MAE, whole periodic table"
     },
     "abstract": "Equivariant graph network with irreducible spherical tensor representations aiming at a single Kohn-Sham Hamiltonian model valid across the periodic table. A two-step curriculum first learns real-space Hamiltonian matrices, then fine-tunes on orbital energies so that band structures come out right rather than merely the matrix. Demonstrated on 5+ element systems, twisted MoS2/WS2 heterostructures at 3.5 degrees (1,625 atoms) and metal-organic frameworks.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -374,6 +376,7 @@ window.SPIRES_INDEX = [
       "maturity": "Emerging, hardware-parallel"
     },
     "abstract": "Two converging lines. Differentiable programming (D4FT, GradDFT, Jrystal) recasts DFT as end-to-end stochastic optimisation over neural wave function parameters, with minibatch direct energy minimisation replacing SCF, while DEQH embeds the fixed-point character of self-consistency into implicit deep-equilibrium layers. In parallel, DM21 learns fractional-charge behaviour neurally and SyFES evolves explainable symbolic functionals such as GAS22 that outperform standard GGAs and hybrids while remaining human-readable.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -399,6 +402,7 @@ window.SPIRES_INDEX = [
       "maturity": "Few meV/atom on carbon, iron, silicon"
     },
     "abstract": "Hand-crafted invariant descriptors paired with tractable regressors: GAP's Gaussian process regression over SOAP, ACE's radial functions times spherical harmonics, moment tensor potentials, and UF3's cubic B-spline two- and three-body terms. GAP-20 reproduces carbon phase energetics, phonon dispersions and defect formation energies to within a few meV/atom; iron and silicon GAPs match DFT on defect migration and stress-strain. Fast to train, but historically hard to stretch across broad chemical space.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -424,6 +428,7 @@ window.SPIRES_INDEX = [
       "maturity": "Foundation-model scale, GPU-parallel"
     },
     "abstract": "The tallest spire in the corridor. NequIP introduced E(3)-equivariant geometric tensors and data-efficient training; SevenNet parallelised it and SevenNet-MF added multifidelity training that reaches good accuracy with a high-fidelity set roughly 10 percent the size of the low-fidelity one; MACE fused ACE with message passing so that many-body equivariant messages cut the number of passing iterations. CHGNet carries explicit charge and magnetic moments into complex oxides and battery materials, M3GNet and Allegro scale to millions of atoms. Collectively these universal potentials predict properties across the periodic table without retraining, ranked publicly on Matbench Discovery.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -449,6 +454,7 @@ window.SPIRES_INDEX = [
       "maturity": "1.67e-2 meV/uB magnetic force MAE"
     },
     "abstract": "Potentials that take spin configurations alongside atomic positions, at the cost of a markedly higher-dimensional input space. SpinGNN splits Heisenberg edge and spin-distance edge networks to cover simple exchange and multibody spin-lattice coupling, applied to BiFeO3 phase transitions; DeepSPIN predicts energies, forces and magnetic torques; MagNet uses E(3) equivariance for CrI3 monolayers, nanotubes and moire-twisted bilayers, generalising from flat sheets to nanotubes at 0.129 meV/atom and to 4,326-atom twisted bilayers.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -474,6 +480,7 @@ window.SPIRES_INDEX = [
       "maturity": "Now itself a benchmark for MLIPs"
     },
     "abstract": "Vibrational dynamics is the natural hinge between atoms and thermodynamics. MLIPs substitute for DFT in force-constant evaluation, opening higher-order phonon scattering; because most MLIPs are differentiable, packages like Phonax compute phonon properties inside the same framework. Virtual node GNNs predict full dynamical matrices whose dimension varies with the cell, giving complete dispersions directly from coordinates, and SVD compression of first-principles electron-phonon interactions reaches Pareto-optimal parametrisation from 1-2 percent of the original data.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -499,6 +506,7 @@ window.SPIRES_INDEX = [
       "maturity": "Experimentally confirmed candidates"
     },
     "abstract": "AIMD gives the most accurate conductivities and is unaffordable, so the district trades accuracy for reach. Active-learning DeePMD and Allegro (trained on 192-atom Li3PO4) scale to millions of atoms; LIFLOW replaces step-by-step integration with flow-matched displacement prediction over long intervals (Spearman up to 0.7). On the screening side, Sendek's logistic regression doubled expert F1 at 0.5, Laskowski's semi-supervised clustering produced 212 candidates including experimentally confirmed Li3BS3, and Maevskiy et al. ranked candidates from lithium potential-energy-surface descriptors, surfacing hydroborates absent from training and novel LiB3H8 at 82 +/- 23 mS/cm at 90 C in AIMD.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -524,6 +532,7 @@ window.SPIRES_INDEX = [
       "maturity": "4.505 J/(mol K) MAE on heat capacity"
     },
     "abstract": "Surrogates that map elemental and local structural information onto per-atom heat capacity for nanoporous MOFs, COFs and zeolites, validated against fresh experimental measurements. Fine-tuned MACE-MP-MOF0 reproduces phonon density of states, thermal expansion and bulk moduli; transformer-plus-matminer pipelines on JARVIS-DFT improve heat capacity MAE from 5.276 to 4.505 J/(mol K); MLP models on compositional and space-group descriptors screened the ICSD for thermoelectric and heat-dissipation candidates.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -549,6 +558,7 @@ window.SPIRES_INDEX = [
       "maturity": "Mature in biomolecules, open in solids"
     },
     "abstract": "All-atom systems are mapped to interacting beads and the force field acting on that reduced representation is learned. Flow matching trains a normalizing flow over the coarse-grained density and generates synthetic samples and forces, removing the need for atomistic reference forces; denoising score matching unifies distribution learning with force matching and cuts data requirements by up to two orders of magnitude. In solids, an n^3:1 graphite model with a modified Airebo potential reproduces all-atom thermal and mechanical properties, and AI-adaptive time stepping over RNN autoencoder latents removes 40 percent of redundant computation within 3 percent error.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -574,6 +584,7 @@ window.SPIRES_INDEX = [
       "maturity": "Validated on Cu, Fe, grain boundaries"
     },
     "abstract": "The classical bridge between atomistics and continuum: representative atoms interpolate everyone else, with summation rules approximating thermodynamic quantities from chosen lattice sites, extended to ionic crystals with long-range electrostatics. Gaussian Phase Packets evolve a multivariate Gaussian in phase space instead of individual trajectories, adding finite temperature and nonequilibrium thermomechanics. GNNs trained on accurate Monte-Carlo integration replace the numerical quadrature rules whose lack of frame indifference produced fictitious energy minima, validated on copper thermal expansion, the martensitic transition in iron, and grain boundary energies.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -599,6 +610,7 @@ window.SPIRES_INDEX = [
       "maturity": "Unsupervised, equilibrium and non-equilibrium"
     },
     "abstract": "The most conceptually interesting terrace. RSMI-NE couples renormalization group theory to neural estimation of real-space mutual information, extracting order parameters directly from raw configurations without supervision: boundary filters at Tc for the ferromagnetic Ising case, staggered magnetisation for the antiferromagnetic one, columnar and plaquette operators below the BKT transition in the interacting dimer model. Bagrov's multiscale structural complexity sums squared dissimilarities between successively decimated patterns, vanishing for both trivially ordered and fully random configurations and peaking for hierarchically structured ones such as spin spirals and magnetic labyrinths; its temperature derivative locates Tc sharply. OnsagerNet and GFINNs add thermodynamically consistent latent dynamics.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -624,6 +636,7 @@ window.SPIRES_INDEX = [
       "maturity": "MSE 1.64e-5 on torque prediction"
     },
     "abstract": "Effective local fields learned from small exact solutions, then run at mesoscale. Chiral domain coarsening on 96x96 triangular Kondo lattices shows linear domain growth rather than the Allen-Cahn square-root law, a consequence of directional anisotropy in the chiral domain walls. Deep-learning potentials trained on 30x30 exact diagonalization drive 100x100 double-exchange simulations that uncover correlation-induced freezing and arrested phase separation, and CNN surrogates for local energy change make kMC on 10^5 spins scale as O(N) per sweep instead of O(N^2)-O(N^3).",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -649,6 +662,7 @@ window.SPIRES_INDEX = [
       "maturity": "Reproduces experimental phase diagrams"
     },
     "abstract": "MLIPs push both the time and length scales of phase-diagram MD. A UF3 silicon-carbon potential trained on genetic-algorithm-sampled structures predicts the peritectic decomposition of SiC; DeePMD potentials trained on 2-64-atom silicon cells drive metadynamics in 8x8x8 supercells to resolve reconstructive high-pressure transitions and their defects; active-learned moment tensor potentials plus Gaussian process regression reproduce the experimental titanium-vanadium phase diagram with uncertainties. Beyond MLIPs, symbolic regression yields an interpretable linear law for binary ionic melting temperatures dominated by cohesive energy and elastic moduli, and GNN-estimated vibrational free energies screened roughly 50,000 inorganic compounds to over 2,000 candidate solid-solid transitions.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -674,6 +688,7 @@ window.SPIRES_INDEX = [
       "maturity": "4.9-11.0% mean error across systems"
     },
     "abstract": "ConvLSTM models trained on 14,300 image matrices from atomistic crack-propagation MD predict crack lengths, energy release rates and fracture patterns, and generalise to unseen bicrystalline and gradient structures. GNNs map mesoscale crystalline structure to atomic stress fields and potential energy distributions with mean errors of 5.5 percent for polycrystalline graphene, 4.9 percent for porous graphene and 11.0 percent for polycrystalline aluminium, while preserving derived quantities such as mean von Mises stress and Young's modulus under varying boundary conditions.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -699,6 +714,7 @@ window.SPIRES_INDEX = [
       "maturity": "Rare: the exemplar of >2 coupled scales"
     },
     "abstract": "The clearest existing answer to the review's own central challenge. For LixCoO2 cathodes, DFT informs a cluster expansion, semi-grand canonical Monte-Carlo trains a deep network on the free energy landscape under active learning, and those predictions drive continuum phase-field simulation of order-disorder transitions in isolated particles and during cycling. The AGAT graph attention model plays the same game laterally, fusing microscale DFT Young's moduli for carbon nanotubes with macroscale FEM electromechanics to predict CNT/PDMS composite resistance to 20 percent strain, where adding the DFT-FEM module lifted R-squared from 0.7548 to 0.7883.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -724,6 +740,7 @@ window.SPIRES_INDEX = [
       "maturity": "31.69% match rate vs 0.09% baseline"
     },
     "abstract": "Generative models that operate at two scales at once. MOFDiff diffuses over coarse-grained building blocks (6.9 blocks of 26.8 atoms on average) and full atomic structures, with over 30 percent of generated MOFs valid and novel and superior CO2 performance to BW-DB references. MOFFlow couples rigid-body dynamics of metal nodes and linkers with periodic crystal structure, predicting MOFs above 2,200 atoms per unit cell at a 31.69 percent match rate against DiffCSP's 0.09 percent. MSAIGNN decomposes crystal graphs by interaction range (0-3 A open metal sites, 3-8 A functional groups, 8-15 A pore structure), reaching R-squared 0.9423 on single-component CO2 adsorption, and genetic-algorithm workflows carry candidates all the way into simulated pressure-swing carbon-capture cycles that beat 13X zeolites and CALF-20.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -749,6 +766,7 @@ window.SPIRES_INDEX = [
       "maturity": "Emerging trend, largely aspirational"
     },
     "abstract": "The corridor's unfinished northern terminus. AI systems coordinate discovery by predicting behaviour across scales, designing experiments and analysing results automatically, iterating toward target properties with minimal human intervention. Multiphysics-plus-AI battery digital twins already maintain a dynamic rule library that predicts and manages critical instability thresholds in real time. The review's own conclusion names this as the route out of the field's deepest structural weakness: almost every application it surveyed rests on computational data alone, with limited connection to experimental results.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],

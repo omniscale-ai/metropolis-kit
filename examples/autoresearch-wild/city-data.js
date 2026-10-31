@@ -291,6 +291,7 @@ window.SPIRES_INDEX = [
       "maturity": "Frozen 10 Jun 2026"
     },
     "abstract": "139 canonical public GitHub records after three aliases are folded into their targets. Roles span research agents, benchmarks, libraries, substrates, meta-resources, paper companions and boundary artifacts, so 139 counts public artifacts, not runnable agents; estimating agent prevalence needs a separate role-coding pass. Every record carries an agent-drafted, human-adjudicated evidence card (141 cards; the two extra are explained) anchored to its primary sources.",
+    "links": [],
     "status": "done",
     "kind": "knowledge",
     "constraints": [],
@@ -316,6 +317,7 @@ window.SPIRES_INDEX = [
       "maturity": "Multi-label subset covers 52"
     },
     "abstract": "Nine promoted lineages cover 52 of the 139 canonical records; the remaining 87 have no promoted-lineage membership. The lineage map is a structured, overlapping view of a subset, not a partition of the registry.",
+    "links": [],
     "status": "done",
     "kind": "knowledge",
     "constraints": [],
@@ -341,6 +343,7 @@ window.SPIRES_INDEX = [
       "maturity": "Largest channel"
     },
     "abstract": "Two existing curated lists supplied 83 of the 139 canonical repository records: 75 from the larger seed list and 8 from a second list. Channels are unequal in yield, which is why the registry is an engineered discovery sample rather than a census.",
+    "links": [],
     "status": "done",
     "kind": "hub",
     "constraints": [],
@@ -366,6 +369,7 @@ window.SPIRES_INDEX = [
       "maturity": "Second channel"
     },
     "abstract": "Synthesis passes combined snowball search over already-inspected repositories with targeted GitHub search. No record entered through undirected GitHub search alone; GitHub search is a technique inside these passes, not a channel.",
+    "links": [],
     "status": "done",
     "kind": "hub",
     "constraints": [],
@@ -391,6 +395,7 @@ window.SPIRES_INDEX = [
       "maturity": "Minor channels"
     },
     "abstract": "Fifteen records came from references in papers, nine from a public benchmark leaderboard, one from a pull request against a curated list and one from a direct recommendation. No record entered through undirected GitHub search alone.",
+    "links": [],
     "status": "done",
     "kind": "hub",
     "constraints": [],
@@ -416,6 +421,7 @@ window.SPIRES_INDEX = [
       "maturity": "R3 survives on one clause"
     },
     "abstract": "962 repositories created after the freeze, 319 retained by a mechanical filter, 69 flagged by triage agents, 15 highest-stakes flags re-checked by agents told to default to refutation: 11 refuted. The cell stays empty, now by three routes, with one case that shows what filling it would require.",
+    "links": [],
     "status": "done",
     "kind": "instrument",
     "constraints": [
@@ -446,6 +452,7 @@ window.SPIRES_INDEX = [
       "maturity": "Fails only the loop clause"
     },
     "abstract": "Six single-axis language-model judges score each candidate against the incumbent; verdicts are kept as a six-element vector and front membership is gated by a unanimity dominance predicate with no scalar reduction. The front is built once and never feeds a later generation \u2014 whether that fills the cell is the open adjudication.",
+    "links": [],
     "status": "active",
     "kind": "system",
     "constraints": [],
@@ -471,6 +478,7 @@ window.SPIRES_INDEX = [
       "maturity": "Shipped unreachable"
     },
     "abstract": "A complete and correct seven-dimension Pareto pool that no live path reaches: the reviewer emits a flat score object while the pool's only writer expects a nested one. Executing the repository's own chain admits nothing \u2014 the third route by which the cell stays empty.",
+    "links": [],
     "status": "planned",
     "kind": "system",
     "constraints": [],
@@ -496,6 +504,7 @@ window.SPIRES_INDEX = [
       "maturity": "Untestable"
     },
     "abstract": "The candidate recorded in advance as most likely to fill the cell. Re-probed on 26 July 2026 across five repository-name variants and the author's homepage: no code release found.",
+    "links": [],
     "status": "planned",
     "kind": "system",
     "constraints": [],
@@ -521,6 +530,7 @@ window.SPIRES_INDEX = [
       "maturity": "Bounded support only"
     },
     "abstract": "Six candidate regularities and their minimum trigger observations were time-stamped at a 76-record baseline before 25 newly ingested repositories were inspected in June 2026. None of the six trigger events occurred; trigger absence supplies bounded support, and corpus-wide evidence is reported as a separate layer.",
+    "links": [],
     "status": "done",
     "kind": "instrument",
     "constraints": [
@@ -555,6 +565,7 @@ window.SPIRES_INDEX = [
       "maturity": "Leading position not stable"
     },
     "abstract": "Tier S: judge-uncalibrated, staged-validation-before-judge, scoreboard, eval-discipline-regression, keep-or-revert \u2014 two antipatterns, two architectures, one component under every weighting. Which pattern leads depends on the weighting and on the lineage relation used.",
+    "links": [],
     "status": "done",
     "kind": "instrument",
     "constraints": [
@@ -586,6 +597,7 @@ window.SPIRES_INDEX = [
       "maturity": "16 rest on one artifact"
     },
     "abstract": "Promoted records: 22 architectures, 7 components, 16 coding patterns and 9 antipatterns. 38 rest on two or more independently inspected artifacts; 16 rest on exactly one and were promoted for structural distinctness or portability \u2014 so totals count promoted records, not twice-confirmed regularities.",
+    "links": [],
     "status": "done",
     "kind": "knowledge",
     "constraints": [
@@ -613,6 +625,7 @@ window.SPIRES_INDEX = [
       "maturity": "Lower bound: 25 lack full text"
     },
     "abstract": "101 curated records (98 unique artifacts). 64 carry at least one curator-assigned relatedness edge (63.4%, 95% CI 53.5\u201372.3); under adversarial imputation of the 25 records without full text the rate lies in [63.4%, 88.1%]. Fifteen papers have a companion-code URL resolving to a canonical repository.",
+    "links": [],
     "status": "done",
     "kind": "knowledge",
     "constraints": [
@@ -640,6 +653,7 @@ window.SPIRES_INDEX = [
       "maturity": "Lower bound only on commit tier"
     },
     "abstract": "Display-name equality nominates a case; confirmation needs an explicit source and a second pass against complete commit histories. At least 18 identities (20 of 63 slots, 13 of 101 papers) are commit-adjudicated; the byline tier of 58 is attributed credit, not a bound.",
+    "links": [],
     "status": "done",
     "kind": "instrument",
     "constraints": [
@@ -667,6 +681,7 @@ window.SPIRES_INDEX = [
       "maturity": "Top-six hub (stable in 91.5% of resamples at \u22655/6)"
     },
     "abstract": "One of the six most frequently linked repositories: 24 of the 101 paper records carry a curator-assigned relatedness edge to it. Together the six carry 120 of 212 edges (56.6%). The paper's leading explanation is its own curation \u2014 which repositories the registry admitted and which the curators used as comparison anchors.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -692,6 +707,7 @@ window.SPIRES_INDEX = [
       "maturity": "Top-six hub (stable in 91.5% of resamples at \u22655/6)"
     },
     "abstract": "One of the six most frequently linked repositories: 21 of the 101 paper records carry a curator-assigned relatedness edge to it. Together the six carry 120 of 212 edges (56.6%). The paper's leading explanation is its own curation \u2014 which repositories the registry admitted and which the curators used as comparison anchors.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -717,6 +733,7 @@ window.SPIRES_INDEX = [
       "maturity": "Top-six hub (stable in 91.5% of resamples at \u22655/6)"
     },
     "abstract": "One of the six most frequently linked repositories: 20 of the 101 paper records carry a curator-assigned relatedness edge to it. Together the six carry 120 of 212 edges (56.6%). The paper's leading explanation is its own curation \u2014 which repositories the registry admitted and which the curators used as comparison anchors.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -742,6 +759,7 @@ window.SPIRES_INDEX = [
       "maturity": "Top-six hub (stable in 91.5% of resamples at \u22655/6)"
     },
     "abstract": "One of the six most frequently linked repositories: 19 of the 101 paper records carry a curator-assigned relatedness edge to it. Together the six carry 120 of 212 edges (56.6%). The paper's leading explanation is its own curation \u2014 which repositories the registry admitted and which the curators used as comparison anchors.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -767,6 +785,7 @@ window.SPIRES_INDEX = [
       "maturity": "Top-six hub (stable in 91.5% of resamples at \u22655/6)"
     },
     "abstract": "One of the six most frequently linked repositories: 18 of the 101 paper records carry a curator-assigned relatedness edge to it. Together the six carry 120 of 212 edges (56.6%). The paper's leading explanation is its own curation \u2014 which repositories the registry admitted and which the curators used as comparison anchors.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -792,6 +811,7 @@ window.SPIRES_INDEX = [
       "maturity": "Top-six hub (stable in 91.5% of resamples at \u22655/6)"
     },
     "abstract": "One of the six most frequently linked repositories: 18 of the 101 paper records carry a curator-assigned relatedness edge to it. Together the six carry 120 of 212 edges (56.6%). The paper's leading explanation is its own curation \u2014 which repositories the registry admitted and which the curators used as comparison anchors.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -817,6 +837,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted lineage"
     },
     "abstract": "keep-or-revert testbed: 17 of 19 members compare a strict scalar with a programmatic scorer (code-eval loops). Members: karpathy/autoresearch and its forks: autoresearch-macos, autoresearch-mlx, autoresearch-win-rtx, recursive-improve, lazy-developer, n-autoresearch, \u2026.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -842,6 +863,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted lineage"
     },
     "abstract": "Reflection-driven prompt/program optimizers on the DSPy substrate; programmatic scorers throughout. Members: gepa (vector-Pareto signal), avatar.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -867,6 +889,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted lineage"
     },
     "abstract": "Independent reimplementations of one 5-stage paper-writing skeleton; the judge is typically an LLM reviewer over a whole paper. Members: AI-Scientist (v1, v2), AI-Researcher, AutoResearchClaw, Agent Laboratory, NanoResearch, Auto-Research.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -892,6 +915,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted lineage"
     },
     "abstract": "Open-ended discovery from the Clune lab: LLM judges over generated artifacts and archives of agents. Members: AI-Scientist (v1, v2), ADAS, HGM, Darwin G\u00f6del Machine.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -917,6 +941,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted lineage"
     },
     "abstract": "Search-verify loops with a per-query scalar; judges are LLM (5) or hybrid (3). Members: Memento, InfoSeeker, DeepResearch, Marco-DeepResearch, WebThinker, DeepResearcher, MiroRL, \u2026.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -942,6 +967,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted lineage"
     },
     "abstract": "Research behaviour trained in with GRPO-family RL; mixed judges (scorer 3, LLM 3, hybrid 1). Members: ML-Agent, autoresearch-rl, AgentRL, DeepResearch, Marco-DeepResearch, DeepResearcher, MiroRL, ReCall.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -967,6 +993,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted lineage"
     },
     "abstract": "Closing the loop on real lab hardware; hybrid judges with instrument feedback. Members: coscientist, organa.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -992,6 +1019,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted lineage"
     },
     "abstract": "Benchmark lineage: one upstream harness and its derivatives; mostly no acceptance gate of their own. Members: MLAgentBench, ML-Agent, MLR-Copilot, mle-bench.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -1017,6 +1045,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted lineage"
     },
     "abstract": "Agent faces on the CAMEL library substrate; mostly no judge. Members: owl, eigent_search.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -1042,6 +1071,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted record"
     },
     "abstract": "An LLM judge gates loop progression with no ground-truth measurement of its accuracy. Coded in 35 of 139 records, across 7 of the 9 promoted lineages (multi-agent scientist 6, deep research 3, Clune, seed-line, CAMEL, DSPy and MLAgentBench-derived 1 each) plus 22 records outside any lineage. Leads Tier S under three of four weightings.",
+    "links": [],
     "status": "done",
     "kind": "failure",
     "constraints": [
@@ -1069,6 +1099,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted record"
     },
     "abstract": "A later version drops evaluation discipline its predecessor had \u2014 e.g. The AI Scientist v2 no longer ships the human-rated review benchmark of v1. Seen in the multi-agent-scientist (3) and Clune (2) lineages. In Tier S.",
+    "links": [],
     "status": "done",
     "kind": "failure",
     "constraints": [],
@@ -1094,6 +1125,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted record"
     },
     "abstract": "Documentation claims the judge is calibrated, but no calibration artifact ships with the code. Added in the paper's revision.",
+    "links": [],
     "status": "done",
     "kind": "failure",
     "constraints": [],
@@ -1119,6 +1151,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted record"
     },
     "abstract": "Claimed iteration cadence disagrees with what the shipped artifacts show.",
+    "links": [],
     "status": "done",
     "kind": "failure",
     "constraints": [],
@@ -1144,6 +1177,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted record"
     },
     "abstract": "The agent can edit the code that scores it and games the metric; the case-study repository documents both the gaming and the structural fix. Added in the paper's revision.",
+    "links": [],
     "status": "done",
     "kind": "failure",
     "constraints": [],
@@ -1169,6 +1203,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted record"
     },
     "abstract": "A README describes a full research pipeline that the repository does not contain. The one case sits in the MLAgentBench-derived lineage.",
+    "links": [],
     "status": "done",
     "kind": "failure",
     "constraints": [],
@@ -1194,6 +1229,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted record"
     },
     "abstract": "The public repository is a shell; the implementation lives elsewhere.",
+    "links": [],
     "status": "done",
     "kind": "failure",
     "constraints": [],
@@ -1219,6 +1255,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted record"
     },
     "abstract": "A fork carries its parent's unused machinery forward without pruning it.",
+    "links": [],
     "status": "done",
     "kind": "failure",
     "constraints": [],
@@ -1244,6 +1281,7 @@ window.SPIRES_INDEX = [
       "maturity": "Promoted record"
     },
     "abstract": "The runtime is essentially one large prompt presented as a system.",
+    "links": [],
     "status": "done",
     "kind": "failure",
     "constraints": [],

@@ -275,6 +275,7 @@ window.SPIRES_INDEX = [
       "maturity": "Explained in the SCIANCE map"
     },
     "abstract": "A landscape report chapter on AI in European materials science, revised three times while the map followed it. The kind of document reviewers skim and nobody reads to page 47.",
+    "links": [],
     "status": "done",
     "kind": "knowledge",
     "constraints": [],
@@ -300,6 +301,7 @@ window.SPIRES_INDEX = [
       "maturity": "Explained in ai-research-bench"
     },
     "abstract": "A meta-study of the public ecosystem of AI-research agents, with six candidate regularities, a prospective audit and three supplementary tables. Its argument lives in tables and caveats.",
+    "links": [],
     "status": "done",
     "kind": "knowledge",
     "constraints": [],
@@ -325,6 +327,7 @@ window.SPIRES_INDEX = [
       "maturity": "Explained in a private CEO map"
     },
     "abstract": "A project status canvas: epics, waiting items, a risk cascade and milestones. A different kind of document \u2014 a plan, not a text \u2014 explained with the same kit.",
+    "links": [],
     "status": "done",
     "kind": "knowledge",
     "constraints": [],
@@ -350,6 +353,7 @@ window.SPIRES_INDEX = [
       "maturity": "In use"
     },
     "abstract": "Reads the source document and proposes the city: the axis, the districts, the landmarks, the bottlenecks, the flows. Output is a short domain profile a human can review in minutes.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -375,6 +379,7 @@ window.SPIRES_INDEX = [
       "maturity": "Reviewed by a human"
     },
     "abstract": "The first gate: one page that states how the document will be mapped and why. Cheap to argue about before anything is built.",
+    "links": [],
     "status": "done",
     "kind": "knowledge",
     "constraints": [],
@@ -400,6 +405,7 @@ window.SPIRES_INDEX = [
       "maturity": "In use"
     },
     "abstract": "Turns the approved profile into a city spec: stations, flows, constraints, priorities, tour \u2014 with no coordinates. Rules in the prompt: numbers only from the source, constraints placed where they act.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -425,6 +431,7 @@ window.SPIRES_INDEX = [
       "maturity": "Validated by the compiler"
     },
     "abstract": "The contract between understanding and building. Pure semantics \u2014 what exists, what flows where, what blocks what, what the tour says \u2014 and every view and every voice is generated from it.",
+    "links": [],
     "status": "done",
     "kind": "knowledge",
     "constraints": [
@@ -454,6 +461,7 @@ window.SPIRES_INDEX = [
       "maturity": "Done for the paper map"
     },
     "abstract": "A person approves the profile and the spec, and a provenance file separates what the source says, what was recounted, and what is a choice of the map. It caught a claim in the paper that its own data do not support.",
+    "links": [],
     "status": "done",
     "kind": "instrument",
     "constraints": [],
@@ -481,6 +489,7 @@ window.SPIRES_INDEX = [
       "maturity": "25 commits in a month"
     },
     "abstract": "Deterministic: validates references, places buildings, routes roads, derives traffic, queues, weather, the metro layout and the tour cameras. No coordinates are ever written by hand unless asked.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [
@@ -510,6 +519,7 @@ window.SPIRES_INDEX = [
       "maturity": "Published"
     },
     "abstract": "Districts, buildings whose shape says what a thing is, roads with traffic and barriers, data tables painted on the ground.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -537,6 +547,7 @@ window.SPIRES_INDEX = [
       "maturity": "New"
     },
     "abstract": "For readers who find the city too busy: the same spec as a metro map \u2014 lines per district, compact interchanges with an explanation card, labels that never overlap.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -564,6 +575,7 @@ window.SPIRES_INDEX = [
       "maturity": "Nine stops in the paper map"
     },
     "abstract": "A story told with the map: each stop flies the camera, dims everything else and says one thing. The stops are what the voices will read.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -591,6 +603,7 @@ window.SPIRES_INDEX = [
       "maturity": "Every build"
     },
     "abstract": "Refuses a spec with broken references or impossible combinations, and every change is checked by rendering it headless before it ships.",
+    "links": [],
     "status": "done",
     "kind": "instrument",
     "constraints": [],
@@ -616,6 +629,7 @@ window.SPIRES_INDEX = [
       "maturity": "Two narrated decks"
     },
     "abstract": "Compiles a narration script into voiced clips with a cache, measures them and builds a timeline \u2014 a video, or per-page audio with line-level cues for a web player.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -643,6 +657,7 @@ window.SPIRES_INDEX = [
       "maturity": "Generated by the compiler"
     },
     "abstract": "The handover between the map and the voices: one page per tour stop, one line per spoken sentence, two speakers.",
+    "links": [],
     "status": "done",
     "kind": "hub",
     "constraints": [
@@ -670,6 +685,7 @@ window.SPIRES_INDEX = [
       "maturity": "Working in deckcast d2"
     },
     "abstract": "Lets the player show subtitles and fire map actions exactly when a line is spoken.",
+    "links": [],
     "status": "done",
     "kind": "hub",
     "constraints": [],
@@ -695,6 +711,7 @@ window.SPIRES_INDEX = [
       "maturity": "Working"
     },
     "abstract": "The tour read as a conversation: the sceptic asks what a reviewer would ask, the guide answers and points at the map.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -722,6 +739,7 @@ window.SPIRES_INDEX = [
       "maturity": "Working"
     },
     "abstract": "After a stop the sceptic asks a question; the reader answers by clicking on the map, and a recorded line says right or wrong and shows the answer.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -747,6 +765,7 @@ window.SPIRES_INDEX = [
       "maturity": "Working \u2014 needs the network"
     },
     "abstract": "Ask anything by voice; the agent answers from the map's own knowledge and flies the camera to the evidence.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [
@@ -776,6 +795,12 @@ window.SPIRES_INDEX = [
       "maturity": "Followed 3 revisions"
     },
     "abstract": "The materials-science chapter as a city with constraints drawn where they act.",
+    "links": [
+      {
+        "label": "Open the SCIANCE map",
+        "url": "https://omniscale-ai.github.io/sciance-d1-1-metropolis/"
+      }
+    ],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -801,6 +826,12 @@ window.SPIRES_INDEX = [
       "maturity": "City + metro"
     },
     "abstract": "The paper as five story districts with lineages, failure modes, six rules on trial, data plazas and a provenance file.",
+    "links": [
+      {
+        "label": "Open the paper map",
+        "url": "https://omniscale-ai.github.io/ai-research-bench/"
+      }
+    ],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -826,6 +857,7 @@ window.SPIRES_INDEX = [
       "maturity": "Used for a status read-out"
     },
     "abstract": "A project as a time corridor with a 'you are here' line; kept private because it names people and risks.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -851,6 +883,7 @@ window.SPIRES_INDEX = [
       "maturity": "Shared with colleagues"
     },
     "abstract": "Two decks already narrated end to end, one with a talk-to-the-agent link.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],

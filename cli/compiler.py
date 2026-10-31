@@ -565,6 +565,10 @@ def validate_v2_semantics(spec, district_ids, spire_ids):
     for sp in spec.get('spires', []):
         if sp.get('kind', 'system') not in SPIRE_KINDS:
             errors.append(f"Spire {sp.get('id')} has unknown kind '{sp.get('kind')}' (expected one of {', '.join(SPIRE_KINDS)})")
+        for link in sp.get('links', []):
+            if not isinstance(link, dict) or not link.get('label') or \
+                    not str(link.get('url', '')).startswith(('https://', 'http://')):
+                errors.append(f"Spire {sp.get('id')} link needs a label and an http(s) url: {link!r}")
         if sp.get('status', 'done') not in SPIRE_STATUSES:
             errors.append(f"Spire {sp.get('id')} has unknown status '{sp.get('status')}' (expected one of {', '.join(SPIRE_STATUSES)})")
     for b in spec.get('bottlenecks', []):
@@ -1426,6 +1430,7 @@ def compile_metropolis_data(spec):
             'coordinates': [loc['lng'], loc['lat']],
             'metrics': spire.get('metrics', {}),
             'abstract': spire.get('abstract', ''),
+            'links': spire.get('links', []),
             'status': spire.get('status', 'done'),
             'kind': spire.get('kind', 'system'),
             'constraints': [b['id'] for b in compiled_bottlenecks
@@ -1646,6 +1651,8 @@ def export_kb(spec):
                     out.append(f"- {labels.get('metric_' + key, key)}: {val}")
             if sp.get('abstract'):
                 out.append(sp['abstract'])
+            for link in sp.get('links', []):
+                out.append(f"- Link: {link['label']} — {link['url']}")
             out.append('')
         for b in [b for b in spec.get('bottlenecks', []) if b.get('district_ref') == d['id']]:
             out.append(f"### Constraint `{b['id']}` — {b.get('title', b.get('codename', ''))}")

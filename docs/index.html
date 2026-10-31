@@ -577,6 +577,10 @@
       color: #ffffff;
     }
 
+    .spire-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+    .spire-link { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 8px; border: 1px solid rgba(0, 240, 255, 0.5);
+      background: rgba(0, 240, 255, 0.08); color: #00f0ff; font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; text-decoration: none; }
+    .spire-link:hover { background: rgba(0, 240, 255, 0.18); }
     .drawer-body-text {
       font-size: 13px;
       line-height: 1.6;
@@ -3280,6 +3284,8 @@
             <div class="drawer-section-title"><span>✦</span> ${L('abstract_title', 'Scientific Abstract & Methodology')}</div>
             <p class="drawer-body-text">${item.abstract}</p>
           </div>
+          ${(item.links || []).length ? `<div class="spire-links">${item.links.map(l =>
+            `<a class="spire-link" href="${escapeHtml(l.url)}" target="_blank" rel="noopener">${escapeHtml(l.label)} <span>↗</span></a>`).join('')}</div>` : ''}
           ${relationBlock('⏱️ Constraints at this spire', item.constraints)}
           ${relationBlock('🎯 Advances priorities', item.advances)}
           <div class="relation-block conduit-endpoints-row">
@@ -3926,6 +3932,10 @@
       if (e.kind === 'challenge') return `🎯 ${e.item.codename}`;
       if (e.kind === 'conduit') return `${roadOf(e.item).icon} ${e.item.codename}`;
       return e.item.codename || e.item.title;
+    }
+
+    function escapeHtml(text) {
+      return String(text).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     }
 
     function refLocation(ref) {

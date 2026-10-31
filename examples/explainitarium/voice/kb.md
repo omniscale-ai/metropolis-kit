@@ -236,6 +236,7 @@ Kind: system.
 - Where it lives: sciance-d1-1-metropolis
 - State: Followed 3 revisions
 The materials-science chapter as a city with constraints drawn where they act.
+- Link: Open the SCIANCE map — https://omniscale-ai.github.io/sciance-d1-1-metropolis/
 
 ### `@spire-use-paper` — Autoresearch in the Wild
 Kind: system.
@@ -244,6 +245,7 @@ Kind: system.
 - Where it lives: ai-research-bench
 - State: City + metro
 The paper as five story districts with lineages, failure modes, six rules on trial, data plazas and a provenance file.
+- Link: Open the paper map — https://omniscale-ai.github.io/ai-research-bench/
 
 ### `@spire-use-kd` — Knowledge Discovery CEO view
 Kind: system.

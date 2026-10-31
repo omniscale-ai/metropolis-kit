@@ -305,6 +305,7 @@ window.SPIRES_INDEX = [
       "maturity": "Routine practice"
     },
     "abstract": "Europe's FAIR backbone for computational materials data. NOMAD holds more than 13 million entries from over 50 atomistic codes under a code-independent Metainfo schema, is maintained by FAIRmat, and is reachable through the OPTIMADE API and the cloud-based NOMAD AI Toolkit. AiiDA supplies reproducible workflow execution with enforced provenance across European supercomputing tiers. The report's recommendation on sovereign foundation models names this ecosystem as the source of verified training data.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -332,6 +333,7 @@ window.SPIRES_INDEX = [
       "maturity": "Routine screening \u00b7 evidence rung: predicted stability"
     },
     "abstract": "Open DFT database of 5.8 million structures, 175 thousand of them on the convex hull, with the sAlex25 subsample of 14 million out-of-equilibrium configurations carrying forces and stresses for potential training. Multi-stage generative workflows built on it reach up to 99% success within 100 meV/atom of the hull; the report stresses that this is a computational stability metric, not experimental success. Its predicted substitutional-disorder rate (37\u201343%) is close to the experimental ICSD (35%), compared with 80\u201384% for GNoME. Known artefacts include PAW convergence problems for Eu, Gd, Yb and Lu and a substitution bias toward oxides and hydrides.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -360,6 +362,7 @@ window.SPIRES_INDEX = [
       "maturity": "Foundation models emerging; custom fitting is specialist"
     },
     "abstract": "Local MLIPs (SOAP, ACE), message-passing graph MLIPs, and equivariant architectures (NequIP, MACE) favoured for data efficiency, plus universal foundation potentials M3GNet, CHGNet, ORB-v2 and GRACE-2 that give out-of-the-box accuracy across chemistries. The report adds an explicit caveat: equivariance does not guarantee energy conservation, and forces are conservative only when computed as F = \u2212\u2207E. Open frontiers are long-range electrostatics, magnetism and spin, and fine-tuning on out-of-equilibrium data, which remains specialist work. The chapter adds that these models remain largely limited to bulk, simple crystalline structures: finite-temperature free energies, disorder, amorphous phases, surfaces and interfaces are where batteries and catalysis are decided, and where quantum-mechanical training data is scarcest.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -389,6 +392,7 @@ window.SPIRES_INDEX = [
       "maturity": "Mature screening workflow \u00b7 evidence rung: predicted stability"
     },
     "abstract": "Graph networks for materials exploration expanded the catalogue of stable inorganic materials by an order of magnitude, to 2.2 million structures, pushing into multi-element 'unknown unknowns' beyond human intuition. The report reads this as a sign that computational structure prediction is mature and scalable, not as experimental discovery. Many of the multi-element compounds may be disordered versions of known phases rather than new ordered ones, and synthesizability, kinetic accessibility and property validation remain open. The chapter now ranks discovery by a validation hierarchy \u2014 computational candidate, predicted stability, verified novelty, predicted synthesis feasibility, successful synthesis, phase verification, property validation, independent validation, application or scale-up \u2014 and GNoME's catalogue sits on the second rung.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -416,6 +420,7 @@ window.SPIRES_INDEX = [
       "maturity": "Emerging \u00b7 evidence rung: novelty not verified"
     },
     "abstract": "Diffusion models that reverse a corruption process to generate periodic crystals conditioned on target properties, producing stable, unique and new (SUN) materials about ten times closer to local energy minima than earlier generators. The report now qualifies SUN as database-matching novelty: a re-analysis showed that MatterGen's TaCr2O6 example is a known disordered rutile phase already in the training data (Juelsholt 2026). Generative crystal models also over-produce low-symmetry P1 structures.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -441,6 +446,7 @@ window.SPIRES_INDEX = [
       "maturity": "Infancy / proof-of-concept"
     },
     "abstract": "Frameworks such as polyG2G, Virtual Forward Synthesis and flowsheet autocompletion generate polymer dielectrics and membrane separation processes on demand. polyBERT embeddings and multi-fidelity training compensate for small data, and machine-learned coarse-grained force fields try to bridge nanosecond MD and hour-scale shape-memory recovery. VFS screens out candidates that cannot be synthesized, are toxic, or cannot be recycled before any wet-lab work. The report places polymers, soft matter and membranes at the proof-of-concept stage.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -469,6 +475,7 @@ window.SPIRES_INDEX = [
       "maturity": "Specialist use; PCA/NMF unmixing routine"
     },
     "abstract": "Pixelated detectors produce the high-dimensional signals behind 4D-STEM at rates that exceed human analysis. CNNs, GANs, CycleGAN and self-supervised Noise2SR and SHINE restore low-dose images of beam-sensitive materials, locate atom columns, and segment vacancies, dopants and grain boundaries; open libraries such as AtomAI and DScribe make these methods reusable. Automated 3D tomography and 4D-STEM handling are still confined to specialist groups, and TEM-GPT generalist agents are emerging.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -496,6 +503,7 @@ window.SPIRES_INDEX = [
       "maturity": "Emerging / specialist"
     },
     "abstract": "ML-ToF assigns mass-spectrum peaks and ML-APX identifies crystallographic poles, replacing the subjective ranging-interval choices that make APT results vary between operators. This resolves elusive chemical short-range order down to about 1 nm and supports reproducibility across laboratories. FAIRmat is implementing NeXus ontologies to standardise APT post-processing, making it one of the few characterisation techniques with a standardisation path toward FAIR AI pipelines.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -521,6 +529,7 @@ window.SPIRES_INDEX = [
       "maturity": "Emerging / proof-of-concept"
     },
     "abstract": "Edge computers attached to detectors handle low-latency preprocessing, automatic region-of-interest selection and autonomous optics alignment, choosing measurement points with Bayesian active learning or reinforcement learning. Europe's synchrotron and neutron sources produce petabyte-scale ground truth for training and validating materials AI. Integration with standard control systems, such as TANGO at ALBA, opens these experiments to non-experts. The limits are distribution shift across detectors and calibrations, and the energy cost of large multimodal models.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -548,6 +557,7 @@ window.SPIRES_INDEX = [
       "maturity": "Established frameworks; AI coupling emerging"
     },
     "abstract": "A cross-cutting topic added in the chapter's latest revision: AI-enabled modelling of processing\u2013microstructure\u2013property\u2013performance relationships. Composition and nominal crystal structure do not fix engineering performance; thermal treatment, cooling rate, deformation, sintering, deposition and additive-manufacturing parameters set phase fractions, grain morphology, texture, precipitates, porosity, defects and residual stress. The report asks for processing to be treated as a central design variable, coupled with CALPHAD, phase-field, crystal plasticity and ICME, and points to the MatWerk NFDI consortium as the data infrastructure for the microstructure and mesoscale level, where descriptors remain sparse compared with atomistic data.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -575,6 +585,7 @@ window.SPIRES_INDEX = [
       "maturity": "Level-4 PoC \u00b7 synthesis attempted, phase verification contested"
     },
     "abstract": "Broad Level-4 platforms such as A-Lab, SwissCAT+ and AMANDA combine literature parsing, robotic dosing and calcination, and CNN-based XRD phase identification into closed synthesis loops. They remain custom research systems, not turnkey instruments. The report records that a later analysis found A-Lab's automated phase identification largely unsuccessful (Leeman 2024), and it names the prediction-to-synthesis link as the key open problem.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [
@@ -607,6 +618,7 @@ window.SPIRES_INDEX = [
       "maturity": "European flagship MAP"
     },
     "abstract": "Europe's flagship Materials Acceleration Platform for batteries. It pairs multiscale modelling with closed-loop robotics through the Battery Interface Genome and the BattINFO ontology under a chemistry-neutral roadmap. Its target is a 5\u201310\u00d7 faster discovery rate and a shared European data infrastructure for autonomous research, with high-throughput results checked at LEAPS synchrotron and LENS neutron facilities. The Materials 2030 roadmap extends the model into IAM4EU, a network linking national acceleration platforms. It is also the natural landing point for the chapter's 'next conceptual step': feeding simulations and MLIP predictions directly into agentic acceleration platforms.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [
@@ -637,6 +649,7 @@ window.SPIRES_INDEX = [
       "maturity": "Specialised, routinely deployed"
     },
     "abstract": "Microfluidic process intensification for colloidal quantum dots, metal-halide perovskites and polymer\u2013protein hybrids, steered by GP-based Bayesian optimisation and by reinforcement-learning agents such as AlphaFlow for multi-step synthesis. Custom loops for liquid-phase reactions are among the most mature parts of the closed-loop theme, cutting chemical and energy use 10\u2013100\u00d7. Reactor fouling and clogging are the recurring failure modes.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [
@@ -666,6 +679,7 @@ window.SPIRES_INDEX = [
       "maturity": "Emerging \u00b7 evidence rung: scale-up demonstration"
     },
     "abstract": "Autonomous pilot-scale workstations with agent control that combine local industrial datasets, in-line process monitoring and application benchmarks such as PCR Ct values, carrying milligram-scale results to kilogram batches. Device Acceleration Platforms extend self-driving labs into device fabrication and long-term stability testing, so that processability is measured from the start. The report treats this as the leading blueprint for closing the lab-to-fab gap, but still at an early stage.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -691,6 +705,7 @@ window.SPIRES_INDEX = [
       "maturity": "Cobots established; physics-informed DTs emerging"
     },
     "abstract": "Multiphysics digital twins fuse acoustic, thermal and optical sensor streams through PINNs and U-Net segmentation to detect defects in real time, re-plan toolpaths and correct the process during printing. They also drive NSGA-II inverse design of 3D and 4D printed adaptive metamaterials. The Industry 5.0 framing puts human\u2013machine collaboration at the centre: AI cobots are already established in large manufacturers, while edge preprocessing over 5G/6G keeps control latency below what cloud round-trips allow.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],
@@ -716,6 +731,7 @@ window.SPIRES_INDEX = [
       "maturity": "Early / developing"
     },
     "abstract": "Machine learning inside Safe and Sustainable by Design frameworks: categorising advanced materials, multi-dimensional similarity assessment, computational exposure models, toxicity-data quality checks, and guided substitution of PFAS and other restricted substances. It is tied to digital material passports and sustainability ontologies that follow a material through its value chain. The report presents it as Europe's main tool against the regulatory pacing problem.",
+    "links": [],
     "status": "done",
     "kind": "system",
     "constraints": [],

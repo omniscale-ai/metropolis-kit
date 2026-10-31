@@ -485,7 +485,13 @@
         "infrastructure": "sciance-d1-1-metropolis",
         "maturity": "Followed 3 revisions"
       },
-      "abstract": "The materials-science chapter as a city with constraints drawn where they act."
+      "abstract": "The materials-science chapter as a city with constraints drawn where they act.",
+      "links": [
+        {
+          "label": "Open the SCIANCE map",
+          "url": "https://omniscale-ai.github.io/sciance-d1-1-metropolis/"
+        }
+      ]
     },
     {
       "id": "@spire-use-paper",
@@ -505,7 +511,13 @@
         "infrastructure": "ai-research-bench",
         "maturity": "City + metro"
       },
-      "abstract": "The paper as five story districts with lineages, failure modes, six rules on trial, data plazas and a provenance file."
+      "abstract": "The paper as five story districts with lineages, failure modes, six rules on trial, data plazas and a provenance file.",
+      "links": [
+        {
+          "label": "Open the paper map",
+          "url": "https://omniscale-ai.github.io/ai-research-bench/"
+        }
+      ]
     },
     {
       "id": "@spire-use-kd",
