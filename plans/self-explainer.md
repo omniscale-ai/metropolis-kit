@@ -15,7 +15,7 @@ Source documents: README + HANDOVER of metropolis-kit, README of deckcast, the t
 
 ## One mechanism behind all three levels: actions
 Everything the narration can do to the map is an **action** the viewer exposes:
-`show(ref)`, `open(ref)`, `tour(n)`, `plaza_layer(id, layer)`, `view(city|metro)`, `highlight(refs)`.
+`show(ref)`, `open(ref)`, `tour(n)`, `view(city|metro)`, `highlight(refs)`, `plaza_cell(plaza, row, col)`; later `plaza_layer(id, layer)`.
 - Level 1 calls actions from a script.
 - Level 2 calls the same actions from pre-recorded answers.
 - Level 3 lets the voice agent call the same actions as ElevenLabs *client tools*.
@@ -60,7 +60,7 @@ the tour, plays the answer, runs its actions, then offers "continue the tour".
 
 ## Order of work
 1. Self-explainer spec (districts, stations, kinds) — map without voice.
-2. Action vocabulary in the viewer (used by the current tour too).
+2. Action vocabulary in the viewer (used by the current tour too). — done 2026-10-31: `show`, `open`, `tour`, `view`, `highlight`, `plaza_cell` (`plaza_layer` deferred to the paper map); `window.metropolis.act`, stop-level `do`, compiler validation.
 3. Level 1: dialogue texts → export → deckcast audio → player. Plus MP4.
 4. Level 2: questions + answers through the same pipeline.
 5. Level 3: KB export, agent, client tools, mic button.

@@ -929,8 +929,8 @@
     .tour-dots { display: flex; gap: 6px; }
     .tour-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); cursor: pointer; }
     .tour-dot.active { background: #7cffb2; box-shadow: 0 0 8px #7cffb2; }
-    body.touring .maplibregl-marker:not(.tour-focus) { opacity: 0.12; transition: opacity 0.4s ease; }
-    body.touring .maplibregl-marker.tour-focus { opacity: 1; transition: opacity 0.4s ease; }
+    body.touring .maplibregl-marker:not(.tour-focus), body.spotlight .maplibregl-marker:not(.tour-focus) { opacity: 0.12; transition: opacity 0.4s ease; }
+    body.touring .maplibregl-marker.tour-focus, body.spotlight .maplibregl-marker.tour-focus { opacity: 1; transition: opacity 0.4s ease; }
     body.touring .hud-footer .scale-axis-strip { opacity: 0.35; }
 
     /* Data plazas */
@@ -1047,12 +1047,13 @@
     .metro-ic.m-selected { stroke: var(--accent-cyan); stroke-width: 6; }
     .ic-member { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 12.5px; }
     .ic-line-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
-    body.touring .metro-station-label:not(.m-focus) { opacity: 0.25; }
+    body.touring .metro-station-label:not(.m-focus), body.spotlight .metro-station-label:not(.m-focus) { opacity: 0.25; }
     .metro-label { font-family: 'Inter', system-ui, sans-serif; font-size: 12px; font-weight: 600; fill: #e8ecf5; paint-order: stroke; stroke: #0a0f1c; stroke-width: 4px; }
     .metro-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; fill: #8a9bb8; paint-order: stroke; stroke: #0a0f1c; stroke-width: 3px; }
     .metro-line-name { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 800; letter-spacing: 1px; }
     .metro-ic-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 800; fill: #ffffff; paint-order: stroke; stroke: #0a0f1c; stroke-width: 4px; }
-    body.touring .metro-station:not(.m-focus), body.touring .metro-line:not(.m-focus) { opacity: 0.18; }
+    body.touring .metro-station:not(.m-focus), body.touring .metro-line:not(.m-focus),
+    body.spotlight .metro-station:not(.m-focus), body.spotlight .metro-line:not(.m-focus) { opacity: 0.18; }
     .metro-station.m-selected .m-dot { stroke: #ffffff; stroke-width: 7; }
   </style>
 </head>
@@ -1316,13 +1317,18 @@
       return refs;
     }
 
+    let paintSaved = false;
     function saveTourPaint() {
+      if (paintSaved) return;
+      paintSaved = true;
       const save = (layer, prop) => { if (map.getLayer(layer)) tourSaved[`${layer}|${prop}`] = map.getPaintProperty(layer, prop); };
       ['buildings-3d', 'buildings-ghost'].forEach(l => save(l, 'fill-extrusion-color'));
       ['conduits-glow', 'conduits-core', 'conduits-core-thin', 'conduits-core-planned', 'targets-rings', 'targets-arcs', 'targets-dot'].forEach(l =>
         save(l, map.getLayer(l) && map.getLayer(l).type === 'fill' ? 'fill-opacity' : 'line-opacity'));
       PLAZAS.forEach(pz => save(`plaza-tex-${pz.id}`, 'raster-opacity'));
       save('plaza-bars', 'fill-extrusion-opacity');
+      save('districts-line', 'line-width');
+      save('districts-line', 'line-opacity');
     }
 
     function restoreTourPaint() {
@@ -1334,9 +1340,13 @@
 
     // Everything outside the stop's focus fades: building colours turn slate (opacity is
     // per layer in MapLibre, colour is per feature), roads and plazas dim, markers fade.
-    function applyTourFocus(stop) {
+    function applyTourFocus(stop) { applyFocus(stop.focus || []); }
+
+    function applyFocus(refs) {
       restoreTourPaint();
-      const focus = new Set(stop.focus || []);
+      const focus = new Set(refs);
+      const dists = refs.filter(r => r.startsWith('@dist-'));
+      window.SPIRES_INDEX.forEach(sp => { if (dists.includes(sp.district_ref)) focus.add(sp.id); });
       const list = [...focus];
       const dim = '#1c2333';
       const inFocus = key => ['in', ['get', key], ['literal', list]];
@@ -1363,6 +1373,10 @@
         const anyPlaza = PLAZAS.some(pz => focus.has(pz.id));
         map.setPaintProperty('plaza-bars', 'fill-extrusion-opacity', anyPlaza ? 0.85 : 0.2);
       }
+      if (dists.length && map.getLayer('districts-line')) {
+        map.setPaintProperty('districts-line', 'line-width', ['case', inFocus('id'), 4, 1.5]);
+        map.setPaintProperty('districts-line', 'line-opacity', ['case', inFocus('id'), 1, 0.25]);
+      }
       // a constraint in focus also lights up the spire it sits on; a spire lights its node chips
       document.querySelectorAll('.maplibregl-marker').forEach(el => {
         el.classList.toggle('tour-focus', tourRefsIn(el).some(r => focus.has(r)));
@@ -1376,9 +1390,12 @@
       closeDrawer();
       stopOrbit();
       Object.entries(stop.plaza_layers || {}).forEach(([pid, layer]) => setPlazaLayer(pid, layer));
+      actionFocus = null;
+      clearPlazaCells();
+      document.body.classList.remove('spotlight');
       applyTourFocus(stop);
       map.flyTo({ ...stop.camera, duration: currentView === 'metro' ? 0 : 1600, essential: true, padding: { top: 60, bottom: 230, left: 360, right: 40 } });
-      if (currentView === 'metro') { highlightMetro(stop.focus); focusMetro(stop.focus); }
+      if (currentView === 'metro') { highlightMetro(metroStationRefs(stop.focus || [])); focusMetro(metroStationRefs(stop.focus || [])); }
       document.getElementById('tourStep').textContent = `${tourIndex + 1} / ${TOUR.length}`;
       document.getElementById('tourTitle').textContent = stop.title;
       document.getElementById('tourText').textContent = stop.text;
@@ -1394,6 +1411,7 @@
       document.getElementById('tourPrevBtn').disabled = tourIndex === 0;
       document.getElementById('tourNextBtn').textContent = tourIndex === TOUR.length - 1 ? 'Finish ✓' : 'Next ▶';
       try { history.replaceState(null, '', `#tour=${tourIndex + 1}`); } catch (e) { /* file:// or sandboxed */ }
+      (stop.do || []).forEach(act);
     }
 
     let layersBeforeTour = null;
@@ -1414,6 +1432,8 @@
     function endTour() {
       if (tourIndex < 0) return;
       tourIndex = -1;
+      actionFocus = null;
+      clearPlazaCells();
       restoreTourPaint();
       PLAZAS.forEach(pz => setPlazaLayer(pz.id, (pz.layers[0] || {}).id));
       document.body.classList.remove('touring');
@@ -1427,6 +1447,114 @@
       }
       try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* ignore */ }
     }
+
+    // ===== Actions: one vocabulary for the tour script, pre-voiced answers and the voice agent =====
+    // {show: ref | [refs]}   fly there and light only that; a district shows whole
+    // {open: ref}            open its card
+    // {tour: n}              go to stop n (1-based; 0 ends the tour)
+    // {view: 'city'|'metro'}
+    // {highlight: [refs]}    light only these, camera stays; [] goes back to the stop's focus
+    // {plaza_cell: {plaza, row, col}}  ring one cell (row/col as index or label); null clears
+    let actionFocus = null;      // refs lit by an action; null = the tour stop's own focus
+    const plazaCellMark = {};    // plaza id → {row, col}
+    const asList = v => (Array.isArray(v) ? v : v ? [v] : []);
+
+    function currentFocus() { return actionFocus || (tourIndex >= 0 ? TOUR[tourIndex].focus || [] : []); }
+
+    // Refs as the metro draws them: a district is its line, a road its two ends, a constraint what it constrains
+    function metroStationRefs(refs) {
+      const st = new Set(METRO.stations.map(s => s.ref));
+      const out = new Set();
+      const add = ref => {
+        if (st.has(ref)) { out.add(ref); return; }
+        const e = refEntity(ref);
+        if (!e) return;
+        if (e.kind === 'district') METRO.stations.filter(s => s.line === ref).forEach(s => out.add(s.ref));
+        else if (e.kind === 'conduit') [e.item.from, e.item.to].forEach(r => st.has(r) && out.add(r));
+        else if (e.kind === 'bottleneck') asList(e.item.constrains).forEach(r => r !== ref && add(r));
+      };
+      refs.forEach(add);
+      return [...out];
+    }
+
+    function setFocus(refs) {
+      if (!refs.length && tourIndex < 0) {
+        document.body.classList.remove('spotlight');
+        restoreTourPaint();
+        document.querySelectorAll('.maplibregl-marker.tour-focus').forEach(el => el.classList.remove('tour-focus'));
+        if (currentView === 'metro') highlightMetro([]);
+        return;
+      }
+      if (tourIndex < 0) document.body.classList.add('spotlight');
+      saveTourPaint();
+      applyFocus(refs);
+      if (currentView === 'metro') highlightMetro(metroStationRefs(refs));
+    }
+
+    function showRefs(refs) {
+      refs = refs.filter(r => refEntity(r));
+      if (!refs.length) return;
+      actionFocus = refs;
+      setFocus(refs);
+      if (currentView === 'metro') { focusMetro(metroStationRefs(refs)); return; }
+      stopOrbit();
+      const pts = [];
+      refs.forEach(r => {
+        const e = refEntity(r);
+        if (e.kind === 'district') pts.push(...e.item.bounds);
+        else if (refLocation(r)) pts.push(refLocation(r));
+      });
+      if (!pts.length) return;
+      const padding = tourIndex >= 0 ? { top: 60, bottom: 230, left: 360, right: 40 } : { top: 80, bottom: 80, left: 360, right: 80 };
+      const bounds = pts.reduce((b, p) => b.extend(p), new maplibregl.LngLatBounds(pts[0], pts[0]));
+      const cam = map.cameraForBounds(bounds, { padding, maxZoom: 15.8 }) || { center: pts[0], zoom: 15.4 };
+      // cameraForBounds frames a flat map; tilted, the far side recedes, so back off a little.
+      // A single building keeps its neighbours in view.
+      map.flyTo({ center: cam.center, zoom: Math.min(cam.zoom - 0.4, 15.4), pitch: map.getPitch(), bearing: map.getBearing(),
+        padding, duration: 1400, essential: true });
+    }
+
+    function redrawPlaza(pid) {
+      const pz = PLAZAS.find(p => p.id === pid);
+      const src = map.getSource(`plaza-tex-${pid}`);
+      if (pz && src) src.updateImage({ url: drawPlaza(pz).toDataURL('image/png'), coordinates: pz.corners });
+    }
+
+    function clearPlazaCells() {
+      Object.keys(plazaCellMark).forEach(pid => { delete plazaCellMark[pid]; redrawPlaza(pid); });
+    }
+
+    function markPlazaCell(arg) {
+      if (!arg) { clearPlazaCells(); return; }
+      const pz = PLAZAS.find(p => p.id === arg.plaza);
+      if (!pz) return;
+      const index = (v, labels) => (typeof v === 'number' ? v : labels.indexOf(v));
+      const row = index(arg.row, pz.rows), col = index(arg.col, pz.cols);
+      if (!(row >= 0 && row < pz.rows.length && col >= 0 && col < pz.cols.length)) return;
+      clearPlazaCells();
+      plazaCellMark[pz.id] = { row, col };
+      redrawPlaza(pz.id);
+      // a dimmed plaza would hide the ring: bring it into the focus
+      const focus = currentFocus();
+      if ((tourIndex >= 0 || actionFocus) && !focus.includes(pz.id)) { actionFocus = [...focus, pz.id]; setFocus(actionFocus); }
+    }
+
+    const ACTIONS = {
+      show: v => showRefs(asList(v)),
+      open: v => { if (refEntity(v)) gotoRef(v); },
+      tour: v => { const n = +v; if (!n) endTour(); else if (tourIndex < 0) startTour(n - 1); else goToStop(n - 1); },
+      view: v => setView(v),
+      highlight: v => { const refs = asList(v).filter(r => refEntity(r)); actionFocus = refs.length ? refs : null; setFocus(currentFocus()); },
+      plaza_cell: v => markPlazaCell(v),
+    };
+
+    function act(action) {
+      Object.entries(action || {}).forEach(([name, arg]) => {
+        if (ACTIONS[name]) ACTIONS[name](arg);
+        else console.warn(`metropolis: unknown action ${name}`);
+      });
+    }
+    window.metropolis = { act, actions: Object.keys(ACTIONS) };
 
     function setupTour() {
       const btn = document.getElementById('tourBtn');
@@ -1823,7 +1951,8 @@
       try { localStorage.setItem('metropolis.view', currentView); } catch (e) { /* storage blocked */ }
       if (currentView === 'metro') {
         if (!metroBuilt) buildMetro(); else fitMetro();
-        if (tourIndex >= 0) { const st = TOUR[tourIndex]; highlightMetro(st.focus); focusMetro(st.focus); }
+        const f = metroStationRefs(currentFocus());
+        if (f.length) { highlightMetro(f); focusMetro(f); }
       }
     }
 
@@ -2019,6 +2148,20 @@
         fitFont(g, h.label || '', 800, X(10), cs - X(4));
         g.fillText(h.label || '', gx + cs * (h.col + 0.5), gy + cs * (h.row + 1) - X(3));
       });
+      // a cell the narration points at (plaza_cell action)
+      const mark = plazaCellMark[pz.id];
+      if (mark) {
+        const x0 = gx + cs * mark.col, y0 = gy + cs * mark.row;
+        g.save();
+        g.fillStyle = 'rgba(124, 255, 178, 0.14)';
+        g.fillRect(x0, y0, cs, cs);
+        g.strokeStyle = '#7cffb2';
+        g.lineWidth = X(3);
+        g.shadowColor = '#7cffb2';
+        g.shadowBlur = X(10);
+        g.strokeRect(x0 + X(1.5), y0 + X(1.5), cs - X(3), cs - X(3));
+        g.restore();
+      }
       return canvas;
     }
 
@@ -2033,8 +2176,7 @@
     function setPlazaLayer(plazaId, layerId) {
       plazaActive[plazaId] = layerId;
       const pz = PLAZAS.find(p => p.id === plazaId);
-      const src = map.getSource(`plaza-tex-${plazaId}`);
-      if (src) src.updateImage({ url: drawPlaza(pz).toDataURL('image/png'), coordinates: pz.corners });
+      redrawPlaza(plazaId);
       map.setFilter('plaza-bars', plazaBarFilter());
       document.querySelectorAll(`.plaza-switch[data-plaza="${plazaId}"] button`).forEach(b => b.classList.toggle('active', b.dataset.layer === layerId));
       if (activeSelection && activeSelection.type === 'plaza' && activeSelection.id === plazaId) {
@@ -2826,7 +2968,7 @@
 
     // Selection & Drawer Rendering
     function selectObject(type, id, index, keepCamera) {
-      if (currentView === 'metro') { keepCamera = true; highlightMetro(tourIndex >= 0 ? TOUR[tourIndex].focus : [], id); }
+      if (currentView === 'metro') { keepCamera = true; highlightMetro(metroStationRefs(currentFocus()), id); }
       activeSelection = { type, id, index };
       const selected = type === 'bottleneck' ? BNECKS[index] : null;
       highlightField(selected && selected.scope === 'field' ? id : null);
@@ -3168,7 +3310,7 @@
       showLinks(null, []);
       highlightField(null);
       document.querySelectorAll('.metro-ic.m-selected').forEach(r => r.classList.remove('m-selected'));
-      if (currentView === 'metro' && tourIndex < 0) highlightMetro([], null);
+      if (currentView === 'metro' && tourIndex < 0) highlightMetro(metroStationRefs(currentFocus()), null);
     }
 
     // Legend Builder (districts & spires, highways, constraints, priorities)

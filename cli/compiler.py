@@ -607,6 +607,9 @@ def validate_v2_semantics(spec, district_ids, spire_ids):
         for pid in stop.get('plaza_layers', {}):
             if pid not in plaza_ids:
                 errors.append(f"Tour stop {label} sets a layer on unknown plaza {pid}")
+        if 'do' in stop:
+            errors.extend(validate_actions(stop['do'], f"Tour stop {label}", all_refs,
+                                           {pz.get('id'): pz for pz in spec.get('plazas', [])}, len(spec.get('tour', []))))
     for pz in spec.get('plazas', []):
         pid = pz.get('id', '')
         if not pid.startswith('@plaza-'):
@@ -627,6 +630,50 @@ def validate_v2_semantics(spec, district_ids, spire_ids):
             if not 0 <= h.get('row', -1) < len(rows):
                 errors.append(f"Plaza {pid} hatch row outside the grid: {h}")
     return errors
+
+ACTIONS = ('show', 'open', 'tour', 'view', 'highlight', 'plaza_cell')
+
+
+def validate_actions(actions, where, all_refs, plazas, n_stops):
+    """Check a list of viewer actions ({"show": ref}, {"plaza_cell": {...}}, ...) used by a tour stop,
+    a dialogue line or an answer. The voice agent gets the same vocabulary as client tools."""
+    errors = []
+    if not isinstance(actions, list):
+        return [f"{where}: 'do' must be a list of actions"]
+    for a in actions:
+        if not isinstance(a, dict) or not a:
+            errors.append(f"{where}: an action must be an object like {{\"show\": \"@spire-x\"}}, got {a!r}")
+            continue
+        for name, arg in a.items():
+            if name not in ACTIONS:
+                errors.append(f"{where}: unknown action '{name}' (expected one of {', '.join(ACTIONS)})")
+            elif name in ('show', 'highlight'):
+                refs = arg if isinstance(arg, list) else [arg]
+                if name == 'show' and not refs:
+                    errors.append(f"{where}: show needs a ref")
+                for ref in refs:
+                    if ref not in all_refs:
+                        errors.append(f"{where}: {name} unknown {ref}")
+            elif name == 'open':
+                if arg not in all_refs:
+                    errors.append(f"{where}: open unknown {arg}")
+            elif name == 'tour':
+                if not isinstance(arg, int) or not 0 <= arg <= n_stops:
+                    errors.append(f"{where}: tour must be a stop number 1..{n_stops} (0 ends the tour), got {arg!r}")
+            elif name == 'view':
+                if arg not in ('city', 'metro'):
+                    errors.append(f"{where}: view must be 'city' or 'metro', got {arg!r}")
+            elif name == 'plaza_cell' and arg is not None:
+                pz = plazas.get(arg.get('plaza')) if isinstance(arg, dict) else None
+                if not pz:
+                    errors.append(f"{where}: plaza_cell on unknown plaza {arg!r}")
+                    continue
+                for axis, labels in (('row', pz.get('rows', [])), ('col', pz.get('cols', []))):
+                    v = arg.get(axis)
+                    if not ((isinstance(v, int) and 0 <= v < len(labels)) or v in labels):
+                        errors.append(f"{where}: plaza_cell {axis} {v!r} is neither an index nor a label of {pz['id']}")
+    return errors
+
 
 def lint_spec(spec):
     """Non-fatal warnings about schema-v2 semantics that are valid but probably unintended."""
@@ -1308,7 +1355,7 @@ def compile_metropolis_data(spec):
         tour.append({
             'id': stop.get('id', f'stop-{t_idx + 1}'), 'title': stop['title'], 'text': stop['text'],
             'look': stop.get('look', ''), 'focus': stop.get('focus', []), 'items': stop.get('items', []),
-            'plaza_layers': stop.get('plaza_layers', {}),
+            'plaza_layers': stop.get('plaza_layers', {}), 'do': stop.get('do', []),
             'camera': {'center': ref_coords(target), 'zoom': cam.get('zoom', 15.2),
                        'pitch': cam.get('pitch', 55), 'bearing': cam.get('bearing', -16)}
         })
