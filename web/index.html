@@ -929,6 +929,8 @@
     .tour-sub { display: none; margin: 4px 0 10px; padding: 8px 10px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); font-size: 14px; line-height: 1.5; color: #fff; }
     body.narrating .tour-sub { display: block; }
     body.narrating .tour-text { display: none; }
+    body.quizzing .tour-sub { border: 1px dashed #ffcf66; }
+    body.quizzing .tour-sub::after { content: '👆 Answer by clicking on the map — or Next to skip'; display: block; margin-top: 6px; font-family: var(--font-mono); font-size: 10.5px; color: #ffcf66; }
     .tour-sub-who { display: block; font-family: var(--font-mono); font-size: 10.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; }
     #listenBtn, #orbitBtn, #tourBtn { white-space: nowrap; }
     .tour-listen { font-family: var(--font-mono); font-size: 11px; }
@@ -1573,17 +1575,23 @@
     window.metropolis = { act, actions: Object.keys(ACTIONS) };
 
     // ===== Narrated tour: each stop's dialogue as voiced audio (deckcast), subtitles, and the
-    // line's actions fired when the line starts. window.NARRATION comes from the compiler.
+    // line's actions fired when the line starts. A stop may end with a quiz: the map asks, the
+    // reader answers by clicking an object, a voiced line says right or wrong, the tour moves on.
+    // window.NARRATION comes from the compiler; pages are keyed like deckcast's: stop n -> n,
+    // quiz k of stop n -> 100n + 10k + (1 ask, 2 right, 3 wrong).
     const NARRATION = window.NARRATION || null;
     const SPEAKER_COLORS = ['#7cffb2', '#ffcf66', '#00f0ff', '#ff7ad9'];
     const narrAudio = new Audio();
     narrAudio.preload = 'auto';
     let narrating = false;   // the narrated mode is on (survives stop changes)
-    let narrCue = -1;        // index of the line being spoken
-    let narrNext = null;     // timer to the next stop after a stop's audio ends
+    let clip = null;         // what the audio plays now: { key, lines, onEnd }
+    let narrCue = -1;        // index of the line being spoken within the clip
+    let narrNext = null;     // timer to the next stop
+    let quiz = null;         // { i, q } while the map waits for the reader's click
 
-    const narrPage = i => (NARRATION && NARRATION.base ? NARRATION.pages[String(i + 1)] : null);
-    const hasNarration = () => TOUR.some((_, i) => narrPage(i));
+    const narrPage = key => (NARRATION && NARRATION.base ? NARRATION.pages[String(key)] : null);
+    const hasNarration = () => TOUR.some((_, i) => narrPage(i + 1));
+    const quizKey = (i, k, part) => 100 * (i + 1) + 10 * (k + 1) + part;
 
     function speakerOf(id) {
       const k = NARRATION.speakers.findIndex(sp => sp.id === id);
@@ -1602,43 +1610,77 @@
     function setListenUI() {
       const btn = document.getElementById('tourListenBtn');
       btn.classList.toggle('active', narrating && !narrAudio.paused);
-      btn.textContent = !narrating ? '🔊 Listen' : narrAudio.paused ? '▶ Resume' : '⏸ Pause';
+      btn.textContent = !narrating ? '🔊 Listen' : quiz && narrAudio.ended ? '↻ Ask again' : narrAudio.paused ? '▶ Resume' : '⏸ Pause';
       btn.style.display = hasNarration() ? '' : 'none';
-      document.body.classList.toggle('narrating', narrating && !!narrPage(tourIndex));
+      document.body.classList.toggle('narrating', narrating && !!narrPage(tourIndex + 1));
+      document.body.classList.toggle('quizzing', !!quiz);
     }
 
     function narrTick() { narrTickOnce(); if (narrating && !narrAudio.paused) requestAnimationFrame(narrTick); }
 
     function narrTickOnce() {
-      const page = narrPage(tourIndex);
+      const page = clip && narrPage(clip.key);
       if (!narrating || !page) return;
       const t = narrAudio.currentTime;
       let idx = -1;
       page.cues.forEach((c, j) => { if (c.start <= t + 0.05) idx = j; });
       if (idx > narrCue) {
-        const dialogue = TOUR[tourIndex].dialogue || [];
         // fire every line passed since the last tick (a seek or a slow frame can skip one)
-        for (let j = narrCue + 1; j <= idx; j++) (dialogue[j] && dialogue[j].do || []).forEach(act);
+        for (let j = narrCue + 1; j <= idx; j++) (clip.lines[j] && clip.lines[j].do || []).forEach(act);
         narrCue = idx;
-        showSubtitle(dialogue[idx]);
+        showSubtitle(clip.lines[idx]);
       }
     }
 
-    function playStopNarration() {
+    function playClip(key, lines, onEnd) {
       clearTimeout(narrNext);
       narrAudio.pause();
       narrCue = -1;
-      const page = narrPage(tourIndex);
-      if (!narrating || !page) { showSubtitle(null); setListenUI(); return; }
-      narrAudio.src = NARRATION.base + page.file;
+      clip = { key, lines, onEnd };
+      narrAudio.src = NARRATION.base + narrPage(key).file;
       narrAudio.currentTime = 0;
-      showSubtitle((TOUR[tourIndex].dialogue || [])[0]);
+      showSubtitle(lines[0]);
       narrAudio.play().then(() => { setListenUI(); narrTick(); }).catch(() => setListenUI());
       setListenUI();
     }
 
+    function playStopNarration() {
+      quiz = null;
+      clearTimeout(narrNext);
+      if (!narrating || !narrPage(tourIndex + 1)) { clip = null; narrAudio.pause(); showSubtitle(null); setListenUI(); return; }
+      const i = tourIndex;
+      playClip(i + 1, TOUR[i].dialogue || [], () => afterStop(i));
+    }
+
+    function afterStop(i) {
+      const q = (TOUR[i].quiz || [])[0];
+      if (q && narrPage(quizKey(i, 0, 1))) {
+        quiz = { i, q };   // a click during the question already counts
+        playClip(quizKey(i, 0, 1), [q.ask], setListenUI);
+      } else nextStop();
+    }
+
+    function nextStop() {
+      narrNext = setTimeout(() => {
+        if (narrating && tourIndex >= 0 && tourIndex < TOUR.length - 1) goToStop(tourIndex + 1);
+        else { narrating = false; setListenUI(); }
+      }, 1400);
+    }
+
+    // called by selectObject: while a quiz waits, a click on the map is an answer, not a card
+    function answerQuiz(ref) {
+      if (!quiz || !narrating) return false;
+      const { i, q } = quiz;
+      quiz = null;
+      const right = (q.answer || []).includes(ref);
+      playClip(quizKey(i, 0, right ? 2 : 3), [right ? q.right : q.wrong], nextStop);
+      return true;
+    }
+
     function stopNarration() {
       narrating = false;
+      quiz = null;
+      clip = null;
       clearTimeout(narrNext);
       narrAudio.pause();
       showSubtitle(null);
@@ -1654,15 +1696,11 @@
 
     narrAudio.addEventListener('pause', setListenUI);
     // timeupdate keeps lines moving when frames are throttled (background tab, slow GPU)
-    narrAudio.addEventListener('timeupdate', () => { if (narrAudio.paused) narrTick(); else narrTickOnce(); });
+    narrAudio.addEventListener('timeupdate', narrTickOnce);
     narrAudio.addEventListener('ended', () => {
+      narrTickOnce();
       setListenUI();
-      if (!narrating) return;
-      // a beat of silence, then the next stop; the last stop leaves the card open
-      narrNext = setTimeout(() => {
-        if (narrating && tourIndex >= 0 && tourIndex < TOUR.length - 1) goToStop(tourIndex + 1);
-        else { narrating = false; setListenUI(); }
-      }, 1400);
+      if (narrating && clip && clip.onEnd) clip.onEnd();
     });
 
     function setupNarration() {
@@ -3091,6 +3129,7 @@
 
     // Selection & Drawer Rendering
     function selectObject(type, id, index, keepCamera) {
+      if (answerQuiz(id)) return;
       if (currentView === 'metro') { keepCamera = true; highlightMetro(metroStationRefs(currentFocus()), id); }
       activeSelection = { type, id, index };
       const selected = type === 'bottleneck' ? BNECKS[index] : null;

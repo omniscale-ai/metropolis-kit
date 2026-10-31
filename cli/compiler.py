@@ -614,14 +614,30 @@ def validate_v2_semantics(spec, district_ids, spire_ids):
             errors.extend(validate_actions(stop['do'], f"Tour stop {label}", all_refs, plazas_by_id, n_stops))
         # a dialogue: lines spoken by the narration's speakers, each may fire actions when it starts
         speakers = spec.get('narration', {}).get('speakers', {})
-        for l_idx, line in enumerate(stop.get('dialogue', [])):
-            where = f"Tour stop {label} line {l_idx + 1}"
+
+        def check_line(line, where):
+            if not isinstance(line, dict):
+                errors.append(f"{where}: a line must be an object with speaker and text")
+                return
             if line.get('speaker') not in speakers:
                 errors.append(f"{where}: unknown speaker {line.get('speaker')!r} (declare it in narration.speakers)")
             if not str(line.get('text', '')).strip():
                 errors.append(f"{where}: empty text")
             if 'do' in line:
                 errors.extend(validate_actions(line['do'], where, all_refs, plazas_by_id, n_stops))
+
+        for l_idx, line in enumerate(stop.get('dialogue', [])):
+            check_line(line, f"Tour stop {label} line {l_idx + 1}")
+        # a quiz: the map asks, the reader answers by clicking an object, a line says right or wrong
+        for q_idx, q in enumerate(stop.get('quiz', [])):
+            where = f"Tour stop {label} quiz {q_idx + 1}"
+            for part in ('ask', 'right', 'wrong'):
+                check_line(q.get(part), f"{where} {part}")
+            if not q.get('answer'):
+                errors.append(f"{where}: needs 'answer', the refs that count as right")
+            for ref in q.get('answer', []):
+                if ref not in all_refs:
+                    errors.append(f"{where}: answer unknown {ref}")
     for pz in spec.get('plazas', []):
         pid = pz.get('id', '')
         if not pid.startswith('@plaza-'):
@@ -1368,7 +1384,7 @@ def compile_metropolis_data(spec):
             'id': stop.get('id', f'stop-{t_idx + 1}'), 'title': stop['title'], 'text': stop['text'],
             'look': stop.get('look', ''), 'focus': stop.get('focus', []), 'items': stop.get('items', []),
             'plaza_layers': stop.get('plaza_layers', {}), 'do': stop.get('do', []),
-            'dialogue': stop.get('dialogue', []),
+            'dialogue': stop.get('dialogue', []), 'quiz': stop.get('quiz', []),
             'camera': {'center': ref_coords(target), 'zoom': cam.get('zoom', 15.2),
                        'pitch': cam.get('pitch', 55), 'bearing': cam.get('bearing', -16)}
         })
@@ -1506,6 +1522,14 @@ window.PLAZAS_GEOJSON = {json.dumps({'type': 'FeatureCollection', 'features': pl
                    for scope in ('edge', 'node', 'field')}
     }
 
+QUIZ_PARTS = ('ask', 'right', 'wrong')
+
+
+def quiz_page(t_idx, q_idx, part_idx):
+    """deckcast page number of a quiz line: stop 2, quiz 1, 'right' -> 212."""
+    return 100 * (t_idx + 1) + 10 * (q_idx + 1) + part_idx + 1
+
+
 def export_narration(spec):
     """The tour's dialogue as a deckcast audio-only script: one page per stop, one line per
     spoken line, speakers mapped to their deckcast voices. JSON is valid YAML, so deckcast reads it."""
@@ -1516,6 +1540,11 @@ def export_narration(spec):
         lines = [{'speaker': voice_name[line['speaker']], 'text': line['text']} for line in stop.get('dialogue', [])]
         if lines:
             pages.append({'page': t_idx + 1, 'lines': lines})
+        for q_idx, q in enumerate(stop.get('quiz', [])):
+            for part_idx, part in enumerate(QUIZ_PARTS):
+                line = q[part]
+                pages.append({'page': quiz_page(t_idx, q_idx, part_idx),
+                              'lines': [{'speaker': voice_name[line['speaker']], 'text': line['text']}]})
     return {
         'version': 1,
         'build_dir': 'build',
@@ -1549,16 +1578,25 @@ def narration_bundle(spec, spec_dir, out_dir, web_dir=None):
         for t_idx, stop in enumerate(spec.get('tour', [])):
             page = voiced.get(t_idx + 1)
             dialogue = stop.get('dialogue', [])
-            if not dialogue:
-                continue
             spoken = [SPOKEN_TAG.sub('', line['text']).strip() for line in dialogue]
-            if not page:
+            if not dialogue:
+                pass
+            elif not page:
                 warnings.append(f"tour stop {stop.get('id')} has no voiced audio yet")
             elif [c['text'] for c in page['cues']] != spoken:
                 warnings.append(f"tour stop {stop.get('id')}: audio is stale (dialogue changed) — re-run deckcast audio")
             else:
                 pages[str(t_idx + 1)] = {'file': page['file'], 'duration': page['duration'],
                                          'cues': [{'start': c['start'], 'end': c['end']} for c in page['cues']]}
+            for q_idx, q in enumerate(stop.get('quiz', [])):
+                for part_idx, part in enumerate(QUIZ_PARTS):
+                    num = quiz_page(t_idx, q_idx, part_idx)
+                    page = voiced.get(num)
+                    if not page or [c['text'] for c in page['cues']] != [SPOKEN_TAG.sub('', q[part]['text']).strip()]:
+                        warnings.append(f"tour stop {stop.get('id')} quiz {q_idx + 1} {part}: no current audio")
+                        continue
+                    pages[str(num)] = {'file': page['file'], 'duration': page['duration'],
+                                       'cues': [{'start': c['start'], 'end': c['end']} for c in page['cues']]}
         if pages:
             if web_dir:
                 dst = os.path.join(web_dir, 'narration')

@@ -1215,6 +1215,43 @@
           "speaker": "guide",
           "text": "[warm] Exactly. Every map here draws its limits where they act."
         }
+      ],
+      "quiz": [
+        {
+          "ask": {
+            "speaker": "sceptic",
+            "text": "[dryly] Your turn. Show me where a human checks the agents' work."
+          },
+          "answer": [
+            "@spire-review",
+            "@bneck-review",
+            "@spire-profile"
+          ],
+          "right": {
+            "speaker": "guide",
+            "text": "[pleased] Exactly. Agents draft, a person approves, and the provenance file keeps the receipts.",
+            "do": [
+              {
+                "show": [
+                  "@spire-review",
+                  "@spire-profile"
+                ]
+              }
+            ]
+          },
+          "wrong": {
+            "speaker": "guide",
+            "text": "[gentle] Close. The gates are here: the one-page profile, and the human review with its provenance file.",
+            "do": [
+              {
+                "show": [
+                  "@spire-review",
+                  "@spire-profile"
+                ]
+              }
+            ]
+          }
+        }
       ]
     },
     {

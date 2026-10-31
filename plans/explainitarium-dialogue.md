@@ -111,3 +111,14 @@ Generated from `examples/explainitarium/02-city-spec.json` (tour[].dialogue). Ed
 
 **Maya:** [warm] That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. Soon, a place you can ask.  
   `→ show "@dist-use"`
+
+## Quiz after "Agents read, a human approves"
+
+**Owen:** [dryly] Your turn. Show me where a human checks the agents' work.
+
+Right answers: @spire-review, @bneck-review, @spire-profile
+
+**Maya (right):** [pleased] Exactly. Agents draft, a person approves, and the provenance file keeps the receipts.
+
+**Maya (wrong):** [gentle] Close. The gates are here: the one-page profile, and the human review with its provenance file.
+

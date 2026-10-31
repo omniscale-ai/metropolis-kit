@@ -99,6 +99,45 @@
    ]
   },
   {
+   "page": 211,
+   "file": "page-211.mp3",
+   "duration": 4.21,
+   "cues": [
+    {
+     "speaker": "owen",
+     "start": 0.0,
+     "end": 4.21,
+     "text": "Your turn. Show me where a human checks the agents' work."
+    }
+   ]
+  },
+  {
+   "page": 212,
+   "file": "page-212.mp3",
+   "duration": 6.35,
+   "cues": [
+    {
+     "speaker": "maya",
+     "start": 0.0,
+     "end": 6.35,
+     "text": "Exactly. Agents draft, a person approves, and the provenance file keeps the receipts."
+    }
+   ]
+  },
+  {
+   "page": 213,
+   "file": "page-213.mp3",
+   "duration": 7.24,
+   "cues": [
+    {
+     "speaker": "maya",
+     "start": 0.0,
+     "end": 7.24,
+     "text": "Close. The gates are here: the one-page profile, and the human review with its provenance file."
+    }
+   ]
+  },
+  {
    "page": 3,
    "file": "page-03.mp3",
    "duration": 58.91,
