@@ -15,6 +15,7 @@ import http.server
 import json
 import math
 import os
+import re
 import shutil
 import socketserver
 import sys
@@ -1526,6 +1527,52 @@ def export_narration(spec):
     }
 
 
+SPOKEN_TAG = re.compile(r"\[[^\]]*\]\s*")
+
+
+def narration_bundle(spec, spec_dir, out_dir, web_dir=None):
+    """window.NARRATION for the viewer's narrated tour: speakers, and per stop the voiced mp3 with
+    line cues from deckcast (narration.audio, relative to the spec). A stop whose cues no longer
+    match its dialogue (the text changed after voicing) is left out with a warning."""
+    narr = spec.get('narration')
+    if not narr or not narr.get('speakers'):
+        return None, []
+    warnings = []
+    speakers = [{'id': sid, 'name': sp.get('name', sid), 'role': sp.get('role', ''),
+                 'voice': sp.get('voice', {}).get('deckcast', sid)} for sid, sp in narr['speakers'].items()]
+    pages, base = {}, None
+    audio_dir = os.path.join(spec_dir, narr['audio']) if narr.get('audio') else None
+    cues_path = os.path.join(audio_dir, 'cues.json') if audio_dir else None
+    if cues_path and os.path.exists(cues_path):
+        with open(cues_path, encoding='utf-8') as f:
+            voiced = {p['page']: p for p in json.load(f)['pages']}
+        for t_idx, stop in enumerate(spec.get('tour', [])):
+            page = voiced.get(t_idx + 1)
+            dialogue = stop.get('dialogue', [])
+            if not dialogue:
+                continue
+            spoken = [SPOKEN_TAG.sub('', line['text']).strip() for line in dialogue]
+            if not page:
+                warnings.append(f"tour stop {stop.get('id')} has no voiced audio yet")
+            elif [c['text'] for c in page['cues']] != spoken:
+                warnings.append(f"tour stop {stop.get('id')}: audio is stale (dialogue changed) — re-run deckcast audio")
+            else:
+                pages[str(t_idx + 1)] = {'file': page['file'], 'duration': page['duration'],
+                                         'cues': [{'start': c['start'], 'end': c['end']} for c in page['cues']]}
+        if pages:
+            if web_dir:
+                dst = os.path.join(web_dir, 'narration')
+                os.makedirs(dst, exist_ok=True)
+                for pg in pages.values():
+                    shutil.copyfile(os.path.join(audio_dir, pg['file']), os.path.join(dst, pg['file']))
+                base = 'narration/'
+            else:
+                base = os.path.relpath(audio_dir, out_dir).replace(os.sep, '/') + '/'
+    elif audio_dir:
+        warnings.append(f"narration.audio {narr['audio']} has no cues.json yet — run deckcast audio")
+    return {'speakers': speakers, 'base': base, 'pages': pages}, warnings
+
+
 def main():
     parser = argparse.ArgumentParser(description="Metropolis-Kit: Procedural Spatial Compiler")
     parser.add_argument('--spec', required=True, help="Path to input 02-city-spec.json")
@@ -1577,6 +1624,12 @@ def main():
         out_file = 'city-data.js'
 
     os.makedirs(os.path.dirname(os.path.abspath(out_file)), exist_ok=True)
+    narration, narr_warnings = narration_bundle(spec, os.path.dirname(os.path.abspath(args.spec)),
+                                                os.path.dirname(os.path.abspath(out_file)), args.web_dir)
+    for warning in narr_warnings:
+        print(f"    [warn] {warning}")
+    if narration:
+        js_bundle += f"\nwindow.NARRATION = {json.dumps(narration)};\n"
     with open(out_file, 'w', encoding='utf-8') as f:
         f.write(js_bundle)
 

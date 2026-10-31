@@ -42,6 +42,232 @@
      "text": "The goal out there says minutes, not pages. Let's see you earn it."
     }
    ]
+  },
+  {
+   "page": 2,
+   "file": "page-02.mp3",
+   "duration": 71.26,
+   "cues": [
+    {
+     "speaker": "owen",
+     "start": 0.0,
+     "end": 4.99,
+     "text": "Let me guess. You paste the paper into a chatbot and it draws a city?"
+    },
+    {
+     "speaker": "maya",
+     "start": 5.29,
+     "end": 15.32,
+     "text": "Not quite. A discovery agent reads the source and proposes how to map it — the axis, the districts, the landmarks — on a single page."
+    },
+    {
+     "speaker": "owen",
+     "start": 15.62,
+     "end": 17.74,
+     "text": "And who checks that page?"
+    },
+    {
+     "speaker": "maya",
+     "start": 18.04,
+     "end": 35.83,
+     "text": "A person. That's the first gate, and it's cheap: you argue about one page before anything is built. Then an architect agent turns the approved profile into a city spec — what exists, what flows where, what blocks what. No coordinates."
+    },
+    {
+     "speaker": "owen",
+     "start": 36.13,
+     "end": 39.6,
+     "text": "Agents write numbers. Agents get numbers wrong."
+    },
+    {
+     "speaker": "maya",
+     "start": 39.9,
+     "end": 60.41,
+     "text": "Which is why the second gate is here: a human review, and a provenance file that separates what the source says, what we recounted, and what is only a choice of the map. On the paper's map it records the one place where the map follows the authors' own audit instead of the printed text."
+    },
+    {
+     "speaker": "owen",
+     "start": 60.71,
+     "end": 65.85,
+     "text": "So that red flag on the spec is a limit you admit, not a bug you hide."
+    },
+    {
+     "speaker": "maya",
+     "start": 66.15,
+     "end": 71.48,
+     "text": "Exactly. Every map here draws its limits where they act."
+    }
+   ]
+  },
+  {
+   "page": 3,
+   "file": "page-03.mp3",
+   "duration": 58.91,
+   "cues": [
+    {
+     "speaker": "maya",
+     "start": 0.0,
+     "end": 10.45,
+     "text": "From here on, nothing is guessed. The compiler reads the spec, places every building, routes every road, and works out the cameras for this tour."
+    },
+    {
+     "speaker": "owen",
+     "start": 10.75,
+     "end": 14.54,
+     "text": "Deterministic? Same spec, same city?"
+    },
+    {
+     "speaker": "maya",
+     "start": 14.84,
+     "end": 26.23,
+     "text": "Same spec, same city. About fifteen hundred lines of plain Python. It refuses a spec with a broken reference, and every change is rendered headless before it ships."
+    },
+    {
+     "speaker": "owen",
+     "start": 26.53,
+     "end": 31.78,
+     "text": "Still, this city is a lot. I'd lose my manager by district two."
+    },
+    {
+     "speaker": "maya",
+     "start": 32.08,
+     "end": 40.75,
+     "text": "Then switch. Same spec, drawn as a metro map: one line per district, and the interchanges are where the story changes lines."
+    },
+    {
+     "speaker": "owen",
+     "start": 41.05,
+     "end": 44.05,
+     "text": "The same file? Not a second drawing?"
+    },
+    {
+     "speaker": "maya",
+     "start": 44.35,
+     "end": 52.4,
+     "text": "The same file. Click an interchange and it tells you why it's there. One spec, every view — that's the goal of this district."
+    },
+    {
+     "speaker": "owen",
+     "start": 52.7,
+     "end": 54.11,
+     "text": "And the catch?"
+    },
+    {
+     "speaker": "maya",
+     "start": 54.41,
+     "end": 59.24,
+     "text": "Big districts still need positions by hand. It's marked, right there on the compiler."
+    }
+   ]
+  },
+  {
+   "page": 4,
+   "file": "page-04.mp3",
+   "duration": 62.77,
+   "cues": [
+    {
+     "speaker": "owen",
+     "start": 0.0,
+     "end": 3.79,
+     "text": "Here's my real question. Who is talking right now?"
+    },
+    {
+     "speaker": "maya",
+     "start": 4.09,
+     "end": 14.46,
+     "text": "We are — but neither of us was recorded. This conversation is a script in the same spec, and deckcast turned it into voices."
+    },
+    {
+     "speaker": "owen",
+     "start": 14.76,
+     "end": 16.17,
+     "text": "deckcast being?"
+    },
+    {
+     "speaker": "maya",
+     "start": 16.47,
+     "end": 28.43,
+     "text": "A small tool that compiles a narration script into voiced clips, caches them, and times every line. Those timings are why the map moves exactly when I say — here."
+    },
+    {
+     "speaker": "owen",
+     "start": 28.73,
+     "end": 33.88,
+     "text": "Neat. So this tour is level one. What are two and three?"
+    },
+    {
+     "speaker": "maya",
+     "start": 34.18,
+     "end": 50.3,
+     "text": "Level two: questions you can pick. The tour pauses, an answer plays, and the map shows its evidence. Level three: you simply ask, out loud, and an agent answers from the map's own knowledge and flies the camera for you."
+    },
+    {
+     "speaker": "owen",
+     "start": 50.6,
+     "end": 56.0,
+     "text": "A live agent in a live demo. What could possibly go wrong."
+    },
+    {
+     "speaker": "maya",
+     "start": 56.3,
+     "end": 63.07,
+     "text": "The network. That's why it's marked as a limit — and why levels one and two need no live connection at all."
+    }
+   ]
+  },
+  {
+   "page": 5,
+   "file": "page-05.mp3",
+   "duration": 47.26,
+   "cues": [
+    {
+     "speaker": "owen",
+     "start": 0.0,
+     "end": 6.19,
+     "text": "Last question, and it's the one a jury asks. Is anyone actually using this?"
+    },
+    {
+     "speaker": "maya",
+     "start": 6.49,
+     "end": 12.84,
+     "text": "Yes. The materials-science chapter and the arXiv paper are public maps you can open today."
+    },
+    {
+     "speaker": "owen",
+     "start": 13.14,
+     "end": 14.21,
+     "text": "And the third one?"
+    },
+    {
+     "speaker": "maya",
+     "start": 14.51,
+     "end": 22.4,
+     "text": "A CEO's view of a live project. Private, because it names people and risks — same kit, kept local."
+    },
+    {
+     "speaker": "owen",
+     "start": 22.7,
+     "end": 23.85,
+     "text": "And deckcast?"
+    },
+    {
+     "speaker": "maya",
+     "start": 24.15,
+     "end": 29.14,
+     "text": "Two decks narrated end to end, one with a link where you can talk to the agent."
+    },
+    {
+     "speaker": "owen",
+     "start": 29.44,
+     "end": 33.96,
+     "text": "So the thing explaining itself is built exactly like the things it explains."
+    },
+    {
+     "speaker": "maya",
+     "start": 34.26,
+     "end": 47.5,
+     "text": "That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. Soon, a place you can ask."
+    }
+   ]
   }
  ]
 }

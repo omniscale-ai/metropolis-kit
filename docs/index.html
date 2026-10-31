@@ -925,6 +925,14 @@
     .challenge-short { font-weight: 600; color: #dfe6f5; }
     .tour-look { margin: 0 0 10px; font-family: var(--font-mono); font-size: 11px; color: #ffcf66; }
     .tour-look:empty { display: none; }
+    /* Narrated tour: the line being spoken, with its speaker */
+    .tour-sub { display: none; margin: 4px 0 10px; padding: 8px 10px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); font-size: 14px; line-height: 1.5; color: #fff; }
+    body.narrating .tour-sub { display: block; }
+    body.narrating .tour-text { display: none; }
+    .tour-sub-who { display: block; font-family: var(--font-mono); font-size: 10.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; }
+    #listenBtn, #orbitBtn, #tourBtn { white-space: nowrap; }
+    .tour-listen { font-family: var(--font-mono); font-size: 11px; }
+    .tour-listen.active { color: #0a0f1c; background: #7cffb2; border-color: #7cffb2; }
     .tour-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
     .tour-dots { display: flex; gap: 6px; }
     .tour-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); cursor: pointer; }
@@ -1173,6 +1181,10 @@
         <span>▶</span>
         <span>Tour</span>
       </button>
+      <button id="listenBtn" class="control-action-btn" title="Narrated tour — two voices walk you through the map" style="display: none;">
+        <span>🎧</span>
+        <span>Listen</span>
+      </button>
       <button id="scaleBtn" class="control-action-btn" title="Building size: Alt/Option + scroll, or [ and ] keys. Click to reset.">
         <span>🏙️</span>
         <span id="scaleLabel">×1.00</span>
@@ -1196,11 +1208,13 @@
       <button class="route-close" id="tourCloseBtn" title="Exit tour (Esc)">✕</button>
     </div>
     <p id="tourText" class="tour-text"></p>
+    <p id="tourSub" class="tour-sub"><span id="tourSubWho" class="tour-sub-who"></span><span id="tourSubText"></span></p>
     <ul id="tourItems" class="tour-items"></ul>
     <p id="tourLook" class="tour-look"></p>
     <div class="tour-nav">
       <button id="tourPrevBtn" class="pager-btn">◀ Back</button>
       <div id="tourDots" class="tour-dots"></div>
+      <button id="tourListenBtn" class="pager-btn tour-listen" title="Narrated tour: play / pause (P)" style="display: none;">🔊 Listen</button>
       <button id="tourNextBtn" class="pager-btn">Next ▶</button>
     </div>
   </section>
@@ -1412,6 +1426,7 @@
       document.getElementById('tourNextBtn').textContent = tourIndex === TOUR.length - 1 ? 'Finish ✓' : 'Next ▶';
       try { history.replaceState(null, '', `#tour=${tourIndex + 1}`); } catch (e) { /* file:// or sandboxed */ }
       (stop.do || []).forEach(act);
+      playStopNarration();
     }
 
     let layersBeforeTour = null;
@@ -1432,6 +1447,7 @@
     function endTour() {
       if (tourIndex < 0) return;
       tourIndex = -1;
+      stopNarration();
       actionFocus = null;
       clearPlazaCells();
       restoreTourPaint();
@@ -1505,7 +1521,7 @@
         else if (refLocation(r)) pts.push(refLocation(r));
       });
       if (!pts.length) return;
-      const padding = tourIndex >= 0 ? { top: 60, bottom: 230, left: 360, right: 40 } : { top: 80, bottom: 80, left: 360, right: 80 };
+      const padding = tourIndex >= 0 ? { top: 70, bottom: 250, left: 80, right: 80 } : { top: 80, bottom: 80, left: 360, right: 80 };
       const bounds = pts.reduce((b, p) => b.extend(p), new maplibregl.LngLatBounds(pts[0], pts[0]));
       const cam = map.cameraForBounds(bounds, { padding, maxZoom: 15.8 }) || { center: pts[0], zoom: 15.4 };
       // cameraForBounds frames a flat map; tilted, the far side recedes, so back off a little.
@@ -1555,6 +1571,112 @@
       });
     }
     window.metropolis = { act, actions: Object.keys(ACTIONS) };
+
+    // ===== Narrated tour: each stop's dialogue as voiced audio (deckcast), subtitles, and the
+    // line's actions fired when the line starts. window.NARRATION comes from the compiler.
+    const NARRATION = window.NARRATION || null;
+    const SPEAKER_COLORS = ['#7cffb2', '#ffcf66', '#00f0ff', '#ff7ad9'];
+    const narrAudio = new Audio();
+    narrAudio.preload = 'auto';
+    let narrating = false;   // the narrated mode is on (survives stop changes)
+    let narrCue = -1;        // index of the line being spoken
+    let narrNext = null;     // timer to the next stop after a stop's audio ends
+
+    const narrPage = i => (NARRATION && NARRATION.base ? NARRATION.pages[String(i + 1)] : null);
+    const hasNarration = () => TOUR.some((_, i) => narrPage(i));
+
+    function speakerOf(id) {
+      const k = NARRATION.speakers.findIndex(sp => sp.id === id);
+      return { ...(NARRATION.speakers[k] || { name: id }), color: SPEAKER_COLORS[Math.max(0, k) % SPEAKER_COLORS.length] };
+    }
+
+    function showSubtitle(line) {
+      const who = document.getElementById('tourSubWho');
+      if (!line) { who.textContent = ''; document.getElementById('tourSubText').textContent = ''; return; }
+      const sp = speakerOf(line.speaker);
+      who.textContent = sp.name;
+      who.style.color = sp.color;
+      document.getElementById('tourSubText').textContent = line.text.replace(/\[[^\]]*\]\s*/g, '');
+    }
+
+    function setListenUI() {
+      const btn = document.getElementById('tourListenBtn');
+      btn.classList.toggle('active', narrating && !narrAudio.paused);
+      btn.textContent = !narrating ? '🔊 Listen' : narrAudio.paused ? '▶ Resume' : '⏸ Pause';
+      btn.style.display = hasNarration() ? '' : 'none';
+      document.body.classList.toggle('narrating', narrating && !!narrPage(tourIndex));
+    }
+
+    function narrTick() { narrTickOnce(); if (narrating && !narrAudio.paused) requestAnimationFrame(narrTick); }
+
+    function narrTickOnce() {
+      const page = narrPage(tourIndex);
+      if (!narrating || !page) return;
+      const t = narrAudio.currentTime;
+      let idx = -1;
+      page.cues.forEach((c, j) => { if (c.start <= t + 0.05) idx = j; });
+      if (idx > narrCue) {
+        const dialogue = TOUR[tourIndex].dialogue || [];
+        // fire every line passed since the last tick (a seek or a slow frame can skip one)
+        for (let j = narrCue + 1; j <= idx; j++) (dialogue[j] && dialogue[j].do || []).forEach(act);
+        narrCue = idx;
+        showSubtitle(dialogue[idx]);
+      }
+    }
+
+    function playStopNarration() {
+      clearTimeout(narrNext);
+      narrAudio.pause();
+      narrCue = -1;
+      const page = narrPage(tourIndex);
+      if (!narrating || !page) { showSubtitle(null); setListenUI(); return; }
+      narrAudio.src = NARRATION.base + page.file;
+      narrAudio.currentTime = 0;
+      showSubtitle((TOUR[tourIndex].dialogue || [])[0]);
+      narrAudio.play().then(() => { setListenUI(); narrTick(); }).catch(() => setListenUI());
+      setListenUI();
+    }
+
+    function stopNarration() {
+      narrating = false;
+      clearTimeout(narrNext);
+      narrAudio.pause();
+      showSubtitle(null);
+      setListenUI();
+    }
+
+    function toggleListen() {
+      if (!narrating) { narrating = true; if (tourIndex < 0) startTour(0); else playStopNarration(); return; }
+      if (narrAudio.paused) narrAudio.play().then(() => { setListenUI(); narrTick(); }).catch(() => {});
+      else narrAudio.pause();
+      setListenUI();
+    }
+
+    narrAudio.addEventListener('pause', setListenUI);
+    // timeupdate keeps lines moving when frames are throttled (background tab, slow GPU)
+    narrAudio.addEventListener('timeupdate', () => { if (narrAudio.paused) narrTick(); else narrTickOnce(); });
+    narrAudio.addEventListener('ended', () => {
+      setListenUI();
+      if (!narrating) return;
+      // a beat of silence, then the next stop; the last stop leaves the card open
+      narrNext = setTimeout(() => {
+        if (narrating && tourIndex >= 0 && tourIndex < TOUR.length - 1) goToStop(tourIndex + 1);
+        else { narrating = false; setListenUI(); }
+      }, 1400);
+    });
+
+    function setupNarration() {
+      if (!hasNarration()) return;
+      const listen = document.getElementById('listenBtn');
+      listen.style.display = '';
+      listen.addEventListener('click', () => { if (tourIndex >= 0 && narrating) endTour(); else toggleListen(); });
+      document.getElementById('tourListenBtn').addEventListener('click', toggleListen);
+      window.addEventListener('keydown', e => {
+        if (tourIndex < 0 || (e.target && /input|select|textarea/i.test(e.target.tagName))) return;
+        if (e.key === 'p' || e.key === 'P') { e.preventDefault(); toggleListen(); }
+      });
+      setListenUI();
+    }
 
     function setupTour() {
       const btn = document.getElementById('tourBtn');
@@ -2303,6 +2425,7 @@
         setupRoutePanel();
         setupBuildingSizeControls();
         setupTour();
+        setupNarration();
         setupMetro();
         applyDefaultView();
         buildLegendUI();

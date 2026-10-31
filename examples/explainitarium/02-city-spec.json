@@ -1042,7 +1042,8 @@
         }
       }
     },
-    "language": "en"
+    "language": "en",
+    "audio": "voice/audio"
   },
   "tour": [
     {
