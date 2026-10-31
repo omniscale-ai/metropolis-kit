@@ -20,6 +20,8 @@ window.CITY_CONFIG = {
   "building_scale": 1.0,
   "default_view": {},
   "target_labels": "full",
+  "road_badges": true,
+  "road_arrows": "normal",
   "ui_labels": {}
 };
 

@@ -28,6 +28,8 @@ window.CITY_CONFIG = {
     ]
   },
   "target_labels": "full",
+  "road_badges": true,
+  "road_arrows": "normal",
   "ui_labels": {
     "metric_scale": "Size",
     "metric_acceleration": "What it does",

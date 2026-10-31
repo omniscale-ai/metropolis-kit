@@ -1384,6 +1384,7 @@
       PLAZAS.forEach(pz => save(`plaza-tex-${pz.id}`, 'raster-opacity'));
       save('plaza-bars', 'fill-extrusion-opacity');
       save('districts-line', 'line-width');
+      save('conduits-arrows', 'icon-opacity');
       save('districts-line', 'line-opacity');
     }
 
@@ -1420,6 +1421,7 @@
       ['targets-rings', 'targets-arcs'].forEach(layer => {
         if (map.getLayer(layer)) map.setPaintProperty(layer, 'line-opacity', ['case', inFocus('challenge_ref'), 0.9, 0.12]);
       });
+      if (map.getLayer('conduits-arrows')) map.setPaintProperty('conduits-arrows', 'icon-opacity', ['case', inFocus('id'), 1, 0.06]);
       if (map.getLayer('targets-dot')) map.setPaintProperty('targets-dot', 'fill-opacity', ['case', inFocus('challenge_ref'), 0.9, 0.15]);
       PLAZAS.forEach(pz => {
         const layer = `plaza-tex-${pz.id}`;
@@ -2819,14 +2821,17 @@
         }
       });
 
-      // One-way arrows along every road (flow direction from source to target)
+      // One-way arrows along every road (flow direction from source to target);
+      // city_metadata.road_arrows: 'normal' | 'sparse' (dense maps) | 'none'
+      const roadArrows = (window.CITY_CONFIG || {}).road_arrows || 'normal';
       map.addLayer({
         id: 'conduits-arrows',
         type: 'symbol',
         source: 'conduits-geo',
         layout: {
+          'visibility': roadArrows === 'none' ? 'none' : 'visible',
           'symbol-placement': 'line',
-          'symbol-spacing': 110,
+          'symbol-spacing': roadArrows === 'sparse' ? 420 : 110,
           'icon-image': ['match', ['get', 'status'], 'planned', 'arrow-grey', 'arrow-light'],
           'icon-size': 0.55,
           'icon-allow-overlap': true,
@@ -3037,8 +3042,10 @@
       });
 
       // 4. Clickable road badges (highway / ferry / planned road)
+      // city_metadata.road_badges = false: dense maps (e.g. traceability) keep roads but drop their badges
+      const roadBadges = (window.CITY_CONFIG || {}).road_badges !== false;
       window.CONDUITS.forEach((cond, idx) => {
-        if (!cond.midpoint) return;
+        if (!cond.midpoint || !roadBadges) return;
         const conduitEl = document.createElement('div');
         conduitEl.className = `conduit-beacon-marker status-${cond.status || 'operational'}`;
         conduitEl.dataset.tourRef = cond.id;
@@ -3328,6 +3335,8 @@
           </div>
           ${cardLinks(item.links)}
           ${relationBlock('⏱️ Constraints at this spire', item.constraints)}
+          ${relationBlock('↘ Linked from', roadEnds(item.id, 'to'))}
+          ${relationBlock('↗ Leads to', roadEnds(item.id, 'from'))}
           ${relationBlock('🎯 Advances priorities', item.advances)}
           <div class="relation-block conduit-endpoints-row">
             <button class="conduit-endpoint-btn" id="routeFromHereBtn"><span>🧭 ROUTE FROM HERE</span><span>➔</span></button>
@@ -3974,6 +3983,12 @@
       if (e.kind === 'challenge') return `🎯 ${e.item.codename}`;
       if (e.kind === 'conduit') return `${roadOf(e.item).icon} ${e.item.codename}`;
       return e.item.codename || e.item.title;
+    }
+
+    // Spires at the other end of this spire's roads (side = which end this spire is on)
+    function roadEnds(id, side) {
+      const other = side === 'to' ? 'from' : 'to';
+      return [...new Set(window.CONDUITS.filter(c => c[side] === id).map(c => c[other]))];
     }
 
     // Card links: a URL opens in a new tab; a link with "do" runs actions (e.g. start talking)

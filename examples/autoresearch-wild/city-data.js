@@ -27,6 +27,8 @@ window.CITY_CONFIG = {
     ]
   },
   "target_labels": "code",
+  "road_badges": true,
+  "road_arrows": "normal",
   "ui_labels": {
     "metric_scale": "Count",
     "metric_acceleration": "Key number",

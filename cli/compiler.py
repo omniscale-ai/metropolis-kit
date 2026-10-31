@@ -1404,7 +1404,11 @@ def compile_metropolis_data(spec):
                        'pitch': cam.get('pitch', 55), 'bearing': cam.get('bearing', -16)}
         })
 
-    metro_data = build_metro(spec, sorted_districts, spire_locations, compiled_challenges, plaza_meta)
+    # city_metadata.views lists the views a map offers; without 'metro' the switch disappears
+    if 'metro' in spec['city_metadata'].get('views', ['city', 'metro']):
+        metro_data = build_metro(spec, sorted_districts, spire_locations, compiled_challenges, plaza_meta)
+    else:
+        metro_data = {'lines': [], 'stations': [], 'interchanges': []}
 
     # 4c. Routing graph: conduits in both directions (against the flow costs more) plus
     # "walking" links between spires of the same district.
@@ -1487,6 +1491,8 @@ window.CITY_CONFIG = {json.dumps({
     'building_scale': spec['city_metadata'].get('building_scale', 1.0),
     'default_view': spec['city_metadata'].get('default_view', {}),
     'target_labels': spec['city_metadata'].get('target_labels', 'full'),
+    'road_badges': spec['city_metadata'].get('road_badges', True),
+    'road_arrows': spec['city_metadata'].get('road_arrows', 'normal'),
     'ui_labels': spec['city_metadata'].get('ui_labels', {})
 }, indent=2)};
 

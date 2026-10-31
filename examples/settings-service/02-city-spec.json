@@ -1,0 +1,3688 @@
+{
+ "city_metadata": {
+  "title": "SETTINGS SERVICE",
+  "subtitle": "Spec ↔ code · Typed configuration and feature flags with tenant-scoped inheritance and validate-then-set writes.",
+  "theme": "quantum_crystal",
+  "schema_version": "2.0",
+  "scale_axis_label": "",
+  "scale_axis_description": "South to north: requirements → design → features → code; roads are traceability links.",
+  "building_scale": 0.6,
+  "target_scale": 0.6,
+  "road_badges": false,
+  "road_arrows": "sparse",
+  "views": [
+   "city"
+  ],
+  "default_view": {
+   "legend": "collapsed",
+   "layers": [
+    "districts",
+    "spires",
+    "conduits",
+    "challenges"
+   ]
+  },
+  "ui_labels": {
+   "metric_scale": "Size",
+   "metric_acceleration": "Trace",
+   "metric_infrastructure": "Where",
+   "metric_maturity": "State",
+   "abstract_title": "What it is",
+   "impact_title": "Why it matters",
+   "remedy_title": "What would fix it",
+   "target_title": "Requirement",
+   "spire_badge": "ITEM",
+   "priority_badge": "NFR",
+   "kind_system": "Code module",
+   "kind_knowledge": "Requirement or design",
+   "kind_instrument": "Tests",
+   "kind_hub": "Feature"
+  }
+ },
+ "districts": [
+  {
+   "id": "@dist-req",
+   "name": "1 · REQUIREMENTS",
+   "scale_label": "What it must do",
+   "description": "Functional requirements from the PRD (29); non-functional ones (9) stand as goals.",
+   "color": "#00f0ff",
+   "order": 1,
+   "glow": "#00f0ff66",
+   "eu_infrastructures": []
+  },
+  {
+   "id": "@dist-design",
+   "name": "2 · DESIGN",
+   "scale_label": "How it is shaped",
+   "description": "Components from the technical design (18).",
+   "color": "#00e599",
+   "order": 2,
+   "glow": "#00e59966",
+   "eu_infrastructures": []
+  },
+  {
+   "id": "@dist-feat",
+   "name": "3 · FEATURES",
+   "scale_label": "What gets built, and in what order",
+   "description": "The decomposition into 11 features: each covers requirements and components and is specified as flows, algorithms and definitions of done.",
+   "color": "#ffb020",
+   "order": 3,
+   "glow": "#ffb02066",
+   "eu_infrastructures": []
+  },
+  {
+   "id": "@dist-code",
+   "name": "4 · CODE",
+   "scale_label": "Where it lives",
+   "description": "234 Rust files in 21 modules; @cpt markers tie code blocks to the spec items they implement.",
+   "color": "#b44dff",
+   "order": 4,
+   "glow": "#b44dff66",
+   "eu_infrastructures": []
+  }
+ ],
+ "spires": [
+  {
+   "id": "@spire-fr-settings-category-model",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "done",
+   "title": "Category and Setting Lifecycle",
+   "code": "FR-01",
+   "codename": "SETTINGS CATEGORY MODEL",
+   "scale_level": 0.35,
+   "place": [
+    -417,
+    232
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "5.1 Settings & Category Model",
+    "infrastructure": "PRD.md",
+    "maturity": "Done"
+   },
+   "abstract": "The system MUST let a platform administrator create a named, flat, single-level category with a unique name and description; creating a category with a duplicate name MUST be rejected with a clear error. The system MUST reject removal of a category while one or more settings, active or retired, remain filed under it…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-declaration-purge",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Purge of a Retired Setting",
+   "code": "FR-02",
+   "codename": "DECLARATION PURGE",
+   "scale_level": 0.05,
+   "place": [
+    -250,
+    232
+   ],
+   "metrics": {
+    "scale": "p2",
+    "acceleration": "5.1 Settings & Category Model",
+    "infrastructure": "PRD.md",
+    "maturity": "In a planned feature, not yet done"
+   },
+   "abstract": "The system MUST let a platform administrator permanently remove (purge) a setting that is retired. The system MUST refuse to purge an active setting — it is retired first — and MUST refuse to purge a module-contributed setting, whose lifecycle its owning gear governs (cpt-cf-settings-service-fr-contributed-lifecycle…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-typed-value-validation",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "done",
+   "title": "GTS Type Validation, Trait Discovery & Secret Protection",
+   "code": "FR-03",
+   "codename": "TYPED VALUE VALIDATION",
+   "scale_level": 0.35,
+   "place": [
+    -83,
+    232
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "5.2 Typed Values & Validation",
+    "infrastructure": "PRD.md",
+    "maturity": "Done"
+   },
+   "abstract": "The system MUST validate every setting value (override or default) against its declared GTS type at creation or change time and MUST reject invalid values with a clear, field-level error; format keywords (e.g. uri, ipv4/ipv6) and trait-driven rules (e.g. cron dialect, regex-compiles) MUST be asserted, not treated as…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-file-valued-settings",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "planned",
+   "title": "File-Valued Settings",
+   "code": "FR-04",
+   "codename": "FILE VALUED SETTINGS",
+   "scale_level": 0.05,
+   "place": [
+    83,
+    232
+   ],
+   "metrics": {
+    "scale": "p2",
+    "acceleration": "5.2 Typed Values & Validation",
+    "infrastructure": "PRD.md",
+    "maturity": "No feature yet (later release)"
+   },
+   "abstract": "Some configuration is a file rather than a scalar or a small structure — a tenant's branding logo, a Terms-of-Service document, SAML IdP metadata for a tenant's SSO, a custom CA bundle for outbound webhooks. The system MUST support a setting whose value is a file held by reference: the stored value identifies a file…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-standard-advanced-mode",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "planned",
+   "title": "Mode-Filtered Reads",
+   "code": "FR-05",
+   "codename": "STANDARD ADVANCED MODE",
+   "scale_level": 0.05,
+   "place": [
+    250,
+    232
+   ],
+   "metrics": {
+    "scale": "p2",
+    "acceleration": "5.3 Standard/Advanced Mode & Discoverability",
+    "infrastructure": "PRD.md",
+    "maturity": "No feature yet (later release)"
+   },
+   "abstract": "The system MUST tag every setting and category as Standard or Advanced. When a client reads categories or settings for Standard mode, Advanced-only settings and categories MUST be excluded; the user's mode preference MUST persist per user, not per session. When a category has hidden Advanced-only settings, reads MUST…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-search-discoverability",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "done",
+   "title": "Cross-Field Search",
+   "code": "FR-06",
+   "codename": "SEARCH DISCOVERABILITY",
+   "scale_level": 0.05,
+   "place": [
+    417,
+    232
+   ],
+   "metrics": {
+    "scale": "p2",
+    "acceleration": "5.3 Standard/Advanced Mode & Discoverability",
+    "infrastructure": "PRD.md",
+    "maturity": "Done"
+   },
+   "abstract": "The system MUST let an administrator search settings by key, display name, description, value, or category name and MUST return matches as a flat list with category breadcrumbs and an indication of which field matched. Search MUST respect the same scope, mode, and tenant-visibility filters as browsing.",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-defaults-revert",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Revert to Ancestor or Schema Default",
+   "code": "FR-07",
+   "codename": "DEFAULTS REVERT",
+   "scale_level": 0.05,
+   "place": [
+    -417,
+    116
+   ],
+   "metrics": {
+    "scale": "p2",
+    "acceleration": "5.4 Defaults & Revert",
+    "infrastructure": "PRD.md",
+    "maturity": "In a planned feature, not yet done"
+   },
+   "abstract": "The system MUST maintain an independent Schema Default per setting that is never destroyed by setting an override. When an administrator reverts a tenant-scope override of a cascading setting, the system MUST clear the local override, fall the effective value back to the nearest ancestor's override (or the platform…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-set-value",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "done",
+   "title": "Setting a Value",
+   "code": "FR-08",
+   "codename": "SET VALUE",
+   "scale_level": 0.35,
+   "place": [
+    -250,
+    116
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "5.5 Validate and Set Values",
+    "infrastructure": "PRD.md",
+    "maturity": "Done"
+   },
+   "abstract": "A value operation on a setting — set, revert, remove-value, or clone (at platform or any tenant scope) — MUST take effect when the caller sets it. The service MUST NOT keep the change in a pending state first, and there MUST NOT be a separate step that activates it later. A client that lets an administrator collect…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-validate-before-set",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "done",
+   "title": "Validate Before Setting; Step-Up on Set",
+   "code": "FR-09",
+   "codename": "VALIDATE BEFORE SET",
+   "scale_level": 0.35,
+   "place": [
+    -83,
+    116
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "5.5 Validate and Set Values",
+    "infrastructure": "PRD.md",
+    "maturity": "Done"
+   },
+   "abstract": "The system MUST let a caller ask what a value would do before setting it. This check MUST report whether the value is valid, the current effective value and where it comes from, and which descendant scopes the change would affect, in pages rather than all at once. It MUST change nothing, MUST give the same answer…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-live-read-activation",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "A Value Activates via Live-Read; Consumers Self-React",
+   "code": "FR-10",
+   "codename": "LIVE READ ACTIVATION",
+   "scale_level": 0.35,
+   "place": [
+    83,
+    116
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "5.5 Validate and Set Values",
+    "infrastructure": "PRD.md",
+    "maturity": "In a planned feature, not yet done"
+   },
+   "abstract": "Activating a change MUST NOT require the Settings Service to reload or restart any consumer: the new value becomes effective and each consumer reads it on next read (live-read / pull) via the settings SDK, with cache invalidation. The Settings Service MUST NOT declare or resolve a per-setting \"effect\"; live-read is…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-replica-coherence",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "planned",
+   "title": "Replica Coherence After a Set",
+   "code": "FR-11",
+   "codename": "REPLICA COHERENCE",
+   "scale_level": -0.25,
+   "place": [
+    250,
+    116
+   ],
+   "metrics": {
+    "scale": "p3",
+    "acceleration": "5.5 Validate and Set Values",
+    "infrastructure": "PRD.md",
+    "maturity": "No feature yet (later release)"
+   },
+   "abstract": "The Settings Service runs as multiple replicas and a set is handled by one of them; the other replicas hold their own caches of the same effective values. After a value is set, every replica MUST converge on it — for the target scope and, for a cascading setting, for every descendant scope whose effective value the…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-consumer-activation",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "planned",
+   "title": "Consumer Activation: Notify, Confirm, and Account",
+   "code": "FR-12",
+   "codename": "CONSUMER ACTIVATION",
+   "scale_level": -0.25,
+   "place": [
+    417,
+    116
+   ],
+   "metrics": {
+    "scale": "p3",
+    "acceleration": "5.5 Validate and Set Values",
+    "infrastructure": "PRD.md",
+    "maturity": "No feature yet (later release)"
+   },
+   "abstract": "A consuming gear MUST be able to register interest in the specific settings it depends on, and MUST then receive a change notification limited to those settings — never the rest of a set's contents, and never a setting it is not entitled to read. A notification MUST carry identifiers only and no setting value, so the…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-dependency-group-declaration",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Dependency Group and Cross-Setting Constraint Declaration",
+   "code": "FR-13",
+   "codename": "DEPENDENCY GROUP DECLARATION",
+   "scale_level": -0.25,
+   "place": [
+    -417,
+    0
+   ],
+   "metrics": {
+    "scale": "p3",
+    "acceleration": "5.5 Validate and Set Values",
+    "infrastructure": "PRD.md",
+    "maturity": "In a planned feature, not yet done"
+   },
+   "abstract": "The system MUST let a declaration author declare a Dependency Group — a named set of interdependent settings with an associated cross-setting constraint over their combined values — so that the all-or-nothing set and resulting-configuration validation required by cpt-cf-settings-service-fr-live-read-activation have an…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-setting-scope-class",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "done",
+   "title": "Setting Scope Class Governs Cascade/Override Behaviour",
+   "code": "FR-14",
+   "codename": "SETTING SCOPE CLASS",
+   "scale_level": 0.35,
+   "place": [
+    -250,
+    0
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "5.6 Multi-Tenant Overrides & Cascading Inheritance",
+    "infrastructure": "PRD.md",
+    "maturity": "Done"
+   },
+   "abstract": "Every setting MUST declare a Scope Class (global | cascading | local), and cascade/override behaviour MUST be derived deterministically from it: global MUST NOT be overridable by any tenant nor inherited by tenants; cascading MUST inherit down the tenant scope hierarchy with overrides at permitted scopes; local MUST…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-tenant-overrides",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "done",
+   "title": "Tenant Override of a Cascading Value",
+   "code": "FR-15",
+   "codename": "TENANT OVERRIDES",
+   "scale_level": 0.35,
+   "place": [
+    -83,
+    0
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "5.6 Multi-Tenant Overrides & Cascading Inheritance",
+    "infrastructure": "PRD.md",
+    "maturity": "Done"
+   },
+   "abstract": "Given a cascading setting with a platform-level value, when a value is set at a target tenant, it MUST override the inherited value there and for non-overriding descendants. The target MUST be inside the caller's subtree. A tenant caller may write only when the caller's own effective access to the setting is…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-cascading-inheritance",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "done",
+   "title": "Cascading Inheritance with Source Trace and Impact Warning",
+   "code": "FR-16",
+   "codename": "CASCADING INHERITANCE",
+   "scale_level": 0.35,
+   "place": [
+    83,
+    0
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "5.6 Multi-Tenant Overrides & Cascading Inheritance",
+    "infrastructure": "PRD.md",
+    "maturity": "Done"
+   },
+   "abstract": "For a cascading setting at a tenant scope, the system MUST resolve the effective value by walking up the tenant scope hierarchy — against the locally cached hierarchy snapshot on the warm read path, refreshed from tenant-resolver within a bounded freshness window (§6.1) — to the first override, else the platform…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-subject-scoped-values",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Subject-Scoped Values (Model-Level Identity)",
+   "code": "FR-17",
+   "codename": "SUBJECT SCOPED VALUES",
+   "scale_level": 0.05,
+   "place": [
+    250,
+    0
+   ],
+   "metrics": {
+    "scale": "p2",
+    "acceleration": "5.6 Multi-Tenant Overrides & Cascading Inheritance",
+    "infrastructure": "PRD.md",
+    "maturity": "In a planned feature, not yet done"
+   },
+   "abstract": "A setting value MUST be identified by (declaration, scope) where scope is platform, tenant, or either of those qualified by a subject — (scope, subject_type, subject_id). A subject MUST NOT be required to belong to a tenant: a subject may exist at platform scope. subject_type MUST be a GTS-registered type and…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-barrier-default-seam",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Hierarchy Barriers: Standalone Tenants Are Opaque Upward",
+   "code": "FR-18",
+   "codename": "BARRIER DEFAULT SEAM",
+   "scale_level": 0.05,
+   "place": [
+    417,
+    0
+   ],
+   "metrics": {
+    "scale": "p2",
+    "acceleration": "5.6 Multi-Tenant Overrides & Cascading Inheritance",
+    "infrastructure": "PRD.md",
+    "maturity": "In a planned feature, not yet done"
+   },
+   "abstract": "A tenant marked standalone (isolated / unmanaged, as modeled by tenant-resolver) MUST remain an ordinary inheritance target: a cascading setting MUST resolve into it from its parent chain exactly as into any other tenant, with no marking, exemption or per-declaration opt-in required. What standalone changes is the…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-tenant-scope-enforcement",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "done",
+   "title": "Tenant Access Enforcement and Subtree Scope Isolation",
+   "code": "FR-19",
+   "codename": "TENANT SCOPE ENFORCEMENT",
+   "scale_level": 0.35,
+   "place": [
+    -417,
+    -116
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "5.6 Multi-Tenant Overrides & Cascading Inheritance",
+    "infrastructure": "PRD.md",
+    "maturity": "Done"
+   },
+   "abstract": "Tenant access is not part of a declaration. It is a sparse policy on a (setting, tenant) pair:",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-authn-role-gating",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Authentication and Access-Level Gating",
+   "code": "FR-20",
+   "codename": "AUTHN ROLE GATING",
+   "scale_level": 0.35,
+   "place": [
+    -250,
+    -116
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "5.7 Security, Secrets & Audit",
+    "infrastructure": "PRD.md",
+    "maturity": "In a planned feature, not yet done"
+   },
+   "abstract": "Any Settings operation MUST require a valid authenticated session/token (via authn-resolver) and MUST be gated by an authorization decision via authz-resolver: view-level access permits read, owner/admin-level access permits mutate. An interactive write to a declaration that requires elevated confirmation (§5.7), and…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-audit-mutations",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Audited Mutations and Secret Reveals",
+   "code": "FR-21",
+   "codename": "AUDIT MUTATIONS",
+   "scale_level": 0.35,
+   "place": [
+    -83,
+    -116
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "5.7 Security, Secrets & Audit",
+    "infrastructure": "PRD.md",
+    "maturity": "In a planned feature, not yet done"
+   },
+   "abstract": "Any mutating operation (create/set/revert/remove-value/clone, and a declaration's retire/reactivate/purge) MUST write an audit record with actor, target (category + key + scope), pre/post values (secrets masked), timestamp, outcome, and a request identifier; audit history MUST be queryable globally and per (setting…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-per-setting-access",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Per-Setting Access",
+   "code": "FR-22",
+   "codename": "PER SETTING ACCESS",
+   "scale_level": 0.05,
+   "place": [
+    83,
+    -116
+   ],
+   "metrics": {
+    "scale": "p2",
+    "acceleration": "5.7 Security, Secrets & Audit",
+    "infrastructure": "PRD.md",
+    "maturity": "In a planned feature, not yet done"
+   },
+   "abstract": "A right to read or change setting values covers every setting the caller can otherwise see, so \"this role manages the billing settings, that one the infrastructure settings\" cannot be expressed, and a gear authorized to write its own settings would be authorized to write everyone's.",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-feature-license-gating",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "planned",
+   "title": "Feature/Licence Gating",
+   "code": "FR-23",
+   "codename": "FEATURE LICENSE GATING",
+   "scale_level": 0.05,
+   "place": [
+    250,
+    -116
+   ],
+   "metrics": {
+    "scale": "p2",
+    "acceleration": "5.7 Security, Secrets & Audit",
+    "infrastructure": "PRD.md",
+    "maturity": "No feature yet (later release)"
+   },
+   "abstract": "Given settings or categories whose visibility is restricted by a licence/feature flag (via license-resolver), when read, search, or list operations run, gated settings MUST be excluded for callers without the entitlement, enforced server-side consistently across all administrative read paths (UI/API browse, search…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-service-writes",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "planned",
+   "title": "Elevated Confirmation, and Writes by Services",
+   "code": "FR-24",
+   "codename": "SERVICE WRITES",
+   "scale_level": 0.05,
+   "place": [
+    417,
+    -116
+   ],
+   "metrics": {
+    "scale": "p2",
+    "acceleration": "5.7 Security, Secrets & Audit",
+    "infrastructure": "PRD.md",
+    "maturity": "No feature yet (later release)"
+   },
+   "abstract": "A setting Declaration MUST carry a flag stating whether changing its value requires elevated confirmation. It MUST default to required, so a declaration that says nothing is protected, and clearing it MUST be a deliberate act on a setting whose value is machine-managed rather than a human decision.",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-anonymous-exposable",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "planned",
+   "title": "Anonymous-Exposable Values",
+   "code": "FR-25",
+   "codename": "ANONYMOUS EXPOSABLE",
+   "scale_level": 0.05,
+   "place": [
+    -333,
+    -232
+   ],
+   "metrics": {
+    "scale": "p2",
+    "acceleration": "5.7 Security, Secrets & Audit",
+    "infrastructure": "PRD.md",
+    "maturity": "No feature yet (later release)"
+   },
+   "abstract": "A setting Declaration MUST be markable anonymous-exposable, defaulting to not exposable. Marking it MUST be rejected when the setting's data classification is secret or pii, and un-marking MUST always be allowed. Marking and un-marking MUST be platform-administrator actions and MUST be audited, and the full set of…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-module-contributed-declarations",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "done",
+   "title": "Gears Contribute Declarations; Admins Change Values",
+   "code": "FR-26",
+   "codename": "MODULE CONTRIBUTED DECLARATI",
+   "scale_level": 0.35,
+   "place": [
+    -167,
+    -232
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "5.8 Module-Contributed Settings",
+    "infrastructure": "PRD.md",
+    "maturity": "Done"
+   },
+   "abstract": "When a gear that owns configuration is installed or upgraded, it MUST be able to contribute its Setting Declarations (namespaced key, GTS type, default, metadata including an optional display name, Scope Class) to the Settings Service, and administrators MUST be able to change the contributed settings' values (subject…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-contributed-lifecycle",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "done",
+   "title": "Contributed-Declaration Register/Retire Lifecycle",
+   "code": "FR-27",
+   "codename": "CONTRIBUTED LIFECYCLE",
+   "scale_level": 0.35,
+   "place": [
+    0,
+    -232
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "5.8 Module-Contributed Settings",
+    "infrastructure": "PRD.md",
+    "maturity": "Done"
+   },
+   "abstract": "When a gear registers, upgrades, or retires a declaration, the Settings Service MUST reconcile the declaration set (add / update descriptive metadata / mark-retired), preserving administrator-set values across compatible upgrades. A gear upgrade MUST NOT change a contributed declaration's behavior-affecting fields…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-bulk-effective-read",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "done",
+   "title": "Bulk Effective-Value Retrieval",
+   "code": "FR-28",
+   "codename": "BULK EFFECTIVE READ",
+   "scale_level": 0.35,
+   "place": [
+    167,
+    -232
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "5.9 Additional Scope Items",
+    "infrastructure": "PRD.md",
+    "maturity": "Done"
+   },
+   "abstract": "The system MUST support retrieval of effective values in bulk — by key set and by category — as a single operation, with per-key outcomes (never all-or-nothing), on every read surface, subject to the same visibility, scope, and secret-masking rules as single reads. The administrative settings list — the bulk read an…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-fr-domain-affinity-filtering",
+   "district_ref": "@dist-req",
+   "kind": "knowledge",
+   "status": "planned",
+   "title": "Domain Affinity Filtering",
+   "code": "FR-29",
+   "codename": "DOMAIN AFFINITY FILTERING",
+   "scale_level": -0.25,
+   "place": [
+    333,
+    -232
+   ],
+   "metrics": {
+    "scale": "p3",
+    "acceleration": "5.9 Additional Scope Items",
+    "infrastructure": "PRD.md",
+    "maturity": "No feature yet (later release)"
+   },
+   "abstract": "The system MUST support an optional Domain Affinity per setting (not every setting carries one); the hub MUST filter categories by the administrator's current domain. Cross-domain settings MUST be hidden by default (not read-only); a platform administrator MUST be able to switch to an \"All domains\" view. Domain…",
+   "links": [
+    {
+     "label": "Open in the PRD",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/PRD.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-change-set-publisher",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "planned",
+   "title": "Component: Change Set Publisher",
+   "code": "C-01",
+   "codename": "CHANGE SET PUBLISHER",
+   "scale_level": 0.1,
+   "place": [
+    -417,
+    193
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN-activation.md",
+    "maturity": "No feature yet"
+   },
+   "abstract": "Runs inside the Settings Service; invoked by the change set commit (DESIGN.md §4.2 *Value Writer*) after all values are written.",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN-activation.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-event-broker-client",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "planned",
+   "title": "Component: Event Broker Client",
+   "code": "C-02",
+   "codename": "EVENT BROKER CLIENT",
+   "scale_level": 0.1,
+   "place": [
+    -250,
+    193
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN-activation.md",
+    "maturity": "No feature yet"
+   },
+   "abstract": "Transport abstraction for sending and receiving notifications.",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN-activation.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-subscription-manager",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "planned",
+   "title": "Component: Subscription Manager",
+   "code": "C-03",
+   "codename": "SUBSCRIPTION MANAGER",
+   "scale_level": 0.1,
+   "place": [
+    -83,
+    193
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN-activation.md",
+    "maturity": "No feature yet"
+   },
+   "abstract": "Dependencies: Notification State (PostgreSQL). Subscription is self-contained: a consumer registers explicitly (register_subscription / SDK subscribe). There is no dependency on the Settings Service Contribution path and no auto-subscribe — contribution and subscription are fully independent.",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN-activation.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-consumer-activation-sdk",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "planned",
+   "title": "Component: Consumer Activation SDK",
+   "code": "C-04",
+   "codename": "CONSUMER ACTIVATION SDK",
+   "scale_level": 0.1,
+   "place": [
+    83,
+    193
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN-activation.md",
+    "maturity": "No feature yet"
+   },
+   "abstract": "The consumer-facing contract. Subscribes to specific setting keys, receives filtered change_notification bundles, re-reads the changed settings, and emits back-responses.",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN-activation.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-change-set-outcome-tracker",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "planned",
+   "title": "Component: Change Set Outcome Tracker",
+   "code": "C-05",
+   "codename": "CHANGE SET OUTCOME TRACKER",
+   "scale_level": 0.1,
+   "place": [
+    250,
+    193
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN-activation.md",
+    "maturity": "No feature yet"
+   },
+   "abstract": "Tracks and exposes bundle state based on consumer responses. Runs in the Settings Service.",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN-activation.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-cache-invalidation-broadcast",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "planned",
+   "title": "Component: Cache Invalidation Broadcast",
+   "code": "C-06",
+   "codename": "CACHE INVALIDATION BROADCAST",
+   "scale_level": 0.1,
+   "place": [
+    417,
+    193
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN-activation.md",
+    "maturity": "No feature yet"
+   },
+   "abstract": "Dependencies: Event Broker Client, Settings Service effective-value cache (DESIGN.md §4.2 *Cache & Invalidation* of that design).",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN-activation.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-category-management",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Component: Category Management",
+   "code": "C-07",
+   "codename": "CATEGORY MANAGEMENT",
+   "scale_level": 0.1,
+   "place": [
+    -417,
+    0
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN.md",
+    "maturity": "Covered by a feature"
+   },
+   "abstract": "Dependencies: PostgreSQL, AuthZResolverClient (with PolicyEnforcer built over it), LicenseResolverApi (License Resolver — feature/licence entitlement), Audit Emitter",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-declaration-management",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Component: Declaration Management",
+   "code": "C-08",
+   "codename": "DECLARATION MANAGEMENT",
+   "scale_level": 0.1,
+   "place": [
+    -250,
+    0
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN.md",
+    "maturity": "Covered by a feature"
+   },
+   "abstract": "Manages admin-authored declarations and serves reads for both authored and contributed declarations. Contributed declarations are written only via the Reconciler (§4.2 *Contribution Reconciler*).",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-module-contribution-reconciler",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Component: Module Contribution Reconciler",
+   "code": "C-09",
+   "codename": "MODULE CONTRIBUTION RECONCIL",
+   "scale_level": 0.1,
+   "place": [
+    -83,
+    0
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN.md",
+    "maturity": "Covered by a feature"
+   },
+   "abstract": "Realizes Module-Contributed Settings (cpt-cf-settings-service-fr-module-contributed-declarations, cpt-cf-settings-service-fr-contributed-lifecycle): gears register Setting Declarations on install/upgrade, and administrators change values. A gear that must write a value does so in the separate role of an authorized…",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-type-validator",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Component: Type Validator (GTS + traits)",
+   "code": "C-10",
+   "codename": "TYPE VALIDATOR",
+   "scale_level": 0.1,
+   "place": [
+    83,
+    0
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN.md",
+    "maturity": "Covered by a feature"
+   },
+   "abstract": "Dependencies: TypesRegistryClient (GTS Schema Registry, in-process via ClientHub)",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-value-resolver",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Component: Value Resolver",
+   "code": "C-11",
+   "codename": "VALUE RESOLVER",
+   "scale_level": 0.1,
+   "place": [
+    250,
+    0
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN.md",
+    "maturity": "Covered by a feature"
+   },
+   "abstract": "Resolves the effective value with source trace; the hot read path (cpt-cf-settings-service-fr-cascading-inheritance, cpt-cf-settings-service-nfr-performance-read-cache).",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-tenant-permission",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Component: Tenant Access",
+   "code": "C-12",
+   "codename": "TENANT PERMISSION",
+   "scale_level": 0.1,
+   "place": [
+    417,
+    0
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN.md",
+    "maturity": "Covered by a feature"
+   },
+   "abstract": "Stores tenant restrictions and resolves effective access (cpt-cf-settings-service-fr-tenant-scope-enforcement).",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-value-writer",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Component: Value Writer",
+   "code": "C-13",
+   "codename": "VALUE WRITER",
+   "scale_level": 0.1,
+   "place": [
+    -417,
+    -193
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN.md",
+    "maturity": "Covered by a feature"
+   },
+   "abstract": "Validates and stores value changes (cpt-cf-settings-service-fr-set-value, cpt-cf-settings-service-fr-validate-before-set, cpt-cf-settings-service-fr-live-read-activation, cpt-cf-settings-service-fr-tenant-overrides, cpt-cf-settings-service-nfr-reliability-validated-set).",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-secret-manager",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Component: Secret Manager",
+   "code": "C-14",
+   "codename": "SECRET MANAGER",
+   "scale_level": 0.1,
+   "place": [
+    -250,
+    -193
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN.md",
+    "maturity": "Covered by a feature"
+   },
+   "abstract": "Handles secret-trait values, backed by the platform Credential Store (the credstore backend, the credstore gear; gear dependency credstore). Plaintext never enters the settings DB, cache, search index, or audit trail — the settings row holds only an opaque secret_ref. create_declaration (§4.2 *Declaration Management*)…",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-search",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "done",
+   "title": "Component: Search",
+   "code": "C-15",
+   "codename": "SEARCH",
+   "scale_level": 0.1,
+   "place": [
+    -83,
+    -193
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN.md",
+    "maturity": "Done"
+   },
+   "abstract": "Dependencies: PostgreSQL, AuthZResolverClient (with PolicyEnforcer built over it), LicenseResolverApi (License Resolver — feature/licence entitlement)",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-cache-and-invalidation",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Component: Cache & Invalidation",
+   "code": "C-16",
+   "codename": "CACHE AND INVALIDATION",
+   "scale_level": 0.1,
+   "place": [
+    83,
+    -193
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN.md",
+    "maturity": "Covered by a feature"
+   },
+   "abstract": "Dependencies: in-memory store (local to the service instance), Event Broker",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-actor-name-resolver",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "planned",
+   "title": "Component: Actor Name Resolver",
+   "code": "C-17",
+   "codename": "ACTOR NAME RESOLVER",
+   "scale_level": 0.1,
+   "place": [
+    250,
+    -193
+   ],
+   "metrics": {
+    "scale": "p2",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN.md",
+    "maturity": "No feature yet"
+   },
+   "abstract": "Puts a display name beside the actor of each history record (cpt-cf-settings-service-fr-audit-mutations, cpt-cf-settings-service-actor-compliance-reviewer). It is a read-side helper of the history endpoint (§4.3). It writes nothing: mutation responses carry no actor name, and the audit record is unchanged. The display…",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-component-audit-emitter",
+   "district_ref": "@dist-design",
+   "kind": "knowledge",
+   "status": "active",
+   "title": "Component: Audit Emitter",
+   "code": "C-18",
+   "codename": "AUDIT EMITTER",
+   "scale_level": 0.1,
+   "place": [
+    417,
+    -193
+   ],
+   "metrics": {
+    "scale": "p1",
+    "acceleration": "4.2 Component Model",
+    "infrastructure": "DESIGN.md",
+    "maturity": "Covered by a feature"
+   },
+   "abstract": "Unlike RBAC v1, audit is a show-stopper here and is always active.",
+   "links": [
+    {
+     "label": "Open in the design",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/DESIGN.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-feature-gear-foundation",
+   "district_ref": "@dist-feat",
+   "kind": "hub",
+   "status": "active",
+   "title": "Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure",
+   "code": "F-01",
+   "codename": "GEAR FOUNDATION",
+   "scale_level": 0.551,
+   "place": [
+    -415,
+    218
+   ],
+   "metrics": {
+    "scale": "0 flows · 5 algorithms · 9 DoDs",
+    "acceleration": "11 of 14 spec items marked in code",
+    "infrastructure": "docs/features/gear-foundation.md",
+    "maturity": "9 of 14 items checked · HIGH"
+   },
+   "abstract": "Establish the settings-service-sdk crate and the gear scaffold every later feature builds on: domain models and the SettingKey value object, the Settings Reader and Contribution client traits, the error taxonomy and its RFC-9457 Problem mapping, PostgreSQL persistence with migration tooling, REST and OData…",
+   "links": [
+    {
+     "label": "Open the feature spec",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/features/gear-foundation.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-feature-category-management",
+   "district_ref": "@dist-feat",
+   "kind": "hub",
+   "status": "active",
+   "title": "Category Management",
+   "code": "F-02",
+   "codename": "CATEGORY MANAGEMENT",
+   "scale_level": 0.627,
+   "place": [
+    -225,
+    218
+   ],
+   "metrics": {
+    "scale": "5 flows · 3 algorithms · 8 DoDs",
+    "acceleration": "16 of 16 spec items marked in code",
+    "infrastructure": "docs/features/category-management.md",
+    "maturity": "16 of 16 items checked · HIGH"
+   },
+   "abstract": "Provide the flat category taxonomy every setting declaration is filed under, with globally unique key and name, optional administrative-domain binding, display ordering, and no-orphan deletion. The category key is load-bearing beyond grouping: it becomes the <category> token of every setting key declared under it —…",
+   "links": [
+    {
+     "label": "Open the feature spec",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/features/category-management.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-feature-setting-declarations",
+   "district_ref": "@dist-feat",
+   "kind": "hub",
+   "status": "active",
+   "title": "Setting Declarations and Scope Class",
+   "code": "F-03",
+   "codename": "SETTING DECLARATIONS",
+   "scale_level": 0.95,
+   "place": [
+    -35,
+    218
+   ],
+   "metrics": {
+    "scale": "9 flows · 3 algorithms · 13 DoDs",
+    "acceleration": "23 of 26 spec items marked in code",
+    "infrastructure": "docs/features/setting-declarations.md",
+    "maturity": "22 of 26 items checked · HIGH"
+   },
+   "abstract": "Introduce the setting declaration as an entity distinct from its value, keyed by a GTS type identifier gts.cf.core.settings.setting_type.v1~<vendor>.settings.<category>.<name>.v1~ registered under the Settings gear's abstract base (ADR-002), and give each declaration a first-class scope class from which cascade and…",
+   "links": [
+    {
+     "label": "Open the feature spec",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/features/setting-declarations.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-feature-typed-value-validation",
+   "district_ref": "@dist-feat",
+   "kind": "hub",
+   "status": "active",
+   "title": "Typed Value Validation",
+   "code": "F-04",
+   "codename": "TYPED VALUE VALIDATION",
+   "scale_level": 0.589,
+   "place": [
+    -415,
+    72
+   ],
+   "metrics": {
+    "scale": "0 flows · 4 algorithms · 10 DoDs",
+    "acceleration": "15 of 15 spec items marked in code",
+    "infrastructure": "docs/features/typed-value-validation.md",
+    "maturity": "15 of 15 items checked · HIGH"
+   },
+   "abstract": "Validate every setting value against the GTS value type its declaration names by value_type_id, as hard checks rather than advisory ones, and expose the resolved trait set that both drives client rendering and determines whether a setting is secret-backed. The service consumes GTS types; it never authors them.",
+   "links": [
+    {
+     "label": "Open the feature spec",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/features/typed-value-validation.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-feature-value-resolution",
+   "district_ref": "@dist-feat",
+   "kind": "hub",
+   "status": "active",
+   "title": "Effective Value Resolution, Defaults and Cache",
+   "code": "F-05",
+   "codename": "VALUE RESOLUTION",
+   "scale_level": 0.861,
+   "place": [
+    -225,
+    72
+   ],
+   "metrics": {
+    "scale": "6 flows · 4 algorithms · 13 DoDs",
+    "acceleration": "23 of 23 spec items marked in code",
+    "infrastructure": "docs/features/value-resolution.md",
+    "maturity": "23 of 23 items checked · HIGH"
+   },
+   "abstract": "Resolve the effective value of a setting by dispatching on its scope class, returning a source trace alongside the value, and serve that hot path from a local in-process cache. This is the feature that makes the service useful to consumers, and it is the dependency almost every later feature waits on.",
+   "links": [
+    {
+     "label": "Open the feature spec",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/features/value-resolution.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-feature-audit-store",
+   "district_ref": "@dist-feat",
+   "kind": "hub",
+   "status": "active",
+   "title": "Audit Store and History",
+   "code": "F-06",
+   "codename": "AUDIT STORE",
+   "scale_level": 0.469,
+   "place": [
+    -35,
+    72
+   ],
+   "metrics": {
+    "scale": "1 flows · 4 algorithms · 7 DoDs",
+    "acceleration": "12 of 12 spec items marked in code",
+    "infrastructure": "docs/features/audit-store.md",
+    "maturity": "12 of 12 items checked · HIGH"
+   },
+   "abstract": "Replace the tracing stand-in behind the Audit Emitter with the R1 sink the design specifies: an append-only audit_records table written inside the mutation's own transaction through AuditSink::append(txn, scope, record), and the per-(setting, scope) history read served from it. Audit is a show-stopper here — a…",
+   "links": [
+    {
+     "label": "Open the feature spec",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/features/audit-store.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-feature-tenant-access",
+   "district_ref": "@dist-feat",
+   "kind": "hub",
+   "status": "active",
+   "title": "Tenant Access Restrictions",
+   "code": "F-07",
+   "codename": "TENANT ACCESS",
+   "scale_level": 0.589,
+   "place": [
+    -415,
+    -72
+   ],
+   "metrics": {
+    "scale": "4 flows · 4 algorithms · 7 DoDs",
+    "acceleration": "15 of 15 spec items marked in code",
+    "infrastructure": "docs/features/tenant-access.md",
+    "maturity": "15 of 15 items checked · HIGH"
+   },
+   "abstract": "Let an ancestor's administrator narrow what one descendant may do with one setting — read_only or hidden, recorded sparsely, absence meaning overridable — and make the resulting effective access the single answer every read and write consults. Access is narrowing-only along the root-to-self chain, the platform has no…",
+   "links": [
+    {
+     "label": "Open the feature spec",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/features/tenant-access.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-feature-value-writes",
+   "district_ref": "@dist-feat",
+   "kind": "hub",
+   "status": "active",
+   "title": "Validate and Set Values",
+   "code": "F-08",
+   "codename": "VALUE WRITES",
+   "scale_level": 0.83,
+   "place": [
+    -225,
+    -72
+   ],
+   "metrics": {
+    "scale": "7 flows · 5 algorithms · 10 DoDs",
+    "acceleration": "22 of 22 spec items marked in code",
+    "infrastructure": "docs/features/value-writes.md",
+    "maturity": "22 of 22 items checked · HIGH"
+   },
+   "abstract": "Deliver the write path: a read-only check of what a value would do, and set, revert, remove and clone operations that validate inline, refuse a stale write, take effect when the caller sets them, and are audited in the same transaction. This is where the StepUpVerifier port acquires its default binding over the…",
+   "links": [
+    {
+     "label": "Open the feature spec",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/features/value-writes.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-feature-secret-values",
+   "district_ref": "@dist-feat",
+   "kind": "hub",
+   "status": "active",
+   "title": "Secret Values",
+   "code": "F-09",
+   "codename": "SECRET VALUES",
+   "scale_level": 0.551,
+   "place": [
+    -35,
+    -72
+   ],
+   "metrics": {
+    "scale": "5 flows · 2 algorithms · 7 DoDs",
+    "acceleration": "14 of 14 spec items marked in code",
+    "infrastructure": "docs/features/secret-values.md",
+    "maturity": "14 of 14 items checked · HIGH"
+   },
+   "abstract": "Hold secret-trait values in the platform Credential Store and nowhere else: the settings row carries only an opaque secret_ref, every administrative read shows a mask, and the sole plaintext path is machine-only through the Settings Reader, authorized per setting and audited per resolution. A lost secret is re-set…",
+   "links": [
+    {
+     "label": "Open the feature spec",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/features/secret-values.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-feature-module-contributions",
+   "district_ref": "@dist-feat",
+   "kind": "hub",
+   "status": "active",
+   "title": "Module-Contributed Declarations",
+   "code": "F-10",
+   "codename": "MODULE CONTRIBUTIONS",
+   "scale_level": 0.551,
+   "place": [
+    -320,
+    -218
+   ],
+   "metrics": {
+    "scale": "2 flows · 4 algorithms · 8 DoDs",
+    "acceleration": "14 of 14 spec items marked in code",
+    "infrastructure": "docs/features/module-contributions.md",
+    "maturity": "13 of 14 items checked · HIGH"
+   },
+   "abstract": "Let a gear register its own setting declarations from its init on every boot, idempotently, and retire them when it stops shipping them — the module supplying the derived half of each key and its value_type_id, the reconciler extracting the category from the derived half's third segment and creating it if absent, and…",
+   "links": [
+    {
+     "label": "Open the feature spec",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/features/module-contributions.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-feature-search-discoverability",
+   "district_ref": "@dist-feat",
+   "kind": "hub",
+   "status": "done",
+   "title": "Search & Discoverability",
+   "code": "F-11",
+   "codename": "SEARCH DISCOVERABILITY",
+   "scale_level": 0.282,
+   "place": [
+    -130,
+    -218
+   ],
+   "metrics": {
+    "scale": "1 flows · 3 algorithms · 4 DoDs",
+    "acceleration": "8 of 8 spec items marked in code",
+    "infrastructure": "docs/features/search-discoverability.md",
+    "maturity": "Done · MEDIUM"
+   },
+   "abstract": "Let an administrator reach any setting from one query — by key, display name, description, category name, Schema Default or an explicitly set override — without learning the category tree, with the corpus filtered by classification and authorization before matching so that no secret or unentitled PII content is…",
+   "links": [
+    {
+     "label": "Open the feature spec",
+     "url": "https://github.com/constructorfabric/gears-rust/blob/main/gears/settings-service/docs/features/search-discoverability.md"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/",
+   "code": "M-01",
+   "codename": "SRC",
+   "scale_level": 0.159,
+   "place": [
+    -425,
+    218
+   ],
+   "metrics": {
+    "scale": "4,740 lines · 10 files",
+    "acceleration": "11 @cpt markers · 4 spec items",
+    "infrastructure": "46 tests",
+    "maturity": "Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure, Effective Value Resolution, Defaults and Cache, Module-Contributed Declarations"
+   },
+   "abstract": "Implements parts of: Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure, Effective Value Resolution, Defaults and Cache, Module-Contributed Declarations, Secret Values.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-api",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/api/",
+   "code": "M-02",
+   "codename": "API",
+   "scale_level": -0.369,
+   "place": [
+    -255,
+    218
+   ],
+   "metrics": {
+    "scale": "309 lines · 3 files",
+    "acceleration": "6 @cpt markers · 2 spec items",
+    "infrastructure": "7 tests",
+    "maturity": "Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure, Category Management"
+   },
+   "abstract": "Implements parts of: Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure, Category Management.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/api"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-api-rest",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/api/rest/",
+   "code": "M-03",
+   "codename": "REST",
+   "scale_level": 0.95,
+   "place": [
+    -85,
+    218
+   ],
+   "metrics": {
+    "scale": "21,211 lines · 50 files",
+    "acceleration": "213 @cpt markers · 46 spec items",
+    "infrastructure": "431 tests",
+    "maturity": "Effective Value Resolution, Defaults and Cache, Setting Declarations and Scope Class, Category Management"
+   },
+   "abstract": "Implements parts of: Effective Value Resolution, Defaults and Cache, Setting Declarations and Scope Class, Category Management, Validate and Set Values, Tenant Access Restrictions, Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure, Audit Store and History, Search & Discoverability, Secret Values.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/api/rest"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-audit",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/audit/",
+   "code": "M-04",
+   "codename": "AUDIT",
+   "scale_level": -0.244,
+   "place": [
+    85,
+    218
+   ],
+   "metrics": {
+    "scale": "885 lines · 4 files",
+    "acceleration": "11 @cpt markers · 5 spec items",
+    "infrastructure": "20 tests",
+    "maturity": "Audit Store and History, Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure"
+   },
+   "abstract": "Implements parts of: Audit Store and History, Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/audit"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-domain",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/domain/",
+   "code": "M-05",
+   "codename": "DOMAIN",
+   "scale_level": -0.185,
+   "place": [
+    255,
+    218
+   ],
+   "metrics": {
+    "scale": "1,255 lines · 9 files",
+    "acceleration": "4 @cpt markers · 2 spec items",
+    "infrastructure": "11 tests",
+    "maturity": "Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure, Category Management"
+   },
+   "abstract": "Implements parts of: Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure, Category Management.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/domain"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-domain-access",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/domain/access/",
+   "code": "M-06",
+   "codename": "ACCESS",
+   "scale_level": -0.118,
+   "place": [
+    425,
+    218
+   ],
+   "metrics": {
+    "scale": "1,762 lines · 5 files",
+    "acceleration": "41 @cpt markers · 12 spec items",
+    "infrastructure": "15 tests",
+    "maturity": "Tenant Access Restrictions"
+   },
+   "abstract": "Implements parts of: Tenant Access Restrictions.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/domain/access"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-domain-category",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/domain/category/",
+   "code": "M-07",
+   "codename": "CATEGORY",
+   "scale_level": -0.113,
+   "place": [
+    -425,
+    72
+   ],
+   "metrics": {
+    "scale": "1,802 lines · 10 files",
+    "acceleration": "32 @cpt markers · 11 spec items",
+    "infrastructure": "41 tests",
+    "maturity": "Category Management"
+   },
+   "abstract": "Implements parts of: Category Management.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/domain/category"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-domain-contribution",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/domain/contribution/",
+   "code": "M-08",
+   "codename": "CONTRIBUTION",
+   "scale_level": 0.005,
+   "place": [
+    -255,
+    72
+   ],
+   "metrics": {
+    "scale": "2,899 lines · 3 files",
+    "acceleration": "29 @cpt markers · 11 spec items",
+    "infrastructure": "42 tests",
+    "maturity": "Module-Contributed Declarations, Typed Value Validation, Secret Values"
+   },
+   "abstract": "Implements parts of: Module-Contributed Declarations, Typed Value Validation, Secret Values.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/domain/contribution"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-domain-declaration",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/domain/declaration/",
+   "code": "M-09",
+   "codename": "DECLARATION",
+   "scale_level": 0.294,
+   "place": [
+    -85,
+    72
+   ],
+   "metrics": {
+    "scale": "6,712 lines · 7 files",
+    "acceleration": "117 @cpt markers · 22 spec items",
+    "infrastructure": "71 tests",
+    "maturity": "Setting Declarations and Scope Class, Module-Contributed Declarations"
+   },
+   "abstract": "Implements parts of: Setting Declarations and Scope Class, Module-Contributed Declarations.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/domain/declaration"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-domain-resolution",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/domain/resolution/",
+   "code": "M-10",
+   "codename": "RESOLUTION",
+   "scale_level": 0.081,
+   "place": [
+    85,
+    72
+   ],
+   "metrics": {
+    "scale": "3,749 lines · 6 files",
+    "acceleration": "63 @cpt markers · 19 spec items",
+    "infrastructure": "50 tests",
+    "maturity": "Effective Value Resolution, Defaults and Cache, Tenant Access Restrictions"
+   },
+   "abstract": "Implements parts of: Effective Value Resolution, Defaults and Cache, Tenant Access Restrictions.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/domain/resolution"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-domain-search",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/domain/search/",
+   "code": "M-11",
+   "codename": "SEARCH",
+   "scale_level": -0.197,
+   "place": [
+    255,
+    72
+   ],
+   "metrics": {
+    "scale": "1,177 lines · 5 files",
+    "acceleration": "6 @cpt markers · 3 spec items",
+    "infrastructure": "20 tests",
+    "maturity": "Search & Discoverability"
+   },
+   "abstract": "Implements parts of: Search & Discoverability.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/domain/search"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-domain-secrets",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/domain/secrets/",
+   "code": "M-12",
+   "codename": "SECRETS",
+   "scale_level": -0.237,
+   "place": [
+    425,
+    72
+   ],
+   "metrics": {
+    "scale": "924 lines · 6 files",
+    "acceleration": "13 @cpt markers · 5 spec items",
+    "infrastructure": "14 tests",
+    "maturity": "Secret Values"
+   },
+   "abstract": "Implements parts of: Secret Values.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/domain/secrets"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-domain-validation",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/domain/validation/",
+   "code": "M-13",
+   "codename": "VALIDATION",
+   "scale_level": -0.215,
+   "place": [
+    -425,
+    -72
+   ],
+   "metrics": {
+    "scale": "1,060 lines · 6 files",
+    "acceleration": "8 @cpt markers · 3 spec items",
+    "infrastructure": "23 tests",
+    "maturity": "Typed Value Validation"
+   },
+   "abstract": "Implements parts of: Typed Value Validation.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/domain/validation"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-domain-value",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/domain/value/",
+   "code": "M-14",
+   "codename": "VALUE",
+   "scale_level": -0.33,
+   "place": [
+    -255,
+    -72
+   ],
+   "metrics": {
+    "scale": "457 lines · 3 files",
+    "acceleration": "1 @cpt markers · 1 spec items",
+    "infrastructure": "1 tests",
+    "maturity": "Typed Value Validation"
+   },
+   "abstract": "Implements parts of: Typed Value Validation.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/domain/value"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-domain-writes",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/domain/writes/",
+   "code": "M-15",
+   "codename": "WRITES",
+   "scale_level": 0.045,
+   "place": [
+    -85,
+    -72
+   ],
+   "metrics": {
+    "scale": "3,335 lines · 3 files",
+    "acceleration": "54 @cpt markers · 22 spec items",
+    "infrastructure": "28 tests",
+    "maturity": "Validate and Set Values, Secret Values, Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure"
+   },
+   "abstract": "Implements parts of: Validate and Set Values, Secret Values, Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure, Typed Value Validation, Tenant Access Restrictions.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/domain/writes"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-infra",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/infra/",
+   "code": "M-16",
+   "codename": "INFRA",
+   "scale_level": 0.503,
+   "place": [
+    85,
+    -72
+   ],
+   "metrics": {
+    "scale": "10,450 lines · 25 files",
+    "acceleration": "110 @cpt markers · 33 spec items",
+    "infrastructure": "168 tests",
+    "maturity": "Validate and Set Values, Audit Store and History, Typed Value Validation"
+   },
+   "abstract": "Implements parts of: Validate and Set Values, Audit Store and History, Typed Value Validation, Secret Values, Module-Contributed Declarations, Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure, Effective Value Resolution, Defaults and Cache.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/infra"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-infra-storage",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/infra/storage/",
+   "code": "M-17",
+   "codename": "STORAGE",
+   "scale_level": 0.249,
+   "place": [
+    255,
+    -72
+   ],
+   "metrics": {
+    "scale": "6,015 lines · 24 files",
+    "acceleration": "44 @cpt markers · 24 spec items",
+    "infrastructure": "60 tests",
+    "maturity": "Category Management, Audit Store and History, Search & Discoverability"
+   },
+   "abstract": "Implements parts of: Category Management, Audit Store and History, Search & Discoverability, Effective Value Resolution, Defaults and Cache, Typed Value Validation, Setting Declarations and Scope Class, Tenant Access Restrictions, Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/infra/storage"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-infra-storage-entity",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/infra/storage/entity/",
+   "code": "M-18",
+   "codename": "ENTITY",
+   "scale_level": -0.324,
+   "place": [
+    425,
+    -72
+   ],
+   "metrics": {
+    "scale": "482 lines · 8 files",
+    "acceleration": "0 @cpt markers · 0 spec items",
+    "infrastructure": "0 tests",
+    "maturity": "No spec markers"
+   },
+   "abstract": "Code with no @cpt marker: nothing ties it to a spec item.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/infra/storage/entity"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-src-infra-storage-migrations",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "src/infra/storage/migrations/",
+   "code": "M-19",
+   "codename": "MIGRATIONS",
+   "scale_level": -0.002,
+   "place": [
+    -170,
+    -218
+   ],
+   "metrics": {
+    "scale": "2,830 lines · 24 files",
+    "acceleration": "15 @cpt markers · 8 spec items",
+    "infrastructure": "45 tests",
+    "maturity": "Audit Store and History, Setting Declarations and Scope Class, Typed Value Validation"
+   },
+   "abstract": "Implements parts of: Audit Store and History, Setting Declarations and Scope Class, Typed Value Validation, Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure, Category Management, Tenant Access Restrictions, Secret Values.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/src/infra/storage/migrations"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-tests",
+   "district_ref": "@dist-code",
+   "kind": "instrument",
+   "title": "tests/",
+   "code": "M-20",
+   "codename": "TESTS",
+   "scale_level": -0.153,
+   "place": [
+    0,
+    -218
+   ],
+   "metrics": {
+    "scale": "1,488 lines · 4 files",
+    "acceleration": "0 @cpt markers · 0 spec items",
+    "infrastructure": "11 tests",
+    "maturity": "No spec markers"
+   },
+   "abstract": "Integration tests; they exercise the code but carry no spec markers.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service/tests"
+    }
+   ]
+  },
+  {
+   "id": "@spire-code-sdk",
+   "district_ref": "@dist-code",
+   "kind": "system",
+   "title": "sdk/",
+   "code": "M-21",
+   "codename": "SDK",
+   "scale_level": 0.058,
+   "place": [
+    170,
+    -218
+   ],
+   "metrics": {
+    "scale": "3,485 lines · 19 files",
+    "acceleration": "18 @cpt markers · 6 spec items",
+    "infrastructure": "90 tests",
+    "maturity": "Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure, Setting Declarations and Scope Class, Module-Contributed Declarations"
+   },
+   "abstract": "Implements parts of: Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure, Setting Declarations and Scope Class, Module-Contributed Declarations.",
+   "links": [
+    {
+     "label": "Open on GitHub",
+     "url": "https://github.com/constructorfabric/gears-rust/tree/main/gears/settings-service/settings-service-sdk/src"
+    }
+   ]
+  }
+ ],
+ "conduits": [
+  {
+   "id": "@conduit-fr-settings-category-model--feature-category-management",
+   "name": "Category and Setting Lifecycle → category-management",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-settings-category-model",
+   "to": "@spire-feature-category-management",
+   "status": "operational",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement"
+  },
+  {
+   "id": "@conduit-fr-declaration-purge--feature-setting-declarations",
+   "name": "Purge of a Retired Setting → setting-declarations",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-declaration-purge",
+   "to": "@spire-feature-setting-declarations",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement (not yet checked off)"
+  },
+  {
+   "id": "@conduit-fr-typed-value-validation--feature-typed-value-validation",
+   "name": "GTS Type Validation, Trait Discovery & Secret Protection → typed-value-validation",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-typed-value-validation",
+   "to": "@spire-feature-typed-value-validation",
+   "status": "operational",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement"
+  },
+  {
+   "id": "@conduit-fr-typed-value-validation--feature-value-resolution",
+   "name": "GTS Type Validation, Trait Discovery & Secret Protection → value-resolution",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-typed-value-validation",
+   "to": "@spire-feature-value-resolution",
+   "status": "operational",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement"
+  },
+  {
+   "id": "@conduit-fr-search-discoverability--feature-search-discoverability",
+   "name": "Cross-Field Search → search-discoverability",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-search-discoverability",
+   "to": "@spire-feature-search-discoverability",
+   "status": "operational",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement"
+  },
+  {
+   "id": "@conduit-fr-defaults-revert--feature-value-resolution",
+   "name": "Revert to Ancestor or Schema Default → value-resolution",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-defaults-revert",
+   "to": "@spire-feature-value-resolution",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement (not yet checked off)"
+  },
+  {
+   "id": "@conduit-fr-set-value--feature-value-writes",
+   "name": "Setting a Value → value-writes",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-set-value",
+   "to": "@spire-feature-value-writes",
+   "status": "operational",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement"
+  },
+  {
+   "id": "@conduit-fr-validate-before-set--feature-value-writes",
+   "name": "Validate Before Setting; Step-Up on Set → value-writes",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-validate-before-set",
+   "to": "@spire-feature-value-writes",
+   "status": "operational",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement"
+  },
+  {
+   "id": "@conduit-fr-live-read-activation--feature-value-writes",
+   "name": "A Value Activates via Live-Read; Consumers Self-React → value-writes",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-live-read-activation",
+   "to": "@spire-feature-value-writes",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement (not yet checked off)"
+  },
+  {
+   "id": "@conduit-fr-dependency-group-declaration--feature-setting-declarations",
+   "name": "Dependency Group and Cross-Setting Constraint Declaration → setting-declarations",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-dependency-group-declaration",
+   "to": "@spire-feature-setting-declarations",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement (not yet checked off)"
+  },
+  {
+   "id": "@conduit-fr-setting-scope-class--feature-setting-declarations",
+   "name": "Setting Scope Class Governs Cascade/Override Behaviour → setting-declarations",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-setting-scope-class",
+   "to": "@spire-feature-setting-declarations",
+   "status": "operational",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement"
+  },
+  {
+   "id": "@conduit-fr-tenant-overrides--feature-value-writes",
+   "name": "Tenant Override of a Cascading Value → value-writes",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-tenant-overrides",
+   "to": "@spire-feature-value-writes",
+   "status": "operational",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement"
+  },
+  {
+   "id": "@conduit-fr-cascading-inheritance--feature-value-resolution",
+   "name": "Cascading Inheritance with Source Trace and Impact Warning → value-resolution",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-cascading-inheritance",
+   "to": "@spire-feature-value-resolution",
+   "status": "operational",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement"
+  },
+  {
+   "id": "@conduit-fr-subject-scoped-values--feature-typed-value-validation",
+   "name": "Subject-Scoped Values (Model-Level Identity) → typed-value-validation",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-subject-scoped-values",
+   "to": "@spire-feature-typed-value-validation",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement (not yet checked off)"
+  },
+  {
+   "id": "@conduit-fr-barrier-default-seam--feature-tenant-access",
+   "name": "Hierarchy Barriers: Standalone Tenants Are Opaque Upward → tenant-access",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-barrier-default-seam",
+   "to": "@spire-feature-tenant-access",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement (not yet checked off)"
+  },
+  {
+   "id": "@conduit-fr-tenant-scope-enforcement--feature-tenant-access",
+   "name": "Tenant Access Enforcement and Subtree Scope Isolation → tenant-access",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-tenant-scope-enforcement",
+   "to": "@spire-feature-tenant-access",
+   "status": "operational",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement"
+  },
+  {
+   "id": "@conduit-fr-authn-role-gating--feature-gear-foundation",
+   "name": "Authentication and Access-Level Gating → gear-foundation",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-authn-role-gating",
+   "to": "@spire-feature-gear-foundation",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement (not yet checked off)"
+  },
+  {
+   "id": "@conduit-fr-audit-mutations--feature-audit-store",
+   "name": "Audited Mutations and Secret Reveals → audit-store",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-audit-mutations",
+   "to": "@spire-feature-audit-store",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement (not yet checked off)"
+  },
+  {
+   "id": "@conduit-fr-per-setting-access--feature-tenant-access",
+   "name": "Per-Setting Access → tenant-access",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-per-setting-access",
+   "to": "@spire-feature-tenant-access",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement (not yet checked off)"
+  },
+  {
+   "id": "@conduit-fr-module-contributed-declarations--feature-module-contributions",
+   "name": "Gears Contribute Declarations; Admins Change Values → module-contributions",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-module-contributed-declarations",
+   "to": "@spire-feature-module-contributions",
+   "status": "operational",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement"
+  },
+  {
+   "id": "@conduit-fr-contributed-lifecycle--feature-module-contributions",
+   "name": "Contributed-Declaration Register/Retire Lifecycle → module-contributions",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-contributed-lifecycle",
+   "to": "@spire-feature-module-contributions",
+   "status": "operational",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement"
+  },
+  {
+   "id": "@conduit-fr-bulk-effective-read--feature-value-resolution",
+   "name": "Bulk Effective-Value Retrieval → value-resolution",
+   "code": "COVERS",
+   "codename": "COVERS",
+   "from": "@spire-fr-bulk-effective-read",
+   "to": "@spire-feature-value-resolution",
+   "status": "operational",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature covers this requirement"
+  },
+  {
+   "id": "@conduit-component-category-management--feature-category-management",
+   "name": "Component: Category Management → category-management",
+   "code": "BUILDS",
+   "codename": "BUILDS",
+   "from": "@spire-component-category-management",
+   "to": "@spire-feature-category-management",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature builds this component (not yet checked off)"
+  },
+  {
+   "id": "@conduit-component-declaration-management--feature-setting-declarations",
+   "name": "Component: Declaration Management → setting-declarations",
+   "code": "BUILDS",
+   "codename": "BUILDS",
+   "from": "@spire-component-declaration-management",
+   "to": "@spire-feature-setting-declarations",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature builds this component (not yet checked off)"
+  },
+  {
+   "id": "@conduit-component-module-contribution-reconciler--feature-module-contributions",
+   "name": "Component: Module Contribution Reconciler → module-contributions",
+   "code": "BUILDS",
+   "codename": "BUILDS",
+   "from": "@spire-component-module-contribution-reconciler",
+   "to": "@spire-feature-module-contributions",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature builds this component (not yet checked off)"
+  },
+  {
+   "id": "@conduit-component-type-validator--feature-typed-value-validation",
+   "name": "Component: Type Validator (GTS + traits) → typed-value-validation",
+   "code": "BUILDS",
+   "codename": "BUILDS",
+   "from": "@spire-component-type-validator",
+   "to": "@spire-feature-typed-value-validation",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature builds this component (not yet checked off)"
+  },
+  {
+   "id": "@conduit-component-value-resolver--feature-value-resolution",
+   "name": "Component: Value Resolver → value-resolution",
+   "code": "BUILDS",
+   "codename": "BUILDS",
+   "from": "@spire-component-value-resolver",
+   "to": "@spire-feature-value-resolution",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature builds this component (not yet checked off)"
+  },
+  {
+   "id": "@conduit-component-tenant-permission--feature-tenant-access",
+   "name": "Component: Tenant Access → tenant-access",
+   "code": "BUILDS",
+   "codename": "BUILDS",
+   "from": "@spire-component-tenant-permission",
+   "to": "@spire-feature-tenant-access",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature builds this component (not yet checked off)"
+  },
+  {
+   "id": "@conduit-component-value-writer--feature-value-writes",
+   "name": "Component: Value Writer → value-writes",
+   "code": "BUILDS",
+   "codename": "BUILDS",
+   "from": "@spire-component-value-writer",
+   "to": "@spire-feature-value-writes",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature builds this component (not yet checked off)"
+  },
+  {
+   "id": "@conduit-component-secret-manager--feature-secret-values",
+   "name": "Component: Secret Manager → secret-values",
+   "code": "BUILDS",
+   "codename": "BUILDS",
+   "from": "@spire-component-secret-manager",
+   "to": "@spire-feature-secret-values",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature builds this component (not yet checked off)"
+  },
+  {
+   "id": "@conduit-component-search--feature-search-discoverability",
+   "name": "Component: Search → search-discoverability",
+   "code": "BUILDS",
+   "codename": "BUILDS",
+   "from": "@spire-component-search",
+   "to": "@spire-feature-search-discoverability",
+   "status": "operational",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature builds this component"
+  },
+  {
+   "id": "@conduit-component-cache-and-invalidation--feature-value-resolution",
+   "name": "Component: Cache & Invalidation → value-resolution",
+   "code": "BUILDS",
+   "codename": "BUILDS",
+   "from": "@spire-component-cache-and-invalidation",
+   "to": "@spire-feature-value-resolution",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature builds this component (not yet checked off)"
+  },
+  {
+   "id": "@conduit-component-audit-emitter--feature-gear-foundation",
+   "name": "Component: Audit Emitter → gear-foundation",
+   "code": "BUILDS",
+   "codename": "BUILDS",
+   "from": "@spire-component-audit-emitter",
+   "to": "@spire-feature-gear-foundation",
+   "status": "thin",
+   "type": "Traceability",
+   "bandwidth": "",
+   "description": "The feature builds this component (not yet checked off)"
+  },
+  {
+   "id": "@conduit-feature-gear-foundation--feature-category-management",
+   "name": "category-management depends on gear-foundation",
+   "code": "NEEDS",
+   "codename": "NEEDS",
+   "from": "@spire-feature-gear-foundation",
+   "to": "@spire-feature-category-management",
+   "status": "operational",
+   "type": "Dependency",
+   "bandwidth": "",
+   "description": "Feature order: this feature builds on the other"
+  },
+  {
+   "id": "@conduit-feature-category-management--feature-setting-declarations",
+   "name": "setting-declarations depends on category-management",
+   "code": "NEEDS",
+   "codename": "NEEDS",
+   "from": "@spire-feature-category-management",
+   "to": "@spire-feature-setting-declarations",
+   "status": "operational",
+   "type": "Dependency",
+   "bandwidth": "",
+   "description": "Feature order: this feature builds on the other"
+  },
+  {
+   "id": "@conduit-feature-setting-declarations--feature-typed-value-validation",
+   "name": "typed-value-validation depends on setting-declarations",
+   "code": "NEEDS",
+   "codename": "NEEDS",
+   "from": "@spire-feature-setting-declarations",
+   "to": "@spire-feature-typed-value-validation",
+   "status": "operational",
+   "type": "Dependency",
+   "bandwidth": "",
+   "description": "Feature order: this feature builds on the other"
+  },
+  {
+   "id": "@conduit-feature-typed-value-validation--feature-value-resolution",
+   "name": "value-resolution depends on typed-value-validation",
+   "code": "NEEDS",
+   "codename": "NEEDS",
+   "from": "@spire-feature-typed-value-validation",
+   "to": "@spire-feature-value-resolution",
+   "status": "operational",
+   "type": "Dependency",
+   "bandwidth": "",
+   "description": "Feature order: this feature builds on the other"
+  },
+  {
+   "id": "@conduit-feature-setting-declarations--feature-audit-store",
+   "name": "audit-store depends on setting-declarations",
+   "code": "NEEDS",
+   "codename": "NEEDS",
+   "from": "@spire-feature-setting-declarations",
+   "to": "@spire-feature-audit-store",
+   "status": "operational",
+   "type": "Dependency",
+   "bandwidth": "",
+   "description": "Feature order: this feature builds on the other"
+  },
+  {
+   "id": "@conduit-feature-value-resolution--feature-tenant-access",
+   "name": "tenant-access depends on value-resolution",
+   "code": "NEEDS",
+   "codename": "NEEDS",
+   "from": "@spire-feature-value-resolution",
+   "to": "@spire-feature-tenant-access",
+   "status": "operational",
+   "type": "Dependency",
+   "bandwidth": "",
+   "description": "Feature order: this feature builds on the other"
+  },
+  {
+   "id": "@conduit-feature-audit-store--feature-value-writes",
+   "name": "value-writes depends on audit-store",
+   "code": "NEEDS",
+   "codename": "NEEDS",
+   "from": "@spire-feature-audit-store",
+   "to": "@spire-feature-value-writes",
+   "status": "operational",
+   "type": "Dependency",
+   "bandwidth": "",
+   "description": "Feature order: this feature builds on the other"
+  },
+  {
+   "id": "@conduit-feature-tenant-access--feature-value-writes",
+   "name": "value-writes depends on tenant-access",
+   "code": "NEEDS",
+   "codename": "NEEDS",
+   "from": "@spire-feature-tenant-access",
+   "to": "@spire-feature-value-writes",
+   "status": "operational",
+   "type": "Dependency",
+   "bandwidth": "",
+   "description": "Feature order: this feature builds on the other"
+  },
+  {
+   "id": "@conduit-feature-value-writes--feature-secret-values",
+   "name": "secret-values depends on value-writes",
+   "code": "NEEDS",
+   "codename": "NEEDS",
+   "from": "@spire-feature-value-writes",
+   "to": "@spire-feature-secret-values",
+   "status": "operational",
+   "type": "Dependency",
+   "bandwidth": "",
+   "description": "Feature order: this feature builds on the other"
+  },
+  {
+   "id": "@conduit-feature-typed-value-validation--feature-module-contributions",
+   "name": "module-contributions depends on typed-value-validation",
+   "code": "NEEDS",
+   "codename": "NEEDS",
+   "from": "@spire-feature-typed-value-validation",
+   "to": "@spire-feature-module-contributions",
+   "status": "operational",
+   "type": "Dependency",
+   "bandwidth": "",
+   "description": "Feature order: this feature builds on the other"
+  },
+  {
+   "id": "@conduit-feature-value-resolution--feature-search-discoverability",
+   "name": "search-discoverability depends on value-resolution",
+   "code": "NEEDS",
+   "codename": "NEEDS",
+   "from": "@spire-feature-value-resolution",
+   "to": "@spire-feature-search-discoverability",
+   "status": "operational",
+   "type": "Dependency",
+   "bandwidth": "",
+   "description": "Feature order: this feature builds on the other"
+  },
+  {
+   "id": "@conduit-feature-tenant-access--feature-search-discoverability",
+   "name": "search-discoverability depends on tenant-access",
+   "code": "NEEDS",
+   "codename": "NEEDS",
+   "from": "@spire-feature-tenant-access",
+   "to": "@spire-feature-search-discoverability",
+   "status": "operational",
+   "type": "Dependency",
+   "bandwidth": "",
+   "description": "Feature order: this feature builds on the other"
+  },
+  {
+   "id": "@conduit-feature-category-management--feature-search-discoverability",
+   "name": "search-discoverability depends on category-management",
+   "code": "NEEDS",
+   "codename": "NEEDS",
+   "from": "@spire-feature-category-management",
+   "to": "@spire-feature-search-discoverability",
+   "status": "operational",
+   "type": "Dependency",
+   "bandwidth": "",
+   "description": "Feature order: this feature builds on the other"
+  },
+  {
+   "id": "@conduit-feature-gear-foundation--code-src",
+   "name": "Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure → settings-service/src",
+   "code": "8 MARKS",
+   "codename": "8 MARKS",
+   "from": "@spire-feature-gear-foundation",
+   "to": "@spire-code-src",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "8 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-gear-foundation--code-src-api",
+   "name": "Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure → settings-service/src/api",
+   "code": "5 MARKS",
+   "codename": "5 MARKS",
+   "from": "@spire-feature-gear-foundation",
+   "to": "@spire-code-src-api",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "5 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-gear-foundation--code-src-api-rest",
+   "name": "Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure → settings-service/src/api/rest",
+   "code": "15 MARKS",
+   "codename": "15 MARKS",
+   "from": "@spire-feature-gear-foundation",
+   "to": "@spire-code-src-api-rest",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "15 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-gear-foundation--code-src-domain",
+   "name": "Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure → settings-service/src/domain",
+   "code": "3 MARKS",
+   "codename": "3 MARKS",
+   "from": "@spire-feature-gear-foundation",
+   "to": "@spire-code-src-domain",
+   "status": "thin",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "3 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-gear-foundation--code-src-infra",
+   "name": "Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure → settings-service/src/infra",
+   "code": "5 MARKS",
+   "codename": "5 MARKS",
+   "from": "@spire-feature-gear-foundation",
+   "to": "@spire-code-src-infra",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "5 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-gear-foundation--code-sdk",
+   "name": "Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure → settings-service-sdk/src",
+   "code": "11 MARKS",
+   "codename": "11 MARKS",
+   "from": "@spire-feature-gear-foundation",
+   "to": "@spire-code-sdk",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "11 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-category-management--code-src-api-rest",
+   "name": "Category Management → settings-service/src/api/rest",
+   "code": "35 MARKS",
+   "codename": "35 MARKS",
+   "from": "@spire-feature-category-management",
+   "to": "@spire-code-src-api-rest",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "35 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-category-management--code-src-domain-category",
+   "name": "Category Management → settings-service/src/domain/category",
+   "code": "32 MARKS",
+   "codename": "32 MARKS",
+   "from": "@spire-feature-category-management",
+   "to": "@spire-code-src-domain-category",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "32 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-category-management--code-src-infra-storage",
+   "name": "Category Management → settings-service/src/infra/storage",
+   "code": "15 MARKS",
+   "codename": "15 MARKS",
+   "from": "@spire-feature-category-management",
+   "to": "@spire-code-src-infra-storage",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "15 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-setting-declarations--code-src-api-rest",
+   "name": "Setting Declarations and Scope Class → settings-service/src/api/rest",
+   "code": "36 MARKS",
+   "codename": "36 MARKS",
+   "from": "@spire-feature-setting-declarations",
+   "to": "@spire-code-src-api-rest",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "36 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-setting-declarations--code-src-domain-declaration",
+   "name": "Setting Declarations and Scope Class → settings-service/src/domain/declaration",
+   "code": "116 MARKS",
+   "codename": "116 MARKS",
+   "from": "@spire-feature-setting-declarations",
+   "to": "@spire-code-src-domain-declaration",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "116 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-setting-declarations--code-sdk",
+   "name": "Setting Declarations and Scope Class → settings-service-sdk/src",
+   "code": "6 MARKS",
+   "codename": "6 MARKS",
+   "from": "@spire-feature-setting-declarations",
+   "to": "@spire-code-sdk",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "6 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-typed-value-validation--code-src-domain-validation",
+   "name": "Typed Value Validation → settings-service/src/domain/validation",
+   "code": "8 MARKS",
+   "codename": "8 MARKS",
+   "from": "@spire-feature-typed-value-validation",
+   "to": "@spire-code-src-domain-validation",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "8 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-typed-value-validation--code-src-infra",
+   "name": "Typed Value Validation → settings-service/src/infra",
+   "code": "21 MARKS",
+   "codename": "21 MARKS",
+   "from": "@spire-feature-typed-value-validation",
+   "to": "@spire-code-src-infra",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "21 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-typed-value-validation--code-src-infra-storage",
+   "name": "Typed Value Validation → settings-service/src/infra/storage",
+   "code": "3 MARKS",
+   "codename": "3 MARKS",
+   "from": "@spire-feature-typed-value-validation",
+   "to": "@spire-code-src-infra-storage",
+   "status": "thin",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "3 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-value-resolution--code-src-api-rest",
+   "name": "Effective Value Resolution, Defaults and Cache → settings-service/src/api/rest",
+   "code": "56 MARKS",
+   "codename": "56 MARKS",
+   "from": "@spire-feature-value-resolution",
+   "to": "@spire-code-src-api-rest",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "56 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-value-resolution--code-src-domain-resolution",
+   "name": "Effective Value Resolution, Defaults and Cache → settings-service/src/domain/resolution",
+   "code": "61 MARKS",
+   "codename": "61 MARKS",
+   "from": "@spire-feature-value-resolution",
+   "to": "@spire-code-src-domain-resolution",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "61 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-value-resolution--code-src-infra-storage",
+   "name": "Effective Value Resolution, Defaults and Cache → settings-service/src/infra/storage",
+   "code": "4 MARKS",
+   "codename": "4 MARKS",
+   "from": "@spire-feature-value-resolution",
+   "to": "@spire-code-src-infra-storage",
+   "status": "thin",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "4 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-audit-store--code-src-api-rest",
+   "name": "Audit Store and History → settings-service/src/api/rest",
+   "code": "13 MARKS",
+   "codename": "13 MARKS",
+   "from": "@spire-feature-audit-store",
+   "to": "@spire-code-src-api-rest",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "13 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-audit-store--code-src-audit",
+   "name": "Audit Store and History → settings-service/src/audit",
+   "code": "10 MARKS",
+   "codename": "10 MARKS",
+   "from": "@spire-feature-audit-store",
+   "to": "@spire-code-src-audit",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "10 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-audit-store--code-src-infra",
+   "name": "Audit Store and History → settings-service/src/infra",
+   "code": "22 MARKS",
+   "codename": "22 MARKS",
+   "from": "@spire-feature-audit-store",
+   "to": "@spire-code-src-infra",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "22 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-audit-store--code-src-infra-storage",
+   "name": "Audit Store and History → settings-service/src/infra/storage",
+   "code": "9 MARKS",
+   "codename": "9 MARKS",
+   "from": "@spire-feature-audit-store",
+   "to": "@spire-code-src-infra-storage",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "9 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-audit-store--code-src-infra-storage-migrations",
+   "name": "Audit Store and History → settings-service/src/infra/storage/migrations",
+   "code": "6 MARKS",
+   "codename": "6 MARKS",
+   "from": "@spire-feature-audit-store",
+   "to": "@spire-code-src-infra-storage-migrations",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "6 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-tenant-access--code-src-api-rest",
+   "name": "Tenant Access Restrictions → settings-service/src/api/rest",
+   "code": "16 MARKS",
+   "codename": "16 MARKS",
+   "from": "@spire-feature-tenant-access",
+   "to": "@spire-code-src-api-rest",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "16 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-tenant-access--code-src-domain-access",
+   "name": "Tenant Access Restrictions → settings-service/src/domain/access",
+   "code": "41 MARKS",
+   "codename": "41 MARKS",
+   "from": "@spire-feature-tenant-access",
+   "to": "@spire-code-src-domain-access",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "41 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-value-writes--code-src-api-rest",
+   "name": "Validate and Set Values → settings-service/src/api/rest",
+   "code": "25 MARKS",
+   "codename": "25 MARKS",
+   "from": "@spire-feature-value-writes",
+   "to": "@spire-code-src-api-rest",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "25 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-value-writes--code-src-domain-writes",
+   "name": "Validate and Set Values → settings-service/src/domain/writes",
+   "code": "38 MARKS",
+   "codename": "38 MARKS",
+   "from": "@spire-feature-value-writes",
+   "to": "@spire-code-src-domain-writes",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "38 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-value-writes--code-src-infra",
+   "name": "Validate and Set Values → settings-service/src/infra",
+   "code": "30 MARKS",
+   "codename": "30 MARKS",
+   "from": "@spire-feature-value-writes",
+   "to": "@spire-code-src-infra",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "30 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-secret-values--code-src-api-rest",
+   "name": "Secret Values → settings-service/src/api/rest",
+   "code": "7 MARKS",
+   "codename": "7 MARKS",
+   "from": "@spire-feature-secret-values",
+   "to": "@spire-code-src-api-rest",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "7 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-secret-values--code-src-domain-secrets",
+   "name": "Secret Values → settings-service/src/domain/secrets",
+   "code": "13 MARKS",
+   "codename": "13 MARKS",
+   "from": "@spire-feature-secret-values",
+   "to": "@spire-code-src-domain-secrets",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "13 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-secret-values--code-src-domain-writes",
+   "name": "Secret Values → settings-service/src/domain/writes",
+   "code": "11 MARKS",
+   "codename": "11 MARKS",
+   "from": "@spire-feature-secret-values",
+   "to": "@spire-code-src-domain-writes",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "11 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-secret-values--code-src-infra",
+   "name": "Secret Values → settings-service/src/infra",
+   "code": "18 MARKS",
+   "codename": "18 MARKS",
+   "from": "@spire-feature-secret-values",
+   "to": "@spire-code-src-infra",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "18 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-module-contributions--code-src-domain-contribution",
+   "name": "Module-Contributed Declarations → settings-service/src/domain/contribution",
+   "code": "26 MARKS",
+   "codename": "26 MARKS",
+   "from": "@spire-feature-module-contributions",
+   "to": "@spire-code-src-domain-contribution",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "26 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-module-contributions--code-src-infra",
+   "name": "Module-Contributed Declarations → settings-service/src/infra",
+   "code": "13 MARKS",
+   "codename": "13 MARKS",
+   "from": "@spire-feature-module-contributions",
+   "to": "@spire-code-src-infra",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "13 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-search-discoverability--code-src-api-rest",
+   "name": "Search & Discoverability → settings-service/src/api/rest",
+   "code": "10 MARKS",
+   "codename": "10 MARKS",
+   "from": "@spire-feature-search-discoverability",
+   "to": "@spire-code-src-api-rest",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "10 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-search-discoverability--code-src-domain-search",
+   "name": "Search & Discoverability → settings-service/src/domain/search",
+   "code": "6 MARKS",
+   "codename": "6 MARKS",
+   "from": "@spire-feature-search-discoverability",
+   "to": "@spire-code-src-domain-search",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "6 @cpt markers in this module point at spec items of the feature"
+  },
+  {
+   "id": "@conduit-feature-search-discoverability--code-src-infra-storage",
+   "name": "Search & Discoverability → settings-service/src/infra/storage",
+   "code": "9 MARKS",
+   "codename": "9 MARKS",
+   "from": "@spire-feature-search-discoverability",
+   "to": "@spire-code-src-infra-storage",
+   "status": "operational",
+   "type": "Implementation",
+   "bandwidth": "",
+   "description": "9 @cpt markers in this module point at spec items of the feature"
+  }
+ ],
+ "bottlenecks": [
+  {
+   "id": "@bneck-untraced-gear-foundation",
+   "title": "3 spec item(s) with no code marker",
+   "code": "UNTRACED SPEC",
+   "codename": "UNTRACED SPEC",
+   "district_ref": "@dist-feat",
+   "severity": 0.75,
+   "scope": "node",
+   "constrains": [
+    "@spire-feature-gear-foundation"
+   ],
+   "effect": "slowdown",
+   "nature": "Traceability gap",
+   "impact": "No @cpt marker in the code points at: SDK Trait Contracts; Gear Scaffold and ClientHub Registration; REST and OData Infrastructure. Either the code exists unmarked, or the item is not built.",
+   "remedy": "Mark the implementing code with @cpt-begin/@cpt-end (or @cpt-dod), or record why the item is deferred."
+  },
+  {
+   "id": "@bneck-untraced-setting-declarations",
+   "title": "3 spec item(s) with no code marker",
+   "code": "UNTRACED SPEC",
+   "codename": "UNTRACED SPEC",
+   "district_ref": "@dist-feat",
+   "severity": 0.75,
+   "scope": "node",
+   "constrains": [
+    "@spire-feature-setting-declarations"
+   ],
+   "effect": "slowdown",
+   "nature": "Traceability gap",
+   "impact": "No @cpt marker in the code points at: Declare Dependency Group; Dependency Group Declaration; Declaration Read Surface. Either the code exists unmarked, or the item is not built.",
+   "remedy": "Mark the implementing code with @cpt-begin/@cpt-end (or @cpt-dod), or record why the item is deferred."
+  },
+  {
+   "id": "@bneck-unmarked-src-infra-storage-entity",
+   "title": "Code with no spec marker",
+   "code": "UNMARKED CODE",
+   "codename": "UNMARKED CODE",
+   "district_ref": "@dist-code",
+   "severity": 0.4,
+   "scope": "node",
+   "constrains": [
+    "@spire-code-src-infra-storage-entity"
+   ],
+   "effect": "slowdown",
+   "nature": "Traceability gap",
+   "impact": "482 lines in 8 files carry no @cpt marker, so the map cannot say which requirement they serve.",
+   "remedy": "Mark the code with the spec items it implements, or document it as infrastructure."
+  }
+ ],
+ "challenges": [
+  {
+   "id": "@chal-efficiency-live-read",
+   "title": "Efficiency: Live-Read, No Central Reload/Restart",
+   "code": "NFR",
+   "codename": "EFFICIENCY LIVE READ",
+   "district_ref": "@dist-req",
+   "impact_scale": 0.6,
+   "type": "Non-functional requirement",
+   "target": "The system MUST activate every stored value via live-read (pull) with no service disruption; the Settings Service MUST NOT reload or restart consumers. A consumer that needs more than a live re-read self-reacts, reacting only to the settings it consumes (per…",
+   "advanced_by": [
+    "@spire-feature-value-resolution"
+   ],
+   "blocked_by": [],
+   "short": ""
+  },
+  {
+   "id": "@chal-reliability-validated-set",
+   "title": "Reliability: Validate, and Refuse a Stale Set",
+   "code": "NFR",
+   "codename": "RELIABILITY VALIDATED ",
+   "district_ref": "@dist-req",
+   "impact_scale": 0.6,
+   "type": "Non-functional requirement",
+   "target": "Given the platform is live and serving traffic, a set MUST validate the value first and MUST reject an invalid one before storing anything. A setting that fails MUST leave no value behind and MUST report why, in the response and — for an administrator —…",
+   "advanced_by": [
+    "@spire-feature-value-writes"
+   ],
+   "blocked_by": [],
+   "short": ""
+  },
+  {
+   "id": "@chal-ops-set-monitoring",
+   "title": "Operational Visibility: Set Failure Monitoring",
+   "code": "NFR",
+   "codename": "OPS SET MONITORING",
+   "district_ref": "@dist-req",
+   "impact_scale": 0.6,
+   "type": "Non-functional requirement",
+   "target": "Beyond the per-change durable notification to the acting administrator, platform operations MUST have an aggregate view of set health: a set-failure-rate metric integrated into shared platform dashboards, with alert routing for platform-wide set failure…",
+   "advanced_by": [
+    "@spire-feature-value-writes"
+   ],
+   "blocked_by": [],
+   "short": ""
+  },
+  {
+   "id": "@chal-performance-read-cache",
+   "title": "Performance: Read-Path Caching",
+   "code": "NFR",
+   "codename": "PERFORMANCE READ CACHE",
+   "district_ref": "@dist-req",
+   "impact_scale": 0.6,
+   "type": "Non-functional requirement",
+   "target": "Given services and UIs resolving effective values frequently, cache-served effective-value reads MUST complete within 50ms at p95, measured at the Settings read SDK boundary excluding caller-side compute, while sustaining at least 1,000 reads per second for…",
+   "advanced_by": [
+    "@spire-feature-value-resolution"
+   ],
+   "blocked_by": [],
+   "short": ""
+  },
+  {
+   "id": "@chal-security-baseline",
+   "title": "Security: Authentication, Secrets, and Step-Up",
+   "code": "NFR",
+   "codename": "SECURITY BASELINE",
+   "district_ref": "@dist-req",
+   "impact_scale": 0.6,
+   "type": "Non-functional requirement",
+   "target": "The system MUST enforce authentication and access-level gating on every operation, encrypt secrets at rest and mask them on every administrative/human read (no human reveal path, including audit) — plaintext resolvable only via the authenticated machine-only…",
+   "advanced_by": [
+    "@spire-feature-gear-foundation"
+   ],
+   "blocked_by": [],
+   "short": ""
+  },
+  {
+   "id": "@chal-versatility-gts-scope-class",
+   "title": "Versatility: Extensible Types and Scope Model",
+   "code": "NFR",
+   "codename": "VERSATILITY GTS SCOPE ",
+   "district_ref": "@dist-req",
+   "impact_scale": 0.6,
+   "type": "Non-functional requirement",
+   "target": "The system MUST support scalar and structured values via GTS schema-based types + traits (including domain-specific entity references), and MUST govern multi-level overrides across the tenant hierarchy via a first-class Scope Class (global / cascading /…",
+   "advanced_by": [
+    "@spire-feature-setting-declarations"
+   ],
+   "blocked_by": [],
+   "short": ""
+  },
+  {
+   "id": "@chal-scope-isolation",
+   "title": "Scope Isolation Integrity",
+   "code": "NFR",
+   "codename": "SCOPE ISOLATION",
+   "district_ref": "@dist-req",
+   "impact_scale": 0.6,
+   "type": "Non-functional requirement",
+   "target": "Given a multi-tenant hierarchy, when any read or search is performed, settings not visible to the caller's scope MUST NOT leak through any path (single get, bulk get, search, list-by-category); isolation MUST be enforced server-side, never relying on…",
+   "advanced_by": [
+    "@spire-feature-tenant-access"
+   ],
+   "blocked_by": [],
+   "short": ""
+  },
+  {
+   "id": "@chal-availability",
+   "title": "Availability",
+   "code": "NFR",
+   "codename": "AVAILABILITY",
+   "district_ref": "@dist-req",
+   "impact_scale": 0.6,
+   "type": "Non-functional requirement",
+   "target": "The system MUST maintain 99.9% monthly availability for the read path (effective-value resolution via the Settings read SDK). Because warm cached reads resolve against the local tenant-hierarchy snapshot (§6.1 Performance: Read-Path Caching), the read-path…",
+   "advanced_by": [
+    "@spire-feature-gear-foundation"
+   ],
+   "blocked_by": [],
+   "short": ""
+  },
+  {
+   "id": "@chal-scale-growth",
+   "title": "Scale & Growth",
+   "code": "NFR",
+   "codename": "SCALE GROWTH",
+   "district_ref": "@dist-req",
+   "impact_scale": 0.6,
+   "type": "Non-functional requirement",
+   "target": "The system MUST support at least 100,000 tenants in the tenant scope hierarchy, a cascading-inheritance hierarchy depth of at least 10 levels, and at least 5,000 distinct settings across all categories per platform instance (admin-authored and…",
+   "advanced_by": [
+    "@spire-feature-audit-store"
+   ],
+   "blocked_by": [],
+   "short": ""
+  }
+ ],
+ "plazas": [
+  {
+   "id": "@plaza-coverage",
+   "district_ref": "@dist-feat",
+   "title": "Spec ↔ code coverage",
+   "place": [
+    300,
+    -10
+   ],
+   "cell_size": 40,
+   "row_axis": "feature",
+   "col_axis": "spec items and their markers in code",
+   "rows": [
+    "Gear Foundation, SDK Contr",
+    "Category Management",
+    "Setting Declarations and S",
+    "Typed Value Validation",
+    "Effective Value Resolution",
+    "Audit Store and History",
+    "Tenant Access Restrictions",
+    "Validate and Set Values",
+    "Secret Values",
+    "Module-Contributed Declara",
+    "Search & Discoverability"
+   ],
+   "cols": [
+    "reqs",
+    "flows",
+    "algos",
+    "DoDs",
+    "marked",
+    "missing"
+   ],
+   "layers": [
+    {
+     "id": "coverage",
+     "label": "Per feature: requirements covered, spec items, and how many carry a @cpt marker in code",
+     "cells": [
+      [
+       3,
+       0,
+       5,
+       9,
+       11,
+       3
+      ],
+      [
+       1,
+       5,
+       3,
+       8,
+       16,
+       0
+      ],
+      [
+       4,
+       9,
+       3,
+       13,
+       23,
+       3
+      ],
+      [
+       2,
+       0,
+       4,
+       10,
+       15,
+       0
+      ],
+      [
+       6,
+       6,
+       4,
+       13,
+       23,
+       0
+      ],
+      [
+       2,
+       1,
+       4,
+       7,
+       12,
+       0
+      ],
+      [
+       4,
+       4,
+       4,
+       7,
+       15,
+       0
+      ],
+      [
+       6,
+       7,
+       5,
+       10,
+       22,
+       0
+      ],
+      [
+       0,
+       5,
+       2,
+       7,
+       14,
+       0
+      ],
+      [
+       2,
+       2,
+       4,
+       8,
+       14,
+       0
+      ],
+      [
+       1,
+       1,
+       3,
+       4,
+       8,
+       0
+      ]
+     ]
+    }
+   ],
+   "highlight": [
+    {
+     "row": 0,
+     "col": 5,
+     "kind": "forbidden",
+     "label": "gap"
+    },
+    {
+     "row": 2,
+     "col": 5,
+     "kind": "forbidden",
+     "label": "gap"
+    }
+   ],
+   "description": "Counted from the FEATURE documents and the @cpt markers in the Rust sources."
+  }
+ ],
+ "tour": [
+  {
+   "id": "req",
+   "title": "What it must do",
+   "text": "29 functional requirements in the PRD: 12 checked off, 9 covered by a planned feature, 8 left for a later release (drawn as ghosts). Non-functional requirements stand as goals.",
+   "look": "Solid buildings are done; ghosts have no feature yet",
+   "focus": [
+    "@spire-fr-settings-category-model",
+    "@spire-fr-declaration-purge",
+    "@spire-fr-typed-value-validation",
+    "@spire-fr-file-valued-settings",
+    "@spire-fr-standard-advanced-mode",
+    "@spire-fr-search-discoverability",
+    "@spire-fr-defaults-revert",
+    "@spire-fr-set-value",
+    "@spire-fr-validate-before-set",
+    "@spire-fr-live-read-activation",
+    "@spire-fr-replica-coherence",
+    "@spire-fr-consumer-activation",
+    "@spire-fr-dependency-group-declaration",
+    "@spire-fr-setting-scope-class",
+    "@spire-fr-tenant-overrides",
+    "@spire-fr-cascading-inheritance",
+    "@spire-fr-subject-scoped-values",
+    "@spire-fr-barrier-default-seam",
+    "@spire-fr-tenant-scope-enforcement",
+    "@spire-fr-authn-role-gating",
+    "@spire-fr-audit-mutations",
+    "@spire-fr-per-setting-access",
+    "@spire-fr-feature-license-gating",
+    "@spire-fr-service-writes",
+    "@spire-fr-anonymous-exposable",
+    "@spire-fr-module-contributed-declarations",
+    "@spire-fr-contributed-lifecycle",
+    "@spire-fr-bulk-effective-read",
+    "@spire-fr-domain-affinity-filtering"
+   ],
+   "camera": {
+    "target": "@dist-req",
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": -16
+   }
+  },
+  {
+   "id": "design",
+   "title": "How it is shaped",
+   "text": "18 design components. Each road up to the features says which feature builds it.",
+   "look": "Components and the roads to the features that build them",
+   "focus": [
+    "@spire-component-change-set-publisher",
+    "@spire-component-event-broker-client",
+    "@spire-component-subscription-manager",
+    "@spire-component-consumer-activation-sdk",
+    "@spire-component-change-set-outcome-tracker",
+    "@spire-component-cache-invalidation-broadcast",
+    "@spire-component-category-management",
+    "@spire-component-declaration-management",
+    "@spire-component-module-contribution-reconciler",
+    "@spire-component-type-validator",
+    "@spire-component-value-resolver",
+    "@spire-component-tenant-permission",
+    "@spire-component-value-writer",
+    "@spire-component-secret-manager",
+    "@spire-component-search",
+    "@spire-component-cache-and-invalidation",
+    "@spire-component-actor-name-resolver",
+    "@spire-component-audit-emitter"
+   ],
+   "camera": {
+    "target": "@dist-design",
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": -16
+   }
+  },
+  {
+   "id": "feat",
+   "title": "Features: the contract between spec and code",
+   "text": "The decomposition splits the work into 11 features. Each is specified as flows, algorithms and definitions of done — 179 spec items in all — and the plaza counts how many of them the code marks.",
+   "look": "Feature towers (height = spec items) and the coverage plaza",
+   "focus": [
+    "@spire-feature-gear-foundation",
+    "@spire-feature-category-management",
+    "@spire-feature-setting-declarations",
+    "@spire-feature-typed-value-validation",
+    "@spire-feature-value-resolution",
+    "@spire-feature-audit-store",
+    "@spire-feature-tenant-access",
+    "@spire-feature-value-writes",
+    "@spire-feature-secret-values",
+    "@spire-feature-module-contributions",
+    "@spire-feature-search-discoverability",
+    "@plaza-coverage"
+   ],
+   "camera": {
+    "target": "@dist-feat",
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": -16
+   }
+  },
+  {
+   "id": "code",
+   "title": "Where it lives",
+   "text": "77,027 lines in 234 files. 173 of 179 spec items carry a @cpt marker in the code, so every road from a feature to a module is exact, not guessed.",
+   "look": "Module height = lines of code; roads = @cpt markers",
+   "focus": [
+    "@spire-code-src",
+    "@spire-code-src-api",
+    "@spire-code-src-api-rest",
+    "@spire-code-src-audit",
+    "@spire-code-src-domain",
+    "@spire-code-src-domain-access",
+    "@spire-code-src-domain-category",
+    "@spire-code-src-domain-contribution",
+    "@spire-code-src-domain-declaration",
+    "@spire-code-src-domain-resolution",
+    "@spire-code-src-domain-search",
+    "@spire-code-src-domain-secrets",
+    "@spire-code-src-domain-validation",
+    "@spire-code-src-domain-value",
+    "@spire-code-src-domain-writes",
+    "@spire-code-src-infra",
+    "@spire-code-src-infra-storage",
+    "@spire-code-src-infra-storage-entity",
+    "@spire-code-src-infra-storage-migrations",
+    "@spire-code-tests",
+    "@spire-code-sdk"
+   ],
+   "camera": {
+    "target": "@dist-code",
+    "zoom": 15.2,
+    "pitch": 55,
+    "bearing": -16
+   }
+  },
+  {
+   "id": "gaps",
+   "title": "Where the trace breaks",
+   "text": "6 spec items have no marker in the code, and some code has no marker at all. The map draws each gap where it acts.",
+   "look": "Red constraints: untraced spec items and unmarked code",
+   "focus": [
+    "@bneck-untraced-gear-foundation",
+    "@bneck-untraced-setting-declarations",
+    "@bneck-unmarked-src-infra-storage-entity",
+    "@spire-feature-gear-foundation",
+    "@spire-feature-setting-declarations",
+    "@spire-code-src-infra-storage-entity",
+    "@plaza-coverage"
+   ],
+   "camera": {
+    "target": "@dist-feat",
+    "zoom": 14.6,
+    "pitch": 50,
+    "bearing": -16
+   }
+  }
+ ]
+}
