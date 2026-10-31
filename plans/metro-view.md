@@ -85,9 +85,8 @@ Without the block, interchanges are derived from cross-district conduits only.
   stub `localStorage` in test pages.
 
 ## Open items
-- Octilinear (45°) routing: v1 uses straight horizontal lines with vertical transfers.
-- Long transfers pass over intermediate lines (empty cell, hubs); a row permutation could
-  shorten them.
+- Lines now bend on 45° diagonals into compact interchanges (parallel tracks through a short capsule) and return to their row when there is room; line names moved to a key. Remaining: lines can run collinear for a stretch, and a row permutation could reduce crossings.
+- Labels of interchange member stations are sometimes squeezed out by the diagonals around them.
 - Labels: fixed 12 px on screen, re-placed on every zoom with greedy collision avoidance (stations, capsules, lines and line names are obstacles); labels that fit nowhere hide until zoom-in and stay in the hover tooltip. Dense spots (failure line around Tier S) show few labels at overview.
 - Constraint glyphs on stations are not drawn yet.
 - README section and Architect-agent prompt for the `metro` block.
