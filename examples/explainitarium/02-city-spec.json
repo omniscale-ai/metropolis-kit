@@ -1021,6 +1021,29 @@
       }
     ]
   },
+  "narration": {
+    "speakers": {
+      "guide": {
+        "name": "Maya",
+        "role": "guide — knows the system",
+        "voice": {
+          "provider": "elevenlabs",
+          "voice_id": "b1fu18ehYUVnbLjA7vJ3",
+          "deckcast": "maya"
+        }
+      },
+      "sceptic": {
+        "name": "Owen",
+        "role": "sceptic — asks what a reviewer would ask",
+        "voice": {
+          "provider": "elevenlabs",
+          "voice_id": "sfJopaWaOtauCD3HKX6Q",
+          "deckcast": "owen"
+        }
+      }
+    },
+    "language": "en"
+  },
   "tour": [
     {
       "id": "doc",
@@ -1039,7 +1062,66 @@
         "zoom": 15.1,
         "pitch": 52,
         "bearing": -12
-      }
+      },
+      "dialogue": [
+        {
+          "speaker": "guide",
+          "text": "[warm] Welcome to Explainitarium — a map that explains how it was made. I'm Maya, I'll be your guide.",
+          "do": [
+            {
+              "show": "@dist-doc"
+            }
+          ]
+        },
+        {
+          "speaker": "sceptic",
+          "text": "[dryly] And I'm Owen. I'll ask what you would ask. So — why a map? What's wrong with the document?"
+        },
+        {
+          "speaker": "guide",
+          "text": "[thoughtful] Nothing, except that nobody reads it. A report keeps its argument in tables, caveats and page forty-seven. These three are real: a materials-science chapter, an arXiv paper, and a CEO's project canvas.",
+          "do": [
+            {
+              "highlight": [
+                "@spire-src-sciance",
+                "@spire-src-paper",
+                "@spire-src-kd"
+              ]
+            }
+          ]
+        },
+        {
+          "speaker": "sceptic",
+          "text": "[skeptical] Three very different documents. One tool for all of them?"
+        },
+        {
+          "speaker": "guide",
+          "text": "[confident] The same kit. This plaza is the evidence. The paper ran to about twenty-three thousand words; its map has thirty-eight buildings and a nine-stop tour.",
+          "do": [
+            {
+              "show": "@plaza-from-doc"
+            },
+            {
+              "plaza_cell": {
+                "plaza": "@plaza-from-doc",
+                "row": "arXiv paper",
+                "col": "buildings"
+              }
+            }
+          ]
+        },
+        {
+          "speaker": "sceptic",
+          "text": "[dryly] The goal out there says minutes, not pages. Let's see you earn it.",
+          "do": [
+            {
+              "highlight": [
+                "@chal-minutes"
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "und",
@@ -1063,7 +1145,76 @@
         "zoom": 15.1,
         "pitch": 52,
         "bearing": -12
-      }
+      },
+      "dialogue": [
+        {
+          "speaker": "sceptic",
+          "text": "[skeptical] Let me guess. You paste the paper into a chatbot and it draws a city?"
+        },
+        {
+          "speaker": "guide",
+          "text": "[amused] Not quite. A discovery agent reads the source and proposes how to map it — the axis, the districts, the landmarks — on a single page.",
+          "do": [
+            {
+              "show": [
+                "@spire-discovery",
+                "@spire-profile"
+              ]
+            }
+          ]
+        },
+        {
+          "speaker": "sceptic",
+          "text": "And who checks that page?"
+        },
+        {
+          "speaker": "guide",
+          "text": "[matter-of-fact] A person. That's the first gate, and it's cheap: you argue about one page before anything is built. Then an architect agent turns the approved profile into a city spec — what exists, what flows where, what blocks what. No coordinates.",
+          "do": [
+            {
+              "highlight": [
+                "@spire-profile",
+                "@spire-architect",
+                "@spire-spec",
+                "@conduit-approve",
+                "@conduit-specify"
+              ]
+            }
+          ]
+        },
+        {
+          "speaker": "sceptic",
+          "text": "[pointed] Agents write numbers. Agents get numbers wrong."
+        },
+        {
+          "speaker": "guide",
+          "text": "[serious] Which is why the second gate is here: a human review, and a provenance file that separates what the source says, what we recounted, and what is only a choice of the map. On the paper's map it records the one place where the map follows the authors' own audit instead of the printed text.",
+          "do": [
+            {
+              "show": [
+                "@spire-review",
+                "@spire-spec"
+              ]
+            }
+          ]
+        },
+        {
+          "speaker": "sceptic",
+          "text": "[dryly] So that red flag on the spec is a limit you admit, not a bug you hide.",
+          "do": [
+            {
+              "highlight": [
+                "@bneck-review",
+                "@spire-spec"
+              ]
+            }
+          ]
+        },
+        {
+          "speaker": "guide",
+          "text": "[warm] Exactly. Every map here draws its limits where they act."
+        }
+      ]
     },
     {
       "id": "build",
@@ -1087,7 +1238,91 @@
         "zoom": 15.1,
         "pitch": 52,
         "bearing": -12
-      }
+      },
+      "dialogue": [
+        {
+          "speaker": "guide",
+          "text": "[brisk] From here on, nothing is guessed. The compiler reads the spec, places every building, routes every road, and works out the cameras for this tour.",
+          "do": [
+            {
+              "show": "@spire-compiler"
+            }
+          ]
+        },
+        {
+          "speaker": "sceptic",
+          "text": "[skeptical] Deterministic? Same spec, same city?"
+        },
+        {
+          "speaker": "guide",
+          "text": "[confident] Same spec, same city. About fifteen hundred lines of plain Python. It refuses a spec with a broken reference, and every change is rendered headless before it ships.",
+          "do": [
+            {
+              "highlight": [
+                "@spire-compiler",
+                "@spire-validator"
+              ]
+            }
+          ]
+        },
+        {
+          "speaker": "sceptic",
+          "text": "[honest] Still, this city is a lot. I'd lose my manager by district two."
+        },
+        {
+          "speaker": "guide",
+          "text": "[playful] Then switch. Same spec, drawn as a metro map: one line per district, and the interchanges are where the story changes lines.",
+          "do": [
+            {
+              "view": "metro"
+            },
+            {
+              "highlight": [
+                "@spire-spec",
+                "@spire-compiler",
+                "@spire-metro"
+              ]
+            }
+          ]
+        },
+        {
+          "speaker": "sceptic",
+          "text": "[surprised] The same file? Not a second drawing?"
+        },
+        {
+          "speaker": "guide",
+          "text": "[matter-of-fact] The same file. Click an interchange and it tells you why it's there. One spec, every view — that's the goal of this district.",
+          "do": [
+            {
+              "highlight": [
+                "@chal-one-spec",
+                "@spire-city",
+                "@spire-metro",
+                "@spire-tour"
+              ]
+            }
+          ]
+        },
+        {
+          "speaker": "sceptic",
+          "text": "[dryly] And the catch?"
+        },
+        {
+          "speaker": "guide",
+          "text": "[candid] Big districts still need positions by hand. It's marked, right there on the compiler.",
+          "do": [
+            {
+              "view": "city"
+            },
+            {
+              "show": [
+                "@spire-compiler",
+                "@bneck-layout"
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "voice",
@@ -1113,7 +1348,83 @@
         "zoom": 15.1,
         "pitch": 52,
         "bearing": -12
-      }
+      },
+      "dialogue": [
+        {
+          "speaker": "sceptic",
+          "text": "[dryly] Here's my real question. Who is talking right now?"
+        },
+        {
+          "speaker": "guide",
+          "text": "[amused] We are — but neither of us was recorded. This conversation is a script in the same spec, and deckcast turned it into voices.",
+          "do": [
+            {
+              "show": [
+                "@spire-deckcast",
+                "@spire-narration"
+              ]
+            }
+          ]
+        },
+        {
+          "speaker": "sceptic",
+          "text": "[curious] deckcast being?"
+        },
+        {
+          "speaker": "guide",
+          "text": "[brisk] A small tool that compiles a narration script into voiced clips, caches them, and times every line. Those timings are why the map moves exactly when I say — here.",
+          "do": [
+            {
+              "highlight": [
+                "@spire-cues",
+                "@conduit-cues",
+                "@spire-deckcast"
+              ]
+            }
+          ]
+        },
+        {
+          "speaker": "sceptic",
+          "text": "[impressed, grudging] Neat. So this tour is level one. What are two and three?",
+          "do": [
+            {
+              "highlight": [
+                "@spire-level1",
+                "@spire-level2",
+                "@spire-level3"
+              ]
+            }
+          ]
+        },
+        {
+          "speaker": "guide",
+          "text": "[excited] Level two: questions you can pick. The tour pauses, an answer plays, and the map shows its evidence. Level three: you simply ask, out loud, and an agent answers from the map's own knowledge and flies the camera for you.",
+          "do": [
+            {
+              "show": [
+                "@spire-level2",
+                "@spire-level3"
+              ]
+            }
+          ]
+        },
+        {
+          "speaker": "sceptic",
+          "text": "[skeptical] A live agent in a live demo. What could possibly go wrong."
+        },
+        {
+          "speaker": "guide",
+          "text": "[candid] The network. That's why it's marked as a limit — and why levels one and two need no live connection at all.",
+          "do": [
+            {
+              "highlight": [
+                "@bneck-network",
+                "@spire-level3"
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "use",
@@ -1131,7 +1442,68 @@
         "zoom": 15.1,
         "pitch": 52,
         "bearing": -12
-      }
+      },
+      "dialogue": [
+        {
+          "speaker": "sceptic",
+          "text": "[serious] Last question, and it's the one a jury asks. Is anyone actually using this?"
+        },
+        {
+          "speaker": "guide",
+          "text": "[confident] Yes. The materials-science chapter and the arXiv paper are public maps you can open today.",
+          "do": [
+            {
+              "show": [
+                "@spire-use-sciance",
+                "@spire-use-paper"
+              ]
+            }
+          ]
+        },
+        {
+          "speaker": "sceptic",
+          "text": "And the third one?"
+        },
+        {
+          "speaker": "guide",
+          "text": "[matter-of-fact] A CEO's view of a live project. Private, because it names people and risks — same kit, kept local.",
+          "do": [
+            {
+              "highlight": [
+                "@spire-use-kd"
+              ]
+            }
+          ]
+        },
+        {
+          "speaker": "sceptic",
+          "text": "And deckcast?"
+        },
+        {
+          "speaker": "guide",
+          "text": "Two decks narrated end to end, one with a link where you can talk to the agent.",
+          "do": [
+            {
+              "highlight": [
+                "@spire-use-decks"
+              ]
+            }
+          ]
+        },
+        {
+          "speaker": "sceptic",
+          "text": "[warmer] So the thing explaining itself is built exactly like the things it explains."
+        },
+        {
+          "speaker": "guide",
+          "text": "[warm] That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. Soon, a place you can ask.",
+          "do": [
+            {
+              "show": "@dist-use"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

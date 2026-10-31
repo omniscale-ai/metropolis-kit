@@ -607,9 +607,20 @@ def validate_v2_semantics(spec, district_ids, spire_ids):
         for pid in stop.get('plaza_layers', {}):
             if pid not in plaza_ids:
                 errors.append(f"Tour stop {label} sets a layer on unknown plaza {pid}")
+        plazas_by_id = {pz.get('id'): pz for pz in spec.get('plazas', [])}
+        n_stops = len(spec.get('tour', []))
         if 'do' in stop:
-            errors.extend(validate_actions(stop['do'], f"Tour stop {label}", all_refs,
-                                           {pz.get('id'): pz for pz in spec.get('plazas', [])}, len(spec.get('tour', []))))
+            errors.extend(validate_actions(stop['do'], f"Tour stop {label}", all_refs, plazas_by_id, n_stops))
+        # a dialogue: lines spoken by the narration's speakers, each may fire actions when it starts
+        speakers = spec.get('narration', {}).get('speakers', {})
+        for l_idx, line in enumerate(stop.get('dialogue', [])):
+            where = f"Tour stop {label} line {l_idx + 1}"
+            if line.get('speaker') not in speakers:
+                errors.append(f"{where}: unknown speaker {line.get('speaker')!r} (declare it in narration.speakers)")
+            if not str(line.get('text', '')).strip():
+                errors.append(f"{where}: empty text")
+            if 'do' in line:
+                errors.extend(validate_actions(line['do'], where, all_refs, plazas_by_id, n_stops))
     for pz in spec.get('plazas', []):
         pid = pz.get('id', '')
         if not pid.startswith('@plaza-'):
@@ -1356,6 +1367,7 @@ def compile_metropolis_data(spec):
             'id': stop.get('id', f'stop-{t_idx + 1}'), 'title': stop['title'], 'text': stop['text'],
             'look': stop.get('look', ''), 'focus': stop.get('focus', []), 'items': stop.get('items', []),
             'plaza_layers': stop.get('plaza_layers', {}), 'do': stop.get('do', []),
+            'dialogue': stop.get('dialogue', []),
             'camera': {'center': ref_coords(target), 'zoom': cam.get('zoom', 15.2),
                        'pitch': cam.get('pitch', 55), 'bearing': cam.get('bearing', -16)}
         })
