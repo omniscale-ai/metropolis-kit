@@ -1,0 +1,203 @@
+{
+ "version": 1,
+ "build_dir": "build",
+ "audio": {
+  "model_id": "eleven_v3",
+  "output_format": "mp3_44100_128",
+  "language_code": "en",
+  "default_gap_ms": 300
+ },
+ "voices": {
+  "maya": {
+   "provider": "elevenlabs",
+   "voice_id": "b1fu18ehYUVnbLjA7vJ3"
+  },
+  "owen": {
+   "provider": "elevenlabs",
+   "voice_id": "sfJopaWaOtauCD3HKX6Q"
+  }
+ },
+ "pages": [
+  {
+   "page": 1,
+   "lines": [
+    {
+     "speaker": "maya",
+     "text": "[warm] Welcome to Explainitarium — a map that explains how it was made. I'm Maya, I'll be your guide."
+    },
+    {
+     "speaker": "owen",
+     "text": "[dryly] And I'm Owen. I'll ask what you would ask. So — why a map? What's wrong with the document?"
+    },
+    {
+     "speaker": "maya",
+     "text": "[thoughtful] Nothing, except that nobody reads it. A report keeps its argument in tables, caveats and page forty-seven. These three are real: a materials-science chapter, an arXiv paper, and a CEO's project canvas."
+    },
+    {
+     "speaker": "owen",
+     "text": "[skeptical] Three very different documents. One tool for all of them?"
+    },
+    {
+     "speaker": "maya",
+     "text": "[confident] The same kit. This plaza is the evidence. The paper ran to about twenty-three thousand words; its map has thirty-eight buildings and a nine-stop tour."
+    },
+    {
+     "speaker": "owen",
+     "text": "[dryly] The goal out there says minutes, not pages. Let's see you earn it."
+    }
+   ]
+  },
+  {
+   "page": 2,
+   "lines": [
+    {
+     "speaker": "owen",
+     "text": "[skeptical] Let me guess. You paste the paper into a chatbot and it draws a city?"
+    },
+    {
+     "speaker": "maya",
+     "text": "[amused] Not quite. A discovery agent reads the source and proposes how to map it — the axis, the districts, the landmarks — on a single page."
+    },
+    {
+     "speaker": "owen",
+     "text": "And who checks that page?"
+    },
+    {
+     "speaker": "maya",
+     "text": "[matter-of-fact] A person. That's the first gate, and it's cheap: you argue about one page before anything is built. Then an architect agent turns the approved profile into a city spec — what exists, what flows where, what blocks what. No coordinates."
+    },
+    {
+     "speaker": "owen",
+     "text": "[pointed] Agents write numbers. Agents get numbers wrong."
+    },
+    {
+     "speaker": "maya",
+     "text": "[serious] Which is why the second gate is here: a human review, and a provenance file that separates what the source says, what we recounted, and what is only a choice of the map. On the paper's map it records the one place where the map follows the authors' own audit instead of the printed text."
+    },
+    {
+     "speaker": "owen",
+     "text": "[dryly] So that red flag on the spec is a limit you admit, not a bug you hide."
+    },
+    {
+     "speaker": "maya",
+     "text": "[warm] Exactly. Every map here draws its limits where they act."
+    }
+   ]
+  },
+  {
+   "page": 3,
+   "lines": [
+    {
+     "speaker": "maya",
+     "text": "[brisk] From here on, nothing is guessed. The compiler reads the spec, places every building, routes every road, and works out the cameras for this tour."
+    },
+    {
+     "speaker": "owen",
+     "text": "[skeptical] Deterministic? Same spec, same city?"
+    },
+    {
+     "speaker": "maya",
+     "text": "[confident] Same spec, same city. About fifteen hundred lines of plain Python. It refuses a spec with a broken reference, and every change is rendered headless before it ships."
+    },
+    {
+     "speaker": "owen",
+     "text": "[honest] Still, this city is a lot. I'd lose my manager by district two."
+    },
+    {
+     "speaker": "maya",
+     "text": "[playful] Then switch. Same spec, drawn as a metro map: one line per district, and the interchanges are where the story changes lines."
+    },
+    {
+     "speaker": "owen",
+     "text": "[surprised] The same file? Not a second drawing?"
+    },
+    {
+     "speaker": "maya",
+     "text": "[matter-of-fact] The same file. Click an interchange and it tells you why it's there. One spec, every view — that's the goal of this district."
+    },
+    {
+     "speaker": "owen",
+     "text": "[dryly] And the catch?"
+    },
+    {
+     "speaker": "maya",
+     "text": "[candid] Big districts still need positions by hand. It's marked, right there on the compiler."
+    }
+   ]
+  },
+  {
+   "page": 4,
+   "lines": [
+    {
+     "speaker": "owen",
+     "text": "[dryly] Here's my real question. Who is talking right now?"
+    },
+    {
+     "speaker": "maya",
+     "text": "[amused] We are — but neither of us was recorded. This conversation is a script in the same spec, and deckcast turned it into voices."
+    },
+    {
+     "speaker": "owen",
+     "text": "[curious] deckcast being?"
+    },
+    {
+     "speaker": "maya",
+     "text": "[brisk] A small tool that compiles a narration script into voiced clips, caches them, and times every line. Those timings are why the map moves exactly when I say — here."
+    },
+    {
+     "speaker": "owen",
+     "text": "[impressed, grudging] Neat. So this tour is level one. What are two and three?"
+    },
+    {
+     "speaker": "maya",
+     "text": "[excited] Level two: questions you can pick. The tour pauses, an answer plays, and the map shows its evidence. Level three: you simply ask, out loud, and an agent answers from the map's own knowledge and flies the camera for you."
+    },
+    {
+     "speaker": "owen",
+     "text": "[skeptical] A live agent in a live demo. What could possibly go wrong."
+    },
+    {
+     "speaker": "maya",
+     "text": "[candid] The network. That's why it's marked as a limit — and why levels one and two need no live connection at all."
+    }
+   ]
+  },
+  {
+   "page": 5,
+   "lines": [
+    {
+     "speaker": "owen",
+     "text": "[serious] Last question, and it's the one a jury asks. Is anyone actually using this?"
+    },
+    {
+     "speaker": "maya",
+     "text": "[confident] Yes. The materials-science chapter and the arXiv paper are public maps you can open today."
+    },
+    {
+     "speaker": "owen",
+     "text": "And the third one?"
+    },
+    {
+     "speaker": "maya",
+     "text": "[matter-of-fact] A CEO's view of a live project. Private, because it names people and risks — same kit, kept local."
+    },
+    {
+     "speaker": "owen",
+     "text": "And deckcast?"
+    },
+    {
+     "speaker": "maya",
+     "text": "Two decks narrated end to end, one with a link where you can talk to the agent."
+    },
+    {
+     "speaker": "owen",
+     "text": "[warmer] So the thing explaining itself is built exactly like the things it explains."
+    },
+    {
+     "speaker": "maya",
+     "text": "[warm] That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. Soon, a place you can ask."
+    }
+   ]
+  }
+ ]
+}

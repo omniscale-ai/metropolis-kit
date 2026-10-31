@@ -1505,12 +1505,34 @@ window.PLAZAS_GEOJSON = {json.dumps({'type': 'FeatureCollection', 'features': pl
                    for scope in ('edge', 'node', 'field')}
     }
 
+def export_narration(spec):
+    """The tour's dialogue as a deckcast audio-only script: one page per stop, one line per
+    spoken line, speakers mapped to their deckcast voices. JSON is valid YAML, so deckcast reads it."""
+    speakers = spec.get('narration', {}).get('speakers', {})
+    voice_name = {sid: sp['voice'].get('deckcast', sid) for sid, sp in speakers.items()}
+    pages = []
+    for t_idx, stop in enumerate(spec.get('tour', [])):
+        lines = [{'speaker': voice_name[line['speaker']], 'text': line['text']} for line in stop.get('dialogue', [])]
+        if lines:
+            pages.append({'page': t_idx + 1, 'lines': lines})
+    return {
+        'version': 1,
+        'build_dir': 'build',
+        'audio': {'model_id': 'eleven_v3', 'output_format': 'mp3_44100_128',
+                  'language_code': spec.get('narration', {}).get('language', 'en'), 'default_gap_ms': 300},
+        'voices': {voice_name[sid]: {'provider': sp['voice'].get('provider', 'elevenlabs'), 'voice_id': sp['voice']['voice_id']}
+                   for sid, sp in speakers.items()},
+        'pages': pages,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description="Metropolis-Kit: Procedural Spatial Compiler")
     parser.add_argument('--spec', required=True, help="Path to input 02-city-spec.json")
     parser.add_argument('--out', help="Path to output city-data.js")
     parser.add_argument('--web-dir', help="Optional web target directory (e.g. docs/ or dist/)")
     parser.add_argument('--validate-only', action='store_true', help="Run schema validation without emitting")
+    parser.add_argument('--export-narration', metavar='PATH', help="Write the tour dialogue as a deckcast script (narration.yml) and exit")
     parser.add_argument('--serve', type=int, nargs='?', const=8080, help="Launch local HTTP server on given port (default 8080)")
 
     args = parser.parse_args()
@@ -1533,6 +1555,17 @@ def main():
     for warning in lint_spec(spec):
         print(f"    [warn] {warning}")
     if args.validate_only:
+        sys.exit(0)
+    if args.export_narration:
+        script = export_narration(spec)
+        if not script['pages'] or not script['voices']:
+            print("[!] Nothing to export: the spec needs narration.speakers and tour stops with a dialogue")
+            sys.exit(1)
+        os.makedirs(os.path.dirname(os.path.abspath(args.export_narration)), exist_ok=True)
+        with open(args.export_narration, 'w', encoding='utf-8') as f:
+            json.dump(script, f, indent=1, ensure_ascii=False)
+        n = sum(len(p['lines']) for p in script['pages'])
+        print(f"[✓] Narration script {args.export_narration}: {len(script['pages'])} pages, {n} lines")
         sys.exit(0)
 
     js_bundle, stats = compile_metropolis_data(spec)
