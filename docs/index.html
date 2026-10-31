@@ -939,6 +939,12 @@
     #listenBtn, #orbitBtn, #tourBtn { white-space: nowrap; }
     .tour-listen { font-family: var(--font-mono); font-size: 11px; }
     .tour-listen.active { color: #0a0f1c; background: #7cffb2; border-color: #7cffb2; }
+    /* #listen deep link: one click to allow sound */
+    .listen-gate { position: absolute; inset: 0; z-index: 40; display: none; align-items: center; justify-content: center; background: rgba(5, 8, 16, 0.55); }
+    .listen-gate.open { display: flex; }
+    .listen-gate button { font-family: var(--font-mono); font-size: 16px; font-weight: 800; padding: 16px 28px; border-radius: 12px; cursor: pointer;
+      color: #0a0f1c; background: #7cffb2; border: none; box-shadow: 0 0 30px rgba(124, 255, 178, 0.5); }
+
     /* Talk to the city (level 3): a live voice agent that points at the map */
     .talk-panel { position: absolute; right: 24px; bottom: 96px; width: min(340px, calc(100vw - 32px)); z-index: 26; display: none;
       background: rgba(8, 12, 24, 0.94); border: 1px solid rgba(0, 240, 255, 0.45); border-radius: 12px; padding: 12px 14px;
@@ -1243,6 +1249,8 @@
       <button id="tourNextBtn" class="pager-btn">Next ▶</button>
     </div>
   </section>
+
+  <div id="listenGate" class="listen-gate"><button id="listenGateBtn">🎧 Start the narrated tour</button></div>
 
   <section id="talkPanel" class="talk-panel" data-mode="connecting">
     <div class="talk-head"><span class="talk-dot"></span><span id="talkStatus" class="talk-status">CONNECTING…</span>
@@ -1670,7 +1678,11 @@
       narrAudio.src = NARRATION.base + narrPage(key).file;
       narrAudio.currentTime = 0;
       showSubtitle(lines[0]);
-      narrAudio.play().then(() => { setListenUI(); narrTick(); }).catch(() => setListenUI());
+      narrAudio.play().then(() => { setListenUI(); narrTick(); }).catch(err => {
+        setListenUI();
+        // browsers refuse sound before the first click: ask for one (deep link #listen)
+        if (err && err.name === 'NotAllowedError') document.getElementById('listenGate').classList.add('open');
+      });
       setListenUI();
     }
 
@@ -1709,6 +1721,7 @@
 
     function stopNarration() {
       narrating = false;
+      document.getElementById('listenGate').classList.remove('open');
       quiz = null;
       clip = null;
       clearTimeout(narrNext);
@@ -1743,6 +1756,15 @@
         if (tourIndex < 0 || (e.target && /input|select|textarea/i.test(e.target.tagName))) return;
         if (e.key === 'p' || e.key === 'P') { e.preventDefault(); toggleListen(); }
       });
+      document.getElementById('listenGateBtn').addEventListener('click', () => {
+        document.getElementById('listenGate').classList.remove('open');
+        narrAudio.play().then(() => { setListenUI(); narrTick(); }).catch(() => {});
+      });
+      // deep link: #listen starts the narrated tour (at #tour=N if given), e.g. …/#tour=1&listen
+      if (/(^#|&)listen\b/.test(location.hash)) {
+        const m = /tour=(\d+)/.exec(location.hash);
+        setTimeout(() => { narrating = true; if (tourIndex < 0) startTour(m ? +m[1] - 1 : 0); else playStopNarration(); }, 1500);
+      }
       setListenUI();
     }
 
