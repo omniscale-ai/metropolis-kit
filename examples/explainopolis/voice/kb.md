@@ -1,4 +1,4 @@
-# EXPLAINITARIUM — knowledge base
+# EXPLAINOPOLIS — knowledge base
 
 A map that explains how it was made · metropolis-kit + deckcast
 
@@ -295,7 +295,7 @@ Two decks already narrated end to end, one with a talk-to-the-agent link.
 
 ### Stop 1: Nobody reads page 47
 Reports, papers and project plans carry their argument in tables, caveats and page 47. These three were real, and each became a map.
-- Maya: Welcome to Explainitarium — a map that explains how it was made. I'm Maya, I'll be your guide.
+- Maya: Welcome to Explainopolis — a map that explains how it was made. I'm Maya, I'll be your guide.
 - Owen: And I'm Owen. I'll ask what you would ask. So — why a map? What's wrong with the document?
 - Maya: Nothing, except that nobody reads it. A report keeps its argument in tables, caveats and page forty-seven. These three are real: a materials-science chapter, an arXiv paper, and a CEO's project canvas.
 - Owen: Three very different documents. One tool for all of them?

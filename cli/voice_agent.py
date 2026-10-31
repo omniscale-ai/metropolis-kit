@@ -6,7 +6,7 @@ and points at the map through client tools that mirror the viewer's actions (sho
 open, view, tour). State (agent id, tool ids, knowledge-base doc id) lives next to the spec in
 <narration.audio>/../agent.json, so a re-run updates the same agent instead of creating another.
 
-    ELEVENLABS_API_KEY=... python3 -m cli.voice_agent --spec examples/explainitarium/02-city-spec.json
+    ELEVENLABS_API_KEY=... python3 -m cli.voice_agent --spec examples/explainopolis/02-city-spec.json
     python3 -m cli.voice_agent --spec ... --env-file ~/git/deckcast/.env
 
 Standard library only, like the compiler. The key is read from the environment or the env file

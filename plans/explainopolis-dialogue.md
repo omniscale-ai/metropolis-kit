@@ -1,10 +1,10 @@
-# Explainitarium — dialogue tour
+# Explainopolis — dialogue tour
 
-Generated from `examples/explainitarium/02-city-spec.json` (tour[].dialogue, tour[].quiz). Edit the spec, not this file. Actions in brackets fire when the line starts.
+Generated from `examples/explainopolis/02-city-spec.json` (tour[].dialogue, tour[].quiz). Edit the spec, not this file. Actions in brackets fire when the line starts.
 
 ## 1. Nobody reads page 47
 
-**Maya:** [warm] Welcome to Explainitarium — a map that explains how it was made. I'm Maya, I'll be your guide.  
+**Maya:** [warm] Welcome to Explainopolis — a map that explains how it was made. I'm Maya, I'll be your guide.  
   `→ show "@dist-doc"`
 
 **Owen:** [dryly] And I'm Owen. I'll ask what you would ask. So — why a map? What's wrong with the document?

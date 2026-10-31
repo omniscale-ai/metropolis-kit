@@ -1,4 +1,4 @@
-# Showcase: Explainitarium — a map that explains how it was made
+# Showcase: Explainopolis — a map that explains how it was made
 
 The self-explaining demo for metropolis-kit + deckcast: the map describes the pipeline that built it.
 
@@ -11,5 +11,5 @@ The self-explaining demo for metropolis-kit + deckcast: the map describes the pi
 Numbers come from the specs and code in this repository and in deckcast (2026-10-31).
 
 ```bash
-python -m cli.compiler --spec examples/explainitarium/02-city-spec.json --web-dir dist/explainitarium/ --serve 8082
+python -m cli.compiler --spec examples/explainopolis/02-city-spec.json --web-dir dist/explainopolis/ --serve 8082
 ```

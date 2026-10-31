@@ -1,6 +1,6 @@
 # Plan: a self-explaining Metropolis (innovation-challenge demo)
 
-Status: step 1 (the map) built 2026-10-31 — `examples/explainitarium/`; voice levels next. The map explains Metropolis-Kit + deckcast using Metropolis-Kit + deckcast.
+Status: step 1 (the map) built 2026-10-31 — `examples/explainopolis/`; voice levels next. The map explains Metropolis-Kit + deckcast using Metropolis-Kit + deckcast.
 
 ## The map
 Source documents: README + HANDOVER of metropolis-kit, README of deckcast, the three published maps.

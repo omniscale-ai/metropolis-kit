@@ -3,42 +3,42 @@
   {
    "page": 1,
    "file": "page-01.mp3",
-   "duration": 50.73,
+   "duration": 51.23,
    "cues": [
     {
      "speaker": "maya",
      "start": 0.0,
-     "end": 6.69,
-     "text": "Welcome to Explainitarium — a map that explains how it was made. I'm Maya, I'll be your guide."
+     "end": 7.16,
+     "text": "Welcome to Explainopolis — a map that explains how it was made. I'm Maya, I'll be your guide."
     },
     {
      "speaker": "owen",
-     "start": 6.99,
-     "end": 13.41,
+     "start": 7.46,
+     "end": 13.88,
      "text": "And I'm Owen. I'll ask what you would ask. So — why a map? What's wrong with the document?"
     },
     {
      "speaker": "maya",
-     "start": 13.71,
-     "end": 29.83,
+     "start": 14.18,
+     "end": 30.3,
      "text": "Nothing, except that nobody reads it. A report keeps its argument in tables, caveats and page forty-seven. These three are real: a materials-science chapter, an arXiv paper, and a CEO's project canvas."
     },
     {
      "speaker": "owen",
-     "start": 30.13,
-     "end": 34.18,
+     "start": 30.6,
+     "end": 34.65,
      "text": "Three very different documents. One tool for all of them?"
     },
     {
      "speaker": "maya",
-     "start": 34.48,
-     "end": 45.63,
+     "start": 34.95,
+     "end": 46.1,
      "text": "The same kit. This plaza is the evidence. The paper ran to about twenty-three thousand words; its map has thirty-eight buildings and a nine-stop tour."
     },
     {
      "speaker": "owen",
-     "start": 45.93,
-     "end": 50.92,
+     "start": 46.4,
+     "end": 51.39,
      "text": "The goal out there says minutes, not pages. Let's see you earn it."
     }
    ]

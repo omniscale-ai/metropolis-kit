@@ -1,6 +1,6 @@
 {
   "city_metadata": {
-    "title": "EXPLAINITARIUM",
+    "title": "EXPLAINOPOLIS",
     "subtitle": "A map that explains how it was made · metropolis-kit + deckcast",
     "theme": "quantum_crystal",
     "schema_version": "2.0",
@@ -1075,7 +1075,7 @@
       "dialogue": [
         {
           "speaker": "guide",
-          "text": "[warm] Welcome to Explainitarium — a map that explains how it was made. I'm Maya, I'll be your guide.",
+          "text": "[warm] Welcome to Explainopolis — a map that explains how it was made. I'm Maya, I'll be your guide.",
           "do": [
             {
               "show": "@dist-doc"
