@@ -1,0 +1,1137 @@
+{
+  "city_metadata": {
+    "title": "EXPLAINITARIUM",
+    "subtitle": "A map that explains how it was made · metropolis-kit + deckcast",
+    "theme": "quantum_crystal",
+    "schema_version": "2.0",
+    "scale_axis_label": "",
+    "scale_axis_description": "South to north: a document nobody reads → agents that understand it → a compiler that builds views → voices that tell it → maps already in use.",
+    "building_scale": 0.7,
+    "target_scale": 0.7,
+    "default_view": {
+      "legend": "collapsed",
+      "layers": [
+        "districts",
+        "spires",
+        "conduits",
+        "challenges"
+      ]
+    },
+    "ui_labels": {
+      "metric_scale": "Size",
+      "metric_acceleration": "What it does",
+      "metric_infrastructure": "Where it lives",
+      "metric_maturity": "State",
+      "abstract_title": "What it is",
+      "impact_title": "Why it matters",
+      "remedy_title": "What would fix it",
+      "target_title": "Goal",
+      "spire_badge": "PART",
+      "priority_badge": "GOAL",
+      "kind_system": "Working part",
+      "kind_knowledge": "Document or spec",
+      "kind_instrument": "Check",
+      "kind_hub": "Handover file"
+    }
+  },
+  "districts": [
+    {
+      "id": "@dist-doc",
+      "name": "1 · THE DOCUMENT",
+      "scale_label": "Nobody reads page 47",
+      "order": 1,
+      "color": "#00f0ff",
+      "glow": "rgba(0,240,255,0.4)",
+      "description": "Real sources that were explained with this kit: a report chapter, a research paper, a project canvas.",
+      "eu_infrastructures": []
+    },
+    {
+      "id": "@dist-und",
+      "name": "2 · UNDERSTANDING",
+      "scale_label": "Agents read, a human approves",
+      "order": 2,
+      "color": "#00e599",
+      "glow": "rgba(0,229,153,0.4)",
+      "description": "Two agents turn a document into a one-page profile and then a semantic spec; a person approves both and a provenance file keeps every number honest.",
+      "eu_infrastructures": []
+    },
+    {
+      "id": "@dist-build",
+      "name": "3 · BUILDING",
+      "scale_label": "One spec, many views",
+      "order": 3,
+      "color": "#ffb700",
+      "glow": "rgba(255,183,0,0.4)",
+      "description": "A deterministic compiler turns the spec into a 3D city, a metro map and a guided tour.",
+      "eu_infrastructures": []
+    },
+    {
+      "id": "@dist-voice",
+      "name": "4 · VOICE",
+      "scale_label": "The map talks — and listens",
+      "order": 4,
+      "color": "#c040ff",
+      "glow": "rgba(192,64,255,0.4)",
+      "description": "deckcast voices the tour as a dialogue; then pre-voiced questions; then a live agent that answers and moves the map.",
+      "eu_infrastructures": []
+    },
+    {
+      "id": "@dist-use",
+      "name": "5 · IN USE",
+      "scale_label": "Already working",
+      "order": 5,
+      "color": "#3a86ff",
+      "glow": "rgba(58,134,255,0.4)",
+      "description": "Maps and narrated decks that exist today.",
+      "eu_infrastructures": []
+    }
+  ],
+  "spires": [
+    {
+      "id": "@spire-src-sciance",
+      "district_ref": "@dist-doc",
+      "kind": "knowledge",
+      "title": "SCIANCE D1.1 — Materials Science chapter",
+      "code": "SCIANCE D1.1",
+      "codename": "SCIANCE D1.1",
+      "scale_level": 0.8,
+      "place": [
+        -430,
+        200
+      ],
+      "metrics": {
+        "scale": "~14,500 words",
+        "acceleration": "Horizon Europe deliverable",
+        "infrastructure": "docx draft, three revisions",
+        "maturity": "Explained in the SCIANCE map"
+      },
+      "abstract": "A landscape report chapter on AI in European materials science, revised three times while the map followed it. The kind of document reviewers skim and nobody reads to page 47."
+    },
+    {
+      "id": "@spire-src-paper",
+      "district_ref": "@dist-doc",
+      "kind": "knowledge",
+      "title": "arXiv:2609.11975 — AI-Research Agents in the Wild",
+      "code": "THE PAPER",
+      "codename": "THE PAPER",
+      "scale_level": 0.9,
+      "place": [
+        -430,
+        0
+      ],
+      "metrics": {
+        "scale": "~23,000 words · 56 pages",
+        "acceleration": "139 repositories · 101 papers",
+        "infrastructure": "arXiv preprint + supplementary tables",
+        "maturity": "Explained in ai-research-bench"
+      },
+      "abstract": "A meta-study of the public ecosystem of AI-research agents, with six candidate regularities, a prospective audit and three supplementary tables. Its argument lives in tables and caveats."
+    },
+    {
+      "id": "@spire-src-kd",
+      "district_ref": "@dist-doc",
+      "kind": "knowledge",
+      "title": "Knowledge Discovery — CEO status canvas",
+      "code": "PROJECT CANVAS",
+      "codename": "PROJECT CANVAS",
+      "scale_level": 0.6,
+      "place": [
+        -430,
+        -200
+      ],
+      "metrics": {
+        "scale": "24 canvas nodes · 3-year roadmap",
+        "acceleration": "Epics, risks, milestones",
+        "infrastructure": "Obsidian canvas + timelines",
+        "maturity": "Explained in a private CEO map"
+      },
+      "abstract": "A project status canvas: epics, waiting items, a risk cascade and milestones. A different kind of document — a plan, not a text — explained with the same kit."
+    },
+    {
+      "id": "@spire-discovery",
+      "district_ref": "@dist-und",
+      "kind": "system",
+      "title": "Discovery agent",
+      "code": "DISCOVERY",
+      "codename": "DISCOVERY",
+      "scale_level": 0.7,
+      "place": [
+        -430,
+        150
+      ],
+      "metrics": {
+        "scale": "Prompt + LLM",
+        "acceleration": "Reads the source, proposes the metaphor",
+        "infrastructure": "prompts/01-discovery-agent.md",
+        "maturity": "In use"
+      },
+      "abstract": "Reads the source document and proposes the city: the axis, the districts, the landmarks, the bottlenecks, the flows. Output is a short domain profile a human can review in minutes."
+    },
+    {
+      "id": "@spire-profile",
+      "district_ref": "@dist-und",
+      "kind": "knowledge",
+      "title": "Domain profile",
+      "code": "PROFILE",
+      "codename": "PROFILE",
+      "scale_level": 0.6,
+      "place": [
+        -180,
+        150
+      ],
+      "metrics": {
+        "scale": "One YAML page",
+        "acceleration": "Metaphor, axis, districts, key facts",
+        "infrastructure": "01-domain-profile.yaml",
+        "maturity": "Reviewed by a human"
+      },
+      "abstract": "The first gate: one page that states how the document will be mapped and why. Cheap to argue about before anything is built."
+    },
+    {
+      "id": "@spire-architect",
+      "district_ref": "@dist-und",
+      "kind": "system",
+      "title": "Architect agent",
+      "code": "ARCHITECT",
+      "codename": "ARCHITECT",
+      "scale_level": 0.7,
+      "place": [
+        70,
+        150
+      ],
+      "metrics": {
+        "scale": "Prompt + LLM",
+        "acceleration": "Writes the semantic city spec",
+        "infrastructure": "prompts/02-architect-agent.md",
+        "maturity": "In use"
+      },
+      "abstract": "Turns the approved profile into a city spec: stations, flows, constraints, priorities, tour — with no coordinates. Rules in the prompt: numbers only from the source, constraints placed where they act."
+    },
+    {
+      "id": "@spire-spec",
+      "district_ref": "@dist-und",
+      "kind": "knowledge",
+      "title": "City spec",
+      "code": "THE SPEC",
+      "codename": "THE SPEC",
+      "scale_level": 0.95,
+      "place": [
+        320,
+        150
+      ],
+      "metrics": {
+        "scale": "One JSON file",
+        "acceleration": "Districts · spires · roads · constraints · tour · metro",
+        "infrastructure": "02-city-spec.json, schema v2",
+        "maturity": "Validated by the compiler"
+      },
+      "abstract": "The contract between understanding and building. Pure semantics — what exists, what flows where, what blocks what, what the tour says — and every view and every voice is generated from it."
+    },
+    {
+      "id": "@spire-review",
+      "district_ref": "@dist-und",
+      "kind": "instrument",
+      "title": "Human review & provenance",
+      "code": "REVIEW",
+      "codename": "REVIEW",
+      "scale_level": 0.75,
+      "place": [
+        70,
+        -150
+      ],
+      "metrics": {
+        "scale": "Two gates + a provenance file",
+        "acceleration": "Paper vs derived vs map choice",
+        "infrastructure": "DATA-PROVENANCE.md",
+        "maturity": "Done for the paper map"
+      },
+      "abstract": "A person approves the profile and the spec, and a provenance file separates what the source says, what was recounted, and what is a choice of the map. It caught a claim in the paper that its own data do not support."
+    },
+    {
+      "id": "@spire-compiler",
+      "district_ref": "@dist-build",
+      "kind": "system",
+      "title": "Spatial compiler",
+      "code": "COMPILER",
+      "codename": "COMPILER",
+      "scale_level": 0.9,
+      "place": [
+        -430,
+        150
+      ],
+      "metrics": {
+        "scale": "~1,500 lines · Python stdlib only",
+        "acceleration": "Spec → geometry, layouts, routing graph",
+        "infrastructure": "cli/compiler.py",
+        "maturity": "25 commits in a month"
+      },
+      "abstract": "Deterministic: validates references, places buildings, routes roads, derives traffic, queues, weather, the metro layout and the tour cameras. No coordinates are ever written by hand unless asked."
+    },
+    {
+      "id": "@spire-city",
+      "district_ref": "@dist-build",
+      "kind": "system",
+      "title": "City view",
+      "code": "CITY VIEW",
+      "codename": "CITY VIEW",
+      "scale_level": 0.85,
+      "place": [
+        -180,
+        150
+      ],
+      "metrics": {
+        "scale": "MapLibre 3D, one HTML file",
+        "acceleration": "Five building kinds, plazas, constraints",
+        "infrastructure": "web/index.html",
+        "maturity": "Published"
+      },
+      "abstract": "Districts, buildings whose shape says what a thing is, roads with traffic and barriers, data tables painted on the ground."
+    },
+    {
+      "id": "@spire-metro",
+      "district_ref": "@dist-build",
+      "kind": "system",
+      "title": "Metro view",
+      "code": "METRO VIEW",
+      "codename": "METRO VIEW",
+      "scale_level": 0.75,
+      "place": [
+        70,
+        150
+      ],
+      "metrics": {
+        "scale": "SVG schematic from the same spec",
+        "acceleration": "Lines, stations, interchanges",
+        "infrastructure": "City / Metro switch",
+        "maturity": "New"
+      },
+      "abstract": "For readers who find the city too busy: the same spec as a metro map — lines per district, compact interchanges with an explanation card, labels that never overlap."
+    },
+    {
+      "id": "@spire-tour",
+      "district_ref": "@dist-build",
+      "kind": "system",
+      "title": "Guided tour",
+      "code": "THE TOUR",
+      "codename": "THE TOUR",
+      "scale_level": 0.8,
+      "place": [
+        320,
+        150
+      ],
+      "metrics": {
+        "scale": "Stops with focus, camera, items",
+        "acceleration": "Space / arrows, #tour=N links",
+        "infrastructure": "spec \"tour\"",
+        "maturity": "Nine stops in the paper map"
+      },
+      "abstract": "A story told with the map: each stop flies the camera, dims everything else and says one thing. The stops are what the voices will read."
+    },
+    {
+      "id": "@spire-validator",
+      "district_ref": "@dist-build",
+      "kind": "instrument",
+      "title": "Validator & render checks",
+      "code": "CHECKS",
+      "codename": "CHECKS",
+      "scale_level": 0.6,
+      "place": [
+        -180,
+        -150
+      ],
+      "metrics": {
+        "scale": "Reference and schema checks",
+        "acceleration": "Headless renders, overlap checks",
+        "infrastructure": "make test",
+        "maturity": "Every build"
+      },
+      "abstract": "Refuses a spec with broken references or impossible combinations, and every change is checked by rendering it headless before it ships."
+    },
+    {
+      "id": "@spire-deckcast",
+      "district_ref": "@dist-voice",
+      "kind": "system",
+      "title": "deckcast",
+      "code": "DECKCAST",
+      "codename": "DECKCAST",
+      "scale_level": 0.8,
+      "place": [
+        -430,
+        150
+      ],
+      "metrics": {
+        "scale": "~830 lines Python",
+        "acceleration": "Script → ElevenLabs clips → timeline",
+        "infrastructure": "Typer CLI, FFmpeg",
+        "maturity": "Two narrated decks"
+      },
+      "abstract": "Compiles a narration script into voiced clips with a cache, measures them and builds a timeline — a video, or per-page audio with line-level cues for a web player."
+    },
+    {
+      "id": "@spire-narration",
+      "district_ref": "@dist-voice",
+      "kind": "hub",
+      "title": "Narration script",
+      "code": "NARRATION.YML",
+      "codename": "NARRATION.YML",
+      "scale_level": 0.6,
+      "place": [
+        -180,
+        150
+      ],
+      "metrics": {
+        "scale": "Pages → lines → speaker, text, emotion",
+        "acceleration": "Generated from the tour (planned)",
+        "infrastructure": "deckcast YAML",
+        "maturity": "Hand-written today"
+      },
+      "abstract": "The handover between the map and the voices: one page per tour stop, one line per spoken sentence, two speakers.",
+      "status": "active"
+    },
+    {
+      "id": "@spire-cues",
+      "district_ref": "@dist-voice",
+      "kind": "hub",
+      "title": "Audio & cues",
+      "code": "CUES.JSON",
+      "codename": "CUES.JSON",
+      "scale_level": 0.55,
+      "place": [
+        70,
+        150
+      ],
+      "metrics": {
+        "scale": "One mp3 per stop + line timings",
+        "acceleration": "speaker · start · end · text",
+        "infrastructure": "site-audio/cues.json",
+        "maturity": "Working in deckcast d2"
+      },
+      "abstract": "Lets the player show subtitles and fire map actions exactly when a line is spoken."
+    },
+    {
+      "id": "@spire-level1",
+      "district_ref": "@dist-voice",
+      "kind": "system",
+      "title": "Level 1 — narrated dialogue tour",
+      "code": "DIALOGUE TOUR",
+      "codename": "DIALOGUE TOUR",
+      "scale_level": 0.75,
+      "place": [
+        -430,
+        -150
+      ],
+      "metrics": {
+        "scale": "Guide + sceptic, two voices",
+        "acceleration": "Lines can move the map",
+        "infrastructure": "maya · owen",
+        "maturity": "Next"
+      },
+      "abstract": "The tour read as a conversation: the sceptic asks what a reviewer would ask, the guide answers and points at the map.",
+      "status": "planned"
+    },
+    {
+      "id": "@spire-level2",
+      "district_ref": "@dist-voice",
+      "kind": "system",
+      "title": "Level 2 — questions to choose",
+      "code": "QUESTIONS",
+      "codename": "QUESTIONS",
+      "scale_level": 0.65,
+      "place": [
+        -180,
+        -150
+      ],
+      "metrics": {
+        "scale": "2–3 questions per stop",
+        "acceleration": "Pre-voiced answers, same pipeline",
+        "infrastructure": "chips on the card",
+        "maturity": "Planned"
+      },
+      "abstract": "Click a question, the tour pauses, a recorded answer plays and the map shows the evidence, then the tour continues.",
+      "status": "planned"
+    },
+    {
+      "id": "@spire-level3",
+      "district_ref": "@dist-voice",
+      "kind": "system",
+      "title": "Level 3 — talk to the city",
+      "code": "ASK THE CITY",
+      "codename": "ASK THE CITY",
+      "scale_level": 0.6,
+      "place": [
+        70,
+        -150
+      ],
+      "metrics": {
+        "scale": "Live voice agent",
+        "acceleration": "Knowledge = the spec; tools = map actions",
+        "infrastructure": "ElevenLabs conversational agent",
+        "maturity": "Planned"
+      },
+      "abstract": "Ask anything by voice; the agent answers from the map's own knowledge and flies the camera to the evidence.",
+      "status": "planned"
+    },
+    {
+      "id": "@spire-use-sciance",
+      "district_ref": "@dist-use",
+      "kind": "system",
+      "title": "SCIANCE materials map",
+      "code": "SCIANCE MAP",
+      "codename": "SCIANCE MAP",
+      "scale_level": 0.8,
+      "place": [
+        -430,
+        150
+      ],
+      "metrics": {
+        "scale": "Public, GitHub Pages",
+        "acceleration": "5 districts · 16 buildings",
+        "infrastructure": "sciance-d1-1-metropolis",
+        "maturity": "Followed 3 revisions"
+      },
+      "abstract": "The materials-science chapter as a city with constraints drawn where they act."
+    },
+    {
+      "id": "@spire-use-paper",
+      "district_ref": "@dist-use",
+      "kind": "system",
+      "title": "Autoresearch in the Wild",
+      "code": "PAPER MAP",
+      "codename": "PAPER MAP",
+      "scale_level": 0.95,
+      "place": [
+        -180,
+        150
+      ],
+      "metrics": {
+        "scale": "Public, GitHub Pages",
+        "acceleration": "5 districts · 38 buildings · 9-stop tour",
+        "infrastructure": "ai-research-bench",
+        "maturity": "City + metro"
+      },
+      "abstract": "The paper as five story districts with lineages, failure modes, six rules on trial, data plazas and a provenance file."
+    },
+    {
+      "id": "@spire-use-kd",
+      "district_ref": "@dist-use",
+      "kind": "system",
+      "title": "Knowledge Discovery CEO view",
+      "code": "CEO VIEW",
+      "codename": "CEO VIEW",
+      "scale_level": 0.7,
+      "place": [
+        70,
+        150
+      ],
+      "metrics": {
+        "scale": "Private, local only",
+        "acceleration": "Epics, waits, risk cascade, milestones",
+        "infrastructure": "project status map",
+        "maturity": "Used for a status read-out"
+      },
+      "abstract": "A project as a time corridor with a 'you are here' line; kept private because it names people and risks."
+    },
+    {
+      "id": "@spire-use-decks",
+      "district_ref": "@dist-use",
+      "kind": "system",
+      "title": "deckcast narrated decks",
+      "code": "NARRATED DECKS",
+      "codename": "NARRATED DECKS",
+      "scale_level": 0.6,
+      "place": [
+        320,
+        150
+      ],
+      "metrics": {
+        "scale": "97-second video · 12-slide two-voice site",
+        "acceleration": "MP4 and self-contained HTML",
+        "infrastructure": "deckcast d1, d2",
+        "maturity": "Shared with colleagues"
+      },
+      "abstract": "Two decks already narrated end to end, one with a talk-to-the-agent link."
+    }
+  ],
+  "conduits": [
+    {
+      "id": "@conduit-read",
+      "name": "The agent reads the source document",
+      "code": "READ",
+      "codename": "READ",
+      "from": "@spire-src-paper",
+      "to": "@spire-discovery",
+      "status": "operational",
+      "type": "Input",
+      "bandwidth": "",
+      "description": "The agent reads the source document."
+    },
+    {
+      "id": "@conduit-propose",
+      "name": "A one-page profile proposes the metaphor",
+      "code": "PROPOSE",
+      "codename": "PROPOSE",
+      "from": "@spire-discovery",
+      "to": "@spire-profile",
+      "status": "operational",
+      "type": "Draft",
+      "bandwidth": "",
+      "description": "A one-page profile proposes the metaphor."
+    },
+    {
+      "id": "@conduit-approve",
+      "name": "A human approves the profile before anything is built",
+      "code": "APPROVE",
+      "codename": "APPROVE",
+      "from": "@spire-profile",
+      "to": "@spire-architect",
+      "status": "operational",
+      "type": "Gate",
+      "bandwidth": "",
+      "description": "A human approves the profile before anything is built."
+    },
+    {
+      "id": "@conduit-specify",
+      "name": "The architect writes the semantic spec",
+      "code": "SPECIFY",
+      "codename": "SPECIFY",
+      "from": "@spire-architect",
+      "to": "@spire-spec",
+      "status": "operational",
+      "type": "Draft",
+      "bandwidth": "",
+      "description": "The architect writes the semantic spec."
+    },
+    {
+      "id": "@conduit-compile",
+      "name": "One spec in, every view out",
+      "code": "COMPILE",
+      "codename": "COMPILE",
+      "from": "@spire-spec",
+      "to": "@spire-compiler",
+      "status": "operational",
+      "type": "Build",
+      "bandwidth": "",
+      "description": "One spec in, every view out."
+    },
+    {
+      "id": "@conduit-city",
+      "name": "Geometry for the city",
+      "code": "3D",
+      "codename": "3D",
+      "from": "@spire-compiler",
+      "to": "@spire-city",
+      "status": "operational",
+      "type": "View",
+      "bandwidth": "",
+      "description": "Geometry for the city."
+    },
+    {
+      "id": "@conduit-metro",
+      "name": "Layout for the metro map",
+      "code": "SCHEMATIC",
+      "codename": "SCHEMATIC",
+      "from": "@spire-compiler",
+      "to": "@spire-metro",
+      "status": "operational",
+      "type": "View",
+      "bandwidth": "",
+      "description": "Layout for the metro map."
+    },
+    {
+      "id": "@conduit-tour",
+      "name": "Resolved tour cameras",
+      "code": "CAMERAS",
+      "codename": "CAMERAS",
+      "from": "@spire-compiler",
+      "to": "@spire-tour",
+      "status": "operational",
+      "type": "View",
+      "bandwidth": "",
+      "description": "Resolved tour cameras."
+    },
+    {
+      "id": "@conduit-export",
+      "name": "The tour becomes a two-voice narration script",
+      "code": "EXPORT SCRIPT",
+      "codename": "EXPORT SCRIPT",
+      "from": "@spire-tour",
+      "to": "@spire-narration",
+      "status": "planned",
+      "type": "Planned export",
+      "bandwidth": "",
+      "description": "The tour becomes a two-voice narration script."
+    },
+    {
+      "id": "@conduit-voice",
+      "name": "deckcast voices every line",
+      "code": "VOICE",
+      "codename": "VOICE",
+      "from": "@spire-narration",
+      "to": "@spire-deckcast",
+      "status": "operational",
+      "type": "Build",
+      "bandwidth": "",
+      "description": "deckcast voices every line."
+    },
+    {
+      "id": "@conduit-cues",
+      "name": "Audio per stop and line timings",
+      "code": "CUES",
+      "codename": "CUES",
+      "from": "@spire-deckcast",
+      "to": "@spire-cues",
+      "status": "operational",
+      "type": "Output",
+      "bandwidth": "",
+      "description": "Audio per stop and line timings."
+    },
+    {
+      "id": "@conduit-play",
+      "name": "The viewer plays the dialogue and moves the map on cue",
+      "code": "PLAY",
+      "codename": "PLAY",
+      "from": "@spire-cues",
+      "to": "@spire-level1",
+      "status": "planned",
+      "type": "Planned",
+      "bandwidth": "",
+      "description": "The viewer plays the dialogue and moves the map on cue."
+    },
+    {
+      "id": "@conduit-qa",
+      "name": "Questions and answers use the same script, voices and map actions",
+      "code": "SAME PIPELINE",
+      "codename": "SAME PIPELINE",
+      "from": "@spire-level1",
+      "to": "@spire-level2",
+      "status": "planned",
+      "type": "Planned",
+      "bandwidth": "",
+      "description": "Questions and answers use the same script, voices and map actions."
+    },
+    {
+      "id": "@conduit-kb",
+      "name": "Q&A and station cards become the live agent's knowledge; map actions become its tools",
+      "code": "KNOWLEDGE",
+      "codename": "KNOWLEDGE",
+      "from": "@spire-level2",
+      "to": "@spire-level3",
+      "status": "planned",
+      "type": "Planned",
+      "bandwidth": "",
+      "description": "Q&A and station cards become the live agent's knowledge; map actions become its tools."
+    },
+    {
+      "id": "@conduit-pub1",
+      "name": "Live on GitHub Pages",
+      "code": "PUBLISH",
+      "codename": "PUBLISH",
+      "from": "@spire-city",
+      "to": "@spire-use-sciance",
+      "status": "operational",
+      "type": "Publish",
+      "bandwidth": "",
+      "description": "Live on GitHub Pages."
+    },
+    {
+      "id": "@conduit-pub2",
+      "name": "Live on GitHub Pages, city and metro",
+      "code": "PUBLISH",
+      "codename": "PUBLISH",
+      "from": "@spire-metro",
+      "to": "@spire-use-paper",
+      "status": "operational",
+      "type": "Publish",
+      "bandwidth": "",
+      "description": "Live on GitHub Pages, city and metro."
+    },
+    {
+      "id": "@conduit-pub3",
+      "name": "Served locally only",
+      "code": "LOCAL",
+      "codename": "LOCAL",
+      "from": "@spire-city",
+      "to": "@spire-use-kd",
+      "status": "operational",
+      "type": "Private",
+      "bandwidth": "",
+      "description": "Served locally only."
+    },
+    {
+      "id": "@conduit-decks",
+      "name": "Narrated decks",
+      "code": "VIDEO",
+      "codename": "VIDEO",
+      "from": "@spire-deckcast",
+      "to": "@spire-use-decks",
+      "status": "operational",
+      "type": "Output",
+      "bandwidth": "",
+      "description": "Narrated decks."
+    }
+  ],
+  "bottlenecks": [
+    {
+      "id": "@bneck-review",
+      "title": "A person must check the spec",
+      "code": "HUMAN REVIEW",
+      "codename": "HUMAN REVIEW",
+      "district_ref": "@dist-und",
+      "severity": 0.6,
+      "scope": "node",
+      "constrains": [
+        "@spire-spec"
+      ],
+      "effect": "slowdown",
+      "nature": "Honest limit",
+      "impact": "Agents draft the profile and the spec, but numbers and claims need a human read before publishing; the paper map's provenance file exists for that reason.",
+      "remedy": "Keep the two gates and the provenance file; make the review a checklist."
+    },
+    {
+      "id": "@bneck-layout",
+      "title": "Dense maps need manual placement",
+      "code": "HAND LAYOUT",
+      "codename": "HAND LAYOUT",
+      "district_ref": "@dist-build",
+      "severity": 0.5,
+      "scope": "node",
+      "constrains": [
+        "@spire-compiler"
+      ],
+      "effect": "slowdown",
+      "nature": "Honest limit",
+      "impact": "Automatic placement handles small districts; districts with many buildings or plazas still need explicit positions in the spec.",
+      "remedy": "Smarter packing in the compiler; label placement already avoids overlaps."
+    },
+    {
+      "id": "@bneck-script",
+      "title": "Narration scripts are written by hand",
+      "code": "SCRIPT BY HAND",
+      "codename": "SCRIPT BY HAND",
+      "district_ref": "@dist-voice",
+      "severity": 0.6,
+      "scope": "node",
+      "constrains": [
+        "@spire-narration"
+      ],
+      "effect": "slowdown",
+      "nature": "Honest limit",
+      "impact": "deckcast compiles a script but does not write it; the tour-to-dialogue export is the missing step.",
+      "remedy": "Export the tour as a two-voice script, then review it like the spec.",
+      "remedied_by": [
+        "@conduit-export"
+      ]
+    },
+    {
+      "id": "@bneck-network",
+      "title": "The live agent needs the network",
+      "code": "LIVE = NETWORK",
+      "codename": "LIVE = NETWORK",
+      "district_ref": "@dist-voice",
+      "severity": 0.5,
+      "scope": "node",
+      "constrains": [
+        "@spire-level3"
+      ],
+      "effect": "slowdown",
+      "nature": "Honest limit",
+      "impact": "A live voice agent adds latency and can be unreachable during a demo.",
+      "remedy": "Levels 1 and 2 work offline from files; the mic button hides itself when the agent is unreachable."
+    }
+  ],
+  "challenges": [
+    {
+      "id": "@chal-minutes",
+      "title": "Minutes, not pages",
+      "code": "GOAL 1",
+      "codename": "MINUTES",
+      "district_ref": "@dist-doc",
+      "impact_scale": 0.9,
+      "type": "Goal",
+      "target": "Understand a 50-page document's argument in a five-minute guided tour — and still be able to open every number.",
+      "advanced_by": [
+        "@spire-tour",
+        "@spire-level1"
+      ],
+      "blocked_by": [],
+      "place": [
+        200,
+        -230
+      ]
+    },
+    {
+      "id": "@chal-trace",
+      "title": "Every number traceable",
+      "code": "GOAL 2",
+      "codename": "TRACEABLE",
+      "district_ref": "@dist-und",
+      "impact_scale": 0.85,
+      "type": "Goal",
+      "target": "Each station says where its numbers come from: the source, a recount, or a choice of the map.",
+      "advanced_by": [
+        "@spire-review",
+        "@spire-spec"
+      ],
+      "blocked_by": [
+        "@bneck-review"
+      ],
+      "place": [
+        -380,
+        -150
+      ]
+    },
+    {
+      "id": "@chal-one-spec",
+      "title": "One spec, every view",
+      "code": "GOAL 3",
+      "codename": "ONE SPEC",
+      "district_ref": "@dist-build",
+      "impact_scale": 0.8,
+      "type": "Goal",
+      "target": "City, metro, tour and voices are all generated from the same spec, so they never disagree.",
+      "advanced_by": [
+        "@spire-compiler",
+        "@spire-city",
+        "@spire-metro"
+      ],
+      "blocked_by": [
+        "@bneck-layout"
+      ],
+      "place": [
+        120,
+        -150
+      ]
+    },
+    {
+      "id": "@chal-ask",
+      "title": "Ask the city",
+      "code": "GOAL 4",
+      "codename": "ASK",
+      "district_ref": "@dist-voice",
+      "impact_scale": 0.8,
+      "type": "Goal",
+      "target": "Anyone can ask a question by voice and be shown the answer on the map.",
+      "advanced_by": [
+        "@spire-level3",
+        "@spire-deckcast"
+      ],
+      "blocked_by": [
+        "@bneck-network",
+        "@bneck-script"
+      ],
+      "place": [
+        330,
+        -150
+      ]
+    }
+  ],
+  "plazas": [
+    {
+      "id": "@plaza-from-doc",
+      "district_ref": "@dist-doc",
+      "title": "From document to map",
+      "place": [
+        150,
+        30
+      ],
+      "cell_size": 75,
+      "row_axis": "source",
+      "col_axis": "what it became",
+      "rows": [
+        "SCIANCE chapter",
+        "arXiv paper",
+        "KD canvas"
+      ],
+      "cols": [
+        "source",
+        "districts",
+        "buildings",
+        "tour stops"
+      ],
+      "layers": [
+        {
+          "id": "x",
+          "label": "Three real sources and the maps compiled from them",
+          "cells": [
+            [
+              "14.5k words",
+              5,
+              16,
+              "—"
+            ],
+            [
+              "23k words",
+              5,
+              38,
+              9
+            ],
+            [
+              "24 nodes",
+              4,
+              18,
+              "—"
+            ]
+          ]
+        }
+      ],
+      "description": "Three different kinds of source — a report chapter, a research paper, a project canvas — compiled by the same kit. Numbers are from the specs in this repository."
+    }
+  ],
+  "metro": {
+    "interchanges": [
+      {
+        "id": "source",
+        "label": "Source",
+        "members": [
+          "@spire-src-paper",
+          "@spire-discovery"
+        ],
+        "title": "Where reading starts",
+        "text": "The discovery agent reads the source document — here the arXiv paper — and proposes how to map it."
+      },
+      {
+        "id": "spec",
+        "label": "The spec",
+        "members": [
+          "@spire-spec",
+          "@spire-compiler"
+        ],
+        "title": "The one contract",
+        "text": "Everything downstream is compiled from this one file: the city, the metro, the tour, and the narration script."
+      },
+      {
+        "id": "tour-voice",
+        "label": "Tour → voice",
+        "members": [
+          "@spire-tour",
+          "@spire-narration"
+        ],
+        "title": "Where the map starts talking",
+        "text": "The tour's stops become the narration script that deckcast voices."
+      },
+      {
+        "id": "publish",
+        "label": "Publish",
+        "members": [
+          "@spire-metro",
+          "@spire-use-paper"
+        ],
+        "title": "From build to a live link",
+        "text": "A build is a static folder; GitHub Pages turns it into a link anyone can open."
+      }
+    ]
+  },
+  "tour": [
+    {
+      "id": "doc",
+      "title": "Nobody reads page 47",
+      "text": "Reports, papers and project plans carry their argument in tables, caveats and page 47. These three were real, and each became a map.",
+      "look": "The three sources and the 'from document to map' plaza",
+      "focus": [
+        "@spire-src-sciance",
+        "@spire-src-paper",
+        "@spire-src-kd",
+        "@plaza-from-doc",
+        "@chal-minutes"
+      ],
+      "camera": {
+        "target": "@dist-doc",
+        "zoom": 15.1,
+        "pitch": 52,
+        "bearing": -12
+      }
+    },
+    {
+      "id": "und",
+      "title": "Agents read, a human approves",
+      "text": "One agent proposes a one-page profile, another writes the spec. A person approves both, and a provenance file says where each number comes from.",
+      "look": "Discovery → profile → architect → spec, and the review gate",
+      "focus": [
+        "@spire-discovery",
+        "@spire-profile",
+        "@spire-architect",
+        "@spire-spec",
+        "@spire-review",
+        "@chal-trace",
+        "@bneck-review",
+        "@conduit-propose",
+        "@conduit-approve",
+        "@conduit-specify"
+      ],
+      "camera": {
+        "target": "@dist-und",
+        "zoom": 15.1,
+        "pitch": 52,
+        "bearing": -12
+      }
+    },
+    {
+      "id": "build",
+      "title": "One spec, many views",
+      "text": "A deterministic compiler turns the spec into a 3D city, a metro map and this tour. Change the spec, rebuild, and every view agrees.",
+      "look": "Compiler → city, metro, tour",
+      "focus": [
+        "@spire-compiler",
+        "@spire-city",
+        "@spire-metro",
+        "@spire-tour",
+        "@spire-validator",
+        "@chal-one-spec",
+        "@conduit-city",
+        "@conduit-metro",
+        "@conduit-tour",
+        "@conduit-compile"
+      ],
+      "camera": {
+        "target": "@dist-build",
+        "zoom": 15.1,
+        "pitch": 52,
+        "bearing": -12
+      }
+    },
+    {
+      "id": "voice",
+      "title": "The map talks — and will listen",
+      "text": "deckcast already voices scripts with two speakers. Next, the tour becomes a dialogue, then questions you can pick, then a live agent you can ask.",
+      "look": "deckcast, the handover files, and three levels of voice",
+      "focus": [
+        "@spire-deckcast",
+        "@spire-narration",
+        "@spire-cues",
+        "@spire-level1",
+        "@spire-level2",
+        "@spire-level3",
+        "@chal-ask",
+        "@conduit-voice",
+        "@conduit-cues",
+        "@conduit-play",
+        "@conduit-qa",
+        "@conduit-kb"
+      ],
+      "camera": {
+        "target": "@dist-voice",
+        "zoom": 15.1,
+        "pitch": 52,
+        "bearing": -12
+      }
+    },
+    {
+      "id": "use",
+      "title": "Already working",
+      "text": "Two public maps, a private CEO view and two narrated decks exist today — and this map was built the same way.",
+      "look": "The live maps and decks",
+      "focus": [
+        "@spire-use-sciance",
+        "@spire-use-paper",
+        "@spire-use-kd",
+        "@spire-use-decks"
+      ],
+      "camera": {
+        "target": "@dist-use",
+        "zoom": 15.1,
+        "pitch": 52,
+        "bearing": -12
+      }
+    }
+  ]
+}
