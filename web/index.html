@@ -1904,6 +1904,8 @@
     let metroBuilt = false;
     let currentView = 'city';
 
+    // a station's key: its ref, or ref@line when a ref sits on several routes (metro.routes)
+    const mKey = st => st.key || st.ref;
     function metroY(row) { const rows = METRO.lines.length; return M_PAD + (rows - 1 - row) * M_ROW; }
     function metroX(x) { return M_PAD + 260 + x * M_UNIT; }
     function metroStationLabel(st) {
@@ -1942,10 +1944,10 @@
       const ic = {};
       METRO.interchanges.forEach(c => {
         const members = c.members.slice().sort((a, b) => {
-          const ra = METRO.stations.find(s => s.ref === a).row, rb = METRO.stations.find(s => s.ref === b).row;
+          const ra = METRO.stations.find(s => mKey(s) === a).row, rb = METRO.stations.find(s => mKey(s) === b).row;
           return rb - ra;   // higher row = higher on screen = smaller y
         });
-        const ys = members.map(m => metroY(METRO.stations.find(s => s.ref === m).row));
+        const ys = members.map(m => metroY(METRO.stations.find(s => mKey(s) === m).row));
         const yc = ys.reduce((a, b) => a + b, 0) / ys.length;
         members.forEach((m, i) => { target[m] = yc + (i - (members.length - 1) / 2) * M_TRACK; });
         const tys = members.map(m => target[m]);
@@ -1955,11 +1957,11 @@
       METRO.lines.forEach(ln => {
         const h = metroY(ln.row);
         const stations = METRO.stations.filter(s => s.line === ln.id).sort((a, b) => a.x - b.x);
-        const knots = stations.filter(s => s.ref in target).map(s => [metroX(s.x), target[s.ref]]);
+        const knots = stations.filter(s => mKey(s) in target).map(s => [metroX(s.x), target[mKey(s)]]);
         // a line whose first station is an interchange starts right there, at the track height
-        const firstIsKnot = stations.length && stations[0].ref in target;
+        const firstIsKnot = stations.length && mKey(stations[0]) in target;
         const start = metroX(ln.x0) - 40;
-        const y0 = firstIsKnot ? target[stations[0].ref] : h;
+        const y0 = firstIsKnot ? target[mKey(stations[0])] : h;
         const pts = [[start, y0]];
         let [cx, cy] = [start, y0];
         const push = (x, y) => { if (x > cx + 0.01 || pts.length === 0) { pts.push([x, y]); cx = x; cy = y; } else { pts[pts.length - 1] = [Math.max(x, cx), y]; cy = y; } };
@@ -1985,7 +1987,7 @@
           }
           return pts[pts.length - 1][1];
         };
-        stations.forEach(s => { const x = metroX(s.x); st[s.ref] = { x, y: s.ref in target ? target[s.ref] : yAt(x) }; });
+        stations.forEach(s => { const x = metroX(s.x); st[mKey(s)] = { x, y: mKey(s) in target ? target[mKey(s)] : yAt(x) }; });
       });
       return { paths, st, ic };
     }
@@ -2020,23 +2022,25 @@
       // interchanges: a white capsule joining the member stations, label above its top
       METRO.interchanges.forEach((ic, icIdx) => {
         const { x, y0, y1 } = mGeo.ic[ic.id];
-        const openIc = ev => { ev.stopPropagation(); if (!metroDragMoved) selectObject('interchange', ic.id, icIdx); };
+        const openIc = ev => { ev.stopPropagation(); if (!metroDragMoved) (ic.ref ? gotoRef(ic.ref) : selectObject('interchange', ic.id, icIdx)); };
         const cap = el('rect', { class: 'metro-ic', 'data-ic': ic.id, x: x - 17, y: y0 - 17, width: 34, height: y1 - y0 + 34, rx: 17, fill: '#ffffff', stroke: '#0a0f1c', 'stroke-width': 4 }, gIc);
         el('title', {}, cap).textContent = `⇄ ${ic.label || ''}${ic.title ? ' — ' + ic.title : ''}`;
         cap.addEventListener('click', openIc);
         const lg = el('g', { class: 'metro-ic-g', 'data-ic': ic.id }, gLab);
         lg.addEventListener('click', openIc);
         const t = el('text', { x: 0, y: 0, 'text-anchor': 'middle', class: 'metro-ic-label' }, lg);
-        t.textContent = `⇄ ${ic.label || ''}`;
-        metroLabels.push({ g: lg, cx: x, cy: y0, r: 18, prio: 100, ic: true });
+        t.textContent = ic.ref ? (ic.label || '') : `⇄ ${ic.label || ''}`;
+        if (ic.ref) lg.dataset.ref = ic.ref, cap.dataset.ref = ic.ref;
+        metroLabels.push({ g: lg, cx: x, cy: y0, cy1: y1, r: 18, prio: 100, ic: true, ref: ic.ref });
       });
       // stations
       const byLine = {};
       METRO.stations.forEach(st => (byLine[st.line] = byLine[st.line] || []).push(st));
       Object.values(byLine).forEach(list => list.sort((a, b) => a.x - b.x).forEach((st, i) => {
         const ln = METRO.lines.find(l => l.id === st.line);
-        const { x, y } = mGeo.st[st.ref];
+        const { x, y } = mGeo.st[mKey(st)];
         const e = refEntity(st.ref);
+        const sharedIc = st.interchange && (METRO.interchanges.find(c => c.id === st.interchange) || {}).ref;
         const g = el('g', { class: 'metro-station', 'data-ref': st.ref }, gSt);
         const lab = metroStationLabel(st);
         el('title', {}, g).textContent = lab.name + (lab.sub ? ` — ${lab.sub}` : '');
@@ -2053,6 +2057,8 @@
           el('circle', { class: 'm-dot', cx: x, cy: y, r: st.interchange ? 9 : 11, fill: '#ffffff', stroke: st.interchange ? '#0a0f1c' : ln.color, 'stroke-width': st.interchange ? 3 : 5 }, g);
           r = st.interchange ? 18 : 13;
         }
+        g.addEventListener('click', ev => { ev.stopPropagation(); if (!metroDragMoved) gotoRef(st.ref); });
+        if (sharedIc) return;   // a station shared by several routes is labelled once, on its interchange
         const lg = el('g', { class: 'metro-station-label', 'data-ref': st.ref }, gLab);
         const icon = e && e.kind === 'spire' && HAS_KINDS ? kindOf(e.item).icon + ' ' : '';
         const rows = wrapLabel(lab.name, 22);
@@ -2062,15 +2068,14 @@
         lg.addEventListener('click', ev => { ev.stopPropagation(); if (!metroDragMoved) gotoRef(st.ref); });
         const prio = st.kind === 'challenge' ? 90 : st.kind === 'plaza' ? 80 : st.interchange ? 70 : 50;
         metroLabels.push({ g: lg, cx: x, cy: y, r, prio, side: !!st.interchange, order: i, ref: st.ref });
-        g.addEventListener('click', ev => { ev.stopPropagation(); if (!metroDragMoved) gotoRef(st.ref); });
       }));
       // line key (instead of names on the map, which pile up where lines share a terminus)
       const legend = document.getElementById('metroLegend');
       const district = id => (window.DISTRICTS || []).find(d => d.id === id) || {};
       legend.innerHTML = METRO.lines.slice().sort((a, b) => a.row - b.row).map(ln => `
         <div class="metro-legend-item" data-line="${ln.id}"><span class="metro-legend-bar" style="background: ${ln.color};"></span>
-          <span>${ln.name}<span class="metro-legend-sub">${district(ln.id).scale_label || ''}</span></span></div>`).join('') +
-        (METRO.interchanges.length ? `<div class="metro-legend-item metro-legend-ic"><span class="metro-legend-bar" style="background: #fff; height: 14px; width: 14px; border-radius: 7px; border: 3px solid #0a0f1c; box-sizing: border-box;"></span><span>Interchange — click for why<span class="metro-legend-sub">${METRO.interchanges.length} transfers between lines</span></span></div>` : '');
+          <span>${ln.name}<span class="metro-legend-sub">${district(ln.id).scale_label || ln.sub || ''}</span></span></div>`).join('') +
+        (METRO.interchanges.length && !METRO.interchanges.some(c => c.ref) ? `<div class="metro-legend-item metro-legend-ic"><span class="metro-legend-bar" style="background: #fff; height: 14px; width: 14px; border-radius: 7px; border: 3px solid #0a0f1c; box-sizing: border-box;"></span><span>Interchange — click for why<span class="metro-legend-sub">${METRO.interchanges.length} transfers between lines</span></span></div>` : '');
       legend.querySelectorAll('[data-line]').forEach(item => item.addEventListener('click', ev => {
         ev.stopPropagation();
         focusMetro(METRO.stations.filter(s => s.line === item.dataset.line).map(s => s.ref));
@@ -2102,7 +2107,7 @@
       const PADX = 3, PADY = 2;
       // obstacles in screen px (relative to an arbitrary origin: unit / k)
       METRO.stations.forEach(st => {
-        const p = mGeo.st[st.ref], x = p.x / k, y = p.y / k, r = 9;
+        const p = mGeo.st[mKey(st)], x = p.x / k, y = p.y / k, r = 9;
         placed.push({ x: x - r, y: y - r, w: 2 * r, h: 2 * r });
       });
       // the line strokes: level runs as one box, diagonals sampled as small boxes
@@ -2127,6 +2132,9 @@
         L.g.setAttribute('transform', `translate(${L.ux},${L.uy - (L.h / 2 - 8) * k}) scale(${k})`);
         placed.push({ x: sx - PADX, y: sy - PADY, w: L.w + 2 * PADX, h: L.h + 2 * PADY });
       });
+      // labels of shared stations (route hubs) may cross line strokes, never another label
+      const nObstacles = placed.length;
+      const hitLabel = (a) => placed.slice(nObstacles).some(b => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h);
       const boost = L => (L.ref && metroFocus.has(L.ref) ? 1000 : 0);
       const items = metroLabels.slice().sort((a, b) => (b.prio + boost(b)) - (a.prio + boost(a)) || (a.order || 0) - (b.order || 0));
       items.forEach(L => {
@@ -2135,12 +2143,15 @@
         const above = [-L.w / 2, -gap - L.h], below = [-L.w / 2, gap];
         const right = [gap, -L.h / 2], left = [-gap - L.w, -L.h / 2];
         const ar = [gap * 0.6, -gap - L.h], br = [gap * 0.6, gap], al = [-gap * 0.6 - L.w, -gap - L.h], bl = [-gap * 0.6 - L.w, gap];
-        const cands = L.ic ? [[-L.w / 2, -gap - L.h - 2], [-L.w / 2, -gap - L.h - 18], [gap, -gap - L.h], [-gap - L.w, -gap - L.h]]
+        // an interchange: above its capsule first, then beside its middle, then below it
+        const capH = L.cy1 !== undefined ? (L.cy1 - L.cy) / k : 0;
+        const cands = L.ic ? [[-L.w / 2, -gap - L.h - 2], [-L.w / 2, -gap - L.h - 18], [gap, -gap - L.h], [-gap - L.w, -gap - L.h],
+          [gap + 4, capH / 2 - L.h / 2], [-gap - 4 - L.w, capH / 2 - L.h / 2], [-L.w / 2, capH + gap + 2], [gap, capH + gap]]
           : L.side ? [right, left, ar, br, al, bl, above, below]
           : (L.order % 2 === 0 ? [above, below, ar, br, al, bl, right, left] : [below, above, br, ar, bl, al, right, left]);
         for (const [dx, dy] of cands) {
           const r = { x: cx + dx - PADX, y: cy + dy - PADY, w: L.w + 2 * PADX, h: L.h + 2 * PADY };
-          if (!hit(r)) {
+          if (!(L.ic && L.ref ? hitLabel(r) : hit(r))) {
             placed.push(r);
             // label content starts at its own bbox origin (bx, by); shift so the box lands at (dx, dy)
             const ux = (cx + dx - L.bx) * k, uy = (cy + dy - L.by) * k;
@@ -2193,7 +2204,7 @@
     function focusMetro(refs) {
       const pts = METRO.stations.filter(s => refs.includes(s.ref));
       if (!pts.length) return;
-      const xs = pts.map(s => mGeo.st[s.ref].x), ys = pts.map(s => mGeo.st[s.ref].y);
+      const xs = pts.map(s => mGeo.st[mKey(s)].x), ys = pts.map(s => mGeo.st[mKey(s)].y);
       const svg = document.getElementById('metroSvg');
       const box = svg.getBoundingClientRect();
       const aspect = (box.width || 1600) / (box.height || 1000);

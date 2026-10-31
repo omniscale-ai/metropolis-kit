@@ -11,6 +11,8 @@ FEATURE documents and its Rust sources, and follows the Cypilot `@cpt-*` markers
 | 3 · Features | the decomposition's features + the spec ↔ code coverage plaza | number of spec items |
 | 4 · Code | Rust modules | lines of code |
 
+**Metro:** one line per feature — the requirements it covers, the components it builds, the feature, then the modules most specific to it; shared stations are interchanges.
+
 Roads: requirement → feature ("covers"), component → feature ("builds"), feature → feature ("depends on"),
 feature → module (≥ 3 `@cpt` markers). Red constraints: spec items with no marker in the code, and code with no marker.
 

@@ -30,6 +30,9 @@ IMPL_KINDS = ('flow', 'algo', 'dod', 'state')
 
 DISTRICT_W, DISTRICT_H = 1100.0, 680.0
 MIN_MARKS = 3   # a feature → module road needs at least this many markers (fewer stay in the cards)
+METRO_MODULES = 3   # a feature's metro line ends in the modules most specific to it
+LINE_COLORS = ['#00f0ff', '#ffb020', '#b44dff', '#00e599', '#ff5c7a', '#4d8dff', '#ffe14d', '#ff8a3d',
+               '#7cffb2', '#ff7ad9', '#a0b4ff', '#c8ff4d']
 
 
 def clean(md):
@@ -360,6 +363,23 @@ def main():
              'operational' if n >= 5 else 'thin', typ='Implementation',
              desc=f'{n} @cpt markers in this module point at spec items of the feature')
 
+    # ---- metro: one line per feature — the requirements it covers, the components it builds,
+    # the feature itself, then the modules that carry most of its markers. A station shared by
+    # several features becomes an interchange.
+    routes = []
+    for n_f, f in enumerate(feats):
+        frs_f = [sid(r) for b, refs in f['covered'].items() for r, _ in refs if kind_of(r, prefix) == 'fr']
+        comps_f = [sid(r) for b, refs in f['covered'].items() for r, _ in refs if kind_of(r, prefix) == 'component']
+        # the modules most specific to this feature: its share of the module's markers, not raw size
+        # (a module every feature touches, like the REST layer, says little about any one of them)
+        total = {k: sum(groups[k]['marks'].values()) for k in code_keys}
+        mods = sorted(((n / total[k], k) for n, ff, k in links_fc if ff is f and n >= MIN_MARKS), key=lambda x: -x[0])[:METRO_MODULES]
+        items = items_of[f['id']]
+        routes.append({'id': 'line-' + short(f['id'])[8:], 'name': f"F-{n_f + 1:02d} · {f['title']}",
+                       'sub': f"{len(items)} spec items · {sum(1 for d in items if d['id'] in marked)} marked in code",
+                       'color': LINE_COLORS[n_f % len(LINE_COLORS)],
+                       'stations': list(dict.fromkeys(frs_f + comps_f + [sid(f['id'])] + [code_sid[k] for _, k in mods]))})
+
     # ---- gaps
     for f in feats:
         gap = untraced_of[f['id']]
@@ -433,7 +453,7 @@ def main():
         'city_metadata': {
             'title': gname.upper(), 'subtitle': f'Spec ↔ code · {gdesc}'.strip(' ·'), 'theme': 'quantum_crystal', 'schema_version': '2.0',
             'scale_axis_label': '', 'scale_axis_description': 'South to north: requirements → design → features → code; roads are traceability links.',
-            'building_scale': 0.6, 'target_scale': 0.6, 'road_badges': False, 'road_arrows': 'sparse', 'views': ['city'],
+            'building_scale': 0.6, 'target_scale': 0.6, 'road_badges': False, 'road_arrows': 'sparse', 'views': ['city', 'metro'],
             'default_view': {'legend': 'collapsed', 'layers': ['districts', 'spires', 'conduits', 'challenges']},
             'ui_labels': {'metric_scale': 'Size', 'metric_acceleration': 'Trace', 'metric_infrastructure': 'Where', 'metric_maturity': 'State',
                           'abstract_title': 'What it is', 'impact_title': 'Why it matters', 'remedy_title': 'What would fix it',
@@ -441,7 +461,7 @@ def main():
                           'kind_system': 'Code module', 'kind_knowledge': 'Requirement or design', 'kind_instrument': 'Tests', 'kind_hub': 'Feature'},
         },
         'districts': districts, 'spires': spires, 'conduits': conduits, 'bottlenecks': bnecks, 'challenges': chals,
-        'plazas': [plaza], 'tour': tour,
+        'plazas': [plaza], 'tour': tour, 'metro': {'routes': routes},
     }
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     with open(args.out, 'w', encoding='utf-8') as f:

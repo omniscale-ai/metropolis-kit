@@ -259,6 +259,16 @@ def validate_metro(spec, district_ids, spire_ids, plaza_ids):
     for ref in metro.get('hide', []):
         if ref not in where:
             errors.append(f"metro.hide lists unknown {ref}")
+    route_ids = set()
+    for rt in metro.get('routes', []):
+        if not rt.get('id') or rt['id'] in route_ids:
+            errors.append(f"metro route needs a unique id: {rt.get('id')!r}")
+        route_ids.add(rt.get('id'))
+        for ref in rt.get('stations', []):
+            if ref not in where:
+                errors.append(f"metro route {rt.get('id')} lists unknown station {ref}")
+    if metro.get('routes') and (metro.get('lines') or metro.get('interchanges')):
+        errors.append("metro: use either 'routes' (explicit lines, interchanges derived) or 'lines'/'interchanges', not both")
     return errors
 
 def build_metro(spec, sorted_districts, spire_locations, compiled_challenges, plaza_meta):
@@ -269,16 +279,39 @@ def build_metro(spec, sorted_districts, spire_locations, compiled_challenges, pl
     pos.update({c['id']: tuple(c['coordinates']) for c in compiled_challenges})
     pos.update({p['id']: tuple(p['coordinates']) for p in plaza_meta})
 
-    # stations per line: explicit order first, then west -> east
-    lines = []
-    for row, dist in enumerate(sorted_districts):
-        members = [r for r, d in where.items() if d == dist['id'] and r not in hide and r in pos]
-        order = [r for r in metro.get('lines', {}).get(dist['id'], {}).get('order', []) if r in members]
-        rest = sorted((r for r in members if r not in order), key=lambda r: (pos[r][0], -pos[r][1]))
-        lines.append({'id': dist['id'], 'name': dist['name'], 'color': dist['color'], 'row': row, 'stations': order + rest})
+    ref_of = {}   # station key -> ref (a ref on several routes has one station per route)
+    if metro.get('routes'):
+        # explicit routes (e.g. one line per feature): a ref may sit on several lines; every
+        # ref on two or more lines becomes an interchange whose members are its stations
+        titles = {x['id']: x.get('title', x['id']) for coll in ('spires', 'challenges', 'plazas') for x in spec.get(coll, [])}
+        lines, on = [], {}
+        n = len(metro['routes'])
+        for idx, rt in enumerate(metro['routes']):
+            keys = []
+            for r in rt.get('stations', []):
+                if r in pos and r not in hide and f"{r}@{rt['id']}" not in ref_of:
+                    k = f"{r}@{rt['id']}"
+                    ref_of[k] = r
+                    keys.append(k)
+                    on.setdefault(r, []).append(k)
+            lines.append({'id': rt['id'], 'name': rt.get('name', rt['id']), 'sub': rt.get('sub', ''),
+                          'color': rt.get('color', '#00f0ff'), 'row': n - 1 - idx, 'stations': keys})
+        interchanges = [{'id': 'ic-' + r.lstrip('@'), 'label': titles.get(r, r)[:26], 'ref': r, 'members': keys}
+                        for r, keys in on.items() if len(keys) >= 2]
+        lines = [ln for ln in lines if ln['stations']]
+    else:
+        # stations per line: explicit order first, then west -> east
+        lines = []
+        for row, dist in enumerate(sorted_districts):
+            members = [r for r, d in where.items() if d == dist['id'] and r not in hide and r in pos]
+            order = [r for r in metro.get('lines', {}).get(dist['id'], {}).get('order', []) if r in members]
+            rest = sorted((r for r in members if r not in order), key=lambda r: (pos[r][0], -pos[r][1]))
+            lines.append({'id': dist['id'], 'name': dist['name'], 'color': dist['color'], 'row': row, 'stations': order + rest})
 
-    # interchanges: from the spec, or one per cross-district road
-    if metro.get('interchanges'):
+    # interchanges: from the routes, from the spec, or one per cross-district road
+    if metro.get('routes'):
+        pass
+    elif metro.get('interchanges'):
         interchanges = [dict(ic) for ic in metro['interchanges']]
     else:
         interchanges, used = [], set()
@@ -368,8 +401,9 @@ def build_metro(spec, sorted_districts, spire_locations, compiled_challenges, pl
     for ln in lines:
         st, xs = ln['stations'], ln.pop('_xs')
         for r, x in zip(st, xs):
-            kind = 'plaza' if r.startswith('@plaza-') else 'challenge' if r.startswith('@chal-') else 'spire'
-            stations.append({'ref': r, 'kind': kind, 'line': ln['id'], 'row': ln['row'], 'x': round(x, 3),
+            ref = ref_of.get(r, r)
+            kind = 'plaza' if ref.startswith('@plaza-') else 'challenge' if ref.startswith('@chal-') else 'spire'
+            stations.append({'ref': ref, 'key': r, 'kind': kind, 'line': ln['id'], 'row': ln['row'], 'x': round(x, 3),
                              'interchange': interchanges[ic_of[r]]['id'] if r in ic_of else None})
         ln['x0'] = min(xs) if xs else 0
         ln['x1'] = max(xs) if xs else 0

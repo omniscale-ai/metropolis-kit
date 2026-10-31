@@ -11,7 +11,8 @@
   "road_badges": false,
   "road_arrows": "sparse",
   "views": [
-   "city"
+   "city",
+   "metro"
   ],
   "default_view": {
    "legend": "collapsed",
@@ -3684,5 +3685,172 @@
     "bearing": -16
    }
   }
- ]
+ ],
+ "metro": {
+  "routes": [
+   {
+    "id": "line-gear-foundation",
+    "name": "F-01 · Gear Foundation, SDK Contracts and Cross-Cutting Infrastructure",
+    "sub": "14 spec items · 11 marked in code",
+    "color": "#00f0ff",
+    "stations": [
+     "@spire-fr-authn-role-gating",
+     "@spire-component-audit-emitter",
+     "@spire-feature-gear-foundation",
+     "@spire-code-src-api",
+     "@spire-code-src-domain",
+     "@spire-code-src"
+    ]
+   },
+   {
+    "id": "line-category-management",
+    "name": "F-02 · Category Management",
+    "sub": "16 spec items · 16 marked in code",
+    "color": "#ffb020",
+    "stations": [
+     "@spire-fr-settings-category-model",
+     "@spire-component-category-management",
+     "@spire-feature-category-management",
+     "@spire-code-src-domain-category",
+     "@spire-code-src-infra-storage",
+     "@spire-code-src-api-rest"
+    ]
+   },
+   {
+    "id": "line-setting-declarations",
+    "name": "F-03 · Setting Declarations and Scope Class",
+    "sub": "26 spec items · 23 marked in code",
+    "color": "#b44dff",
+    "stations": [
+     "@spire-fr-setting-scope-class",
+     "@spire-fr-dependency-group-declaration",
+     "@spire-fr-declaration-purge",
+     "@spire-component-declaration-management",
+     "@spire-feature-setting-declarations",
+     "@spire-code-src-domain-declaration",
+     "@spire-code-sdk",
+     "@spire-code-src-api-rest"
+    ]
+   },
+   {
+    "id": "line-typed-value-validation",
+    "name": "F-04 · Typed Value Validation",
+    "sub": "15 spec items · 15 marked in code",
+    "color": "#00e599",
+    "stations": [
+     "@spire-fr-typed-value-validation",
+     "@spire-fr-subject-scoped-values",
+     "@spire-component-type-validator",
+     "@spire-feature-typed-value-validation",
+     "@spire-code-src-domain-validation",
+     "@spire-code-src-infra",
+     "@spire-code-src-infra-storage"
+    ]
+   },
+   {
+    "id": "line-value-resolution",
+    "name": "F-05 · Effective Value Resolution, Defaults and Cache",
+    "sub": "23 spec items · 23 marked in code",
+    "color": "#ff5c7a",
+    "stations": [
+     "@spire-fr-cascading-inheritance",
+     "@spire-fr-defaults-revert",
+     "@spire-fr-bulk-effective-read",
+     "@spire-fr-typed-value-validation",
+     "@spire-component-value-resolver",
+     "@spire-component-cache-and-invalidation",
+     "@spire-feature-value-resolution",
+     "@spire-code-src-domain-resolution",
+     "@spire-code-src-api-rest",
+     "@spire-code-src-infra-storage"
+    ]
+   },
+   {
+    "id": "line-audit-store",
+    "name": "F-06 · Audit Store and History",
+    "sub": "12 spec items · 12 marked in code",
+    "color": "#4d8dff",
+    "stations": [
+     "@spire-fr-audit-mutations",
+     "@spire-feature-audit-store",
+     "@spire-code-src-audit",
+     "@spire-code-src-infra-storage-migrations",
+     "@spire-code-src-infra-storage"
+    ]
+   },
+   {
+    "id": "line-tenant-access",
+    "name": "F-07 · Tenant Access Restrictions",
+    "sub": "15 spec items · 15 marked in code",
+    "color": "#ffe14d",
+    "stations": [
+     "@spire-fr-tenant-scope-enforcement",
+     "@spire-fr-per-setting-access",
+     "@spire-fr-barrier-default-seam",
+     "@spire-component-tenant-permission",
+     "@spire-feature-tenant-access",
+     "@spire-code-src-domain-access",
+     "@spire-code-src-api-rest"
+    ]
+   },
+   {
+    "id": "line-value-writes",
+    "name": "F-08 · Validate and Set Values",
+    "sub": "22 spec items · 22 marked in code",
+    "color": "#ff8a3d",
+    "stations": [
+     "@spire-fr-set-value",
+     "@spire-fr-validate-before-set",
+     "@spire-fr-live-read-activation",
+     "@spire-fr-tenant-overrides",
+     "@spire-component-value-writer",
+     "@spire-feature-value-writes",
+     "@spire-code-src-domain-writes",
+     "@spire-code-src-infra",
+     "@spire-code-src-api-rest"
+    ]
+   },
+   {
+    "id": "line-secret-values",
+    "name": "F-09 · Secret Values",
+    "sub": "14 spec items · 14 marked in code",
+    "color": "#7cffb2",
+    "stations": [
+     "@spire-component-secret-manager",
+     "@spire-feature-secret-values",
+     "@spire-code-src-domain-secrets",
+     "@spire-code-src-domain-writes",
+     "@spire-code-src-infra"
+    ]
+   },
+   {
+    "id": "line-module-contributions",
+    "name": "F-10 · Module-Contributed Declarations",
+    "sub": "14 spec items · 14 marked in code",
+    "color": "#ff7ad9",
+    "stations": [
+     "@spire-fr-module-contributed-declarations",
+     "@spire-fr-contributed-lifecycle",
+     "@spire-component-module-contribution-reconciler",
+     "@spire-feature-module-contributions",
+     "@spire-code-src-domain-contribution",
+     "@spire-code-src-infra"
+    ]
+   },
+   {
+    "id": "line-search-discoverability",
+    "name": "F-11 · Search & Discoverability",
+    "sub": "8 spec items · 8 marked in code",
+    "color": "#a0b4ff",
+    "stations": [
+     "@spire-fr-search-discoverability",
+     "@spire-component-search",
+     "@spire-feature-search-discoverability",
+     "@spire-code-src-domain-search",
+     "@spire-code-src-infra-storage",
+     "@spire-code-src-api-rest"
+    ]
+   }
+  ]
+ }
 }
