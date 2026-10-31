@@ -486,7 +486,7 @@
       "codename": "SCIANCE MAP",
       "scale_level": 0.8,
       "place": [
-        -430,
+        -460,
         150
       ],
       "metrics": {
@@ -512,7 +512,7 @@
       "codename": "PAPER MAP",
       "scale_level": 0.95,
       "place": [
-        -180,
+        -240,
         150
       ],
       "metrics": {
@@ -538,7 +538,7 @@
       "codename": "CEO VIEW",
       "scale_level": 0.7,
       "place": [
-        70,
+        -20,
         150
       ],
       "metrics": {
@@ -558,7 +558,7 @@
       "codename": "NARRATED DECKS",
       "scale_level": 0.6,
       "place": [
-        320,
+        200,
         150
       ],
       "metrics": {
@@ -568,6 +568,32 @@
         "maturity": "Shared with colleagues"
       },
       "abstract": "Two decks already narrated end to end, one with a talk-to-the-agent link."
+    },
+    {
+      "id": "@spire-use-gear",
+      "district_ref": "@dist-use",
+      "kind": "system",
+      "title": "Settings Service — spec ↔ code",
+      "code": "GEAR MAP",
+      "codename": "SPEC ↔ CODE",
+      "scale_level": 0.85,
+      "place": [
+        420,
+        150
+      ],
+      "metrics": {
+        "scale": "Public, GitHub Pages",
+        "acceleration": "29 requirements · 11 features · 21 modules",
+        "infrastructure": "gears-rust settings-service, imported",
+        "maturity": "173 of 179 spec items traced to code"
+      },
+      "abstract": "A gear's PRD, design, features and Rust code as one city, generated from the repository with no hand-written spec: every road is a traceability link from a Cypilot @cpt marker, gaps are drawn in red, and the metro has one line per feature.",
+      "links": [
+        {
+          "label": "Open the spec ↔ code map",
+          "url": "https://omniscale-ai.github.io/settings-service-metropolis/"
+        }
+      ]
     }
   ],
   "conduits": [
@@ -774,6 +800,18 @@
       "type": "Private",
       "bandwidth": "",
       "description": "Served locally only."
+    },
+    {
+      "id": "@conduit-pub4",
+      "name": "Imported from a code repository, live on GitHub Pages",
+      "code": "IMPORT",
+      "codename": "IMPORT",
+      "from": "@spire-compiler",
+      "to": "@spire-use-gear",
+      "status": "operational",
+      "type": "Publish",
+      "bandwidth": "",
+      "description": "Generated from the gear repository by the importer, then published."
     },
     {
       "id": "@conduit-decks",
@@ -1495,13 +1533,14 @@
     {
       "id": "use",
       "title": "Already working",
-      "text": "Two public maps, a private CEO view and two narrated decks exist today — and this map was built the same way.",
+      "text": "Three public maps — a report chapter, a paper and a gear's spec traced into its code — a private CEO view and two narrated decks exist today, and this map was built the same way.",
       "look": "The live maps and decks",
       "focus": [
         "@spire-use-sciance",
         "@spire-use-paper",
         "@spire-use-kd",
-        "@spire-use-decks"
+        "@spire-use-decks",
+        "@spire-use-gear"
       ],
       "camera": {
         "target": "@dist-use",
@@ -1516,12 +1555,13 @@
         },
         {
           "speaker": "guide",
-          "text": "[confident] Yes. The materials-science chapter and the arXiv paper are public maps you can open today.",
+          "text": "[confident] Yes. The materials-science chapter, the arXiv paper, and a real code base — a gear's spec traced line by line into its code — are public maps you can open today.",
           "do": [
             {
               "show": [
                 "@spire-use-sciance",
-                "@spire-use-paper"
+                "@spire-use-paper",
+                "@spire-use-gear"
               ]
             }
           ]

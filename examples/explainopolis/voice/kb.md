@@ -263,6 +263,15 @@ Kind: system.
 - State: Shared with colleagues
 Two decks already narrated end to end, one with a talk-to-the-agent link.
 
+### `@spire-use-gear` — Settings Service — spec ↔ code
+Kind: system.
+- Size: Public, GitHub Pages
+- What it does: 29 requirements · 11 features · 21 modules
+- Where it lives: gears-rust settings-service, imported
+- State: 173 of 179 spec items traced to code
+A gear's PRD, design, features and Rust code as one city, generated from the repository with no hand-written spec: every road is a traceability link from a Cypilot @cpt marker, gaps are drawn in red, and the metro has one line per feature.
+- Link: Open the spec ↔ code map — https://omniscale-ai.github.io/settings-service-metropolis/
+
 ## Roads (flows between objects)
 
 - `@conduit-read` The agent reads the source document: arXiv:2609.11975 — AI-Research Agents in the Wild → Discovery agent. The agent reads the source document.
@@ -282,6 +291,7 @@ Two decks already narrated end to end, one with a talk-to-the-agent link.
 - `@conduit-pub1` Live on GitHub Pages: City view → SCIANCE materials map. Live on GitHub Pages.
 - `@conduit-pub2` Live on GitHub Pages, city and metro: Metro view → Autoresearch in the Wild. Live on GitHub Pages, city and metro.
 - `@conduit-pub3` Served locally only: City view → Knowledge Discovery CEO view. Served locally only.
+- `@conduit-pub4` Imported from a code repository, live on GitHub Pages: Spatial compiler → Settings Service — spec ↔ code. Generated from the gear repository by the importer, then published.
 - `@conduit-decks` Narrated decks: deckcast → deckcast narrated decks. Narrated decks.
 
 ## Metro view interchanges
@@ -338,9 +348,9 @@ deckcast voices the script with two speakers. The tour is a dialogue, the map as
 - Maya: The network. That's why it's marked as a limit — and why levels one and two need no live connection at all.
 
 ### Stop 5: Already working
-Two public maps, a private CEO view and two narrated decks exist today — and this map was built the same way.
+Three public maps — a report chapter, a paper and a gear's spec traced into its code — a private CEO view and two narrated decks exist today, and this map was built the same way.
 - Owen: Last question, and it's the one a jury asks. Is anyone actually using this?
-- Maya: Yes. The materials-science chapter and the arXiv paper are public maps you can open today.
+- Maya: Yes. The materials-science chapter, the arXiv paper, and a real code base — a gear's spec traced line by line into its code — are public maps you can open today.
 - Owen: And the third one?
 - Maya: A CEO's view of a live project. Private, because it names people and risks — same kit, kept local.
 - Owen: And deckcast?

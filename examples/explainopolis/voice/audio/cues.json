@@ -256,7 +256,7 @@
   {
    "page": 5,
    "file": "page-05.mp3",
-   "duration": 49.5,
+   "duration": 55.51,
    "cues": [
     {
      "speaker": "owen",
@@ -267,43 +267,43 @@
     {
      "speaker": "maya",
      "start": 6.49,
-     "end": 12.84,
-     "text": "Yes. The materials-science chapter and the arXiv paper are public maps you can open today."
+     "end": 18.85,
+     "text": "Yes. The materials-science chapter, the arXiv paper, and a real code base — a gear's spec traced line by line into its code — are public maps you can open today."
     },
     {
      "speaker": "owen",
-     "start": 13.14,
-     "end": 14.21,
+     "start": 19.15,
+     "end": 20.22,
      "text": "And the third one?"
     },
     {
      "speaker": "maya",
-     "start": 14.51,
-     "end": 22.4,
+     "start": 20.52,
+     "end": 28.41,
      "text": "A CEO's view of a live project. Private, because it names people and risks — same kit, kept local."
     },
     {
      "speaker": "owen",
-     "start": 22.7,
-     "end": 23.85,
+     "start": 28.71,
+     "end": 29.86,
      "text": "And deckcast?"
     },
     {
      "speaker": "maya",
-     "start": 24.15,
-     "end": 29.14,
+     "start": 30.16,
+     "end": 35.15,
      "text": "Two decks narrated end to end, one with a link where you can talk to the agent."
     },
     {
      "speaker": "owen",
-     "start": 29.44,
-     "end": 33.96,
+     "start": 35.45,
+     "end": 39.96,
      "text": "So the thing explaining itself is built exactly like the things it explains."
     },
     {
      "speaker": "maya",
-     "start": 34.26,
-     "end": 49.75,
+     "start": 40.26,
+     "end": 55.76,
      "text": "That's the point. One spec, a compiler and a script — and a document nobody reads becomes a place you can walk through. And a place you can ask: press the Ask button, bottom right, and talk to me."
     }
    ]
