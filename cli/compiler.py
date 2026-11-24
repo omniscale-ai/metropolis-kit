@@ -55,8 +55,12 @@ FIELD_TAPE_INSET_M = 14.0
 FIELD_TAPE_SPACING_M = 16.0
 
 # Project status of spires: amber scaffolding around a spire that is still being built
-SPIRE_STATUSES = ('done', 'active', 'planned')
+SPIRE_STATUSES = ('done', 'active', 'planned', 'withdrawn')
 SCAFFOLD_COLOR = '#ffb300'
+WITHDRAWN_COLOR = '#ff1744'   # the red cross over a withdrawn, superseded or falsified result
+WITHDRAWN_ARM_M = 46.0        # half-length of each arm of the cross
+WITHDRAWN_BAR_M = 7.0         # half-width of each arm
+ISLAND_SHORE_M = 110.0        # water drawn around an island district
 
 # Claims tested by a study: pin colour by verdict
 CHALLENGE_VERDICTS = ('supported', 'conditional', 'contradicted', 'exploratory')
@@ -434,6 +438,13 @@ def place_on_curve(curve_coords, placed, preferred_idx=None, min_sep=BADGE_MIN_S
             best, best_idx, best_clearance = pt, idx, clearance
     return best, best_idx
 
+def rotate_xy(center_lnglat, x, y, deg):
+    """A point x, y metres from a lng/lat centre, rotated by deg, as [lng, lat]."""
+    a = math.radians(deg)
+    rx, ry = x * math.cos(a) - y * math.sin(a), x * math.sin(a) + y * math.cos(a)
+    return [round(center_lnglat[0] + rx * DEG_LNG_PER_METER, 7), round(center_lnglat[1] + ry * DEG_LAT_PER_METER, 7)]
+
+
 def meters_to_geo(dx_meters, dy_meters, base_lng=LNG_CENTER, base_lat=LAT_CENTER):
     """Convert delta (x, y) in meters to geodetic (lng, lat)."""
     return [
@@ -797,7 +808,10 @@ def compile_metropolis_data(spec):
     district_centers = {}
 
     sorted_districts = sorted(spec['districts'], key=lambda x: x.get('order', 1))
-    num_districts = len(sorted_districts)
+    # Districts with an explicit `place` ([x, y] metres from the city centre) — islands, typically —
+    # stand outside the south-to-north stack; the stack is laid out from the others only.
+    stacked = [d for d in sorted_districts if 'place' not in d]
+    num_districts = len(stacked)
     total_span = (num_districts - 1) * (DISTRICT_HEIGHT + DISTRICT_GAP)
     start_y = -total_span / 2.0
 
@@ -806,17 +820,26 @@ def compile_metropolis_data(spec):
 
     # 1. Compile Districts & Spires
     for idx, dist in enumerate(sorted_districts):
-        dist_y = start_y + idx * (DISTRICT_HEIGHT + DISTRICT_GAP)
-        dist_x = 0.0
+        if 'place' in dist:
+            dist_x, dist_y = float(dist['place'][0]), float(dist['place'][1])
+        else:
+            dist_x, dist_y = 0.0, start_y + stacked.index(dist) * (DISTRICT_HEIGHT + DISTRICT_GAP)
+        d_w, d_h = (float(v) for v in dist.get('size', [DISTRICT_WIDTH, DISTRICT_HEIGHT]))
         center_coords = meters_to_geo(dist_x, dist_y)
         district_centers[dist['id']] = {
             'lng': center_coords[0],
             'lat': center_coords[1],
+            'dx': dist_x,
             'dy': dist_y,
+            'w': d_w,
+            'h': d_h,
             'color': dist['color']
         }
 
-        runway_poly = create_rectangle(center_coords[0], center_coords[1], DISTRICT_WIDTH, DISTRICT_HEIGHT)
+        runway_poly = create_rectangle(center_coords[0], center_coords[1], d_w, d_h)
+        if dist.get('island'):
+            # An island: water around the district, drawn by the viewer under the district fill
+            shore = create_rectangle(center_coords[0], center_coords[1], d_w + 2 * ISLAND_SHORE_M, d_h + 2 * ISLAND_SHORE_M)
         compiled_districts.append({
             'id': dist['id'],
             'name': dist['name'],
@@ -827,7 +850,8 @@ def compile_metropolis_data(spec):
             'description': dist.get('description', ''),
             'eu_infrastructures': dist.get('eu_infrastructures', []),
             'center': center_coords,
-            'bounds': runway_poly
+            'bounds': runway_poly,
+            **({'island': True, 'shore': shore} if dist.get('island') else {})
         })
 
         dist_spires = [s for s in spec.get('spires', []) if s['district_ref'] == dist['id']]
@@ -870,7 +894,7 @@ def compile_metropolis_data(spec):
             # top part as a translucent ghost inside amber scaffolding; planned = whole ghost.
             status = spire.get('status', 'done')
             for tier in shape['tiers']:
-                ghost = status == 'planned' or (status == 'active' and tier['top'])
+                ghost = status in ('planned', 'withdrawn') or (status == 'active' and tier['top'])
                 props = {
                     'id': f"{spire['id']}-{tier['name']}", 'spire_ref': spire['id'], 'entity_type': 'spire',
                     'name': spire['title'], 'tier': tier['name'], 'kind': kind, 'status': status,
@@ -880,6 +904,24 @@ def compile_metropolis_data(spec):
                     props['ghost'] = True
                 building_features.append({'type': 'Feature', 'properties': props,
                                           'geometry': {'type': 'Polygon', 'coordinates': tier['rings']}})
+            if status == 'withdrawn':
+                # A red cross floating over the roof: the result was withdrawn, superseded or falsified
+                top = max(t['top_h'] for t in shape['tiers'])
+                for a_idx, ang in enumerate((45.0, -45.0)):
+                    arm = [rotate_xy(spire_lnglat, x, y, ang) for x, y in
+                           ((-WITHDRAWN_ARM_M, -WITHDRAWN_BAR_M), (WITHDRAWN_ARM_M, -WITHDRAWN_BAR_M),
+                            (WITHDRAWN_ARM_M, WITHDRAWN_BAR_M), (-WITHDRAWN_ARM_M, WITHDRAWN_BAR_M))]
+                    building_features.append({
+                        'type': 'Feature',
+                        '_center': [spire_lnglat[0], spire_lnglat[1]],
+                        'properties': {
+                            'id': f"{spire['id']}-cross-{a_idx}", 'spire_ref': spire['id'], 'entity_type': 'spire',
+                            'name': spire['title'], 'tier': 'cross', 'kind': kind, 'status': status,
+                            'height': round(top + 12.0 + a_idx, 1), 'base_height': round(top + 4.0 + a_idx, 1),
+                            'color': WITHDRAWN_COLOR
+                        },
+                        'geometry': {'type': 'Polygon', 'coordinates': [arm + [arm[0]]]}
+                    })
             if status == 'active':
                 sc = shape['scaffold']
                 for c_idx, corner in enumerate(sc['posts']):
@@ -918,7 +960,7 @@ def compile_metropolis_data(spec):
     for b_idx, bneck in enumerate(spec.get('bottlenecks', [])):
         d_center = district_centers[bneck['district_ref']]
         off_x, off_y = bneck_offsets[b_idx % len(bneck_offsets)]
-        coords = meters_to_geo(off_x, d_center['dy'] + off_y)
+        coords = meters_to_geo(d_center['dx'] + off_x, d_center['dy'] + off_y)
         codename = bneck.get('codename', bneck.get('code', f"BOT-0{b_idx+1}"))
 
         # Dynamic height scaling based on severity (0.4 to 1.0)
@@ -1018,7 +1060,7 @@ def compile_metropolis_data(spec):
         off_x, off_y = chal_offsets[c_idx % len(chal_offsets)]
         if 'place' in chal:
             off_x, off_y = float(chal['place'][0]), float(chal['place'][1])
-        coords = meters_to_geo(off_x, d_center['dy'] + off_y)
+        coords = meters_to_geo(d_center['dx'] + off_x, d_center['dy'] + off_y)
         codename = chal.get('codename', chal.get('code', f"PRIO-0{c_idx+1}"))
         verdict = chal.get('verdict')
 
@@ -1156,6 +1198,7 @@ def compile_metropolis_data(spec):
         d = district_centers[pz['district_ref']]
         cs = float(pz.get('cell_size', 80.0))
         cx, cy = (float(v) for v in pz.get('place', [0.0, 0.0]))
+        cx += d['dx']
         w = cs * len(pz.get('cols', [])) + PLAZA_LABEL_MARGIN_M
         h = cs * len(pz.get('rows', [])) + PLAZA_HEADER_MARGIN_M + PLAZA_FOOTER_MARGIN_M
         x0 = cx - cs * len(pz.get('cols', [])) / 2 - PLAZA_LABEL_MARGIN_M
@@ -1314,13 +1357,13 @@ def compile_metropolis_data(spec):
                 'properties': {'bottleneck_ref': bneck['id'], 'district_ref': ref, 'lane': lane,
                                'effect': bneck.get('effect', 'slowdown'), 'color': color},
                 'geometry': {'type': 'LineString', 'coordinates': create_rectangle(
-                    d['lng'], d['lat'], DISTRICT_WIDTH - 2 * inset, DISTRICT_HEIGHT - 2 * inset)}
+                    d['lng'], d['lat'], d['w'] - 2 * inset, d['h'] - 2 * inset)}
             })
     for dist in compiled_districts:
         dist['fields'] = district_fields.get(dist['id'], [])
         # Forecast row anchor: inside the north-west corner (the south-west one holds the name)
-        dist['forecast_anchor'] = meters_to_geo(-DISTRICT_WIDTH / 2 + 30.0,
-                                                district_centers[dist['id']]['dy'] + DISTRICT_HEIGHT / 2 - 30.0)
+        dc = district_centers[dist['id']]
+        dist['forecast_anchor'] = meters_to_geo(dc['dx'] - dc['w'] / 2 + 30.0, dc['dy'] + dc['h'] / 2 - 30.0)
     for bneck in field_bnecks:
         home = bneck['district_ref'] if bneck['district_ref'] in bneck['constrains'] else bneck['constrains'][0]
         ordered = [home] + [r for r in bneck['constrains'] if r != home]
@@ -1364,6 +1407,7 @@ def compile_metropolis_data(spec):
         rows, cols = pz['rows'], pz['cols']
         grid_w, grid_h = cs * len(cols), cs * len(rows)
         cx, cy = (float(v) for v in pz.get('place', [0.0, 0.0]))
+        cx += d['dx']
         gx0, gy_top = cx - grid_w / 2, d['dy'] + cy + grid_h / 2      # grid west edge, north edge
         frame_w, frame_h = PLAZA_LABEL_MARGIN_M + grid_w + 12.0, PLAZA_HEADER_MARGIN_M + grid_h + PLAZA_FOOTER_MARGIN_M
         fx0, fy_top = gx0 - PLAZA_LABEL_MARGIN_M, gy_top + PLAZA_HEADER_MARGIN_M

@@ -2054,7 +2054,9 @@
           el('circle', { class: 'm-dot', cx: x, cy: y, r: 13, fill: c, stroke: '#0a0f1c', 'stroke-width': 4 }, g);
           r = 15;
         } else {
-          el('circle', { class: 'm-dot', cx: x, cy: y, r: st.interchange ? 9 : 11, fill: '#ffffff', stroke: st.interchange ? '#0a0f1c' : ln.color, 'stroke-width': st.interchange ? 3 : 5 }, g);
+          const withdrawn = e && e.item && e.item.status === 'withdrawn';
+          el('circle', { class: 'm-dot', cx: x, cy: y, r: st.interchange ? 9 : 11, fill: withdrawn ? '#0a0f1c' : '#ffffff', stroke: st.interchange ? '#0a0f1c' : ln.color, 'stroke-width': st.interchange ? 3 : 5 }, g);
+          if (withdrawn) el('path', { d: `M${x - 8} ${y - 8}L${x + 8} ${y + 8}M${x + 8} ${y - 8}L${x - 8} ${y + 8}`, stroke: '#ff1744', 'stroke-width': 4, 'stroke-linecap': 'round' }, g);
           r = st.interchange ? 18 : 13;
         }
         g.addEventListener('click', ev => { ev.stopPropagation(); if (!metroDragMoved) gotoRef(st.ref); });
@@ -2553,7 +2555,8 @@
     const SPIRE_STATUS = {
       done: { icon: '🟢', word: 'Built / operational' },
       active: { icon: '🟡', word: 'In progress' },
-      planned: { icon: '⚪', word: 'Planned' }
+      planned: { icon: '⚪', word: 'Planned' },
+      withdrawn: { icon: '❌', word: 'Withdrawn, superseded or falsified' }
     };
     const VERDICT = {
       supported: { color: '#00e599', word: 'BOUNDED SUPPORT' },
@@ -2656,6 +2659,17 @@
         type: 'geojson',
         data: districtPolygons
       });
+
+      // Islands: water around districts that stand apart from the city (partners, toolboxes)
+      const islands = window.DISTRICTS.filter(d => d.island && d.shore);
+      if (islands.length) {
+        map.addSource('islands-geo', { type: 'geojson', data: { type: 'FeatureCollection', features: islands.map(d => ({
+          type: 'Feature', properties: { id: d.id }, geometry: { type: 'Polygon', coordinates: [d.shore] } })) } });
+        map.addLayer({ id: 'islands-water', type: 'fill', source: 'islands-geo',
+          paint: { 'fill-color': '#0b3a5c', 'fill-opacity': 0.55 } });
+        map.addLayer({ id: 'islands-shore', type: 'line', source: 'islands-geo',
+          paint: { 'line-color': '#3fa9f5', 'line-width': 1.2, 'line-opacity': 0.6 } });
+      }
 
       map.addLayer({
         id: 'districts-fill',
@@ -3268,7 +3282,7 @@
     function applyLayerVisibility(layerKey) {
       const isVisible = layerVisibility[layerKey];
       if (layerKey === 'districts') {
-        setLayers(['districts-fill', 'districts-line', 'now-glow', 'now-line', 'plaza-hit', 'plaza-highlight', 'plaza-bars',
+        setLayers(['islands-water', 'islands-shore', 'districts-fill', 'districts-line', 'now-glow', 'now-line', 'plaza-hit', 'plaza-highlight', 'plaza-bars',
           ...districtNames.map(n => n.layer), ...PLAZAS.map(p => `plaza-tex-${p.id}`)], isVisible);
         setMarkers(districtMarkers, isVisible);
       } else if (layerKey === 'spires') {
