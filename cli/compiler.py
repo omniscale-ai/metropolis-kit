@@ -329,12 +329,30 @@ def build_metro(spec, sorted_districts, spire_locations, compiled_challenges, pl
     interchanges = [ic for ic in interchanges if all(m in line_of for m in ic['members'])]
     ic_of = {m: k for k, ic in enumerate(interchanges) for m in ic['members']}
 
-    # interchanges are ordered by where their members sit on their lines, and every line
-    # visits its interchange stations in that global order
+    # interchanges are ordered by where their members sit on their lines on average, and every
+    # line visits its interchange stations in that global order. With metro.keep_line_order the
+    # order is topological instead ("comes before on some line"), so every line keeps the station
+    # order the spec gives it; the average then only breaks ties and cycles.
     def rel(m):
         st = line_of[m]['stations']
         return st.index(m) / max(1, len(st) - 1)
-    order = sorted(range(len(interchanges)), key=lambda k: sum(rel(m) for m in interchanges[k]['members']) / len(interchanges[k]['members']))
+    avg = {k: sum(rel(m) for m in ic['members']) / len(ic['members']) for k, ic in enumerate(interchanges)}
+    after = {k: set() for k in avg}
+    indeg = {k: 0 for k in avg}
+    for ln in (lines if metro.get('keep_line_order') else []):
+        seq = [ic_of[r] for r in ln['stations'] if r in ic_of]
+        for a, b in zip(seq, seq[1:]):
+            if a != b and b not in after[a]:
+                after[a].add(b)
+                indeg[b] += 1
+    order, left = [], set(avg)
+    while left:
+        ready = [k for k in left if indeg[k] == 0] or list(left)   # a cycle: take the earliest on average
+        k = min(ready, key=lambda k: (avg[k], k))
+        order.append(k)
+        left.discard(k)
+        for b in after[k]:
+            indeg[b] -= 1
     rank = {k: i for i, k in enumerate(order)}
     for ln in lines:
         slots = [i for i, r in enumerate(ln['stations']) if r in ic_of]
