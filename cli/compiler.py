@@ -1466,7 +1466,7 @@ def compile_metropolis_data(spec):
             'row_axis': pz.get('row_axis', ''), 'col_axis': pz.get('col_axis', ''),
             'rows': rows, 'cols': cols, 'layers': pz.get('layers', []), 'highlight': pz.get('highlight', []),
             'hatch': pz.get('hatch', []), 'expected': bool(pz.get('expected', False)),
-            'color': pz.get('color', d['color']), 'corners': corners,
+            'color': pz.get('color', d['color']), 'background': pz.get('background', 'panel'), 'corners': corners,
             'frame': {'width_m': frame_w, 'height_m': frame_h, 'grid_x_m': PLAZA_LABEL_MARGIN_M,
                       'grid_y_m': PLAZA_HEADER_MARGIN_M, 'cell_m': cs},
             'coordinates': meters_to_geo(cx, d['dy'] + cy)

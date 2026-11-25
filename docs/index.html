@@ -2371,8 +2371,11 @@
       const gx = X(f.grid_x_m), gy = X(f.grid_y_m), cs = X(f.cell_m);
       const layer = pz.layers.find(l => l.id === plazaActive[pz.id]) || pz.layers[0] || { cells: [] };
       const cellsW = cs * pz.cols.length, cellsH = cs * pz.rows.length;
-      g.fillStyle = 'rgba(8, 12, 24, 0.72)';
-      g.fillRect(0, 0, canvas.width, canvas.height);
+      // background: 'district' leaves the ground clear, so the plaza reads as part of its district
+      if (pz.background !== 'district') {
+        g.fillStyle = 'rgba(8, 12, 24, 0.72)';
+        g.fillRect(0, 0, canvas.width, canvas.height);
+      }
       g.textBaseline = 'top';
       // title and axis captions in the header margin
       g.fillStyle = pz.color;
