@@ -1471,6 +1471,13 @@
       actionFocus = null;
       clearPlazaCells();
       document.body.classList.remove('spotlight');
+      // stop.view: the view a stop opens in, with or without narration. When the narrated first line
+      // switches the view itself (e.g. announcing it), the switch waits for that line.
+      if (stop.view && stop.view !== currentView) {
+        const first = (stop.dialogue || [])[0];
+        const lineSwitches = narrating && narrPage(tourIndex + 1) && first && (first.do || []).some(a => a.view);
+        if (!lineSwitches) setView(stop.view);
+      }
       applyTourFocus(stop);
       map.flyTo({ ...stop.camera, duration: currentView === 'metro' ? 0 : 1600, essential: true, padding: { top: 60, bottom: 230, left: 360, right: 40 } });
       if (currentView === 'metro') { highlightMetro(metroStationRefs(stop.focus || [])); focusMetro(metroStationRefs(stop.focus || [])); }

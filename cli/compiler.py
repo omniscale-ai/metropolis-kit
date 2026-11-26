@@ -695,6 +695,8 @@ def validate_v2_semantics(spec, district_ids, spire_ids):
         for ref in stop.get('focus', []):
             if ref not in all_refs:
                 errors.append(f"Tour stop {label} focuses on unknown {ref}")
+        if stop.get('view') is not None and stop['view'] not in ('city', 'metro'):
+            errors.append(f"Tour stop {label} view must be 'city' or 'metro', not {stop['view']!r}")
         target = stop.get('camera', {}).get('target')
         if target and target != 'city' and target not in all_refs:
             errors.append(f"Tour stop {label} camera target is unknown: {target}")
@@ -1517,6 +1519,7 @@ def compile_metropolis_data(spec):
             'id': stop.get('id', f'stop-{t_idx + 1}'), 'title': stop['title'], 'text': stop['text'],
             'look': stop.get('look', ''), 'focus': stop.get('focus', []), 'items': stop.get('items', []),
             'plaza_layers': stop.get('plaza_layers', {}), 'do': stop.get('do', []),
+            **({'view': stop['view']} if stop.get('view') else {}),
             'dialogue': stop.get('dialogue', []), 'quiz': stop.get('quiz', []),
             'camera': {'center': ref_coords(target), 'zoom': cam.get('zoom', 15.2),
                        'pitch': cam.get('pitch', 55), 'bearing': cam.get('bearing', -16)}
