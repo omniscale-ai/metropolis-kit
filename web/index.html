@@ -1646,6 +1646,10 @@
     const SPEAKER_COLORS = ['#7cffb2', '#ffcf66', '#00f0ff', '#ff7ad9'];
     const narrAudio = new Audio();
     narrAudio.preload = 'auto';
+    // narration.speed: play every clip faster or slower, pitch preserved; cues follow the media clock
+    const NARR_SPEED = (NARRATION && NARRATION.speed) || 1;
+    narrAudio.defaultPlaybackRate = NARR_SPEED;
+    narrAudio.preservesPitch = true;
     let narrating = false;   // the narrated mode is on (survives stop changes)
     let clip = null;         // what the audio plays now: { key, lines, onEnd }
     let narrCue = -1;        // index of the line being spoken within the clip
@@ -1702,6 +1706,7 @@
       clip = { key, lines, onEnd };
       narrAudio.src = NARRATION.base + narrPage(key).file;
       narrAudio.currentTime = 0;
+      narrAudio.playbackRate = NARR_SPEED;
       showSubtitle(lines[0]);
       narrAudio.play().then(() => { setListenUI(); narrTick(); }).catch(err => {
         setListenUI();

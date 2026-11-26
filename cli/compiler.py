@@ -1756,7 +1756,12 @@ def narration_bundle(spec, spec_dir, out_dir, web_dir=None):
     if agent_path and os.path.exists(agent_path):
         with open(agent_path, encoding='utf-8') as f:
             agent_id = json.load(f).get('agent_id')
-    return {'speakers': speakers, 'base': base, 'pages': pages, 'agent_id': agent_id}, warnings
+    speed = narr.get('speed', 1)
+    if not isinstance(speed, (int, float)) or not 0.5 <= speed <= 2:
+        warnings.append(f"narration.speed {speed!r} ignored (expected a number from 0.5 to 2)")
+        speed = 1
+    return {'speakers': speakers, 'base': base, 'pages': pages, 'agent_id': agent_id,
+            **({'speed': float(speed)} if speed != 1 else {})}, warnings
 
 
 def export_kb(spec):
