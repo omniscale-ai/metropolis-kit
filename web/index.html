@@ -581,6 +581,26 @@
     .spire-link { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 8px; border: 1px solid rgba(0, 240, 255, 0.5);
       background: rgba(0, 240, 255, 0.08); color: #00f0ff; font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; text-decoration: none; }
     .spire-link:hover { background: rgba(0, 240, 255, 0.18); }
+    /* Images on cards: a thumbnail, opened full screen on a dark pane (Esc or a click closes it) */
+    .card-figure { margin: 12px 0 0; }
+    .card-figure img {
+      display: block; width: 100%; height: auto; border-radius: 6px; cursor: zoom-in;
+      border: 1px solid rgba(255, 255, 255, 0.12); background: #f2f1ec;
+    }
+    .card-figure figcaption, .lightbox-caption { font-size: 11px; line-height: 1.5; color: #9fb0c8; margin-top: 6px; }
+    .lightbox {
+      position: fixed; inset: 0; z-index: 10000; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 12px; background: rgba(2, 4, 10, 0.92); cursor: zoom-out;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+    }
+    .lightbox.open { opacity: 1; pointer-events: auto; }
+    .lightbox img {
+      max-width: 92vw; max-height: 86vh; object-fit: contain; border-radius: 6px;
+      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6); transform: scale(0.92); transition: transform 0.25s ease;
+    }
+    .lightbox.open img { transform: scale(1); }
+    .lightbox-caption { font-size: 14px; max-width: 80vw; text-align: center; color: #d6deea; }
+
     .drawer-body-text {
       font-size: 13px;
       line-height: 1.6;
@@ -3375,6 +3395,7 @@
           <div>
             <div class="drawer-section-title"><span>✦</span> ${L('abstract_title', 'Scientific Abstract & Methodology')}</div>
             <p class="drawer-body-text">${item.abstract}</p>
+            ${cardImages(item.images)}
           </div>
           ${cardLinks(item.links)}
           ${relationBlock('⏱️ Constraints at this spire', item.constraints)}
@@ -4047,6 +4068,36 @@
       const b = e.target.closest('[data-link-act]');
       if (b) (cardLinkActions[+b.dataset.linkAct] || []).forEach(act);
     });
+
+    function cardImages(images) {
+      return (images || []).map(im => `<figure class="card-figure"><img src="${escapeHtml(im.src)}" alt="${escapeHtml(im.alt || im.caption || '')}"
+        data-caption="${escapeHtml(im.caption || '')}" loading="lazy">${im.caption ? `<figcaption>${escapeHtml(im.caption)}</figcaption>` : ''}</figure>`).join('');
+    }
+    let lightbox = null;
+    function openLightbox(src, alt, caption) {
+      if (!lightbox) {
+        lightbox = document.createElement('div');
+        lightbox.className = 'lightbox';
+        lightbox.innerHTML = '<img alt=""><div class="lightbox-caption"></div>';
+        lightbox.addEventListener('click', closeLightbox);
+        document.body.appendChild(lightbox);
+      }
+      const img = lightbox.querySelector('img');
+      img.src = src; img.alt = alt;
+      lightbox.querySelector('.lightbox-caption').textContent = caption;
+      requestAnimationFrame(() => lightbox.classList.add('open'));
+    }
+    function closeLightbox() { if (lightbox) lightbox.classList.remove('open'); }
+    document.addEventListener('click', e => {
+      const img = e.target.closest('.card-figure img');
+      if (img) openLightbox(img.src, img.alt, img.dataset.caption || '');
+    });
+    // Esc closes only the picture, not the card or the tour underneath
+    window.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && lightbox && lightbox.classList.contains('open')) {
+        e.preventDefault(); e.stopImmediatePropagation(); closeLightbox();
+      }
+    }, true);
 
     function escapeHtml(text) {
       return String(text).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));

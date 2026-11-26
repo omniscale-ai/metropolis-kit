@@ -511,6 +511,15 @@ def bezier_curve(p0, p1, p2, p3, steps=28):
         points.append([round(lng, 7), round(lat, 7)])
     return points
 
+IMAGE_EXTS = ('.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg')
+
+
+def spec_images(spec, spec_dir):
+    """(source path, published name) for every card image; sources are relative to the spec."""
+    return [(os.path.join(spec_dir, im['src']), os.path.basename(im['src']))
+            for sp in spec.get('spires', []) for im in sp.get('images', [])]
+
+
 def validate_spec(spec):
     """Validates structural integrity and reference resolution of the spec."""
     errors = []
@@ -655,6 +664,19 @@ def validate_v2_semantics(spec, district_ids, spire_ids):
     all_refs = set(district_ids) | set(spire_ids) | bneck_ids | plaza_ids | \
         {c.get('id') for c in spec.get('challenges', [])} | {c.get('id') for c in spec.get('conduits', [])}
     errors.extend(validate_metro(spec, district_ids, spire_ids, plaza_ids))
+    # images on cards: files next to the spec, copied to <web-dir>/img/ (one name, one file)
+    image_names = {}
+    for obj in spec.get('spires', []):
+        imgs = obj.get('images', [])
+        if not isinstance(imgs, list):
+            errors.append(f"{obj.get('id')} images must be a list"); continue
+        for im in imgs:
+            src = im.get('src') if isinstance(im, dict) else None
+            if not isinstance(src, str) or not src.lower().endswith(IMAGE_EXTS):
+                errors.append(f"{obj.get('id')} image needs a src ending in {', '.join(IMAGE_EXTS)}: {im!r}"); continue
+            name = os.path.basename(src)
+            if image_names.setdefault(name, src) != src:
+                errors.append(f"{obj.get('id')} image {src}: another image is also named {name}")
     # links on cards: a URL to open, or actions to run (e.g. start talking to the map)
     for obj in spec.get('spires', []) + spec.get('challenges', []):
         for link in obj.get('links', []):
@@ -1542,6 +1564,8 @@ def compile_metropolis_data(spec):
             'metrics': spire.get('metrics', {}),
             'abstract': spire.get('abstract', ''),
             'links': spire.get('links', []),
+            **({'images': [{'src': 'img/' + os.path.basename(im['src']), 'caption': im.get('caption', ''), 'alt': im.get('alt', '')}
+                           for im in spire['images']]} if spire.get('images') else {}),
             'status': spire.get('status', 'done'),
             'kind': spire.get('kind', 'system'),
             'constraints': [b['id'] for b in compiled_bottlenecks
@@ -1849,6 +1873,14 @@ def main():
             print(f"    - {err}")
         sys.exit(1)
 
+    spec_dir = os.path.dirname(os.path.abspath(args.spec))
+    missing = [src for src, _ in spec_images(spec, spec_dir) if not os.path.isfile(src)]
+    if missing:
+        print("[!] Validation failed with errors:")
+        for src in missing:
+            print(f"    - card image not found: {src}")
+        sys.exit(1)
+
     print("[+] Specification validation passed cleanly.")
     for warning in lint_spec(spec):
         print(f"    [warn] {warning}")
@@ -1885,6 +1917,13 @@ def main():
                                                 os.path.dirname(os.path.abspath(out_file)), args.web_dir)
     for warning in narr_warnings:
         print(f"    [warn] {warning}")
+    images = spec_images(spec, spec_dir)
+    if images:
+        img_dir = os.path.join(os.path.dirname(os.path.abspath(out_file)), 'img')
+        os.makedirs(img_dir, exist_ok=True)
+        for src, name in images:
+            shutil.copyfile(src, os.path.join(img_dir, name))
+        print(f"[+] Copied {len(images)} card image(s) to {img_dir}")
     if narration:
         js_bundle += f"\nwindow.NARRATION = {json.dumps(narration)};\n"
     with open(out_file, 'w', encoding='utf-8') as f:

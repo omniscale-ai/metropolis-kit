@@ -65,6 +65,9 @@ test:
 	python3 -m cli.compiler --spec examples/autoresearch-wild/02-city-spec.json --validate-only
 	python3 -m cli.compiler --spec examples/explainopolis/02-city-spec.json --validate-only
 	python3 -m cli.compiler --spec examples/settings-service/02-city-spec.json --validate-only
+	@# a card image that does not exist must fail validation
+	@tmp=$$(mktemp -d) && python3 -c "import json,sys; s=json.load(open('examples/mind-matter/02-city-spec.json')); s['spires'][0]['images']=[{'src':'missing.png'}]; json.dump(s, open(sys.argv[1],'w'))" $$tmp/spec.json && \
+	  ! python3 -m cli.compiler --spec $$tmp/spec.json --validate-only >/dev/null && echo "[+] missing card image rejected"; rm -rf $$tmp
 
 clean:
 	rm -rf __pycache__ cli/__pycache__
