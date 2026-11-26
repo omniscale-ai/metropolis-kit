@@ -2080,8 +2080,9 @@
           r = 15;
         } else {
           const withdrawn = e && e.item && e.item.status === 'withdrawn';
-          el('circle', { class: 'm-dot', cx: x, cy: y, r: st.interchange ? 9 : 11, fill: withdrawn ? '#0a0f1c' : '#ffffff', stroke: st.interchange ? '#0a0f1c' : ln.color, 'stroke-width': st.interchange ? 3 : 5 }, g);
-          if (withdrawn) el('path', { d: `M${x - 8} ${y - 8}L${x + 8} ${y + 8}M${x + 8} ${y - 8}L${x - 8} ${y + 8}`, stroke: '#ff1744', 'stroke-width': 4, 'stroke-linecap': 'round' }, g);
+          // a withdrawn result: a larger dark station with a bold red cross, readable from across the room
+          el('circle', { class: 'm-dot', cx: x, cy: y, r: withdrawn ? 30 : st.interchange ? 9 : 11, fill: withdrawn ? '#0a0f1c' : '#ffffff', stroke: withdrawn ? '#ff1744' : st.interchange ? '#0a0f1c' : ln.color, 'stroke-width': withdrawn ? 4 : st.interchange ? 3 : 5 }, g);
+          if (withdrawn) el('path', { d: `M${x - 17} ${y - 17}L${x + 17} ${y + 17}M${x + 17} ${y - 17}L${x - 17} ${y + 17}`, stroke: '#ff1744', 'stroke-width': 9, 'stroke-linecap': 'round' }, g);
           r = st.interchange ? 18 : 13;
         }
         g.addEventListener('click', ev => { ev.stopPropagation(); if (!metroDragMoved) gotoRef(st.ref); });
